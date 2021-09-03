@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "283515160043",
+    "project_id": "telechaplaincy-bb924",
+    "storage_bucket": "telechaplaincy-bb924.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:283515160043:android:5f5410a847cda0809a45ae",
+        "android_client_info": {
+          "package_name": "com.telechaplaincy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "283515160043-h33m1ogeljqp0j9fisu40u13k3v7jj91.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.telechaplaincy",
+            "certificate_hash": "a646b620ee0839c5437db3f25208238fa8e8b87a"
+          }
+        },
+        {
+          "client_id": "283515160043-4ihtl5vtp7pv8q7kb1dgs9g128lqqkq2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmtf17x4fAgSILjrKHs4gThivLguXpeaA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "283515160043-4ihtl5vtp7pv8q7kb1dgs9g128lqqkq2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
