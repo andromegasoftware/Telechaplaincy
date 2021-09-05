@@ -1,3 +1,72 @@
 <resources>
     <string name="app_name">Telechaplaincy</string>
+
+    //login page string
+    <string name="login_page_textView_title_login">Login</string>
+    //login page login title textView
+    <string name="login_page_editText_email_enter">Email</string>
+    //login page email enter editText
+    <string name="login_page_editText_password_enter">Password</string>
+    //login page password enter editText
+    <string name="login_page_button_login">LOGIN</string>
+    //login page login button
+    <string name="login_page_textView_forgot_password">Forgot Password?</string>
+    //login page login title textView
+    <string name="login_page_textView_do_not_have_account">Don\'t have an account yet?</string>
+    //login page do not have an account textView
+    <string name="login_page_textView_sign_up"><u>Sign Up</u></string>
+    //login page sign up textView
+    <string name="login_page_textView_admin"><u>Admin</u></string>
+    //login page admin textView
+    <string name="login_page_textView_chaplain"><u>Chaplain</u></string>
+    //login page chaplain textView
+
+
+    //sign up page strings
+    <string name="sign_up_page_title">Sign Up</string>
+    //Sign up page title textView
+
+    <string name="sign_up_page_name">Name</string>
+    //Sign up page name editText
+
+    <string name="sign_up_page_surname">Surname</string>
+    //Sign up page surname editText
+
+    <string name="sign_up_page_email">Email</string>
+    //Sign up page email editText
+
+    <string name="sign_up_page_password">Password</string>
+    //Sign up page password textView
+
+    <string name="sign_up_page_password_again">Password Again</string>
+    //Sign up page password again textView
+
+    <string name="sign_up_page_agree_textView">By signing up, you agree to the <font color='#FF3B30'>Terms of Service and Privacy Policy</font></string>
+    //Sign up page terms agree textView
+
+    <string name="sign_up_page_sign_up_button">Sign Up</string>
+    //Sign up page sign up button
+
+    <string name="sign_up_page_go_back_login_textView">Already have an account? <font color='#FF3B30'> <u> Login</u></font></string>
+    //Sign up page go back login textView
+
+    <string name="sign_up_toast_message_enter_name">Please enter your name</string>
+    //sign up page toast message if name is empty
+    <string name="sign_up_toast_message_enter_sur_name">Please enter your surname</string>
+    //sign up page toast message if surname is empty
+    <string name="sign_up_toast_message_enter_email">Please enter your email</string>
+    //sign up page toast message if email is empty
+    <string name="sign_up_toast_message_enter_password">Please enter your password</string>
+    //sign up page toast message if password is empty
+    <string name="sign_up_toast_message_enter_password_again">Please enter your password again</string>
+    //sign up page toast message if password is empty
+    <string name="sign_up_toast_message_password_match">First and second entered password is not same</string>
+    //sign up page toast message if password is not same
+    <string name="sign_up_toast_message_password_long">Password must be at least 6 character</string>
+    //sign up page toast message if password is not 6 character
+    <string name="sign_up_toast_message_checkBox_isChecked">Please accept terms and conditions!</string>
+    //sign up page toast message if checkbox is not checked
+    <string name="sign_up_toast_account_created">Your account created successfully</string>
+    //sign up page toast message if checkbox is not checked
+
 </resources>
