@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Telechaplaincy</string>
+    <string name="app_name">Tele Chaplaincy</string>
 
     //login page string
     <string name="login_page_textView_title_login">Login</string>
@@ -8,7 +8,7 @@
     //login page email enter editText
     <string name="login_page_editText_password_enter">Password</string>
     //login page password enter editText
-    <string name="login_page_button_login">LOGIN</string>
+    <string name="login_page_button_login">LOG IN</string>
     //login page login button
     <string name="login_page_textView_forgot_password">Forgot Password?</string>
     //login page login title textView

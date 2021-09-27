@@ -71,15 +71,16 @@ class SignUpActivity : AppCompatActivity() {
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d("userIsCreated", "createUserWithEmail:success")
-                            val user = auth.currentUser
+                           // Log.d("userIsCreated", "createUserWithEmail:success")
+                           // val user = auth.currentUser
                             updateUI()
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w("userIsNotCreated", "createUserWithEmail:failure", task.exception)
+                            //Log.w("userIsNotCreated", "createUserWithEmail:failure", task.exception)
                             Toast.makeText(baseContext, task.exception.toString(),
                                 Toast.LENGTH_SHORT).show()
                             sign_up_page_signUp_button.isClickable = true
+                            sign_up_page_progressBar.visibility = View.GONE
                         }
                     }
             }
