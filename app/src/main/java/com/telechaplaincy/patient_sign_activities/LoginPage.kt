@@ -60,7 +60,7 @@ class LoginPage : AppCompatActivity() {
             else {
                 auth.signInWithEmailAndPassword(userEmail, userPassword)
                     .addOnCompleteListener(this) { task ->
-                        login_page_progressBar.visibility = View.GONE
+
                         if (task.isSuccessful) {
                             updateUI()
                         } else {
@@ -72,6 +72,7 @@ class LoginPage : AppCompatActivity() {
                                 Toast.LENGTH_LONG
                             ).show()
                             login_page_login_button.isClickable = true
+                            login_page_progressBar.visibility = View.GONE
                         }
                     }
             }
@@ -94,6 +95,7 @@ class LoginPage : AppCompatActivity() {
         startActivity(intent)
         //val toast = Toast.makeText(this, R.string.sign_up_toast_account_created, Toast.LENGTH_SHORT).show()
         login_page_progressBar.visibility = View.GONE
+        login_page_login_button.isClickable = true
         finish()
 
     }

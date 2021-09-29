@@ -87,7 +87,9 @@
 
     //chaplain login
     <string name="chaplain_login_title">Chaplain Login</string>
-    <string name="chaplain_login_page_textView_patient"><u>Patient</u></string> //login page sign in textView
-    <string name="chaplain_login_page_textView_admin"><u>Admin</u></string> //login page sign in textView
+    <string name="chaplain_login_page_textView_patient"><u>Patient</u></string>
+    //login page sign in textView
+    <string name="chaplain_login_page_textView_admin"><u>Admin</u></string>
+    //login page sign in textView
 
 </resources>

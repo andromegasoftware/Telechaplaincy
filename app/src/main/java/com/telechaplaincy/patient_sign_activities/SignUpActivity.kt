@@ -123,6 +123,8 @@ class SignUpActivity : AppCompatActivity() {
                 .set(profile)
         }
 
+        finish()
+
     }
 
 }
