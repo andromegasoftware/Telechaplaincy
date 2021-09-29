@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".patient_sign_activities.LoginPage">
+    tools:context=".chaplain_sign_activities.ChaplainLogIn">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,7 +28,7 @@
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/login_page_textView_title_login"
+                android:text="@string/chaplain_login_title"
                 android:textColor="@color/loginPageTitleTextColor"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -43,7 +43,7 @@
             android:importantForAutofill="no">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/login_editText_Email"
+                android:id="@+id/chaplain_login_editText_Email"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:ems="15"
@@ -59,7 +59,7 @@
             app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/login_editText_Password"
+                android:id="@+id/chaplain_login_editText_Password"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:ems="15"
@@ -67,7 +67,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/login_page_login_button"
+            android:id="@+id/chaplain_login_page_login_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -78,7 +78,7 @@
             android:textColor="@color/design_default_color_background" />
 
         <ProgressBar
-            android:id="@+id/login_page_progressBar"
+            android:id="@+id/chaplain_login_page_progressBar"
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/login_activity_forgot_password_textview"
+                android:id="@+id/chaplain_login_activity_forgot_password_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/login_page_textView_forgot_password"
@@ -103,7 +103,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/login_page_sign_up_textView"
+            android:id="@+id/chaplain_login_page_sign_up_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
@@ -137,25 +137,24 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/log_in_admin_textView"
+                android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                android:text="@string/login_page_textView_admin"
+                android:text="@string/chaplain_login_page_textView_admin"
                 android:textColor="@color/colorAccent"
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/log_in_chaplain_textView"
+                android:id="@+id/chaplain_login_activity_patient_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
                 android:gravity="end"
-                android:text="@string/login_page_textView_chaplain"
+                android:text="@string/chaplain_login_page_textView_patient"
                 android:textColor="@color/colorAccent"
                 android:textSize="18sp" />
         </LinearLayout>
 
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

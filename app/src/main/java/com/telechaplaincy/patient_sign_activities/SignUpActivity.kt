@@ -1,12 +1,15 @@
-package com.telechaplaincy
+package com.telechaplaincy.patient_sign_activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.telechaplaincy.MainActivity
+import com.telechaplaincy.R
 import kotlinx.android.synthetic.main.activity_sign_up.*
 
 class SignUpActivity : AppCompatActivity() {
@@ -20,11 +23,26 @@ class SignUpActivity : AppCompatActivity() {
     private var userPasswordAgain: String = ""
     private var termsChecked: Boolean = false
 
+    private val db = Firebase.firestore
+    private var patientCollectionName:String = ""
+    private var patientUidDocumentName:String = ""
+    private var patientProfileCollectionName:String = ""
+    private var patientProfileDocumentName:String = ""
+    private var patientProfileFieldName:String = ""
+    private var patientProfileFieldSurname:String = ""
+    private var patientProfileFieldEmail:String = ""
+    private var patientProfileFieldUserId:String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
 
         auth = FirebaseAuth.getInstance()
+
+        patientCollectionName = getString(R.string.patient_collection)
+        patientProfileCollectionName = getString(R.string.patient_profile_collection)
+        patientProfileDocumentName = getString(R.string.patient_profile_document)
+
 
         //go back login page textView click listener
         sign_up_page_go_back_login.setOnClickListener {
@@ -44,25 +62,30 @@ class SignUpActivity : AppCompatActivity() {
                 val toast = Toast.makeText(this, R.string.sign_up_toast_message_enter_name, Toast.LENGTH_SHORT).show()
             }
             else if(userSurName == ""){
-                val toast = Toast.makeText(this, R.string.sign_up_toast_message_enter_sur_name, Toast.LENGTH_SHORT).show()
+                val toast = Toast.makeText(this,
+                    R.string.sign_up_toast_message_enter_sur_name, Toast.LENGTH_SHORT).show()
             }
             else if(userEmail == ""){
                 val toast = Toast.makeText(this, R.string.sign_up_toast_message_enter_email, Toast.LENGTH_SHORT).show()
             }
             else if(userPassword == ""){
-                val toast = Toast.makeText(this, R.string.sign_up_toast_message_enter_password, Toast.LENGTH_SHORT).show()
+                val toast = Toast.makeText(this,
+                    R.string.sign_up_toast_message_enter_password, Toast.LENGTH_SHORT).show()
             }
             else if(userPasswordAgain == ""){
-                val toast = Toast.makeText(this, R.string.sign_up_toast_message_enter_password_again, Toast.LENGTH_SHORT).show()
+                val toast = Toast.makeText(this,
+                    R.string.sign_up_toast_message_enter_password_again, Toast.LENGTH_SHORT).show()
             }
             else if(userPassword != userPasswordAgain){
-                val toast = Toast.makeText(this, R.string.sign_up_toast_message_password_match, Toast.LENGTH_SHORT).show()
+                val toast = Toast.makeText(this,
+                    R.string.sign_up_toast_message_password_match, Toast.LENGTH_SHORT).show()
             }
             else if(userPassword.length < 6 ){
                 val toast = Toast.makeText(this, R.string.sign_up_toast_message_password_long, Toast.LENGTH_SHORT).show()
             }
             else if(!termsChecked){
-                val toast = Toast.makeText(this, R.string.sign_up_toast_message_checkBox_isChecked, Toast.LENGTH_SHORT).show()
+                val toast = Toast.makeText(this,
+                    R.string.sign_up_toast_message_checkBox_isChecked, Toast.LENGTH_SHORT).show()
             }
             else{
                 sign_up_page_signUp_button.isClickable = false
@@ -91,6 +114,14 @@ class SignUpActivity : AppCompatActivity() {
         startActivity(intent)
         val toast = Toast.makeText(this, R.string.sign_up_toast_account_created, Toast.LENGTH_SHORT).show()
         sign_up_page_progressBar.visibility = View.GONE
+
+        val userId = auth.currentUser?.uid
+        val profile = userId?.let { UserProfile(userName, userSurName, userEmail, it) }
+        if (profile != null) {
+            db.collection(patientCollectionName).document(userId)
+                .collection(patientProfileCollectionName).document(patientProfileDocumentName)
+                .set(profile)
+        }
 
     }
 

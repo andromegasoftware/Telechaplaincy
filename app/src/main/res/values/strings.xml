@@ -41,13 +41,13 @@
     <string name="sign_up_page_password_again">Password Again</string>
     //Sign up page password again textView
 
-    <string name="sign_up_page_agree_textView">By signing up, you agree to the <font color='#FF3B30'>Terms of Service and Privacy Policy</font></string>
+    <string name="sign_up_page_agree_textView">By signing up, you agree to the <font color='#BB6BD9'>Terms of Service and Privacy Policy</font></string>
     //Sign up page terms agree textView
 
     <string name="sign_up_page_sign_up_button">Sign Up</string>
     //Sign up page sign up button
 
-    <string name="sign_up_page_go_back_login_textView">Already have an account? <font color='#FF3B30'> <u> Login</u></font></string>
+    <string name="sign_up_page_go_back_login_textView">Already have an account? <font color='#BB6BD9'> <u> Login</u></font></string>
     //Sign up page go back login textView
 
     <string name="sign_up_toast_message_enter_name">Please enter your name</string>
@@ -68,5 +68,26 @@
     //sign up page toast message if checkbox is not checked
     <string name="sign_up_toast_account_created">Your account created successfully</string>
     //sign up page toast message if checkbox is not checked
+
+    //forgot password activity
+    <string name="forgot_password_activity_title">Forgot Password</string>
+    <string name="forgot_password_activity_explanation">Please enter your email and we’ll send you a link to reset your password.</string>
+    <string name="forgot_password_activity_button">CONTINUE</string>
+    <string name="forgot_password_activity_toast_message">Sorry, There is a problem. Please try again later!</string>
+    <string name="todo">TODO</string>
+    //for imageView alert stop. it is not important
+    <string name="email_on_the_way">Your email is on the way</string>
+    <string name="check_email_text">Check your email noreply@telechaplaincy.com and follow the instructions to reset your password</string>
+    <string name="back_to_login">BACK TO LOGIN</string>
+
+    //Firestore document and collection names
+    <string name="patient_collection">patient</string>
+    <string name="patient_profile_collection">userProfile</string>
+    <string name="patient_profile_document">profile</string>
+
+    //chaplain login
+    <string name="chaplain_login_title">Chaplain Login</string>
+    <string name="chaplain_login_page_textView_patient"><u>Patient</u></string> //login page sign in textView
+    <string name="chaplain_login_page_textView_admin"><u>Admin</u></string> //login page sign in textView
 
 </resources>

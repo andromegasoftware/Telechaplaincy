@@ -9,11 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".chaplain_sign_activities.ChaplainLogIn"></activity>
         <activity
-            android:name=".SignUpActivity"
-            android:parentActivityName=".LoginPage" />
-        <activity android:name=".LoginPage">
+            android:name=".patient_sign_activities.ForgotPassword"
+            android:parentActivityName=".patient_sign_activities.LoginPage" />
+        <activity android:name=".MainActivity" />
+        <activity
+            android:name=".patient_sign_activities.SignUpActivity"
+            android:parentActivityName=".patient_sign_activities.LoginPage" />
+        <activity android:name=".patient_sign_activities.LoginPage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,4 +1,4 @@
-package com.telechaplaincy
+package com.telechaplaincy.patient_sign_activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.telechaplaincy.MainActivity
+import com.telechaplaincy.R
+import com.telechaplaincy.chaplain_sign_activities.ChaplainLogIn
 import kotlinx.android.synthetic.main.activity_log_in.*
-import kotlinx.android.synthetic.main.activity_sign_up.*
 
 class LoginPage : AppCompatActivity() {
 
@@ -22,10 +24,26 @@ class LoginPage : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
 
+        //chaplain login page opening click listener
+        log_in_chaplain_textView.setOnClickListener {
+            val intent = Intent(this, ChaplainLogIn::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        //sign up activity click listener
         login_page_sign_up_textView.setOnClickListener(View.OnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
         })
+
+        //forgot password textView click listener
+        login_activity_forgot_password_textview.setOnClickListener {
+            val intent = Intent(this, ForgotPassword::class.java)
+            startActivity(intent)
+        }
+
+        //login button click listener
         login_page_login_button.setOnClickListener {
             login_page_progressBar.visibility = View.VISIBLE
             login_page_login_button.isClickable = false
@@ -36,7 +54,8 @@ class LoginPage : AppCompatActivity() {
                 val toast = Toast.makeText(this, R.string.sign_up_toast_message_enter_email, Toast.LENGTH_SHORT).show()
             }
             else if(userPassword == ""){
-                val toast = Toast.makeText(this, R.string.sign_up_toast_message_enter_password, Toast.LENGTH_SHORT).show()
+                val toast = Toast.makeText(this,
+                    R.string.sign_up_toast_message_enter_password, Toast.LENGTH_SHORT).show()
              }
             else {
                 auth.signInWithEmailAndPassword(userEmail, userPassword)
@@ -69,12 +88,13 @@ class LoginPage : AppCompatActivity() {
         }
     }
 
+    //when sign in ok, what will happen
     private fun updateUI(){
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         //val toast = Toast.makeText(this, R.string.sign_up_toast_account_created, Toast.LENGTH_SHORT).show()
         login_page_progressBar.visibility = View.GONE
-        this.finish()
+        finish()
 
     }
 }

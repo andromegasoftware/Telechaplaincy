@@ -5,6 +5,7 @@
         <item name="colorPrimary">#BB6BD9</item>
         <item name="colorPrimaryDark">#BB6BD9</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_baseline_arrow_back_24</item>
     </style>
     <style name="TextAppearance.AppCompat.Widget.ActionBar.Title" parent="@style/TextAppearance.AppCompat">
 
