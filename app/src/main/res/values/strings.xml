@@ -23,7 +23,7 @@
 
 
     //sign up page strings
-    <string name="sign_up_page_title">Sign Up</string>
+    <string name="sign_up_page_title">SIGN UP</string>
     //Sign up page title textView
 
     <string name="sign_up_page_name">Name</string>
@@ -74,13 +74,11 @@
     <string name="forgot_password_activity_explanation">Please enter your email and we’ll send you a link to reset your password.</string>
     <string name="forgot_password_activity_button">CONTINUE</string>
     <string name="forgot_password_activity_toast_message">Sorry, There is a problem. Please try again later!</string>
-    <string name="todo">TODO</string>
-    //for imageView alert stop. it is not important
     <string name="email_on_the_way">Your email is on the way</string>
     <string name="check_email_text">Check your email noreply@telechaplaincy.com and follow the instructions to reset your password</string>
     <string name="back_to_login">BACK TO LOGIN</string>
 
-    //Firestore document and collection names
+    //Firestore patient document and collection names
     <string name="patient_collection">patient</string>
     <string name="patient_profile_collection">userProfile</string>
     <string name="patient_profile_document">profile</string>
@@ -91,5 +89,16 @@
     //login page sign in textView
     <string name="chaplain_login_page_textView_admin"><u>Admin</u></string>
     //login page sign in textView
+
+    //chaplain sign up
+    <string name="chaplain_sign_up_title">Chaplain Sing Up</string>
+    <string name="chaplain_sign_up_next_button">NEXT</string>
+    <string name="chaplain_sign_up_back_button">BACK</string>
+
+    //Firestore chaplain document and collection names
+    <string name="chaplain_collection">chaplain</string>
+    <string name="chaplain_profile_collection">chaplainUserProfile</string>
+    <string name="chaplain_profile_document">chaplainProfile</string>
+    <string name="chaplain_profile_photo_select_exp">chaplainProfile</string>
 
 </resources>

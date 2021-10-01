@@ -39,6 +39,8 @@ class ForgotPassword : AppCompatActivity() {
                     else{
                         val toast = Toast.makeText(this,
                             R.string.forgot_password_activity_toast_message, Toast.LENGTH_SHORT).show()
+                        forgot_password_continue_button.isClickable = true
+                        forgot_password_progressBar.visibility = View.GONE
                     }
                 }
 

@@ -25,7 +25,6 @@ class SignUpActivity : AppCompatActivity() {
 
     private val db = Firebase.firestore
     private var patientCollectionName:String = ""
-    private var patientUidDocumentName:String = ""
     private var patientProfileCollectionName:String = ""
     private var patientProfileDocumentName:String = ""
     private var patientProfileFieldName:String = ""
