@@ -94,6 +94,41 @@
     <string name="chaplain_sign_up_title">Chaplain Sing Up</string>
     <string name="chaplain_sign_up_next_button">NEXT</string>
     <string name="chaplain_sign_up_back_button">BACK</string>
+    <string name="chaplain_sign_up_resume_button">resume</string>
+    <string name="chaplain_sign_up_certificate_button">CERTIFICATE</string>
+    <string name="chaplain_sign_up_profile_image_toast_message">Please select a profile image</string>
+    <string name="chaplain_sign_up_second_title">Chaplain Sign Up Form</string>
+    <string name="chaplain_sign_up_phone_hint">Phone Number</string>
+    <string name="chaplain_sign_up_birth_date">Date of Birth:</string>
+    <string name="chaplain_sign_up_birth_date_day">Day <font size="10">(birth date)</font></string>
+    <string name="chaplain_sign_up_birth_date_month">Month <font size="10">(birth date)</font></string>
+    <string name="chaplain_sign_up_birth_date_year">Year <font size="10">(birth date)</font></string>
+    <string name="chaplain_sign_up_education_hint">Highest level of education and degree</string>
+    <string name="chaplain_sign_up_experience_hint">Years of experience</string>
+    <string name="chaplain_sign_up_chaplaincy_field">Chaplaincy Field</string>
+    <string name="chaplain_sign_up_chaplaincy_faith">Faith Affiliation</string>
+    <string name="chaplain_sign_up_chaplaincy_ethnic">Ethnic Background</string>
+    <string name="chaplain_sign_up_preferred_language">Preferred Language</string>
+    <string name="chaplain_sign_up_other_language">Other languages you can minister in</string>
+    <string name="chaplain_sign_up_ssn">SSN (for background check)</string>
+    <string name="sign_up_toast_message_enter_phone">Please enter phone number</string>
+    //sign up page toast message if phone number is empty
+    <string name="sign_up_toast_message_enter_birth_day">Please enter day of birth date</string>
+    //sign up page toast message if day of birth date is empty
+    <string name="sign_up_toast_message_enter_birth_month">Please enter month of birth date</string>
+    //sign up page toast message if month of birth date is empty
+    <string name="sign_up_toast_message_enter_birth_year">Please enter year of birth date</string>
+    //sign up page toast message if year of birth date is empty
+    <string name="sign_up_toast_message_enter_edu">Please enter your education</string>
+    //sign up page toast message if education is empty
+    <string name="sign_up_toast_message_enter_exp">Please enter your experience</string>
+    //sign up page toast message if experience is empty
+    <string name="sign_up_toast_message_enter_chaplain_field">Please select a chaplaincy field</string>
+    //sign up page toast message if year of birth date is empty
+    <string name="sign_up_toast_message_enter_preferred_lang">Please enter your preferred language</string>
+    //sign up page toast message if year of birth date is empty
+    <string name="sign_up_toast_message_enter_ssn">Please enter your ssn</string>
+    //sign up page toast message if year of birth date is empty
 
     //Firestore chaplain document and collection names
     <string name="chaplain_collection">chaplain</string>

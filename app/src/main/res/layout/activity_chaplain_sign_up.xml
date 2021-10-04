@@ -7,6 +7,7 @@
     tools:context=".chaplain_sign_activities.ChaplainSignUp">
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -24,149 +25,408 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
+                android:id="@+id/chaplain_profile_first_step_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="30dp"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="30dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/chaplain_sign_up_title"
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/chaplain_sign_up_profile_image"
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/ic_baseline_account_circle_24"
+                    app:civ_border_color="@color/colorAccent" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:hint="@string/sign_up_page_name"
+                    android:importantForAutofill="no">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/chaplain_sign_up_page_name_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:inputType="textPersonName"
+                        android:text="kadir" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:hint="@string/sign_up_page_surname"
+                    android:importantForAutofill="no">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/chaplain_sign_up_page_surname_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:inputType="textPersonName"
+                        android:text="yapar" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:hint="@string/sign_up_page_email"
+                    android:importantForAutofill="no">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/chaplain_sign_up_page_email_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:inputType="textEmailAddress"
+                        android:text="kadir@gmail.com" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:hint="@string/sign_up_page_password"
+                    android:importantForAutofill="no"
+                    app:passwordToggleEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/chaplain_sign_up_page_password_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:ems="15"
+                        android:inputType="textPassword"
+                        android:text="123456" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:hint="@string/sign_up_page_password_again"
+                    android:importantForAutofill="no"
+                    app:passwordToggleEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/chaplain_sign_up_page_password_again_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:ems="15"
+                        android:inputType="textPassword"
+                        android:text="123456" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/chaplain_sign_up_agree_checkBox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true" />
+
+                    <TextView
+                        android:id="@+id/textView8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sign_up_page_agree_textView"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/chaplain_sign_up_page_signUp_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/button_shape"
+                    android:text="@string/chaplain_sign_up_next_button"
+                    android:textColor="@color/design_default_color_background" />
 
                 <TextView
-                    android:id="@+id/textView7"
+                    android:id="@+id/chaplain_sign_up_page_go_back_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="30dp"
+                    android:gravity="center"
+                    android:text="@string/sign_up_page_go_back_login_textView"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/chaplain_profile_second_step_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/textView6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/chaplain_sign_up_title"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="30dp"
+                    android:text="@string/chaplain_sign_up_second_title"
                     android:textColor="@android:color/background_dark"
                     android:textSize="24sp"
                     android:textStyle="bold" />
-            </LinearLayout>
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/chaplain_sign_up_profile_image"
-                android:layout_width="96dp"
-                android:layout_height="96dp"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/ic_baseline_account_circle_24"
-                app:civ_border_color="@color/colorAccent" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:hint="@string/sign_up_page_name"
-                android:importantForAutofill="no">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/chaplain_sign_up_page_name_editText"
+                <EditText
+                    android:id="@+id/chaplainSignUpeditTextPhone"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:inputType="textPersonName" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:hint="@string/sign_up_page_surname"
-                android:importantForAutofill="no">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/chaplain_sign_up_page_surname_editText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:inputType="textPersonName" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:hint="@string/sign_up_page_email"
-                android:importantForAutofill="no">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/chaplain_sign_up_page_email_editText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:inputType="textEmailAddress" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:hint="@string/sign_up_page_password"
-                android:importantForAutofill="no"
-                app:passwordToggleEnabled="true">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/chaplain_sign_up_page_password_editText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:ems="15"
-                    android:inputType="textPassword" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:hint="@string/sign_up_page_password_again"
-                android:importantForAutofill="no"
-                app:passwordToggleEnabled="true">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/chaplain_sign_up_page_password_again_editText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:ems="15"
-                    android:inputType="textPassword" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <CheckBox
-                    android:id="@+id/chaplain_sign_up_agree_checkBox"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true" />
+                    android:layout_margin="10dp"
+                    android:ems="10"
+                    android:hint="@string/chaplain_sign_up_phone_hint"
+                    android:inputType="phone" />
 
-                <TextView
-                    android:id="@+id/textView8"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/chaplainSignUpeditTextDateDay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:hint="@string/chaplain_sign_up_birth_date_day"
+                        android:inputType="number" />
+
+                    <EditText
+                        android:id="@+id/chaplainSignUpeditTextDateMonth"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:hint="@string/chaplain_sign_up_birth_date_month"
+                        android:inputType="number" />
+
+                    <EditText
+                        android:id="@+id/chaplainSignUpeditTextDateYear"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:hint="@string/chaplain_sign_up_birth_date_year"
+                        android:inputType="number" />
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/chaplainSignUpeditTextEducation"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/sign_up_page_agree_textView"
-                    android:textSize="18sp" />
+                    android:layout_margin="10dp"
+                    android:ems="10"
+                    android:hint="@string/chaplain_sign_up_education_hint"
+                    android:inputType="textPersonName" />
+
+                <EditText
+                    android:id="@+id/chaplainSignUpeditTextExperience"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:ems="10"
+                    android:hint="@string/chaplain_sign_up_experience_hint"
+                    android:inputType="number" />
+
+                <Spinner
+                    android:id="@+id/spinner_chaplain_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp" />
+
+                <Spinner
+                    android:id="@+id/spinner_chaplain_faith"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp" />
+
+                <Spinner
+                    android:id="@+id/spinner_chaplain_ethnic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp" />
+
+                <EditText
+                    android:id="@+id/chaplainSignUpeditTextPreferredLang"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:ems="10"
+                    android:hint="@string/chaplain_sign_up_preferred_language"
+                    android:inputType="textPersonName" />
+
+                <EditText
+                    android:id="@+id/chaplainSignUpeditTextOtherLang"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:ems="10"
+                    android:hint="@string/chaplain_sign_up_other_language"
+                    android:inputType="textPersonName" />
+
+                <EditText
+                    android:id="@+id/chaplainSignUpeditTextSsn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:ems="10"
+                    android:hint="@string/chaplain_sign_up_ssn"
+                    android:inputType="textPersonName" />
+
+                <Button
+                    android:id="@+id/chaplain_sign_up_page_resume_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/button_shape_coloraccent"
+                    android:drawableLeft="@drawable/ic_baseline_cloud_upload_24"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="@string/chaplain_sign_up_resume_button"
+                    android:textColor="@color/loginPageSignUpTextColor" />
+
+                <Button
+                    android:id="@+id/chaplain_sign_up_page_certificate_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/button_shape_coloraccent"
+                    android:drawableLeft="@drawable/ic_baseline_cloud_upload_24"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="@string/chaplain_sign_up_certificate_button"
+                    android:textColor="@color/loginPageSignUpTextColor" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageViewResumeOk"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/ic_baseline_check_circle_24" />
+
+                    <TextView
+                        android:id="@+id/resumeFileNameTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="8"
+                        android:text="TextView"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/imageViewResumeDelete"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/ic_baseline_delete_forever_24" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageViewCertificateOk"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/ic_baseline_check_circle_24" />
+
+                    <TextView
+                        android:id="@+id/certificateFileNameTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="8"
+                        android:text="TextView"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/imageViewCertificateDelete"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/ic_baseline_delete_forever_24" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="40dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/chaplain_sign_up_page_back_button"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_shape"
+                        android:gravity="center"
+                        android:text="@string/chaplain_sign_up_back_button"
+                        android:textColor="@color/design_default_color_background" />
+
+                    <Button
+                        android:id="@+id/chaplain_sign_up_page_next_button"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:background="@drawable/button_shape"
+                        android:gravity="center"
+                        android:text="@string/chaplain_sign_up_next_button"
+                        android:textColor="@color/design_default_color_background" />
+                </LinearLayout>
 
             </LinearLayout>
-
-            <Button
-                android:id="@+id/chaplain_sign_up_page_signUp_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/button_shape"
-                android:text="@string/chaplain_sign_up_next_button"
-                android:textColor="@color/design_default_color_background" />
-
-            <TextView
-                android:id="@+id/chaplain_sign_up_page_go_back_login"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="30dp"
-                android:gravity="center"
-                android:text="@string/sign_up_page_go_back_login_textView"
-                android:textSize="18sp" />
-
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

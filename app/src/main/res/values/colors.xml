@@ -6,4 +6,5 @@
     <color name="loginPageTextColor">#91919F</color>
     <color name="loginPageSignUpTextColor">#7F3DFF</color>
     <color name="loginPageTitleTextColor">#212325</color>
+    <color name="buttonColor">#eed2fb</color>
 </resources>

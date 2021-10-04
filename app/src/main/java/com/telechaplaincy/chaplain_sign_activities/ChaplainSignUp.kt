@@ -8,7 +8,9 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.InputType
 import android.view.View
+import android.widget.ScrollView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.google.firebase.auth.FirebaseAuth
@@ -41,6 +43,21 @@ class ChaplainSignUp : AppCompatActivity() {
     private var chaplainProfileFieldSurname:String = ""
     private var chaplainProfileFieldEmail:String = ""
     private var chaplainProfileFieldUserId:String = ""
+    private var isImageEmpty:Boolean = false
+    private var chaplainProfileFieldPhone:String = ""
+    private var chaplainProfileFieldBirthDateDay:String = ""
+    private var chaplainProfileFieldBirthDateMonth:String = ""
+    private var chaplainProfileFieldBirthDateYear:String = ""
+    private var chaplainProfileFieldEducation:String = ""
+    private var chaplainProfileFieldExperience:String = ""
+    private var chaplainProfileFieldChaplainField:String = ""
+    private var chaplainProfileFieldChaplainFaith:String = ""
+    private var chaplainProfileFieldChaplainEthnic:String = ""
+    private var chaplainProfileFieldPreferredLanguage:String = ""
+    private var chaplainProfileFieldOtherLanguage:String = ""
+    private var chaplainProfileFieldSsn:String = ""
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,6 +78,19 @@ class ChaplainSignUp : AppCompatActivity() {
         //chaplain profile image selection
         chaplain_sign_up_profile_image.setOnClickListener {
             pickImage()
+            if (chaplain_sign_up_profile_image.drawable != null){
+                isImageEmpty = true
+            }
+        }
+        chaplain_sign_up_page_back_button.setOnClickListener {
+            chaplain_profile_first_step_layout.visibility = View.VISIBLE
+            chaplain_profile_second_step_layout.visibility = View.GONE
+        }
+
+        //chaplain profile second page next button and profile info taking
+        chaplain_sign_up_page_next_button.setOnClickListener {
+            takeProfileInfo()
+
         }
 
         //sign up button click listener
@@ -72,7 +102,15 @@ class ChaplainSignUp : AppCompatActivity() {
             userPasswordAgain = chaplain_sign_up_page_password_again_editText.text.toString()
             termsChecked = chaplain_sign_up_agree_checkBox.isChecked
 
-            if (userName == "") {
+            if (!isImageEmpty){
+                val toast = Toast.makeText(
+                    this,
+                    R.string.chaplain_sign_up_profile_image_toast_message,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            else if (userName == "") {
                 val toast = Toast.makeText(
                     this,
                     R.string.sign_up_toast_message_enter_name,
@@ -116,9 +154,90 @@ class ChaplainSignUp : AppCompatActivity() {
                     R.string.sign_up_toast_message_checkBox_isChecked, Toast.LENGTH_SHORT
                 ).show()
             } else {
-
+                chaplain_profile_first_step_layout.visibility = View.GONE
+                chaplain_profile_second_step_layout.visibility = View.VISIBLE
+                scrollView.smoothScrollTo(0,0)
 
             }
+        }
+
+    }
+
+    // this func will take info from the second part of sign up ui
+    private fun takeProfileInfo(){
+        chaplainProfileFieldPhone = chaplainSignUpeditTextPhone.text.toString()
+        chaplainProfileFieldBirthDateDay = chaplainSignUpeditTextDateDay.text.toString()
+        chaplainProfileFieldBirthDateMonth = chaplainSignUpeditTextDateMonth.text.toString()
+        chaplainProfileFieldBirthDateYear = chaplainSignUpeditTextDateYear.text.toString()
+        chaplainProfileFieldEducation = chaplainSignUpeditTextEducation.text.toString()
+        chaplainProfileFieldExperience = chaplainSignUpeditTextExperience.text.toString()
+        chaplainProfileFieldPreferredLanguage = chaplainSignUpeditTextPreferredLang.text.toString()
+        chaplainProfileFieldOtherLanguage = chaplainSignUpeditTextOtherLang.text.toString()
+        chaplainProfileFieldSsn = chaplainSignUpeditTextSsn.text.toString()
+
+        if (chaplainProfileFieldPhone == ""){
+            val toast = Toast.makeText(
+                this,
+                R.string.sign_up_toast_message_enter_phone,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        else if (chaplainProfileFieldBirthDateDay == ""){
+            val toast = Toast.makeText(
+                this,
+                R.string.sign_up_toast_message_enter_birth_day,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        else if (chaplainProfileFieldBirthDateMonth == ""){
+            val toast = Toast.makeText(
+                this,
+                R.string.sign_up_toast_message_enter_birth_month,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        else if (chaplainProfileFieldBirthDateYear == ""){
+            val toast = Toast.makeText(
+                this,
+                R.string.sign_up_toast_message_enter_birth_year,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        else if (chaplainProfileFieldEducation == ""){
+            val toast = Toast.makeText(
+                this,
+                R.string.sign_up_toast_message_enter_edu,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        else if (chaplainProfileFieldExperience == ""){
+            val toast = Toast.makeText(
+                this,
+                R.string.sign_up_toast_message_enter_exp,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        else if (chaplainProfileFieldPreferredLanguage == ""){
+            val toast = Toast.makeText(
+                this,
+                R.string.sign_up_toast_message_enter_preferred_lang,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        else if (chaplainProfileFieldSsn == ""){
+            val toast = Toast.makeText(
+                this,
+                R.string.sign_up_toast_message_enter_ssn,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        else if (chaplainProfileFieldChaplainField == ""){
+            val toast = Toast.makeText(
+                this,
+                R.string.sign_up_toast_message_enter_chaplain_field,
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
     }
@@ -162,6 +281,7 @@ class ChaplainSignUp : AppCompatActivity() {
                 // todo do something with bitmap
 
                 chaplain_sign_up_profile_image.setImageBitmap(imageBitmap)
+                isImageEmpty = true
             }
         }
     }
