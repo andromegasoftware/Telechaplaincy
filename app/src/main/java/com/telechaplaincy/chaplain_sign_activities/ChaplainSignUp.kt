@@ -10,6 +10,8 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.InputType
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.ScrollView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -44,6 +46,8 @@ class ChaplainSignUp : AppCompatActivity() {
     private var chaplainProfileFieldEmail:String = ""
     private var chaplainProfileFieldUserId:String = ""
     private var isImageEmpty:Boolean = false
+    private var chaplainProfileAddresTitle:String = ""
+    private var chaplainProfileCredentialTitle:String = ""
     private var chaplainProfileFieldPhone:String = ""
     private var chaplainProfileFieldBirthDateDay:String = ""
     private var chaplainProfileFieldBirthDateMonth:String = ""
@@ -70,6 +74,15 @@ class ChaplainSignUp : AppCompatActivity() {
         chaplainProfileCollectionName = getString(R.string.chaplain_profile_collection)
         chaplainProfileDocumentName = getString(R.string.chaplain_profile_document)
 
+        //spinner addressing title selection
+        addressingTitleSelection()
+        //credentials title spinner item selection function
+        credentialsTitleSelection()
+        //chaplaincy Field spinner item selection function
+        chaplaincyFieldSelection()
+        //chaplaincy faith spinner item selection function
+        chaplaincyFaithSelection()
+
         //go back login page textView click listener
         chaplain_sign_up_page_go_back_login.setOnClickListener {
             finish()
@@ -95,73 +108,78 @@ class ChaplainSignUp : AppCompatActivity() {
 
         //sign up button click listener
         chaplain_sign_up_page_signUp_button.setOnClickListener {
-            userName = chaplain_sign_up_page_name_editText.text.toString()
-            userSurName = chaplain_sign_up_page_surname_editText.text.toString()
-            userEmail = chaplain_sign_up_page_email_editText.text.toString()
-            userPassword = chaplain_sign_up_page_password_editText.text.toString()
-            userPasswordAgain = chaplain_sign_up_page_password_again_editText.text.toString()
-            termsChecked = chaplain_sign_up_agree_checkBox.isChecked
+            takeProfileInfoFirstPart()
+        }
+    }
 
-            if (!isImageEmpty){
-                val toast = Toast.makeText(
-                    this,
-                    R.string.chaplain_sign_up_profile_image_toast_message,
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+    //chaplain sign up first part taking user info and checking the empty parts
+    private fun takeProfileInfoFirstPart(){
+        userName = chaplain_sign_up_page_name_editText.text.toString()
+        userSurName = chaplain_sign_up_page_surname_editText.text.toString()
+        userEmail = chaplain_sign_up_page_email_editText.text.toString()
+        userPassword = chaplain_sign_up_page_password_editText.text.toString()
+        userPasswordAgain = chaplain_sign_up_page_password_again_editText.text.toString()
+        termsChecked = chaplain_sign_up_agree_checkBox.isChecked
 
-            else if (userName == "") {
-                val toast = Toast.makeText(
-                    this,
-                    R.string.sign_up_toast_message_enter_name,
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else if (userSurName == "") {
-                val toast = Toast.makeText(
-                    this,
-                    R.string.sign_up_toast_message_enter_sur_name, Toast.LENGTH_SHORT
-                ).show()
-            } else if (userEmail == "") {
-                val toast = Toast.makeText(
-                    this,
-                    R.string.sign_up_toast_message_enter_email,
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else if (userPassword == "") {
-                val toast = Toast.makeText(
-                    this,
-                    R.string.sign_up_toast_message_enter_password, Toast.LENGTH_SHORT
-                ).show()
-            } else if (userPasswordAgain == "") {
-                val toast = Toast.makeText(
-                    this,
-                    R.string.sign_up_toast_message_enter_password_again, Toast.LENGTH_SHORT
-                ).show()
-            } else if (userPassword != userPasswordAgain) {
-                val toast = Toast.makeText(
-                    this,
-                    R.string.sign_up_toast_message_password_match, Toast.LENGTH_SHORT
-                ).show()
-            } else if (userPassword.length < 6) {
-                val toast = Toast.makeText(
-                    this,
-                    R.string.sign_up_toast_message_password_long,
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else if (!termsChecked) {
-                val toast = Toast.makeText(
-                    this,
-                    R.string.sign_up_toast_message_checkBox_isChecked, Toast.LENGTH_SHORT
-                ).show()
-            } else {
-                chaplain_profile_first_step_layout.visibility = View.GONE
-                chaplain_profile_second_step_layout.visibility = View.VISIBLE
-                scrollView.smoothScrollTo(0,0)
-
-            }
+        if (!isImageEmpty){
+            val toast = Toast.makeText(
+                this,
+                R.string.chaplain_sign_up_profile_image_toast_message,
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
-    }
+        else if (userName == "") {
+            val toast = Toast.makeText(
+                this,
+                R.string.sign_up_toast_message_enter_name,
+                Toast.LENGTH_SHORT
+            ).show()
+        } else if (userSurName == "") {
+            val toast = Toast.makeText(
+                this,
+                R.string.sign_up_toast_message_enter_sur_name, Toast.LENGTH_SHORT
+            ).show()
+        } else if (userEmail == "") {
+            val toast = Toast.makeText(
+                this,
+                R.string.sign_up_toast_message_enter_email,
+                Toast.LENGTH_SHORT
+            ).show()
+        } else if (userPassword == "") {
+            val toast = Toast.makeText(
+                this,
+                R.string.sign_up_toast_message_enter_password, Toast.LENGTH_SHORT
+            ).show()
+        } else if (userPasswordAgain == "") {
+            val toast = Toast.makeText(
+                this,
+                R.string.sign_up_toast_message_enter_password_again, Toast.LENGTH_SHORT
+            ).show()
+        } else if (userPassword != userPasswordAgain) {
+            val toast = Toast.makeText(
+                this,
+                R.string.sign_up_toast_message_password_match, Toast.LENGTH_SHORT
+            ).show()
+        } else if (userPassword.length < 6) {
+            val toast = Toast.makeText(
+                this,
+                R.string.sign_up_toast_message_password_long,
+                Toast.LENGTH_SHORT
+            ).show()
+        } else if (!termsChecked) {
+            val toast = Toast.makeText(
+                this,
+                R.string.sign_up_toast_message_checkBox_isChecked, Toast.LENGTH_SHORT
+            ).show()
+        } else {
+            chaplain_profile_first_step_layout.visibility = View.GONE
+            chaplain_profile_second_step_layout.visibility = View.VISIBLE
+            scrollView.smoothScrollTo(0,0)
+
+        }
+
+}
 
     // this func will take info from the second part of sign up ui
     private fun takeProfileInfo(){
@@ -175,13 +193,28 @@ class ChaplainSignUp : AppCompatActivity() {
         chaplainProfileFieldOtherLanguage = chaplainSignUpeditTextOtherLang.text.toString()
         chaplainProfileFieldSsn = chaplainSignUpeditTextSsn.text.toString()
 
-        if (chaplainProfileFieldPhone == ""){
+        if (chaplainProfileAddresTitle == ""){
+            val toast = Toast.makeText(
+                this,
+                R.string.sign_up_toast_message_enter_chaplain_addressing_title,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        else if (chaplainProfileCredentialTitle == ""){
+            val toast = Toast.makeText(
+                this,
+                R.string.sign_up_toast_message_enter_chaplain_credentials_title,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        else if (chaplainProfileFieldPhone == ""){
             val toast = Toast.makeText(
                 this,
                 R.string.sign_up_toast_message_enter_phone,
                 Toast.LENGTH_SHORT
             ).show()
         }
+
         else if (chaplainProfileFieldBirthDateDay == ""){
             val toast = Toast.makeText(
                 this,
@@ -240,6 +273,88 @@ class ChaplainSignUp : AppCompatActivity() {
             ).show()
         }
 
+    }
+    //addressing title spinner item selection function
+    fun addressingTitleSelection(){
+        val optionAddresing = resources.getStringArray(R.array.addressingTitleArray)
+        spinnerAdressingTitle.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, optionAddresing)
+        spinnerAdressingTitle.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                chaplainProfileAddresTitle = optionAddresing[position]
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+        }
+    }
+
+    //credentials title spinner item selection function
+    fun credentialsTitleSelection(){
+        val optionCredential = resources.getStringArray(R.array.credentialsTitleArray)
+        spinnerCredentialsTitle.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, optionCredential)
+        spinnerCredentialsTitle.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                chaplainProfileCredentialTitle = optionCredential[position]
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+        }
+    }
+
+    //chaplaincy Field spinner item selection function
+    fun chaplaincyFieldSelection(){
+        val optionField = resources.getStringArray(R.array.chaplaincyFieldArray)
+        spinner_chaplain_field.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, optionField)
+        spinner_chaplain_field.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                chaplainProfileFieldChaplainField = optionField[position]
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+        }
+    }
+
+    //chaplaincy faith spinner item selection function
+    fun chaplaincyFaithSelection(){
+        val optionFaith = resources.getStringArray(R.array.faithAffiliationArray)
+        spinner_chaplain_faith.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, optionFaith)
+        spinner_chaplain_faith.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                chaplainProfileFieldChaplainField = optionFaith[position]
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+        }
     }
 
     private fun pickImage() {

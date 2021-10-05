@@ -93,6 +93,10 @@
     //chaplain sign up
     <string name="chaplain_sign_up_title">Chaplain Sing Up</string>
     <string name="chaplain_sign_up_next_button">NEXT</string>
+    <string name="chaplain_sign_up_addressing_title_textView_text">Addressing Title</string>
+    <string name="chaplain_sign_up_credential_title_textView_text">Credentials Title</string>
+    <string name="chaplain_sign_up_chaplain_field_title_textView_text">Chaplaincy Field</string>
+    <string name="chaplain_sign_up_faith_title_textView_text">Faith Affiliation</string>
     <string name="chaplain_sign_up_back_button">BACK</string>
     <string name="chaplain_sign_up_resume_button">resume</string>
     <string name="chaplain_sign_up_certificate_button">CERTIFICATE</string>
@@ -125,6 +129,10 @@
     //sign up page toast message if experience is empty
     <string name="sign_up_toast_message_enter_chaplain_field">Please select a chaplaincy field</string>
     //sign up page toast message if year of birth date is empty
+    <string name="sign_up_toast_message_enter_chaplain_addressing_title">Please select an addressing title</string>
+    //sign up page toast message if addressing title is empty
+    <string name="sign_up_toast_message_enter_chaplain_credentials_title">Please select a credentials title</string>
+    //sign up page toast message if credentials title is empty
     <string name="sign_up_toast_message_enter_preferred_lang">Please enter your preferred language</string>
     //sign up page toast message if year of birth date is empty
     <string name="sign_up_toast_message_enter_ssn">Please enter your ssn</string>
@@ -136,4 +144,73 @@
     <string name="chaplain_profile_document">chaplainProfile</string>
     <string name="chaplain_profile_photo_select_exp">chaplainProfile</string>
 
+    //Spinner array for addressing title in the chaplain sign up page
+    <string-array name="addressingTitleArray">
+        <item>Mr.</item>
+        <item>Mrs.</item>
+        <item>Miss.</item>
+        <item>Dr.</item>
+        <item>Rabbi</item>
+        <item>Rev</item>
+        <item>Pastor</item>
+        <item>Imam</item>
+        <item>Lt.</item>
+        <item>Fr.</item>
+        <item>Sr.Fr.</item>
+        <item>Br.</item>
+        <item>Other</item>
+    </string-array>
+
+    //Spinner array for credentials title in the chaplain sign up page
+    <string-array name="credentialsTitleArray">
+        <item>Ch</item>
+        <item>Intern Ch</item>
+        <item>Resident MA.</item>
+        <item>MDiv.</item>
+        <item>DMin.</item>
+        <item>Ph.D.</item>
+        <item>BCC.</item>
+        <item>LMFT.</item>
+        <item>CSSBB.</item>
+        <item>BCJC.</item>
+        <item>ACPE.</item>
+        <item>ACPE Supervisor</item>
+        <item>CPSP.</item>
+        <item>CPSP Supervisor</item>
+        <item>DH MHL.</item>
+        <item>MS.</item>
+        <item>MTS.</item>
+        <item>LCSW.</item>
+        <item>BCJC.</item>
+        <item>Other</item>
+    </string-array>
+
+    //Spinner array for credentials title in the chaplain sign up page
+    <string-array name="chaplaincyFieldArray">
+        <item>College/Education Ch.</item>
+        <item>Community/Humanist Ch.</item>
+        <item>Crisis/Disaster Ch.</item>
+        <item>Health Care Ch.</item>
+        <item>Palliative Care Ch.</item>
+        <item>Pediatric Ch.</item>
+        <item>Mental Health Ch.</item>
+        <item>Hospice Ch.</item>
+        <item>Law Enforcement/Police Ch.</item>
+        <item>Military Ch.</item>
+        <item>Prison/Correctional Facilities Ch</item>
+        <item>Corporate Ch.</item>
+        <item>Pet Ch.</item>
+    </string-array>
+
+    //Spinner array for credentials title in the chaplain sign up page
+    <string-array name="faithAffiliationArray">
+        <item>Muslim</item>
+        <item>Christian</item>
+        <item>Jewish</item>
+        <item>Buddhist</item>
+        <item>Atheist</item>
+        <item>Catholic</item>
+        <item>Orthodox</item>
+        <item>Other</item>
+    </string-array>
 </resources>
