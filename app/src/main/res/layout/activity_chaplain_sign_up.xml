@@ -266,6 +266,14 @@
 
                 </LinearLayout>
 
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/credentials_chip_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp">
+
+                </com.google.android.material.chip.ChipGroup>
+
                 <EditText
                     android:id="@+id/chaplainSignUpeditTextPhone"
                     android:layout_width="match_parent"
@@ -393,11 +401,35 @@
                     </androidx.cardview.widget.CardView>
                 </LinearLayout>
 
-                <Spinner
-                    android:id="@+id/spinner_chaplain_ethnic"
+                <TextView
+                    android:id="@+id/textView16"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp" />
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="@string/chaplain_sign_up_ethnic_title_textView_text"
+                    android:textSize="18sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="vertical">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="1dp">
+
+                        <Spinner
+                            android:id="@+id/spinner_chaplain_ethnic"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
 
                 <EditText
                     android:id="@+id/chaplainSignUpeditTextPreferredLang"
@@ -426,17 +458,17 @@
                     android:hint="@string/chaplain_sign_up_ssn"
                     android:inputType="textPersonName" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/chaplain_sign_up_page_resume_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:background="@drawable/button_shape_coloraccent"
-                    android:drawableLeft="@drawable/ic_baseline_cloud_upload_24"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
                     android:text="@string/chaplain_sign_up_resume_button"
-                    android:textColor="@color/loginPageSignUpTextColor" />
+                    android:textColor="@color/loginPageSignUpTextColor"
+                    app:icon= "@drawable/ic_baseline_cloud_upload_24"
+                    app:iconGravity="textStart"
+                    android:theme="@style/buttonTheme"/>
 
                 <Button
                     android:id="@+id/chaplain_sign_up_page_certificate_button"
@@ -444,11 +476,11 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:background="@drawable/button_shape_coloraccent"
-                    android:drawableLeft="@drawable/ic_baseline_cloud_upload_24"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
                     android:text="@string/chaplain_sign_up_certificate_button"
-                    android:textColor="@color/loginPageSignUpTextColor" />
+                    android:textColor="@color/loginPageSignUpTextColor"
+                    app:icon= "@drawable/ic_baseline_cloud_upload_24"
+                    app:iconGravity="textStart"
+                    android:theme="@style/buttonTheme"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"

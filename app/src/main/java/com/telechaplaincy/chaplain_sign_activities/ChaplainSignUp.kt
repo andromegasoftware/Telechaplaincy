@@ -1,5 +1,6 @@
 package com.telechaplaincy.chaplain_sign_activities
 
+import android.app.ActionBar
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -8,6 +9,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Html
 import android.text.InputType
 import android.view.View
 import android.widget.AdapterView
@@ -15,6 +17,7 @@ import android.widget.ArrayAdapter
 import android.widget.ScrollView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import com.google.android.material.chip.Chip
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -63,10 +66,10 @@ class ChaplainSignUp : AppCompatActivity() {
 
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chaplain_sign_up)
+        supportActionBar?.title = Html.fromHtml("<font color='#FBF3FE'>Tele Chaplaincy</font>")
 
         auth = FirebaseAuth.getInstance()
 
@@ -82,6 +85,8 @@ class ChaplainSignUp : AppCompatActivity() {
         chaplaincyFieldSelection()
         //chaplaincy faith spinner item selection function
         chaplaincyFaithSelection()
+        //chaplaincy Ethnic Background spinner item selection function
+        chaplainEthnicBackgroundSelection()
 
         //go back login page textView click listener
         chaplain_sign_up_page_go_back_login.setOnClickListener {
@@ -275,7 +280,7 @@ class ChaplainSignUp : AppCompatActivity() {
 
     }
     //addressing title spinner item selection function
-    fun addressingTitleSelection(){
+    private fun addressingTitleSelection(){
         val optionAddresing = resources.getStringArray(R.array.addressingTitleArray)
         spinnerAdressingTitle.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, optionAddresing)
         spinnerAdressingTitle.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
@@ -295,7 +300,7 @@ class ChaplainSignUp : AppCompatActivity() {
     }
 
     //credentials title spinner item selection function
-    fun credentialsTitleSelection(){
+    private fun credentialsTitleSelection(){
         val optionCredential = resources.getStringArray(R.array.credentialsTitleArray)
         spinnerCredentialsTitle.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, optionCredential)
         spinnerCredentialsTitle.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
@@ -306,6 +311,12 @@ class ChaplainSignUp : AppCompatActivity() {
                 id: Long
             ) {
                 chaplainProfileCredentialTitle = optionCredential[position]
+                val chipAddressingTitle = Chip(this@ChaplainSignUp)
+                chipAddressingTitle.text = chaplainProfileCredentialTitle
+                chipAddressingTitle.isCloseIconVisible = true
+                credentials_chip_group.addView(chipAddressingTitle)
+                chipAddressingTitle.setOnClickListener {
+                    credentials_chip_group.removeView(chipAddressingTitle) }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -316,7 +327,7 @@ class ChaplainSignUp : AppCompatActivity() {
     }
 
     //chaplaincy Field spinner item selection function
-    fun chaplaincyFieldSelection(){
+    private fun chaplaincyFieldSelection(){
         val optionField = resources.getStringArray(R.array.chaplaincyFieldArray)
         spinner_chaplain_field.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, optionField)
         spinner_chaplain_field.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
@@ -337,7 +348,7 @@ class ChaplainSignUp : AppCompatActivity() {
     }
 
     //chaplaincy faith spinner item selection function
-    fun chaplaincyFaithSelection(){
+    private fun chaplaincyFaithSelection(){
         val optionFaith = resources.getStringArray(R.array.faithAffiliationArray)
         spinner_chaplain_faith.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, optionFaith)
         spinner_chaplain_faith.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
@@ -347,7 +358,28 @@ class ChaplainSignUp : AppCompatActivity() {
                 position: Int,
                 id: Long
             ) {
-                chaplainProfileFieldChaplainField = optionFaith[position]
+                chaplainProfileFieldChaplainFaith = optionFaith[position]
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+        }
+    }
+
+    //chaplaincy Ethnic Background spinner item selection function
+    private fun chaplainEthnicBackgroundSelection(){
+        val optionEthnic = resources.getStringArray(R.array.ethnicBackgroundArray)
+        spinner_chaplain_ethnic.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, optionEthnic)
+        spinner_chaplain_ethnic.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                chaplainProfileFieldChaplainEthnic = optionEthnic[position]
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {

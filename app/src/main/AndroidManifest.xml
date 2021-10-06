@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".chaplain_sign_activities.ChaplainSignUp"
-            android:parentActivityName=".chaplain_sign_activities.ChaplainLogIn"></activity>
+            android:parentActivityName=".chaplain_sign_activities.ChaplainLogIn"
+            android:theme="@style/ChaplainSignUpPageTheme"/>
         <activity android:name=".ChaplainMainActivity" />
         <activity android:name=".chaplain_sign_activities.ChaplainLogIn" />
         <activity

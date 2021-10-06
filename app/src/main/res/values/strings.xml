@@ -97,6 +97,7 @@
     <string name="chaplain_sign_up_credential_title_textView_text">Credentials Title</string>
     <string name="chaplain_sign_up_chaplain_field_title_textView_text">Chaplaincy Field</string>
     <string name="chaplain_sign_up_faith_title_textView_text">Faith Affiliation</string>
+    <string name="chaplain_sign_up_ethnic_title_textView_text">Ethnic Background</string>
     <string name="chaplain_sign_up_back_button">BACK</string>
     <string name="chaplain_sign_up_resume_button">resume</string>
     <string name="chaplain_sign_up_certificate_button">CERTIFICATE</string>
@@ -202,7 +203,7 @@
         <item>Pet Ch.</item>
     </string-array>
 
-    //Spinner array for credentials title in the chaplain sign up page
+    //Spinner array for faith affiliation in the chaplain sign up page
     <string-array name="faithAffiliationArray">
         <item>Muslim</item>
         <item>Christian</item>
@@ -211,6 +212,20 @@
         <item>Atheist</item>
         <item>Catholic</item>
         <item>Orthodox</item>
+        <item>Other</item>
+    </string-array>
+
+    //Spinner array for credentials title in the chaplain sign up page
+    <string-array name="ethnicBackgroundArray">
+        <item>American Indian/Alaska Native</item>
+        <item>Asian</item>
+        <item>Black/African American</item>
+        <item>Hispanic/Latino</item>
+        <item>More than one race</item>
+        <item>Native Hawaiian or other Pacific Islander</item>
+        <item>White</item>
+        <item>South Asian</item>
+        <item>Middle Eastern</item>
         <item>Other</item>
     </string-array>
 </resources>
