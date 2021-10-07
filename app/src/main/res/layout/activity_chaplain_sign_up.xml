@@ -266,13 +266,28 @@
 
                 </LinearLayout>
 
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/credentials_chip_group"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp">
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
-                </com.google.android.material.chip.ChipGroup>
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/addressing_title_chip_group"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="5" />
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/credentials_chip_group"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="5"/>
+
+                </LinearLayout>
 
                 <EditText
                     android:id="@+id/chaplainSignUpeditTextPhone"
@@ -371,6 +386,15 @@
                     </androidx.cardview.widget.CardView>
                 </LinearLayout>
 
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chaplain_field_chip_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp">
+
+                </com.google.android.material.chip.ChipGroup>
+
                 <TextView
                     android:id="@+id/textView15"
                     android:layout_width="match_parent"
@@ -401,6 +425,14 @@
                     </androidx.cardview.widget.CardView>
                 </LinearLayout>
 
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chaplain_faith_chip_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp">
+
+                </com.google.android.material.chip.ChipGroup>
                 <TextView
                     android:id="@+id/textView16"
                     android:layout_width="match_parent"
@@ -431,6 +463,14 @@
                     </androidx.cardview.widget.CardView>
                 </LinearLayout>
 
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chaplain_ethnic_chip_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp">
+
+                </com.google.android.material.chip.ChipGroup>
                 <EditText
                     android:id="@+id/chaplainSignUpeditTextPreferredLang"
                     android:layout_width="match_parent"
@@ -440,14 +480,40 @@
                     android:hint="@string/chaplain_sign_up_preferred_language"
                     android:inputType="textPersonName" />
 
-                <EditText
-                    android:id="@+id/chaplainSignUpeditTextOtherLang"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/chaplainSignUpeditTextOtherLang"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="7"
+                        android:ems="10"
+                        android:hint="@string/chaplain_sign_up_other_language"
+                        android:inputType="textPersonName" />
+
+                    <ImageView
+                        android:id="@+id/chaplain_other_language_add_imageView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="3"
+                        android:scaleType="center"
+                        app:srcCompat="@drawable/ic_baseline_add_24" />
+                </LinearLayout>
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chaplain_other_languages_chip_group"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:ems="10"
-                    android:hint="@string/chaplain_sign_up_other_language"
-                    android:inputType="textPersonName" />
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp">
+
+                </com.google.android.material.chip.ChipGroup>
 
                 <EditText
                     android:id="@+id/chaplainSignUpeditTextSsn"

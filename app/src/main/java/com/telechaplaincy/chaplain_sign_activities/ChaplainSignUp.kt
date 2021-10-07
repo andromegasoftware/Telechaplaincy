@@ -2,6 +2,8 @@ package com.telechaplaincy.chaplain_sign_activities
 
 import android.app.ActionBar
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -11,12 +13,11 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Html
 import android.text.InputType
+import android.util.Log
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.ScrollView
-import android.widget.Toast
+import android.widget.*
 import androidx.core.app.ActivityCompat
+import androidx.core.view.marginLeft
 import com.google.android.material.chip.Chip
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
@@ -63,6 +64,7 @@ class ChaplainSignUp : AppCompatActivity() {
     private var chaplainProfileFieldPreferredLanguage:String = ""
     private var chaplainProfileFieldOtherLanguage:String = ""
     private var chaplainProfileFieldSsn:String = ""
+    private var otherSelection:String = ""
 
 
 
@@ -88,9 +90,19 @@ class ChaplainSignUp : AppCompatActivity() {
         //chaplaincy Ethnic Background spinner item selection function
         chaplainEthnicBackgroundSelection()
 
+        //chaplain other language chip adding method
+        chaplain_other_language_add_imageView.setOnClickListener {
+            addOtherLanguage()
+            chaplainSignUpeditTextOtherLang.text.clear()
+        }
+
         //go back login page textView click listener
         chaplain_sign_up_page_go_back_login.setOnClickListener {
             finish()
+        }
+
+        chaplain_sign_up_page_resume_button.setOnClickListener {
+            takePermissionForPdf()
         }
 
         //chaplain profile image selection
@@ -198,14 +210,14 @@ class ChaplainSignUp : AppCompatActivity() {
         chaplainProfileFieldOtherLanguage = chaplainSignUpeditTextOtherLang.text.toString()
         chaplainProfileFieldSsn = chaplainSignUpeditTextSsn.text.toString()
 
-        if (chaplainProfileAddresTitle == ""){
+        if (chaplainProfileAddresTitle == "Nothing Selected"){
             val toast = Toast.makeText(
                 this,
                 R.string.sign_up_toast_message_enter_chaplain_addressing_title,
                 Toast.LENGTH_SHORT
             ).show()
         }
-        else if (chaplainProfileCredentialTitle == ""){
+        else if (chaplainProfileCredentialTitle == "Nothing Selected"){
             val toast = Toast.makeText(
                 this,
                 R.string.sign_up_toast_message_enter_chaplain_credentials_title,
@@ -255,7 +267,13 @@ class ChaplainSignUp : AppCompatActivity() {
                 Toast.LENGTH_SHORT
             ).show()
         }
-
+        else if (chaplainProfileFieldChaplainField == "Nothing Selected"){
+            val toast = Toast.makeText(
+                this,
+                R.string.sign_up_toast_message_enter_chaplain_field,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
         else if (chaplainProfileFieldPreferredLanguage == ""){
             val toast = Toast.makeText(
                 this,
@@ -270,13 +288,7 @@ class ChaplainSignUp : AppCompatActivity() {
                 Toast.LENGTH_SHORT
             ).show()
         }
-        else if (chaplainProfileFieldChaplainField == ""){
-            val toast = Toast.makeText(
-                this,
-                R.string.sign_up_toast_message_enter_chaplain_field,
-                Toast.LENGTH_SHORT
-            ).show()
-        }
+
 
     }
     //addressing title spinner item selection function
@@ -291,6 +303,46 @@ class ChaplainSignUp : AppCompatActivity() {
                 id: Long
             ) {
                 chaplainProfileAddresTitle = optionAddresing[position]
+                val chipAddressingTitle = Chip(this@ChaplainSignUp)
+                chipAddressingTitle.isCloseIconVisible = true
+                chipAddressingTitle.setChipBackgroundColorResource(R.color.colorAccent)
+                chipAddressingTitle.setTextColor(resources.getColor(R.color.colorPrimary))
+                if (chaplainProfileAddresTitle != "Nothing Selected" && chaplainProfileAddresTitle != "Other"){
+                    chipAddressingTitle.text = chaplainProfileAddresTitle
+                    addressing_title_chip_group.addView(chipAddressingTitle)
+                }
+                else if (chaplainProfileAddresTitle == "Other"){
+
+                    //alert dialog create
+                    val builder= AlertDialog.Builder(this@ChaplainSignUp)
+                    builder.setTitle(R.string.chaplain_sign_up_addressing_title_textView_text)
+
+                    // Set up the input
+                    val input = EditText(this@ChaplainSignUp)
+                    // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                    input.hint = getString(R.string.chaplain_sign_up_addressing_title_textView_text)
+                    input.inputType = InputType.TYPE_CLASS_TEXT
+                    builder.setView(input)
+
+                    // Set up the buttons
+                    builder.setPositiveButton(getString(R.string.chaplain_sign_up_alert_ok_button), DialogInterface.OnClickListener { dialog, which ->
+                        // Here you get get input text from the Edittext
+                        val selection = input.text.toString()
+
+                        //assign input to chip and add chip
+                        chipAddressingTitle.text = selection
+                        addressing_title_chip_group.addView(chipAddressingTitle)
+                        Log.d("otherSelection: ", selection)
+                    })
+                    builder.setNegativeButton(getString(R.string.chaplain_sign_up_alert_cancel_button), DialogInterface.OnClickListener { dialog, which ->
+                        dialog.cancel()
+                    })
+
+                    builder.show()
+                }
+                chipAddressingTitle.setOnClickListener {
+                    addressing_title_chip_group.removeView(chipAddressingTitle)
+                    }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -311,12 +363,48 @@ class ChaplainSignUp : AppCompatActivity() {
                 id: Long
             ) {
                 chaplainProfileCredentialTitle = optionCredential[position]
-                val chipAddressingTitle = Chip(this@ChaplainSignUp)
-                chipAddressingTitle.text = chaplainProfileCredentialTitle
-                chipAddressingTitle.isCloseIconVisible = true
-                credentials_chip_group.addView(chipAddressingTitle)
-                chipAddressingTitle.setOnClickListener {
-                    credentials_chip_group.removeView(chipAddressingTitle) }
+                Log.d("chapProCreTitle: ", chaplainProfileCredentialTitle)
+                val chipCredentialTitle = Chip(this@ChaplainSignUp)
+                chipCredentialTitle.isCloseIconVisible = true
+                chipCredentialTitle.setChipBackgroundColorResource(R.color.colorAccent)
+                chipCredentialTitle.setTextColor(resources.getColor(R.color.colorPrimary))
+                if (chaplainProfileCredentialTitle != "Nothing Selected" && chaplainProfileCredentialTitle != "Other"){
+                    chipCredentialTitle.text = chaplainProfileCredentialTitle
+                    credentials_chip_group.addView(chipCredentialTitle)
+                }
+                else if (chaplainProfileCredentialTitle == "Other"){
+
+                    //alert dialog create
+                    val builder= AlertDialog.Builder(this@ChaplainSignUp)
+                    builder.setTitle(R.string.chaplain_sign_up_credential_title_textView_text)
+
+                    // Set up the input
+                    val input = EditText(this@ChaplainSignUp)
+                    // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                    input.hint = getString(R.string.chaplain_sign_up_credential_title_textView_text)
+                    input.inputType = InputType.TYPE_CLASS_TEXT
+                    builder.setView(input)
+
+                    // Set up the buttons
+                    builder.setPositiveButton(getString(R.string.chaplain_sign_up_alert_ok_button), DialogInterface.OnClickListener { dialog, which ->
+                        // Here you get get input text from the Edittext
+                        val selection = input.text.toString()
+
+                        //assign input to chip and add chip
+                        chipCredentialTitle.text = selection
+                        credentials_chip_group.addView(chipCredentialTitle)
+                        Log.d("otherSelection: ", selection)
+                    })
+                    builder.setNegativeButton(getString(R.string.chaplain_sign_up_alert_cancel_button), DialogInterface.OnClickListener { dialog, which ->
+                        dialog.cancel()
+                    })
+
+                    builder.show()
+                }
+
+                chipCredentialTitle.setOnClickListener {
+                    credentials_chip_group.removeView(chipCredentialTitle)
+                    }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -338,6 +426,48 @@ class ChaplainSignUp : AppCompatActivity() {
                 id: Long
             ) {
                 chaplainProfileFieldChaplainField = optionField[position]
+                val chipChaplainFieldTitle = Chip(this@ChaplainSignUp)
+                chipChaplainFieldTitle.isCloseIconVisible = true
+                chipChaplainFieldTitle.setChipBackgroundColorResource(R.color.colorAccent)
+                chipChaplainFieldTitle.setTextColor(resources.getColor(R.color.colorPrimary))
+                if (chaplainProfileFieldChaplainField != "Nothing Selected" && chaplainProfileFieldChaplainField != "Other"){
+                    chipChaplainFieldTitle.text = chaplainProfileFieldChaplainField
+                    chaplain_field_chip_group.addView(chipChaplainFieldTitle)
+                }
+
+                else if (chaplainProfileFieldChaplainField == "Other"){
+
+                    //alert dialog create
+                    val builder= AlertDialog.Builder(this@ChaplainSignUp)
+                    builder.setTitle(R.string.chaplain_sign_up_chaplaincy_field)
+
+                    // Set up the input
+                    val input = EditText(this@ChaplainSignUp)
+                    // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                    input.hint = getString(R.string.chaplain_sign_up_chaplaincy_field)
+                    input.inputType = InputType.TYPE_CLASS_TEXT
+                    builder.setView(input)
+
+                    // Set up the buttons
+                    builder.setPositiveButton(getString(R.string.chaplain_sign_up_alert_ok_button), DialogInterface.OnClickListener { dialog, which ->
+                        // Here you get get input text from the Edittext
+                        val selection = input.text.toString()
+
+                        //assign input to chip and add chip
+                        chipChaplainFieldTitle.text = selection
+                        chaplain_field_chip_group.addView(chipChaplainFieldTitle)
+                        Log.d("otherSelection: ", selection)
+                    })
+                    builder.setNegativeButton(getString(R.string.chaplain_sign_up_alert_cancel_button), DialogInterface.OnClickListener { dialog, which ->
+                        dialog.cancel()
+                    })
+
+                    builder.show()
+                }
+                chipChaplainFieldTitle.setOnClickListener {
+                    chaplain_field_chip_group.removeView(chipChaplainFieldTitle)
+                }
+
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -359,6 +489,46 @@ class ChaplainSignUp : AppCompatActivity() {
                 id: Long
             ) {
                 chaplainProfileFieldChaplainFaith = optionFaith[position]
+                val chipChaplainFaith= Chip(this@ChaplainSignUp)
+                chipChaplainFaith.isCloseIconVisible = true
+                chipChaplainFaith.setChipBackgroundColorResource(R.color.colorAccent)
+                chipChaplainFaith.setTextColor(resources.getColor(R.color.colorPrimary))
+                if (chaplainProfileFieldChaplainFaith != "Nothing Selected" && chaplainProfileFieldChaplainFaith != "Other"){
+                    chipChaplainFaith.text = chaplainProfileFieldChaplainFaith
+                    chaplain_faith_chip_group.addView(chipChaplainFaith)
+                }
+                else if (chaplainProfileFieldChaplainFaith == "Other"){
+
+                    //alert dialog create
+                    val builder= AlertDialog.Builder(this@ChaplainSignUp)
+                    builder.setTitle(R.string.chaplain_sign_up_chaplaincy_faith)
+
+                    // Set up the input
+                    val input = EditText(this@ChaplainSignUp)
+                    // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                    input.hint = getString(R.string.chaplain_sign_up_chaplaincy_faith)
+                    input.inputType = InputType.TYPE_CLASS_TEXT
+                    builder.setView(input)
+
+                    // Set up the buttons
+                    builder.setPositiveButton(getString(R.string.chaplain_sign_up_alert_ok_button), DialogInterface.OnClickListener { dialog, which ->
+                        // Here you get get input text from the Edittext
+                        val selection = input.text.toString()
+
+                        //assign input to chip and add chip
+                        chipChaplainFaith.text = selection
+                        chaplain_faith_chip_group.addView(chipChaplainFaith)
+                        Log.d("otherSelection: ", selection)
+                    })
+                    builder.setNegativeButton(getString(R.string.chaplain_sign_up_alert_cancel_button), DialogInterface.OnClickListener { dialog, which ->
+                        dialog.cancel()
+                    })
+
+                    builder.show()
+                }
+                chipChaplainFaith.setOnClickListener {
+                    chaplain_faith_chip_group.removeView(chipChaplainFaith)
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -380,6 +550,46 @@ class ChaplainSignUp : AppCompatActivity() {
                 id: Long
             ) {
                 chaplainProfileFieldChaplainEthnic = optionEthnic[position]
+                val chipChaplainEthnic= Chip(this@ChaplainSignUp)
+                chipChaplainEthnic.isCloseIconVisible = true
+                chipChaplainEthnic.setChipBackgroundColorResource(R.color.colorAccent)
+                chipChaplainEthnic.setTextColor(resources.getColor(R.color.colorPrimary))
+                if (chaplainProfileFieldChaplainEthnic != "Nothing Selected" && chaplainProfileFieldChaplainEthnic != "Other"){
+                    chipChaplainEthnic.text = chaplainProfileFieldChaplainEthnic
+                    chaplain_ethnic_chip_group.addView(chipChaplainEthnic)
+                }
+                else if (chaplainProfileFieldChaplainEthnic == "Other"){
+
+                    //alert dialog create
+                    val builder= AlertDialog.Builder(this@ChaplainSignUp)
+                    builder.setTitle(R.string.chaplain_sign_up_ethnic_title_textView_text)
+
+                    // Set up the input
+                    val input = EditText(this@ChaplainSignUp)
+                    // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                    input.hint = getString(R.string.chaplain_sign_up_ethnic_title_textView_text)
+                    input.inputType = InputType.TYPE_CLASS_TEXT
+                    builder.setView(input)
+
+                    // Set up the buttons
+                    builder.setPositiveButton(getString(R.string.chaplain_sign_up_alert_ok_button), DialogInterface.OnClickListener { dialog, which ->
+                        // Here you get get input text from the Edittext
+                        val selection = input.text.toString()
+
+                        //assign input to chip and add chip
+                        chipChaplainEthnic.text = selection
+                        chaplain_ethnic_chip_group.addView(chipChaplainEthnic)
+                        Log.d("otherSelection: ", selection)
+                    })
+                    builder.setNegativeButton(getString(R.string.chaplain_sign_up_alert_cancel_button), DialogInterface.OnClickListener { dialog, which ->
+                        dialog.cancel()
+                    })
+
+                    builder.show()
+                }
+                chipChaplainEthnic.setOnClickListener {
+                    chaplain_ethnic_chip_group.removeView(chipChaplainEthnic)
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -388,6 +598,20 @@ class ChaplainSignUp : AppCompatActivity() {
 
         }
     }
+    //adding chaplain other languages to the screen using chips
+    private fun addOtherLanguage(){
+        chaplainProfileFieldOtherLanguage = chaplainSignUpeditTextOtherLang.text.toString()
+        val chipChaplainOtherLanguage= Chip(this@ChaplainSignUp)
+        chipChaplainOtherLanguage.text = chaplainProfileFieldOtherLanguage
+        chipChaplainOtherLanguage.isCloseIconVisible = true
+        chipChaplainOtherLanguage.setChipBackgroundColorResource(R.color.colorAccent)
+        chipChaplainOtherLanguage.setTextColor(resources.getColor(R.color.colorPrimary))
+
+        chaplain_other_languages_chip_group.addView(chipChaplainOtherLanguage)
+        chipChaplainOtherLanguage.setOnClickListener {
+            chaplain_other_languages_chip_group.removeView(chipChaplainOtherLanguage) }
+    }
+
 
     private fun pickImage() {
         if (ActivityCompat.checkSelfPermission(this,
@@ -431,15 +655,25 @@ class ChaplainSignUp : AppCompatActivity() {
                 isImageEmpty = true
             }
         }
+
+        if (requestCode == PICK_PDF_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+            val pdfUri = data.data //this is the pdf file path on the device
+            Log.d("pdfUri: ", pdfUri.toString())
+
+        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             READ_EXTERNAL_STORAGE_REQUEST_CODE -> {
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED && PICK_IMAGE_REQUEST_CODE == 1000) {
                     // pick image after request permission success
                     pickImage()
+                }
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED && PICK_PDF_REQUEST_CODE == 1002) {
+                    // pick image after request permission success
+                    selectPdf()
                 }
             }
         }
@@ -467,5 +701,31 @@ class ChaplainSignUp : AppCompatActivity() {
     companion object {
         const val PICK_IMAGE_REQUEST_CODE = 1000
         const val READ_EXTERNAL_STORAGE_REQUEST_CODE = 1001
+        const val PICK_PDF_REQUEST_CODE = 1002
     }
+
+    private fun takePermissionForPdf() {
+        if (ActivityCompat.checkSelfPermission(this,
+                android.Manifest.permission.READ_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED) {
+
+            selectPdf()
+
+        } else {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                READ_EXTERNAL_STORAGE_REQUEST_CODE
+            )
+        }
+    }
+
+    private fun selectPdf(){
+        val intent = Intent()
+        intent.type = "application/pdf"
+        intent.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(intent, PICK_PDF_REQUEST_CODE)
+    }
+
+
 }
