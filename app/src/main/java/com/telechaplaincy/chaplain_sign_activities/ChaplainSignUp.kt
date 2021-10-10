@@ -1,37 +1,42 @@
 package com.telechaplaincy.chaplain_sign_activities
 
-import android.app.ActionBar
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.provider.OpenableColumns
 import android.text.Html
 import android.text.InputType
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.view.marginLeft
 import com.google.android.material.chip.Chip
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.telechaplaincy.R
 import kotlinx.android.synthetic.main.activity_chaplain_sign_up.*
 import kotlinx.android.synthetic.main.activity_sign_up.*
-import kotlinx.android.synthetic.main.activity_sign_up.sign_up_page_go_back_login
 import java.io.File
-import java.util.jar.Manifest
+
 
 class ChaplainSignUp : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
+    private lateinit var storage: FirebaseStorage
+    private lateinit var user:FirebaseUser
+    private lateinit var storageReference: StorageReference
 
     private var userName: String = ""
     private var userSurName: String = ""
@@ -64,8 +69,9 @@ class ChaplainSignUp : AppCompatActivity() {
     private var chaplainProfileFieldPreferredLanguage:String = ""
     private var chaplainProfileFieldOtherLanguage:String = ""
     private var chaplainProfileFieldSsn:String = ""
-    private var otherSelection:String = ""
-
+    private lateinit var pdfUri:Uri
+    private var chaplainCvName: String = "" //this is for give a name to the chaplain cv when uploading cv to the firestore storage
+    private var chaplainCvUrl: String = ""   // this is chaplain uploaded cv link to reach cv later in the storage
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,6 +80,9 @@ class ChaplainSignUp : AppCompatActivity() {
         supportActionBar?.title = Html.fromHtml("<font color='#FBF3FE'>Tele Chaplaincy</font>")
 
         auth = FirebaseAuth.getInstance()
+
+        storage = FirebaseStorage.getInstance()
+        storageReference = storage.reference
 
         chaplainCollectionName = getString(R.string.chaplain_collection)
         chaplainProfileCollectionName = getString(R.string.chaplain_profile_collection)
@@ -103,6 +112,10 @@ class ChaplainSignUp : AppCompatActivity() {
 
         chaplain_sign_up_page_resume_button.setOnClickListener {
             takePermissionForPdf()
+
+        }
+        chaplain_sign_up_page_certificate_button.setOnClickListener {
+
         }
 
         //chaplain profile image selection
@@ -113,8 +126,18 @@ class ChaplainSignUp : AppCompatActivity() {
             }
         }
         chaplain_sign_up_page_back_button.setOnClickListener {
+            chaplain_sign_up_page_back_button.isClickable = false
             chaplain_profile_first_step_layout.visibility = View.VISIBLE
             chaplain_profile_second_step_layout.visibility = View.GONE
+            user.delete()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.d("user delete: ", "User account deleted.")
+                        chaplain_sign_up_page_back_button.isClickable = true
+                    }
+                }
+            chaplain_sign_up_page_resume_button.isClickable = true    //if back button is pressed, resume button will be active again
+            chaplain_cv_name_show_lineer_layout.visibility = View.GONE
         }
 
         //chaplain profile second page next button and profile info taking
@@ -126,7 +149,44 @@ class ChaplainSignUp : AppCompatActivity() {
         //sign up button click listener
         chaplain_sign_up_page_signUp_button.setOnClickListener {
             takeProfileInfoFirstPart()
+            chaplain_cv_progressBar.visibility = View.GONE
         }
+    }
+
+    private fun signUpChaplainToFirebase(){
+        chaplain_sign_up_page_signUp_button.isClickable = false
+        chaplain_signUp_page_progressBar.visibility = View.VISIBLE
+        auth.createUserWithEmailAndPassword(userEmail, userPassword)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    // Log.d("userIsCreated", "createUserWithEmail:success")
+                    // val user = auth.currentUser
+                    //   lse {
+                    // If sign in fails, display a message to the user.
+                    //Log.w("userIsNotCreated", "createUserWithEmail:failure", task.exception)
+                    chaplain_signUp_page_progressBar.visibility = View.GONE
+                    chaplain_sign_up_page_signUp_button.isClickable = true
+
+                    //this is for the going to the second part of the sign up
+                    chaplain_profile_first_step_layout.visibility = View.GONE
+                    chaplain_profile_second_step_layout.visibility = View.VISIBLE
+                    scrollView.smoothScrollTo(0, 0)
+
+                    if (auth.currentUser != null){
+                        user = auth.currentUser!!
+                        chaplainProfileFieldUserId = user.uid
+                    }
+                }
+                else{
+                    Toast.makeText(
+                        baseContext, task.exception.toString(),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    chaplain_signUp_page_progressBar.visibility = View.GONE
+                    chaplain_sign_up_page_signUp_button.isClickable = true
+                }
+            }
     }
 
     //chaplain sign up first part taking user info and checking the empty parts
@@ -190,9 +250,7 @@ class ChaplainSignUp : AppCompatActivity() {
                 R.string.sign_up_toast_message_checkBox_isChecked, Toast.LENGTH_SHORT
             ).show()
         } else {
-            chaplain_profile_first_step_layout.visibility = View.GONE
-            chaplain_profile_second_step_layout.visibility = View.VISIBLE
-            scrollView.smoothScrollTo(0,0)
+            signUpChaplainToFirebase()
 
         }
 
@@ -294,7 +352,11 @@ class ChaplainSignUp : AppCompatActivity() {
     //addressing title spinner item selection function
     private fun addressingTitleSelection(){
         val optionAddresing = resources.getStringArray(R.array.addressingTitleArray)
-        spinnerAdressingTitle.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, optionAddresing)
+        spinnerAdressingTitle.adapter = ArrayAdapter<String>(
+            this,
+            android.R.layout.simple_list_item_1,
+            optionAddresing
+        )
         spinnerAdressingTitle.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -303,46 +365,7 @@ class ChaplainSignUp : AppCompatActivity() {
                 id: Long
             ) {
                 chaplainProfileAddresTitle = optionAddresing[position]
-                val chipAddressingTitle = Chip(this@ChaplainSignUp)
-                chipAddressingTitle.isCloseIconVisible = true
-                chipAddressingTitle.setChipBackgroundColorResource(R.color.colorAccent)
-                chipAddressingTitle.setTextColor(resources.getColor(R.color.colorPrimary))
-                if (chaplainProfileAddresTitle != "Nothing Selected" && chaplainProfileAddresTitle != "Other"){
-                    chipAddressingTitle.text = chaplainProfileAddresTitle
-                    addressing_title_chip_group.addView(chipAddressingTitle)
-                }
-                else if (chaplainProfileAddresTitle == "Other"){
 
-                    //alert dialog create
-                    val builder= AlertDialog.Builder(this@ChaplainSignUp)
-                    builder.setTitle(R.string.chaplain_sign_up_addressing_title_textView_text)
-
-                    // Set up the input
-                    val input = EditText(this@ChaplainSignUp)
-                    // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-                    input.hint = getString(R.string.chaplain_sign_up_addressing_title_textView_text)
-                    input.inputType = InputType.TYPE_CLASS_TEXT
-                    builder.setView(input)
-
-                    // Set up the buttons
-                    builder.setPositiveButton(getString(R.string.chaplain_sign_up_alert_ok_button), DialogInterface.OnClickListener { dialog, which ->
-                        // Here you get get input text from the Edittext
-                        val selection = input.text.toString()
-
-                        //assign input to chip and add chip
-                        chipAddressingTitle.text = selection
-                        addressing_title_chip_group.addView(chipAddressingTitle)
-                        Log.d("otherSelection: ", selection)
-                    })
-                    builder.setNegativeButton(getString(R.string.chaplain_sign_up_alert_cancel_button), DialogInterface.OnClickListener { dialog, which ->
-                        dialog.cancel()
-                    })
-
-                    builder.show()
-                }
-                chipAddressingTitle.setOnClickListener {
-                    addressing_title_chip_group.removeView(chipAddressingTitle)
-                    }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -354,7 +377,11 @@ class ChaplainSignUp : AppCompatActivity() {
     //credentials title spinner item selection function
     private fun credentialsTitleSelection(){
         val optionCredential = resources.getStringArray(R.array.credentialsTitleArray)
-        spinnerCredentialsTitle.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, optionCredential)
+        spinnerCredentialsTitle.adapter = ArrayAdapter<String>(
+            this,
+            android.R.layout.simple_list_item_1,
+            optionCredential
+        )
         spinnerCredentialsTitle.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -386,18 +413,22 @@ class ChaplainSignUp : AppCompatActivity() {
                     builder.setView(input)
 
                     // Set up the buttons
-                    builder.setPositiveButton(getString(R.string.chaplain_sign_up_alert_ok_button), DialogInterface.OnClickListener { dialog, which ->
-                        // Here you get get input text from the Edittext
-                        val selection = input.text.toString()
+                    builder.setPositiveButton(
+                        getString(R.string.chaplain_sign_up_alert_ok_button),
+                        DialogInterface.OnClickListener { dialog, which ->
+                            // Here you get get input text from the Edittext
+                            val selection = input.text.toString()
 
-                        //assign input to chip and add chip
-                        chipCredentialTitle.text = selection
-                        credentials_chip_group.addView(chipCredentialTitle)
-                        Log.d("otherSelection: ", selection)
-                    })
-                    builder.setNegativeButton(getString(R.string.chaplain_sign_up_alert_cancel_button), DialogInterface.OnClickListener { dialog, which ->
-                        dialog.cancel()
-                    })
+                            //assign input to chip and add chip
+                            chipCredentialTitle.text = selection
+                            credentials_chip_group.addView(chipCredentialTitle)
+                            Log.d("otherSelection: ", selection)
+                        })
+                    builder.setNegativeButton(
+                        getString(R.string.chaplain_sign_up_alert_cancel_button),
+                        DialogInterface.OnClickListener { dialog, which ->
+                            dialog.cancel()
+                        })
 
                     builder.show()
                 }
@@ -417,7 +448,11 @@ class ChaplainSignUp : AppCompatActivity() {
     //chaplaincy Field spinner item selection function
     private fun chaplaincyFieldSelection(){
         val optionField = resources.getStringArray(R.array.chaplaincyFieldArray)
-        spinner_chaplain_field.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, optionField)
+        spinner_chaplain_field.adapter = ArrayAdapter<String>(
+            this,
+            android.R.layout.simple_list_item_1,
+            optionField
+        )
         spinner_chaplain_field.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -426,47 +461,19 @@ class ChaplainSignUp : AppCompatActivity() {
                 id: Long
             ) {
                 chaplainProfileFieldChaplainField = optionField[position]
-                val chipChaplainFieldTitle = Chip(this@ChaplainSignUp)
-                chipChaplainFieldTitle.isCloseIconVisible = true
-                chipChaplainFieldTitle.setChipBackgroundColorResource(R.color.colorAccent)
-                chipChaplainFieldTitle.setTextColor(resources.getColor(R.color.colorPrimary))
-                if (chaplainProfileFieldChaplainField != "Nothing Selected" && chaplainProfileFieldChaplainField != "Other"){
+                if (chaplainProfileFieldChaplainField != "Nothing Selected"){
+                    val chipChaplainFieldTitle = Chip(this@ChaplainSignUp)
+                    chipChaplainFieldTitle.isCloseIconVisible = true
+                    chipChaplainFieldTitle.setChipBackgroundColorResource(R.color.colorAccent)
+                    chipChaplainFieldTitle.setTextColor(resources.getColor(R.color.colorPrimary))
                     chipChaplainFieldTitle.text = chaplainProfileFieldChaplainField
                     chaplain_field_chip_group.addView(chipChaplainFieldTitle)
+
+                    chipChaplainFieldTitle.setOnClickListener {
+                        chaplain_field_chip_group.removeView(chipChaplainFieldTitle)
+                    }
                 }
 
-                else if (chaplainProfileFieldChaplainField == "Other"){
-
-                    //alert dialog create
-                    val builder= AlertDialog.Builder(this@ChaplainSignUp)
-                    builder.setTitle(R.string.chaplain_sign_up_chaplaincy_field)
-
-                    // Set up the input
-                    val input = EditText(this@ChaplainSignUp)
-                    // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-                    input.hint = getString(R.string.chaplain_sign_up_chaplaincy_field)
-                    input.inputType = InputType.TYPE_CLASS_TEXT
-                    builder.setView(input)
-
-                    // Set up the buttons
-                    builder.setPositiveButton(getString(R.string.chaplain_sign_up_alert_ok_button), DialogInterface.OnClickListener { dialog, which ->
-                        // Here you get get input text from the Edittext
-                        val selection = input.text.toString()
-
-                        //assign input to chip and add chip
-                        chipChaplainFieldTitle.text = selection
-                        chaplain_field_chip_group.addView(chipChaplainFieldTitle)
-                        Log.d("otherSelection: ", selection)
-                    })
-                    builder.setNegativeButton(getString(R.string.chaplain_sign_up_alert_cancel_button), DialogInterface.OnClickListener { dialog, which ->
-                        dialog.cancel()
-                    })
-
-                    builder.show()
-                }
-                chipChaplainFieldTitle.setOnClickListener {
-                    chaplain_field_chip_group.removeView(chipChaplainFieldTitle)
-                }
 
             }
 
@@ -480,7 +487,11 @@ class ChaplainSignUp : AppCompatActivity() {
     //chaplaincy faith spinner item selection function
     private fun chaplaincyFaithSelection(){
         val optionFaith = resources.getStringArray(R.array.faithAffiliationArray)
-        spinner_chaplain_faith.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, optionFaith)
+        spinner_chaplain_faith.adapter = ArrayAdapter<String>(
+            this,
+            android.R.layout.simple_list_item_1,
+            optionFaith
+        )
         spinner_chaplain_faith.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -511,18 +522,22 @@ class ChaplainSignUp : AppCompatActivity() {
                     builder.setView(input)
 
                     // Set up the buttons
-                    builder.setPositiveButton(getString(R.string.chaplain_sign_up_alert_ok_button), DialogInterface.OnClickListener { dialog, which ->
-                        // Here you get get input text from the Edittext
-                        val selection = input.text.toString()
+                    builder.setPositiveButton(
+                        getString(R.string.chaplain_sign_up_alert_ok_button),
+                        DialogInterface.OnClickListener { dialog, which ->
+                            // Here you get get input text from the Edittext
+                            val selection = input.text.toString()
 
-                        //assign input to chip and add chip
-                        chipChaplainFaith.text = selection
-                        chaplain_faith_chip_group.addView(chipChaplainFaith)
-                        Log.d("otherSelection: ", selection)
-                    })
-                    builder.setNegativeButton(getString(R.string.chaplain_sign_up_alert_cancel_button), DialogInterface.OnClickListener { dialog, which ->
-                        dialog.cancel()
-                    })
+                            //assign input to chip and add chip
+                            chipChaplainFaith.text = selection
+                            chaplain_faith_chip_group.addView(chipChaplainFaith)
+                            Log.d("otherSelection: ", selection)
+                        })
+                    builder.setNegativeButton(
+                        getString(R.string.chaplain_sign_up_alert_cancel_button),
+                        DialogInterface.OnClickListener { dialog, which ->
+                            dialog.cancel()
+                        })
 
                     builder.show()
                 }
@@ -541,7 +556,11 @@ class ChaplainSignUp : AppCompatActivity() {
     //chaplaincy Ethnic Background spinner item selection function
     private fun chaplainEthnicBackgroundSelection(){
         val optionEthnic = resources.getStringArray(R.array.ethnicBackgroundArray)
-        spinner_chaplain_ethnic.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, optionEthnic)
+        spinner_chaplain_ethnic.adapter = ArrayAdapter<String>(
+            this,
+            android.R.layout.simple_list_item_1,
+            optionEthnic
+        )
         spinner_chaplain_ethnic.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -572,18 +591,22 @@ class ChaplainSignUp : AppCompatActivity() {
                     builder.setView(input)
 
                     // Set up the buttons
-                    builder.setPositiveButton(getString(R.string.chaplain_sign_up_alert_ok_button), DialogInterface.OnClickListener { dialog, which ->
-                        // Here you get get input text from the Edittext
-                        val selection = input.text.toString()
+                    builder.setPositiveButton(
+                        getString(R.string.chaplain_sign_up_alert_ok_button),
+                        DialogInterface.OnClickListener { dialog, which ->
+                            // Here you get get input text from the Edittext
+                            val selection = input.text.toString()
 
-                        //assign input to chip and add chip
-                        chipChaplainEthnic.text = selection
-                        chaplain_ethnic_chip_group.addView(chipChaplainEthnic)
-                        Log.d("otherSelection: ", selection)
-                    })
-                    builder.setNegativeButton(getString(R.string.chaplain_sign_up_alert_cancel_button), DialogInterface.OnClickListener { dialog, which ->
-                        dialog.cancel()
-                    })
+                            //assign input to chip and add chip
+                            chipChaplainEthnic.text = selection
+                            chaplain_ethnic_chip_group.addView(chipChaplainEthnic)
+                            Log.d("otherSelection: ", selection)
+                        })
+                    builder.setNegativeButton(
+                        getString(R.string.chaplain_sign_up_alert_cancel_button),
+                        DialogInterface.OnClickListener { dialog, which ->
+                            dialog.cancel()
+                        })
 
                     builder.show()
                 }
@@ -614,7 +637,8 @@ class ChaplainSignUp : AppCompatActivity() {
 
 
     private fun pickImage() {
-        if (ActivityCompat.checkSelfPermission(this,
+        if (ActivityCompat.checkSelfPermission(
+                this,
                 android.Manifest.permission.READ_EXTERNAL_STORAGE
             ) == PackageManager.PERMISSION_GRANTED) {
             val intent = Intent(
@@ -657,13 +681,78 @@ class ChaplainSignUp : AppCompatActivity() {
         }
 
         if (requestCode == PICK_PDF_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
-            val pdfUri = data.data //this is the pdf file path on the device
-            Log.d("pdfUri: ", pdfUri.toString())
+            pdfUri = data.data!! //this is the pdf file path on the device
+            //Log.d("pdfUri: ", pdfUri.toString())
+            chaplainCvName = data.data!!.lastPathSegment.toString()
 
+            if (pdfUri.toString().startsWith("content://")) {
+                var cursor: Cursor? = null
+                try {
+                    cursor = applicationContext.contentResolver.query(pdfUri, null, null, null, null)
+                    if (cursor != null && cursor.moveToFirst()) {
+                        chaplainCvName =
+                            cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+                    }
+                } finally {
+                    cursor?.close()
+                }
+            }
+
+            if (pdfUri != null){
+
+                uploadFile(pdfUri)
+
+            }
+            else{
+                val toast = Toast.makeText(
+                    this,
+                    R.string.sign_up_toast_message_pdf_file_is_not_selected,
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    private fun uploadFile(pdfUri: Uri){
+        chaplain_cv_progressBar.progress = 0
+
+        chaplain_sign_up_page_resume_button.isClickable = false
+
+        val ref = storageReference.child("chaplain").child(chaplainProfileFieldUserId).child("resume").child(
+            "Chaplain Cv"
+        )
+        ref.putFile(pdfUri)
+            .addOnFailureListener {
+            // Handle unsuccessful uploads
+           // Log.d("file: ", "error")
+            chaplain_cv_progressBar.visibility = View.GONE
+            chaplain_cv_name_show_lineer_layout.visibility = View.VISIBLE
+            resumeFileNameTextView.text = chaplainCvName
+            imageViewResumeOk.setImageResource(R.drawable.ic_baseline_cancel_24)
+            chaplain_sign_up_page_resume_button.isClickable = true
+            }
+            .addOnSuccessListener {
+
+                chaplain_cv_progressBar.visibility = View.GONE
+               // Log.d("file: ", "file uploaded")
+                chaplain_cv_name_show_lineer_layout.visibility = View.VISIBLE
+                resumeFileNameTextView.text = chaplainCvName
+
+        }
+            .addOnProgressListener { task ->
+                chaplain_cv_progressBar.visibility = View.VISIBLE
+                val currentProgress:Int = ((100*task.bytesTransferred)/task.totalByteCount).toInt()
+                chaplain_cv_progressBar.progress = currentProgress
+                //Log.d("progress: ", currentProgress.toString())
+            }
+
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             READ_EXTERNAL_STORAGE_REQUEST_CODE -> {
@@ -705,7 +794,8 @@ class ChaplainSignUp : AppCompatActivity() {
     }
 
     private fun takePermissionForPdf() {
-        if (ActivityCompat.checkSelfPermission(this,
+        if (ActivityCompat.checkSelfPermission(
+                this,
                 android.Manifest.permission.READ_EXTERNAL_STORAGE
             ) == PackageManager.PERMISSION_GRANTED) {
 

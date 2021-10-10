@@ -140,6 +140,8 @@
     //sign up page toast message if year of birth date is empty
     <string name="sign_up_toast_message_enter_ssn">Please enter your ssn</string>
     //sign up page toast message if year of birth date is empty
+    <string name="sign_up_toast_message_pdf_file_is_not_selected">Please select a pdf file again</string>
+    //sign up page toast message if pdf file selection a problem happens. file url is empty
 
     //Firestore chaplain document and collection names
     <string name="chaplain_collection">chaplain</string>
@@ -162,7 +164,6 @@
         <item>Fr.</item>
         <item>Sr.Fr.</item>
         <item>Br.</item>
-        <item>Other</item>
     </string-array>
 
     //Spinner array for credentials title in the chaplain sign up page
@@ -206,7 +207,6 @@
         <item>Prison/Correctional Facilities Ch</item>
         <item>Corporate Ch.</item>
         <item>Pet Ch.</item>
-        <item>Other</item>
     </string-array>
 
     //Spinner array for faith affiliation in the chaplain sign up page

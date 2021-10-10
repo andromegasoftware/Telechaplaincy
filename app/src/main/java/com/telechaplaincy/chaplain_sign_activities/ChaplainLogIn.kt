@@ -32,6 +32,7 @@ class ChaplainLogIn : AppCompatActivity() {
         chaplain_login_page_sign_up_textView.setOnClickListener(View.OnClickListener {
             val intent = Intent(this, ChaplainSignUp::class.java)
             startActivity(intent)
+            finish()
         })
 
         //forgot password textView click listener
