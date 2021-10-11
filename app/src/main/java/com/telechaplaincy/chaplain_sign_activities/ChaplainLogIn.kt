@@ -6,14 +6,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
-import com.telechaplaincy.ChaplainMainActivity
-import com.telechaplaincy.MainActivity
+import com.telechaplaincy.chaplain.ChaplainMainActivity
+import com.telechaplaincy.MainEntry
 import com.telechaplaincy.R
 import com.telechaplaincy.patient_sign_activities.ForgotPassword
-import com.telechaplaincy.patient_sign_activities.LoginPage
-import com.telechaplaincy.patient_sign_activities.SignUpActivity
 import kotlinx.android.synthetic.main.activity_chaplain_log_in.*
-import kotlinx.android.synthetic.main.activity_log_in.*
 
 class ChaplainLogIn : AppCompatActivity() {
 
@@ -32,20 +29,12 @@ class ChaplainLogIn : AppCompatActivity() {
         chaplain_login_page_sign_up_textView.setOnClickListener(View.OnClickListener {
             val intent = Intent(this, ChaplainSignUp::class.java)
             startActivity(intent)
-            finish()
         })
 
         //forgot password textView click listener
         chaplain_login_activity_forgot_password_textView.setOnClickListener {
             val intent = Intent(this, ForgotPassword::class.java)
             startActivity(intent)
-        }
-
-        //patient login page opening click listener
-        chaplain_login_activity_patient_textView.setOnClickListener {
-            val intent = Intent(this, LoginPage::class.java)
-            startActivity(intent)
-            finish()
         }
 
         //login button click listener
@@ -97,4 +86,11 @@ class ChaplainLogIn : AppCompatActivity() {
             finish()
 
         }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intent = Intent(this, MainEntry::class.java)
+        startActivity(intent)
+        finish()
+    }
 }

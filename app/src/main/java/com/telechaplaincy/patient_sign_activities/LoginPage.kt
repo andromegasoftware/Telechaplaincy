@@ -6,9 +6,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
-import com.telechaplaincy.MainActivity
+import com.telechaplaincy.patient.PatientMainActivity
+import com.telechaplaincy.MainEntry
 import com.telechaplaincy.R
-import com.telechaplaincy.chaplain_sign_activities.ChaplainLogIn
 import kotlinx.android.synthetic.main.activity_log_in.*
 
 class LoginPage : AppCompatActivity() {
@@ -23,13 +23,6 @@ class LoginPage : AppCompatActivity() {
         setContentView(R.layout.activity_log_in)
 
         auth = FirebaseAuth.getInstance()
-
-        //chaplain login page opening click listener
-        log_in_chaplain_textView.setOnClickListener {
-            val intent = Intent(this, ChaplainLogIn::class.java)
-            startActivity(intent)
-            finish()
-        }
 
         //sign up activity click listener
         login_page_sign_up_textView.setOnClickListener(View.OnClickListener {
@@ -84,19 +77,26 @@ class LoginPage : AppCompatActivity() {
         // Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = auth.currentUser
         if(currentUser != null){
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, PatientMainActivity::class.java)
             startActivity(intent)
         }
     }
 
     //when sign in ok, what will happen
     private fun updateUI(){
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, PatientMainActivity::class.java)
         startActivity(intent)
         //val toast = Toast.makeText(this, R.string.sign_up_toast_account_created, Toast.LENGTH_SHORT).show()
         login_page_progressBar.visibility = View.GONE
         login_page_login_button.isClickable = true
         finish()
 
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intent = Intent(this, MainEntry::class.java)
+        startActivity(intent)
+        finish()
     }
 }

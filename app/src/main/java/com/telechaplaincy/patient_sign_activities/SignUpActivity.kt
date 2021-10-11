@@ -8,7 +8,7 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.telechaplaincy.MainActivity
+import com.telechaplaincy.patient.PatientMainActivity
 import com.telechaplaincy.R
 import kotlinx.android.synthetic.main.activity_sign_up.*
 
@@ -109,10 +109,11 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
     private fun updateUI(){
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, PatientMainActivity::class.java)
         startActivity(intent)
         val toast = Toast.makeText(this, R.string.sign_up_toast_account_created, Toast.LENGTH_SHORT).show()
         sign_up_page_progressBar.visibility = View.GONE
+        sign_up_page_signUp_button.isClickable = true
 
         val userId = auth.currentUser?.uid
         val profile = userId?.let { UserProfile(userName, userSurName, userEmail, it) }

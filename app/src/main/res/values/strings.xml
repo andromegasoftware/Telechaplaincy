@@ -94,7 +94,7 @@
     <string name="chaplain_sign_up_title">Chaplain Sing Up</string>
     <string name="chaplain_sign_up_alert_ok_button">OK</string>
     <string name="chaplain_sign_up_alert_cancel_button">CANCEL</string>
-    <string name="chaplain_sign_up_next_button">NEXT</string>
+    <string name="chaplain_sign_up_next_button">SIGN UP</string>
     <string name="chaplain_sign_up_addressing_title_textView_text">Addressing Title</string>
     <string name="chaplain_sign_up_credential_title_textView_text">Credentials Title</string>
     <string name="chaplain_sign_up_chaplain_field_title_textView_text">Chaplaincy Field</string>

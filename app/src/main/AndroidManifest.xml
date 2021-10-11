@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.telechaplaincy">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -12,24 +12,30 @@
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".chaplain_sign_activities.ChaplainSignUp"
-            android:theme="@style/ChaplainSignUpPageTheme"/>
-        <activity android:name=".ChaplainMainActivity" />
-        <activity android:name=".chaplain_sign_activities.ChaplainLogIn" />
+        <activity android:name=".chaplain.ChaplainMainActivity"></activity>
         <activity
-            android:name=".patient_sign_activities.ForgotPassword"
-            android:parentActivityName=".patient_sign_activities.LoginPage" />
-        <activity android:name=".MainActivity" />
-        <activity
-            android:name=".patient_sign_activities.SignUpActivity"
-            android:parentActivityName=".patient_sign_activities.LoginPage" />
-        <activity android:name=".patient_sign_activities.LoginPage">
+            android:name=".chaplain_sign_activities.ChaplainSignUpSecondPart"
+            android:theme="@style/ChaplainSignUpPageTheme" />
+        <activity android:name=".MainEntry">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".chaplain_sign_activities.ChaplainSignUp"
+            android:parentActivityName=".chaplain_sign_activities.ChaplainLogIn" />
+        <activity android:name=".chaplain.ChaplainMainActivity" />
+        <activity android:name=".chaplain_sign_activities.ChaplainLogIn" />
+        <activity
+            android:name=".patient_sign_activities.ForgotPassword"
+            android:parentActivityName=".patient_sign_activities.LoginPage" />
+        <activity android:name=".patient.PatientMainActivity" />
+        <activity
+            android:name=".patient_sign_activities.SignUpActivity"
+            android:parentActivityName=".patient_sign_activities.LoginPage" />
+        <activity android:name=".patient_sign_activities.LoginPage" />
     </application>
 
 </manifest>
