@@ -83,7 +83,13 @@ class ChaplainSignUp : AppCompatActivity() {
     }
 
     private fun uploadImage(){
-        val ref = storageReference.child("chaplain/${chaplainProfileFieldUserId}/profile photo/Chaplain Profile Photo")
+        if (auth.currentUser != null){
+            user = auth.currentUser!!
+            chaplainProfileFieldUserId = user.uid
+
+        }
+        val ref = storageReference.child("chaplain").child(chaplainProfileFieldUserId)
+            .child("profile photo").child("Chaplain Profile Photo")
 
         val uploadTask = ref.putFile(imageFile)
             .addOnFailureListener {
@@ -122,12 +128,6 @@ class ChaplainSignUp : AppCompatActivity() {
         chaplain_signUp_page_progressBar.visibility = View.GONE
         chaplain_sign_up_page_signUp_button.isClickable = true
 
-        if (auth.currentUser != null){
-            user = auth.currentUser!!
-            chaplainProfileFieldUserId = user.uid
-
-        }
-
         val profile = ChaplainUserProfile(userName, userSurName, userEmail, chaplainProfileFieldUserId, imageLink)
 
         db.collection(chaplainCollectionName).document(chaplainProfileFieldUserId)
@@ -141,6 +141,8 @@ class ChaplainSignUp : AppCompatActivity() {
             }
 
         finish()
+        val chaplainLogIn = ChaplainLogIn()
+        chaplainLogIn.finish()
 
     }
 

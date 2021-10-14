@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.telechaplaincy.chaplain.ChaplainMainActivity
 import com.telechaplaincy.MainEntry
 import com.telechaplaincy.R
+import com.telechaplaincy.patient.PatientMainActivity
 import com.telechaplaincy.patient_sign_activities.ForgotPassword
 import kotlinx.android.synthetic.main.activity_chaplain_log_in.*
 
@@ -92,5 +93,15 @@ class ChaplainLogIn : AppCompatActivity() {
         val intent = Intent(this, MainEntry::class.java)
         startActivity(intent)
         finish()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // Check if user is signed in (non-null) and update UI accordingly.
+        val currentUser = auth.currentUser
+        if(currentUser != null){
+            val intent = Intent(this, ChaplainMainActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

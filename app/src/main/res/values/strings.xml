@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Tele Chaplaincy</string>
 
-    //login page string
-    <string name="login_page_textView_title_login">Login</string>
+    //Patient login page string
+    <string name="login_page_textView_title_login">Patient Login</string>
     //login page login title textView
     <string name="login_page_editText_email_enter">Email</string>
     //login page email enter editText
@@ -23,7 +23,7 @@
 
 
     //sign up page strings
-    <string name="sign_up_page_title">SIGN UP</string>
+    <string name="sign_up_page_title">Patient Sign Up</string>
     //Sign up page title textView
 
     <string name="sign_up_page_name">Name</string>
@@ -94,7 +94,8 @@
     <string name="chaplain_sign_up_title">Chaplain Sing Up</string>
     <string name="chaplain_sign_up_alert_ok_button">OK</string>
     <string name="chaplain_sign_up_alert_cancel_button">CANCEL</string>
-    <string name="chaplain_sign_up_next_button">SIGN UP</string>
+    <string name="chaplain_sign_up_sign_up_button">SIGN UP</string>
+    <string name="chaplain_sign_up_next_button">Save</string>
     <string name="chaplain_sign_up_addressing_title_textView_text">Addressing Title</string>
     <string name="chaplain_sign_up_credential_title_textView_text">Credentials Title</string>
     <string name="chaplain_sign_up_chaplain_field_title_textView_text">Chaplaincy Field</string>

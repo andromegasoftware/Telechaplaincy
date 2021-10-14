@@ -165,7 +165,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginRight="20dp"
                     android:background="@drawable/button_shape"
-                    android:text="@string/chaplain_sign_up_next_button"
+                    android:text="@string/chaplain_sign_up_sign_up_button"
                     android:textColor="@color/design_default_color_background" />
 
                 <ProgressBar

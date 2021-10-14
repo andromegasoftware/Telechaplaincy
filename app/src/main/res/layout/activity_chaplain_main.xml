@@ -10,7 +10,19 @@
         android:id="@+id/chaplain_logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:layout_marginStart="124dp"
+        android:layout_marginTop="168dp"
+        android:text="Chaplain Sıgn Out"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/chaplain_signUp_continue_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="93dp"
+        android:layout_marginEnd="35dp"
+        android:text="Sign Up"
+        app:layout_constraintEnd_toEndOf="@+id/chaplain_logout"
+        app:layout_constraintTop_toBottomOf="@+id/chaplain_logout" />
 </androidx.constraintlayout.widget.ConstraintLayout>

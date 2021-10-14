@@ -62,14 +62,24 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
     private var chaplainProfileFieldSsn:String = ""
     private lateinit var pdfUri: Uri
     private var chaplainCvName: String = "" //this is for give a name to the chaplain cv when uploading cv to the firestore storage
-    private var chaplainCvUrl: String = ""   // this is chaplain uploaded cv link to reach cv later in the storage
+    var chaplainCvUrl: String = ""   // this is chaplain uploaded cv link to reach cv later in the storage
+    var chaplainCertificateUrl: String = ""   // this is chaplain uploaded cv link to reach cv later in the storage
+    var cvOrCertficate:Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chaplain_sign_up_second_part)
         supportActionBar?.title = Html.fromHtml("<font color='#FBF3FE'>Tele Chaplaincy</font>")
 
+        //this is for the progress bar visibility in the chaplain cv upload
+        chaplain_cv_progressBar.visibility = View.GONE
+        chaplain_certificate_progressBar.visibility = View.GONE
+
         auth = FirebaseAuth.getInstance()
+        if (auth.currentUser != null){
+            user = auth.currentUser!!
+            chaplainProfileFieldUserId = user.uid
+        }
 
         storage = FirebaseStorage.getInstance()
         storageReference = storage.reference
@@ -95,17 +105,12 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
             chaplainSignUpeditTextOtherLang.text.clear()
         }
 
-        //go back login page textView click listener
-        chaplain_sign_up_page_go_back_login.setOnClickListener {
-            finish()
-        }
-
         chaplain_sign_up_page_resume_button.setOnClickListener {
             takePermissionForPdf()
-
         }
         chaplain_sign_up_page_certificate_button.setOnClickListener {
-
+            takePermissionForPdf()
+            cvOrCertficate = 2
         }
 
 
@@ -113,6 +118,14 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
         chaplain_sign_up_page_next_button.setOnClickListener {
             takeProfileInfo()
 
+        }
+
+        //this is for the deleting chaplain cv file from storage when the user click the delete image
+        imageViewResumeDelete.setOnClickListener {
+            deleteCv()
+        }
+        imageViewCertificateDelete.setOnClickListener {
+            deleteCertificate()
         }
 
     }
@@ -520,8 +533,14 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
             }
 
             if (pdfUri != null){
+                if (cvOrCertficate == 1){
+                    uploadFile(pdfUri)
+                    Log.d("cvOrCertficate", cvOrCertficate.toString())
+                }else{
+                    uploadFileCertificate(pdfUri)
+                    Log.d("cvOrCertficate", cvOrCertficate.toString())
+                }
 
-                uploadFile(pdfUri)
 
             }
             else{
@@ -539,10 +558,9 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
 
         chaplain_sign_up_page_resume_button.isClickable = false
 
-        val ref = storageReference.child("chaplain").child(chaplainProfileFieldUserId).child("resume").child(
-            "Chaplain Cv"
-        )
-        ref.putFile(pdfUri)
+        val ref = storageReference.child("chaplain").child(chaplainProfileFieldUserId)
+            .child("resume").child("Chaplain Cv")
+       val uploadTask =  ref.putFile(pdfUri)
             .addOnFailureListener {
                 // Handle unsuccessful uploads
                 // Log.d("file: ", "error")
@@ -558,6 +576,7 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
                 // Log.d("file: ", "file uploaded")
                 chaplain_cv_name_show_lineer_layout.visibility = View.VISIBLE
                 resumeFileNameTextView.text = chaplainCvName
+                chaplain_sign_up_page_resume_button.isClickable = true
 
             }
             .addOnProgressListener { task ->
@@ -566,6 +585,107 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
                 chaplain_cv_progressBar.progress = currentProgress
                 //Log.d("progress: ", currentProgress.toString())
             }
+        val urlTask = uploadTask.continueWithTask { task ->
+            if (!task.isSuccessful) {
+                task.exception?.let {
+                    throw it
+                }
+            }
+            ref.downloadUrl
+        }.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                chaplainCvUrl = task.result.toString()
+
+                Log.d("pdfLink: ", chaplainCvUrl)
+            } else {
+                // Handle failures
+                // ...
+            }
+        }
+
+
+    }
+
+    private fun deleteCv(){
+        chaplain_cv_name_show_lineer_layout.visibility = View.GONE
+        val ref = storageReference.child("chaplain").child(chaplainProfileFieldUserId)
+            .child("resume").child("Chaplain Cv")
+
+        ref.delete().addOnSuccessListener {
+            // File deleted successfully
+            Log.d("pdfLinkDelete: ", "deleted")
+            chaplainCvUrl = ""
+        }.addOnFailureListener {
+            // Uh-oh, an error occurred!
+            Log.d("pdfLinkDelete: ", "not deleted")
+        }
+
+    }
+    private fun deleteCertificate(){
+        chaplain_certificate_name_lineer_layout.visibility = View.GONE
+        val ref = storageReference.child("chaplain").child(chaplainProfileFieldUserId)
+            .child("certificate").child("Chaplain Certificate")
+
+        ref.delete().addOnSuccessListener {
+            // File deleted successfully
+            Log.d("pdfLinkDelete: ", "deleted")
+            chaplainCertificateUrl = ""
+        }.addOnFailureListener {
+            // Uh-oh, an error occurred!
+            Log.d("pdfLinkDelete: ", "not deleted")
+        }
+    }
+
+    private fun uploadFileCertificate(pdfUri: Uri){
+        chaplain_certificate_progressBar.progress = 0
+
+        chaplain_sign_up_page_certificate_button.isClickable = false
+
+        val ref = storageReference.child("chaplain").child(chaplainProfileFieldUserId)
+            .child("certificate").child("Chaplain Certificate")
+        val uploadTask =  ref.putFile(pdfUri)
+            .addOnFailureListener {
+                // Handle unsuccessful uploads
+                // Log.d("file: ", "error")
+                chaplain_certificate_progressBar.visibility = View.GONE
+                chaplain_certificate_name_lineer_layout.visibility = View.VISIBLE
+                certificateFileNameTextView.text = chaplainCvName
+                imageViewCertificateOk.setImageResource(R.drawable.ic_baseline_cancel_24)
+                chaplain_sign_up_page_certificate_button.isClickable = true
+            }
+            .addOnSuccessListener {
+
+                chaplain_certificate_progressBar.visibility = View.GONE
+                // Log.d("file: ", "file uploaded")
+                chaplain_certificate_name_lineer_layout.visibility = View.VISIBLE
+                certificateFileNameTextView.text = chaplainCvName
+                chaplain_sign_up_page_certificate_button.isClickable = true
+
+            }
+            .addOnProgressListener { task ->
+                chaplain_certificate_progressBar.visibility = View.VISIBLE
+                val currentProgress:Int = ((100*task.bytesTransferred)/task.totalByteCount).toInt()
+                chaplain_certificate_progressBar.progress = currentProgress
+                //Log.d("progress: ", currentProgress.toString())
+            }
+        val urlTask = uploadTask.continueWithTask { task ->
+            if (!task.isSuccessful) {
+                task.exception?.let {
+                    throw it
+                }
+            }
+            ref.downloadUrl
+        }.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                chaplainCertificateUrl = task.result.toString()
+
+                Log.d("pdfLink: ", chaplainCertificateUrl)
+            } else {
+                // Handle failures
+                // ...
+            }
+        }
+
 
     }
 
@@ -578,7 +698,7 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
         when (requestCode) {
             READ_EXTERNAL_STORAGE_REQUEST_CODE -> {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED && PICK_PDF_REQUEST_CODE == 1002) {
-                    // pick image after request permission success
+                    // pick pdf after request permission success
                     selectPdf()
                 }
             }

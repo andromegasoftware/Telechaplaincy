@@ -382,6 +382,14 @@
                 app:icon="@drawable/ic_baseline_cloud_upload_24"
                 app:iconGravity="textStart" />
 
+            <ProgressBar
+                android:id="@+id/chaplain_certificate_progressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                tools:visibility="gone" />
+
             <LinearLayout
                 android:id="@+id/chaplain_cv_name_show_lineer_layout"
                 android:layout_width="match_parent"
@@ -404,6 +412,7 @@
                     android:id="@+id/resumeFileNameTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
                     android:layout_weight="8"
                     android:text="TextView"
                     android:textSize="18sp"
@@ -418,12 +427,14 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/chaplain_certificate_name_lineer_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="10dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/imageViewCertificateOk"
@@ -436,6 +447,7 @@
                     android:id="@+id/certificateFileNameTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
                     android:layout_weight="8"
                     android:text="TextView"
                     android:textSize="18sp"
@@ -457,19 +469,9 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/chaplain_sign_up_page_back_button"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/button_shape"
-                    android:gravity="center"
-                    android:text="@string/chaplain_sign_up_back_button"
-                    android:textColor="@color/design_default_color_background" />
-
-                <Button
                     android:id="@+id/chaplain_sign_up_page_next_button"
-                    android:layout_width="150dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
                     android:background="@drawable/button_shape"
                     android:gravity="center"
                     android:text="@string/chaplain_sign_up_next_button"

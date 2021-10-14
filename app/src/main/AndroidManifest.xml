@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".chaplain.ChaplainMainActivity"></activity>
+        <activity android:name=".chaplain.ChaplainMainActivity"/>
         <activity
             android:name=".chaplain_sign_activities.ChaplainSignUpSecondPart"
             android:theme="@style/ChaplainSignUpPageTheme" />
@@ -26,7 +26,6 @@
         <activity
             android:name=".chaplain_sign_activities.ChaplainSignUp"
             android:parentActivityName=".chaplain_sign_activities.ChaplainLogIn" />
-        <activity android:name=".chaplain.ChaplainMainActivity" />
         <activity android:name=".chaplain_sign_activities.ChaplainLogIn" />
         <activity
             android:name=".patient_sign_activities.ForgotPassword"

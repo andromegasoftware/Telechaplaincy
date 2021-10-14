@@ -124,6 +124,8 @@ class SignUpActivity : AppCompatActivity() {
         }
 
         finish()
+        val loginPage = LoginPage()
+        loginPage.finish()
 
     }
 
