@@ -96,6 +96,7 @@
     <string name="chaplain_sign_up_alert_cancel_button">CANCEL</string>
     <string name="chaplain_sign_up_sign_up_button">SIGN UP</string>
     <string name="chaplain_sign_up_next_button">Save</string>
+    <string name="chaplain_sign_up_next_button_after_save">PROFILE INFO SAVED</string>
     <string name="chaplain_sign_up_addressing_title_textView_text">Addressing Title</string>
     <string name="chaplain_sign_up_credential_title_textView_text">Credentials Title</string>
     <string name="chaplain_sign_up_chaplain_field_title_textView_text">Chaplaincy Field</string>
@@ -119,6 +120,12 @@
     <string name="chaplain_sign_up_preferred_language">Preferred Language</string>
     <string name="chaplain_sign_up_other_language">Other languages you can minister in</string>
     <string name="chaplain_sign_up_ssn">SSN (for background check)</string>
+    <string name="chaplain_sign_ordained">Are you currently Ordained /Endorsed?</string>
+    <string name="chaplain_sign_ordained_hint">If yes Ordaining /Endorsing faith group \nand organization name</string>
+    <string name="chaplain_sign_ordained_period">Ordination and Endorsement Period</string>
+    <string name="chaplain_sign_add_cri">Additional credentials</string>
+    <string name="chaplain_sign_exp_title">Short Bio</string>
+    <string name="chaplain_sign_exp">Tell the patients about yourself</string>
     <string name="sign_up_toast_message_enter_phone">Please enter phone number</string>
     //sign up page toast message if phone number is empty
     <string name="sign_up_toast_message_enter_birth_day">Please enter day of birth date</string>
@@ -143,6 +150,14 @@
     //sign up page toast message if year of birth date is empty
     <string name="sign_up_toast_message_pdf_file_is_not_selected">Please select a pdf file again</string>
     //sign up page toast message if pdf file selection a problem happens. file url is empty
+    <string name="sign_up_toast_message_pdf_file_upload">Please upload your CV</string>
+    //sign up page toast message if cv is not uploaded
+    <string name="sign_up_toast_message_pdf_file_certificate">Please upload your Certificate</string>
+    //sign up page toast message if cv is not uploaded
+    <string name="sign_up_toast_message_data_uploaded">Your profile info saved successfully</string>
+    //sign up page toast message if chaplin data uploaded to the firestore
+    <string name="sign_up_toast_message_data_not_uploaded">Sorry, Profile info could not save. Please try again later.</string>
+    //sign up page toast message if chaplin data uploaded to the firestore
 
     //Firestore chaplain document and collection names
     <string name="chaplain_collection">chaplain</string>

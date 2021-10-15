@@ -1,5 +1,6 @@
 package com.telechaplaincy.chaplain_sign_activities
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.DialogInterface
@@ -14,7 +15,9 @@ import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.text.Html
 import android.text.InputType
+import android.text.method.ScrollingMovementMethod
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -24,6 +27,8 @@ import androidx.core.app.ActivityCompat
 import com.google.android.material.chip.Chip
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -41,6 +46,7 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
     private lateinit var storageReference: StorageReference
 
     private val db = Firebase.firestore
+    private lateinit var dbSave:DocumentReference
     private var chaplainCollectionName:String = ""
     private var chaplainProfileCollectionName:String = ""
     private var chaplainProfileDocumentName:String = ""
@@ -60,6 +66,10 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
     private var chaplainProfileFieldPreferredLanguage:String = ""
     private var chaplainProfileFieldOtherLanguage:String = ""
     private var chaplainProfileFieldSsn:String = ""
+    private var chaplainProfileOrdained: String = ""
+    private var chaplainProfileOrdainedPeriod: String = ""
+    private var chaplainProfileAddCridentials: String = ""
+    private var chaplainProfileExplanation:String = ""
     private lateinit var pdfUri: Uri
     private var chaplainCvName: String = "" //this is for give a name to the chaplain cv when uploading cv to the firestore storage
     var chaplainCvUrl: String = ""   // this is chaplain uploaded cv link to reach cv later in the storage
@@ -74,6 +84,10 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
         //this is for the progress bar visibility in the chaplain cv upload
         chaplain_cv_progressBar.visibility = View.GONE
         chaplain_certificate_progressBar.visibility = View.GONE
+        chaplain_cv_progressBarUploadData.visibility = View.GONE
+
+        //call edittext scrollable method here
+        editTextBioScroll()
 
         auth = FirebaseAuth.getInstance()
         if (auth.currentUser != null){
@@ -87,6 +101,9 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
         chaplainCollectionName = getString(R.string.chaplain_collection)
         chaplainProfileCollectionName = getString(R.string.chaplain_profile_collection)
         chaplainProfileDocumentName = getString(R.string.chaplain_profile_document)
+
+        dbSave = db.collection(chaplainCollectionName).document(chaplainProfileFieldUserId)
+            .collection(chaplainProfileCollectionName).document(chaplainProfileDocumentName)
 
         //spinner addressing title selection
         addressingTitleSelection()
@@ -130,6 +147,25 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
 
     }
 
+    //this method is for the edittext chaplain short bio. it makes edittext scrollable.
+    @SuppressLint("ClickableViewAccessibility")
+    private fun editTextBioScroll() {
+        chaplainSignUpeditTextExp.isVerticalScrollBarEnabled = true
+        chaplainSignUpeditTextExp.overScrollMode = View.OVER_SCROLL_ALWAYS
+        chaplainSignUpeditTextExp.scrollBarStyle = View.SCROLLBARS_INSIDE_INSET
+        chaplainSignUpeditTextExp.movementMethod = ScrollingMovementMethod.getInstance()
+        chaplainSignUpeditTextExp.setOnTouchListener { v, event ->
+
+            v.parent.requestDisallowInterceptTouchEvent(true)
+            when (event?.action) {
+                MotionEvent.ACTION_UP ->
+                    v.parent.requestDisallowInterceptTouchEvent(false)
+            }
+
+            v?.onTouchEvent(event) ?: true
+        }
+    }
+
     // this func will take info from the second part of sign up ui
     private fun takeProfileInfo(){
         chaplainProfileFieldPhone = chaplainSignUpeditTextPhone.text.toString()
@@ -141,6 +177,10 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
         chaplainProfileFieldPreferredLanguage = chaplainSignUpeditTextPreferredLang.text.toString()
         chaplainProfileFieldOtherLanguage = chaplainSignUpeditTextOtherLang.text.toString()
         chaplainProfileFieldSsn = chaplainSignUpeditTextSsn.text.toString()
+        chaplainProfileOrdained = chaplainSignUpeditTextOrdeined.text.toString()
+        chaplainProfileOrdainedPeriod = chaplainSignUpeditTextOrdPeriod.text.toString()
+        chaplainProfileAddCridentials = chaplainSignUpeditAddCrident.text.toString()
+        chaplainProfileExplanation = chaplainSignUpeditTextExp.text.toString()
 
         if (chaplainProfileAddresTitle == "Nothing Selected"){
             val toast = Toast.makeText(
@@ -220,8 +260,52 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
                 Toast.LENGTH_SHORT
             ).show()
         }
-
-
+        else if (chaplainCvUrl == ""){
+            val toast = Toast.makeText(
+                this,
+                R.string.sign_up_toast_message_pdf_file_upload,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        else if (chaplainCertificateUrl == ""){
+            val toast = Toast.makeText(
+                this,
+                R.string.sign_up_toast_message_pdf_file_certificate,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        else{
+            chaplain_cv_progressBarUploadData.visibility = View.VISIBLE
+            chaplain_sign_up_page_next_button.isClickable = false
+            val data = hashMapOf(
+                "chaplain Certificate Url" to chaplainCertificateUrl,
+                "chaplain Cv Url" to chaplainCvUrl,
+                "chaplain Profile Field Ssn" to chaplainProfileFieldSsn,
+                "chaplain Profile Field Chaplain Field" to chaplainProfileFieldChaplainField
+            )
+            dbSave.set(data, SetOptions.merge())
+                .addOnSuccessListener {
+                    Log.d("data upload", "DocumentSnapshot successfully written!")
+                    chaplain_cv_progressBarUploadData.visibility = View.GONE
+                    chaplain_sign_up_page_next_button.isClickable = true
+                    chaplain_sign_up_page_next_button.text = getString(R.string.chaplain_sign_up_next_button_after_save)
+                    val toast = Toast.makeText(
+                        this,
+                        R.string.sign_up_toast_message_data_uploaded,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                .addOnFailureListener {
+                        e -> Log.w("data upload", "Error writing document", e)
+                    chaplain_cv_progressBarUploadData.visibility = View.GONE
+                    chaplain_sign_up_page_next_button.isClickable = true
+                    val toast = Toast.makeText(
+                        this,
+                        R.string.sign_up_toast_message_data_not_uploaded,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+        }
     }
     //addressing title spinner item selection function
     private fun addressingTitleSelection(){

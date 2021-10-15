@@ -45,7 +45,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
                     android:text="@string/chaplain_sign_up_addressing_title_textView_text"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/textView13"
@@ -53,7 +54,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
                     android:text="@string/chaplain_sign_up_credential_title_textView_text"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -187,7 +189,8 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
                 android:text="@string/chaplain_sign_up_chaplain_field_title_textView_text"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -227,7 +230,8 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
                 android:text="@string/chaplain_sign_up_faith_title_textView_text"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -266,7 +270,8 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
                 android:text="@string/chaplain_sign_up_ethnic_title_textView_text"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -349,6 +354,66 @@
                 android:ems="10"
                 android:hint="@string/chaplain_sign_up_ssn"
                 android:inputType="textPersonName" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:text="@string/chaplain_sign_ordained"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/chaplainSignUpeditTextOrdeined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:ems="10"
+                android:hint="@string/chaplain_sign_ordained_hint"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/chaplainSignUpeditTextOrdPeriod"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:ems="10"
+                android:hint="@string/chaplain_sign_ordained_period"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/chaplainSignUpeditAddCrident"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:ems="10"
+                android:hint="@string/chaplain_sign_add_cri"
+                android:inputType="textPersonName" />
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:text="@string/chaplain_sign_exp_title"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/chaplainSignUpeditTextExp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:ems="10"
+                android:gravity="start"
+                android:hint="@string/chaplain_sign_exp"
+                android:inputType="textMultiLine"
+                android:lines="5" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/chaplain_sign_up_page_resume_button"
@@ -461,22 +526,27 @@
                     app:srcCompat="@drawable/ic_baseline_delete_forever_24" />
             </LinearLayout>
 
-            <LinearLayout
+            <Button
+                android:id="@+id/chaplain_sign_up_page_next_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="40dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginBottom="60dp"
+                android:background="@drawable/button_shape"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:text="@string/chaplain_sign_up_next_button"
+                android:textColor="@color/design_default_color_background" />
 
-                <Button
-                    android:id="@+id/chaplain_sign_up_page_next_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/button_shape"
-                    android:gravity="center"
-                    android:text="@string/chaplain_sign_up_next_button"
-                    android:textColor="@color/design_default_color_background" />
-            </LinearLayout>
+            <ProgressBar
+                android:id="@+id/chaplain_cv_progressBarUploadData"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                tools:visibility="gone" />
 
         </LinearLayout>
     </ScrollView>
