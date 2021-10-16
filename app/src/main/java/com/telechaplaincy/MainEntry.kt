@@ -24,4 +24,6 @@ class MainEntry : AppCompatActivity() {
             finish()
         }
     }
+
+
 }

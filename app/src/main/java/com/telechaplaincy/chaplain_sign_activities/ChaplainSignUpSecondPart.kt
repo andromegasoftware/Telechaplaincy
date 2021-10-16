@@ -25,6 +25,8 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.google.android.material.chip.Chip
+import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
@@ -37,6 +39,11 @@ import com.telechaplaincy.R
 import kotlinx.android.synthetic.main.activity_chaplain_sign_up.*
 import kotlinx.android.synthetic.main.activity_chaplain_sign_up_second_part.*
 import java.io.File
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ChaplainSignUpSecondPart : AppCompatActivity() {
 
@@ -54,10 +61,9 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
     private var chaplainProfileFieldUserId:String = ""
     private var chaplainProfileAddresTitle:String = ""
     private var chaplainProfileCredentialTitle:String = ""
+    private lateinit var credentialTitleArrayList: ArrayList<String>
     private var chaplainProfileFieldPhone:String = ""
-    private var chaplainProfileFieldBirthDateDay:String = ""
-    private var chaplainProfileFieldBirthDateMonth:String = ""
-    private var chaplainProfileFieldBirthDateYear:String = ""
+    private var chaplainProfileFieldBirthDate:String = ""
     private var chaplainProfileFieldEducation:String = ""
     private var chaplainProfileFieldExperience:String = ""
     private var chaplainProfileFieldChaplainField:String = ""
@@ -105,10 +111,15 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
         dbSave = db.collection(chaplainCollectionName).document(chaplainProfileFieldUserId)
             .collection(chaplainProfileCollectionName).document(chaplainProfileDocumentName)
 
+        chaplain_birth_date_select_button.setOnClickListener {
+            takeChaplainBirthDate()
+        }
+
         //spinner addressing title selection
         addressingTitleSelection()
         //credentials title spinner item selection function
         credentialsTitleSelection()
+        credentialTitleArrayList = arrayListOf()
         //chaplaincy Field spinner item selection function
         chaplaincyFieldSelection()
         //chaplaincy faith spinner item selection function
@@ -134,7 +145,7 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
         //chaplain profile second page next button and profile info taking
         chaplain_sign_up_page_next_button.setOnClickListener {
             takeProfileInfo()
-
+            saveData()
         }
 
         //this is for the deleting chaplain cv file from storage when the user click the delete image
@@ -169,9 +180,6 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
     // this func will take info from the second part of sign up ui
     private fun takeProfileInfo(){
         chaplainProfileFieldPhone = chaplainSignUpeditTextPhone.text.toString()
-        chaplainProfileFieldBirthDateDay = chaplainSignUpeditTextDateDay.text.toString()
-        chaplainProfileFieldBirthDateMonth = chaplainSignUpeditTextDateMonth.text.toString()
-        chaplainProfileFieldBirthDateYear = chaplainSignUpeditTextDateYear.text.toString()
         chaplainProfileFieldEducation = chaplainSignUpeditTextEducation.text.toString()
         chaplainProfileFieldExperience = chaplainSignUpeditTextExperience.text.toString()
         chaplainProfileFieldPreferredLanguage = chaplainSignUpeditTextPreferredLang.text.toString()
@@ -182,7 +190,7 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
         chaplainProfileAddCridentials = chaplainSignUpeditAddCrident.text.toString()
         chaplainProfileExplanation = chaplainSignUpeditTextExp.text.toString()
 
-        if (chaplainProfileAddresTitle == "Nothing Selected"){
+        /*if (chaplainProfileAddresTitle == "Nothing Selected"){
             val toast = Toast.makeText(
                 this,
                 R.string.sign_up_toast_message_enter_chaplain_addressing_title,
@@ -200,28 +208,6 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
             val toast = Toast.makeText(
                 this,
                 R.string.sign_up_toast_message_enter_phone,
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-
-        else if (chaplainProfileFieldBirthDateDay == ""){
-            val toast = Toast.makeText(
-                this,
-                R.string.sign_up_toast_message_enter_birth_day,
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-        else if (chaplainProfileFieldBirthDateMonth == ""){
-            val toast = Toast.makeText(
-                this,
-                R.string.sign_up_toast_message_enter_birth_month,
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-        else if (chaplainProfileFieldBirthDateYear == ""){
-            val toast = Toast.makeText(
-                this,
-                R.string.sign_up_toast_message_enter_birth_year,
                 Toast.LENGTH_SHORT
             ).show()
         }
@@ -275,37 +261,72 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
             ).show()
         }
         else{
-            chaplain_cv_progressBarUploadData.visibility = View.VISIBLE
-            chaplain_sign_up_page_next_button.isClickable = false
-            val data = hashMapOf(
-                "chaplain Certificate Url" to chaplainCertificateUrl,
-                "chaplain Cv Url" to chaplainCvUrl,
-                "chaplain Profile Field Ssn" to chaplainProfileFieldSsn,
-                "chaplain Profile Field Chaplain Field" to chaplainProfileFieldChaplainField
-            )
-            dbSave.set(data, SetOptions.merge())
-                .addOnSuccessListener {
-                    Log.d("data upload", "DocumentSnapshot successfully written!")
-                    chaplain_cv_progressBarUploadData.visibility = View.GONE
-                    chaplain_sign_up_page_next_button.isClickable = true
-                    chaplain_sign_up_page_next_button.text = getString(R.string.chaplain_sign_up_next_button_after_save)
-                    val toast = Toast.makeText(
-                        this,
-                        R.string.sign_up_toast_message_data_uploaded,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-                .addOnFailureListener {
-                        e -> Log.w("data upload", "Error writing document", e)
-                    chaplain_cv_progressBarUploadData.visibility = View.GONE
-                    chaplain_sign_up_page_next_button.isClickable = true
-                    val toast = Toast.makeText(
-                        this,
-                        R.string.sign_up_toast_message_data_not_uploaded,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+            saveData()
+        }*/
+    }
+
+    private fun takeChaplainBirthDate(){
+        val datePicker = MaterialDatePicker.Builder.datePicker().build()
+        datePicker.show(supportFragmentManager, "DatePicker")
+        datePicker.addOnPositiveButtonClickListener {
+            chaplainProfileFieldBirthDate = datePicker.selection.toString()
+            textView_chaplain_birth_date.text = getString(R.string.chaplain_sign_up_birth_date) + datePicker.headerText
+            Log.d("date positive", chaplainProfileFieldBirthDate)
         }
+        datePicker.addOnNegativeButtonClickListener {
+            //cancel button works
+            Log.d("date negative", datePicker.headerText)
+        }
+        datePicker.addOnCancelListener {
+            //if the user click the outside of the date picker
+            Log.d("date cancel", "date picker canceled")
+        }
+
+    }
+
+    //to save chaplain profile info when the user click the save button
+    fun saveData(){
+        chaplain_cv_progressBarUploadData.visibility = View.VISIBLE
+        chaplain_sign_up_page_next_button.isClickable = false
+        val data = hashMapOf(
+            "addressing title" to chaplainProfileAddresTitle,
+            "phone" to chaplainProfileFieldPhone,
+            "birth date" to Timestamp(Date(chaplainProfileFieldBirthDate.toLong())),
+            "education" to chaplainProfileFieldEducation,
+            "experiance" to chaplainProfileFieldExperience,
+            "field" to chaplainProfileFieldChaplainField,
+            "language" to chaplainProfileFieldPreferredLanguage,
+            "ssn" to chaplainProfileFieldSsn,
+            "ordained name" to chaplainProfileOrdained,
+            "ordained period" to chaplainProfileOrdainedPeriod,
+            "additional cridential" to chaplainProfileAddCridentials,
+            "bio" to chaplainProfileExplanation,
+            "cv url" to chaplainCvUrl,
+            "certificate url" to chaplainCertificateUrl,
+            "cridentials title" to arrayListOf(credentialTitleArrayList)
+        )
+        dbSave.set(data, SetOptions.merge())
+            .addOnSuccessListener {
+                Log.d("data upload", "DocumentSnapshot successfully written!")
+                chaplain_cv_progressBarUploadData.visibility = View.GONE
+                chaplain_sign_up_page_next_button.isClickable = true
+                chaplain_sign_up_page_next_button.text = getString(R.string.chaplain_sign_up_next_button_after_save)
+                val toast = Toast.makeText(
+                    this,
+                    R.string.sign_up_toast_message_data_uploaded,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            .addOnFailureListener {
+                    e -> Log.w("data upload", "Error writing document", e)
+                chaplain_cv_progressBarUploadData.visibility = View.GONE
+                chaplain_sign_up_page_next_button.isClickable = true
+                val toast = Toast.makeText(
+                    this,
+                    R.string.sign_up_toast_message_data_not_uploaded,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
     }
     //addressing title spinner item selection function
     private fun addressingTitleSelection(){
@@ -356,6 +377,7 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
                 if (chaplainProfileCredentialTitle != "Nothing Selected" && chaplainProfileCredentialTitle != "Other"){
                     chipCredentialTitle.text = chaplainProfileCredentialTitle
                     credentials_chip_group.addView(chipCredentialTitle)
+                    credentialTitleArrayList.add(chaplainProfileCredentialTitle)
                 }
                 else if (chaplainProfileCredentialTitle == "Other"){
 
@@ -381,6 +403,7 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
                             chipCredentialTitle.text = selection
                             credentials_chip_group.addView(chipCredentialTitle)
                             Log.d("otherSelection: ", selection)
+                            credentialTitleArrayList.add(chaplainProfileCredentialTitle)
                         })
                     builder.setNegativeButton(
                         getString(R.string.chaplain_sign_up_alert_cancel_button),

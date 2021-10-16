@@ -108,7 +108,7 @@
     <string name="chaplain_sign_up_profile_image_toast_message">Please select a profile image</string>
     <string name="chaplain_sign_up_second_title">Chaplain Sign Up Form</string>
     <string name="chaplain_sign_up_phone_hint">Phone Number</string>
-    <string name="chaplain_sign_up_birth_date">Date of Birth:</string>
+    <string name="chaplain_sign_up_birth_date">Birth Date:</string>
     <string name="chaplain_sign_up_birth_date_day">Day <font size="10">(birth date)</font></string>
     <string name="chaplain_sign_up_birth_date_month">Month <font size="10">(birth date)</font></string>
     <string name="chaplain_sign_up_birth_date_year">Year <font size="10">(birth date)</font></string>

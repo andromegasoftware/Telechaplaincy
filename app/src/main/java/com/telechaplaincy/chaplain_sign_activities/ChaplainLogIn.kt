@@ -102,6 +102,7 @@ class ChaplainLogIn : AppCompatActivity() {
         if(currentUser != null){
             val intent = Intent(this, ChaplainMainActivity::class.java)
             startActivity(intent)
+            finish()
         }
     }
 }
