@@ -30,6 +30,7 @@ import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -39,11 +40,14 @@ import com.telechaplaincy.R
 import kotlinx.android.synthetic.main.activity_chaplain_sign_up.*
 import kotlinx.android.synthetic.main.activity_chaplain_sign_up_second_part.*
 import java.io.File
+import java.lang.NumberFormatException
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
+import kotlin.collections.HashSet
 
 class ChaplainSignUpSecondPart : AppCompatActivity() {
 
@@ -54,6 +58,7 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
 
     private val db = Firebase.firestore
     private lateinit var dbSave:DocumentReference
+    private lateinit var dbChaplainFieldSave:DocumentReference
     private var chaplainCollectionName:String = ""
     private var chaplainProfileCollectionName:String = ""
     private var chaplainProfileDocumentName:String = ""
@@ -61,16 +66,20 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
     private var chaplainProfileFieldUserId:String = ""
     private var chaplainProfileAddresTitle:String = ""
     private var chaplainProfileCredentialTitle:String = ""
-    private lateinit var credentialTitleArrayList: ArrayList<String>
+    private var credentialTitleArrayList = ArrayList<String>()
     private var chaplainProfileFieldPhone:String = ""
-    private var chaplainProfileFieldBirthDate:String = ""
+    private var chaplainProfileFieldBirthDate:String = "1"
     private var chaplainProfileFieldEducation:String = ""
     private var chaplainProfileFieldExperience:String = ""
     private var chaplainProfileFieldChaplainField:String = ""
+    private var chaplainFieldArrayList = ArrayList<String>()
     private var chaplainProfileFieldChaplainFaith:String = ""
+    private var faithArrayList = ArrayList<String>()
     private var chaplainProfileFieldChaplainEthnic:String = ""
+    private var ethnicArrayList = ArrayList<String>()
     private var chaplainProfileFieldPreferredLanguage:String = ""
     private var chaplainProfileFieldOtherLanguage:String = ""
+    private var otherLanguagesArrayList = ArrayList<String>()
     private var chaplainProfileFieldSsn:String = ""
     private var chaplainProfileOrdained: String = ""
     private var chaplainProfileOrdainedPeriod: String = ""
@@ -107,9 +116,12 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
         chaplainCollectionName = getString(R.string.chaplain_collection)
         chaplainProfileCollectionName = getString(R.string.chaplain_profile_collection)
         chaplainProfileDocumentName = getString(R.string.chaplain_profile_document)
+        val chaplainField = "chaplain field"
 
         dbSave = db.collection(chaplainCollectionName).document(chaplainProfileFieldUserId)
             .collection(chaplainProfileCollectionName).document(chaplainProfileDocumentName)
+        dbChaplainFieldSave = db.collection(chaplainCollectionName)
+            .document(chaplainProfileFieldUserId).collection(chaplainField).document("field")
 
         chaplain_birth_date_select_button.setOnClickListener {
             takeChaplainBirthDate()
@@ -119,7 +131,6 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
         addressingTitleSelection()
         //credentials title spinner item selection function
         credentialsTitleSelection()
-        credentialTitleArrayList = arrayListOf()
         //chaplaincy Field spinner item selection function
         chaplaincyFieldSelection()
         //chaplaincy faith spinner item selection function
@@ -294,7 +305,6 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
             "birth date" to Timestamp(Date(chaplainProfileFieldBirthDate.toLong())),
             "education" to chaplainProfileFieldEducation,
             "experiance" to chaplainProfileFieldExperience,
-            "field" to chaplainProfileFieldChaplainField,
             "language" to chaplainProfileFieldPreferredLanguage,
             "ssn" to chaplainProfileFieldSsn,
             "ordained name" to chaplainProfileOrdained,
@@ -303,7 +313,10 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
             "bio" to chaplainProfileExplanation,
             "cv url" to chaplainCvUrl,
             "certificate url" to chaplainCertificateUrl,
-            "cridentials title" to arrayListOf(credentialTitleArrayList)
+            "cridentials title" to credentialTitleArrayList.joinToString("/"),
+            "faith" to faithArrayList.joinToString("/"),
+            "ethnic" to ethnicArrayList.joinToString("/"),
+            "other languages" to otherLanguagesArrayList.joinToString()
         )
         dbSave.set(data, SetOptions.merge())
             .addOnSuccessListener {
@@ -327,6 +340,19 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+
+        val field = HashMap<String, String>()
+        var a = 1
+        for (k in chaplainFieldArrayList){
+            field[a.toString()] = k
+            Log.d("liste", k)
+            a += 1
+        }
+        dbChaplainFieldSave.set(field, SetOptions.merge()).addOnCompleteListener {
+            Log.d("field", "uploaded")
+        }.addOnFailureListener {
+            Log.d("field", "failed")
+        }
     }
     //addressing title spinner item selection function
     private fun addressingTitleSelection(){
@@ -416,6 +442,7 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
 
                 chipCredentialTitle.setOnClickListener {
                     credentials_chip_group.removeView(chipCredentialTitle)
+                    credentialTitleArrayList.remove(chipCredentialTitle.text)
                 }
             }
 
@@ -449,9 +476,10 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
                     chipChaplainFieldTitle.setTextColor(resources.getColor(R.color.colorPrimary))
                     chipChaplainFieldTitle.text = chaplainProfileFieldChaplainField
                     chaplain_field_chip_group.addView(chipChaplainFieldTitle)
-
+                    chaplainFieldArrayList.add(chaplainProfileFieldChaplainField)
                     chipChaplainFieldTitle.setOnClickListener {
                         chaplain_field_chip_group.removeView(chipChaplainFieldTitle)
+                        chaplainFieldArrayList.remove(chipChaplainFieldTitle.text)
                     }
                 }
 
@@ -488,6 +516,7 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
                 if (chaplainProfileFieldChaplainFaith != "Nothing Selected" && chaplainProfileFieldChaplainFaith != "Other"){
                     chipChaplainFaith.text = chaplainProfileFieldChaplainFaith
                     chaplain_faith_chip_group.addView(chipChaplainFaith)
+                    faithArrayList.add(chaplainProfileFieldChaplainFaith)
                 }
                 else if (chaplainProfileFieldChaplainFaith == "Other"){
 
@@ -513,6 +542,7 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
                             chipChaplainFaith.text = selection
                             chaplain_faith_chip_group.addView(chipChaplainFaith)
                             Log.d("otherSelection: ", selection)
+                            faithArrayList.add(chaplainProfileFieldChaplainFaith)
                         })
                     builder.setNegativeButton(
                         getString(R.string.chaplain_sign_up_alert_cancel_button),
@@ -524,6 +554,7 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
                 }
                 chipChaplainFaith.setOnClickListener {
                     chaplain_faith_chip_group.removeView(chipChaplainFaith)
+                    faithArrayList.remove(chipChaplainFaith.text)
                 }
             }
 
@@ -557,6 +588,7 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
                 if (chaplainProfileFieldChaplainEthnic != "Nothing Selected" && chaplainProfileFieldChaplainEthnic != "Other"){
                     chipChaplainEthnic.text = chaplainProfileFieldChaplainEthnic
                     chaplain_ethnic_chip_group.addView(chipChaplainEthnic)
+                    ethnicArrayList.add(chaplainProfileFieldChaplainEthnic)
                 }
                 else if (chaplainProfileFieldChaplainEthnic == "Other"){
 
@@ -582,6 +614,7 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
                             chipChaplainEthnic.text = selection
                             chaplain_ethnic_chip_group.addView(chipChaplainEthnic)
                             Log.d("otherSelection: ", selection)
+                            ethnicArrayList.add(chaplainProfileFieldChaplainEthnic)
                         })
                     builder.setNegativeButton(
                         getString(R.string.chaplain_sign_up_alert_cancel_button),
@@ -593,6 +626,7 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
                 }
                 chipChaplainEthnic.setOnClickListener {
                     chaplain_ethnic_chip_group.removeView(chipChaplainEthnic)
+                    ethnicArrayList.remove(chipChaplainEthnic.text)
                 }
             }
 
@@ -612,8 +646,11 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
         chipChaplainOtherLanguage.setTextColor(resources.getColor(R.color.colorPrimary))
 
         chaplain_other_languages_chip_group.addView(chipChaplainOtherLanguage)
+        otherLanguagesArrayList.add(chaplainProfileFieldOtherLanguage)
         chipChaplainOtherLanguage.setOnClickListener {
-            chaplain_other_languages_chip_group.removeView(chipChaplainOtherLanguage) }
+            chaplain_other_languages_chip_group.removeView(chipChaplainOtherLanguage)
+            otherLanguagesArrayList.remove(chipChaplainOtherLanguage.text)
+        }
     }
 
 
