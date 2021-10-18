@@ -68,7 +68,7 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
     private var chaplainProfileCredentialTitle:String = ""
     private var credentialTitleArrayList = ArrayList<String>()
     private var chaplainProfileFieldPhone:String = ""
-    private var chaplainProfileFieldBirthDate:String = "1"
+    private var chaplainProfileFieldBirthDate:String = "0"
     private var chaplainProfileFieldEducation:String = ""
     private var chaplainProfileFieldExperience:String = ""
     private var chaplainProfileFieldChaplainField:String = ""
@@ -90,6 +90,8 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
     var chaplainCvUrl: String = ""   // this is chaplain uploaded cv link to reach cv later in the storage
     var chaplainCertificateUrl: String = ""   // this is chaplain uploaded cv link to reach cv later in the storage
     var cvOrCertficate:Int = 1
+    private var chaplainCertificateName = ""
+    private var chaplainResumeName = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -313,6 +315,8 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
             "bio" to chaplainProfileExplanation,
             "cv url" to chaplainCvUrl,
             "certificate url" to chaplainCertificateUrl,
+            "certificate name" to chaplainCertificateName,
+            "cv name" to chaplainResumeName,
             "cridentials title" to credentialTitleArrayList.joinToString("/"),
             "faith" to faithArrayList.joinToString("/"),
             "ethnic" to ethnicArrayList.joinToString("/"),
@@ -348,7 +352,7 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
             Log.d("liste", k)
             a += 1
         }
-        dbChaplainFieldSave.set(field, SetOptions.merge()).addOnCompleteListener {
+        dbChaplainFieldSave.set(field).addOnCompleteListener {
             Log.d("field", "uploaded")
         }.addOnFailureListener {
             Log.d("field", "failed")
@@ -682,6 +686,7 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
                     Log.d("cvOrCertficate", cvOrCertficate.toString())
                 }else{
                     uploadFileCertificate(pdfUri)
+                    chaplainResumeName = chaplainCvName
                     Log.d("cvOrCertficate", cvOrCertficate.toString())
                 }
 
@@ -721,6 +726,7 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
                 chaplain_cv_name_show_lineer_layout.visibility = View.VISIBLE
                 resumeFileNameTextView.text = chaplainCvName
                 chaplain_sign_up_page_resume_button.isClickable = true
+                chaplainCertificateName = chaplainCvName
 
             }
             .addOnProgressListener { task ->
@@ -804,6 +810,7 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
                 chaplain_certificate_name_lineer_layout.visibility = View.VISIBLE
                 certificateFileNameTextView.text = chaplainCvName
                 chaplain_sign_up_page_certificate_button.isClickable = true
+                chaplainResumeName = chaplainCvName
 
             }
             .addOnProgressListener { task ->
@@ -878,4 +885,63 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
         startActivityForResult(intent, PICK_PDF_REQUEST_CODE)
     }
 
+    override fun onPause() {
+        super.onPause()
+        takeProfileInfo()
+        saveData()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        readData()
+    }
+    private fun readData(){
+        dbSave.get().addOnSuccessListener { document ->
+            if (document != null){
+                Log.d("TAG", "DocumentSnapshot data: ${document.data}")
+                chaplainProfileAddresTitle = document.data?.get("addressing title").toString() //if it is empty, it will return "Nothing Selected"
+                chaplainProfileFieldPhone = document.data?.get("phone").toString()
+
+                val birthDate = document.data?.get("birth date") as com.google.firebase.Timestamp
+                val millisecondsLong = birthDate.seconds * 1000 + birthDate.nanoseconds / 1000000
+                val sdf = SimpleDateFormat("MMM dd, yyyy")
+                val netDate = Date(millisecondsLong)
+                val date = sdf.format(netDate).toString()
+                chaplainProfileFieldBirthDate = millisecondsLong.toString()
+                chaplainProfileFieldEducation = document.data?.get("education").toString()
+                chaplainProfileFieldExperience = document.data?.get("experiance").toString()
+                chaplainProfileFieldPreferredLanguage = document.data?.get("language").toString()
+                chaplainProfileFieldSsn = document.data?.get("ssn").toString()
+                chaplainProfileOrdained = document.data?.get("ordained name").toString()
+                chaplainProfileOrdainedPeriod = document.data?.get("ordained period").toString()
+                chaplainProfileAddCridentials = document.data?.get("additional cridential").toString()
+                chaplainProfileExplanation = document.data?.get("bio").toString()
+                chaplainCertificateName = document.data?.get("certificate name").toString()
+                chaplainResumeName = document.data?.get("cv name").toString()
+                Log.d("a AddresTitle: ", chaplainProfileAddresTitle)
+                Log.d("a Phone: ", chaplainProfileFieldPhone)
+                Log.d("a BirthDate: ", date)
+                Log.d("a BirthDate m: ", chaplainProfileFieldBirthDate)
+                Log.d("a Education: ", chaplainProfileFieldEducation)
+                Log.d("a Experience: ", chaplainProfileFieldExperience)
+                Log.d("a PreferredLanguage: ", chaplainProfileFieldPreferredLanguage)
+                Log.d("a Ssn: ", chaplainProfileFieldSsn)
+                Log.d("a Ordained: ", chaplainProfileOrdained)
+                Log.d("a OrdainedPeriod: ", chaplainProfileOrdainedPeriod)
+                Log.d("a AddCridentials: ", chaplainProfileAddCridentials)
+                Log.d("a Explanation: ", chaplainProfileExplanation)
+                Log.d("a CertificateName: ", chaplainCertificateName)
+                Log.d("a ResumeName: ", chaplainResumeName)
+
+
+
+            }else {
+                Log.d("TAG", "No such document")
+            }
+        }
+        .addOnFailureListener { exception ->
+            Log.d("TAG", "get failed with ", exception)
+
+        }
+    }
 }
