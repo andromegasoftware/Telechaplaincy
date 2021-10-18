@@ -426,26 +426,6 @@
                 android:layout_gravity="center_horizontal"
                 tools:visibility="gone" />
 
-            <Button
-                android:id="@+id/chaplain_sign_up_page_certificate_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/button_shape_coloraccent"
-                android:text="@string/chaplain_sign_up_certificate_button"
-                android:textColor="@color/loginPageSignUpTextColor"
-                android:theme="@style/buttonTheme"
-                app:icon="@drawable/ic_baseline_cloud_upload_24"
-                app:iconGravity="textStart" />
-
-            <ProgressBar
-                android:id="@+id/chaplain_certificate_progressBar"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                tools:visibility="gone" />
-
             <LinearLayout
                 android:id="@+id/chaplain_cv_name_show_lineer_layout"
                 android:layout_width="match_parent"
@@ -481,6 +461,26 @@
                     android:layout_weight="1"
                     app:srcCompat="@drawable/ic_baseline_delete_forever_24" />
             </LinearLayout>
+
+            <Button
+                android:id="@+id/chaplain_sign_up_page_certificate_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/button_shape_coloraccent"
+                android:text="@string/chaplain_sign_up_certificate_button"
+                android:textColor="@color/loginPageSignUpTextColor"
+                android:theme="@style/buttonTheme"
+                app:icon="@drawable/ic_baseline_cloud_upload_24"
+                app:iconGravity="textStart" />
+
+            <ProgressBar
+                android:id="@+id/chaplain_certificate_progressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                tools:visibility="gone" />
 
             <LinearLayout
                 android:id="@+id/chaplain_certificate_name_lineer_layout"

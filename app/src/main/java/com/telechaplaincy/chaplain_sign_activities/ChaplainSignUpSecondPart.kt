@@ -1,17 +1,14 @@
 package com.telechaplaincy.chaplain_sign_activities
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
-import android.graphics.Bitmap
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.text.Html
 import android.text.InputType
@@ -30,7 +27,6 @@ import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -39,15 +35,10 @@ import com.google.firebase.storage.StorageReference
 import com.telechaplaincy.R
 import kotlinx.android.synthetic.main.activity_chaplain_sign_up.*
 import kotlinx.android.synthetic.main.activity_chaplain_sign_up_second_part.*
-import java.io.File
-import java.lang.NumberFormatException
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
-import kotlin.collections.HashSet
 
 class ChaplainSignUpSecondPart : AppCompatActivity() {
 
@@ -86,7 +77,6 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
     private var chaplainProfileAddCridentials: String = ""
     private var chaplainProfileExplanation:String = ""
     private lateinit var pdfUri: Uri
-    private var chaplainCvName: String = "" //this is for give a name to the chaplain cv when uploading cv to the firestore storage
     var chaplainCvUrl: String = ""   // this is chaplain uploaded cv link to reach cv later in the storage
     var chaplainCertificateUrl: String = ""   // this is chaplain uploaded cv link to reach cv later in the storage
     var cvOrCertficate:Int = 1
@@ -147,11 +137,12 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
         }
 
         chaplain_sign_up_page_resume_button.setOnClickListener {
+            cvOrCertficate = 1
             takePermissionForPdf()
         }
         chaplain_sign_up_page_certificate_button.setOnClickListener {
-            takePermissionForPdf()
             cvOrCertficate = 2
+            takePermissionForPdf()
         }
 
 
@@ -665,28 +656,15 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
         if (requestCode == PICK_PDF_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
             pdfUri = data.data!! //this is the pdf file path on the device
             //Log.d("pdfUri: ", pdfUri.toString())
-            chaplainCvName = data.data!!.lastPathSegment.toString()
-
-            if (pdfUri.toString().startsWith("content://")) {
-                var cursor: Cursor? = null
-                try {
-                    cursor = applicationContext.contentResolver.query(pdfUri, null, null, null, null)
-                    if (cursor != null && cursor.moveToFirst()) {
-                        chaplainCvName =
-                            cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME))
-                    }
-                } finally {
-                    cursor?.close()
-                }
-            }
 
             if (pdfUri != null){
                 if (cvOrCertficate == 1){
-                    uploadFile(pdfUri)
+                    uploadFileResume(pdfUri)
                     Log.d("cvOrCertficate", cvOrCertficate.toString())
-                }else{
+                }
+
+                else{
                     uploadFileCertificate(pdfUri)
-                    chaplainResumeName = chaplainCvName
                     Log.d("cvOrCertficate", cvOrCertficate.toString())
                 }
 
@@ -702,7 +680,8 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
         }
     }
 
-    private fun uploadFile(pdfUri: Uri){
+    private fun uploadFileResume(pdfUri: Uri){
+
         chaplain_cv_progressBar.progress = 0
 
         chaplain_sign_up_page_resume_button.isClickable = false
@@ -715,18 +694,34 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
                 // Log.d("file: ", "error")
                 chaplain_cv_progressBar.visibility = View.GONE
                 chaplain_cv_name_show_lineer_layout.visibility = View.VISIBLE
-                resumeFileNameTextView.text = chaplainCvName
+                resumeFileNameTextView.text = chaplainResumeName
                 imageViewResumeOk.setImageResource(R.drawable.ic_baseline_cancel_24)
                 chaplain_sign_up_page_resume_button.isClickable = true
             }
             .addOnSuccessListener {
 
+                //for taking the file name
+                if (pdfUri.toString().startsWith("content://")) {
+                    var cursor: Cursor? = null
+                    try {
+                        cursor = applicationContext.contentResolver.query(pdfUri, null, null, null, null)
+                        if (cursor != null && cursor.moveToFirst()) {
+                            chaplainResumeName =
+                                cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+                            Log.d("name", chaplainResumeName)
+                        }
+                    } finally {
+                        cursor?.close()
+                    }
+                }
+                //until here
+
                 chaplain_cv_progressBar.visibility = View.GONE
                 // Log.d("file: ", "file uploaded")
                 chaplain_cv_name_show_lineer_layout.visibility = View.VISIBLE
-                resumeFileNameTextView.text = chaplainCvName
+                resumeFileNameTextView.text = chaplainResumeName
+                Log.d("namea", chaplainResumeName)
                 chaplain_sign_up_page_resume_button.isClickable = true
-                chaplainCertificateName = chaplainCvName
 
             }
             .addOnProgressListener { task ->
@@ -765,6 +760,7 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
             // File deleted successfully
             Log.d("pdfLinkDelete: ", "deleted")
             chaplainCvUrl = ""
+            chaplainResumeName = ""
         }.addOnFailureListener {
             // Uh-oh, an error occurred!
             Log.d("pdfLinkDelete: ", "not deleted")
@@ -780,6 +776,7 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
             // File deleted successfully
             Log.d("pdfLinkDelete: ", "deleted")
             chaplainCertificateUrl = ""
+            chaplainCertificateName = ""
         }.addOnFailureListener {
             // Uh-oh, an error occurred!
             Log.d("pdfLinkDelete: ", "not deleted")
@@ -787,6 +784,7 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
     }
 
     private fun uploadFileCertificate(pdfUri: Uri){
+
         chaplain_certificate_progressBar.progress = 0
 
         chaplain_sign_up_page_certificate_button.isClickable = false
@@ -799,18 +797,34 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
                 // Log.d("file: ", "error")
                 chaplain_certificate_progressBar.visibility = View.GONE
                 chaplain_certificate_name_lineer_layout.visibility = View.VISIBLE
-                certificateFileNameTextView.text = chaplainCvName
+                certificateFileNameTextView.text = chaplainCertificateName
+                Log.d("namea", chaplainCertificateName)
                 imageViewCertificateOk.setImageResource(R.drawable.ic_baseline_cancel_24)
                 chaplain_sign_up_page_certificate_button.isClickable = true
             }
             .addOnSuccessListener {
 
+                //for taking the file name
+                if (pdfUri.toString().startsWith("content://")) {
+                    var cursor: Cursor? = null
+                    try {
+                        cursor = applicationContext.contentResolver.query(pdfUri, null, null, null, null)
+                        if (cursor != null && cursor.moveToFirst()) {
+                            chaplainCertificateName =
+                                cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+                            Log.d("name", chaplainCertificateName)
+                        }
+                    } finally {
+                        cursor?.close()
+                    }
+                }
+                //until here
+
                 chaplain_certificate_progressBar.visibility = View.GONE
                 // Log.d("file: ", "file uploaded")
                 chaplain_certificate_name_lineer_layout.visibility = View.VISIBLE
-                certificateFileNameTextView.text = chaplainCvName
+                certificateFileNameTextView.text = chaplainCertificateName
                 chaplain_sign_up_page_certificate_button.isClickable = true
-                chaplainResumeName = chaplainCvName
 
             }
             .addOnProgressListener { task ->
@@ -918,6 +932,8 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
                 chaplainProfileExplanation = document.data?.get("bio").toString()
                 chaplainCertificateName = document.data?.get("certificate name").toString()
                 chaplainResumeName = document.data?.get("cv name").toString()
+                chaplainCvUrl = document.data?.get("cv url").toString()
+                chaplainCertificateUrl = document.data?.get("certificate url").toString()
                 Log.d("a AddresTitle: ", chaplainProfileAddresTitle)
                 Log.d("a Phone: ", chaplainProfileFieldPhone)
                 Log.d("a BirthDate: ", date)
@@ -932,8 +948,24 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
                 Log.d("a Explanation: ", chaplainProfileExplanation)
                 Log.d("a CertificateName: ", chaplainCertificateName)
                 Log.d("a ResumeName: ", chaplainResumeName)
-
-
+                chaplainSignUpeditTextPhone.setText(chaplainProfileFieldPhone)
+                textView_chaplain_birth_date.text = getString(R.string.chaplain_sign_up_birth_date) + date
+                chaplainSignUpeditTextEducation.setText(chaplainProfileFieldEducation)
+                chaplainSignUpeditTextExperience.setText(chaplainProfileFieldExperience)
+                chaplainSignUpeditTextPreferredLang.setText(chaplainProfileFieldPreferredLanguage)
+                chaplainSignUpeditTextSsn.setText(chaplainProfileFieldSsn)
+                chaplainSignUpeditTextOrdeined.setText(chaplainProfileOrdained)
+                chaplainSignUpeditTextOrdPeriod.setText(chaplainProfileOrdainedPeriod)
+                chaplainSignUpeditAddCrident.setText(chaplainProfileAddCridentials)
+                chaplainSignUpeditTextExp.setText(chaplainProfileExplanation)
+                if (chaplainCertificateName != ""){
+                    chaplain_certificate_name_lineer_layout.visibility = View.VISIBLE
+                    certificateFileNameTextView.text = chaplainCertificateName
+                }
+                if(chaplainResumeName != ""){
+                    chaplain_cv_name_show_lineer_layout.visibility = View.VISIBLE
+                    resumeFileNameTextView.text = chaplainResumeName
+                }
 
             }else {
                 Log.d("TAG", "No such document")
