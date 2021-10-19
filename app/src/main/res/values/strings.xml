@@ -210,17 +210,17 @@
     //Spinner array for credentials title in the chaplain sign up page
     <string-array name="chaplaincyFieldArray">
         <item>Nothing Selected</item>
-        <item>College/Education Ch.</item>
-        <item>Community/Humanist Ch.</item>
-        <item>Crisis/Disaster Ch.</item>
+        <item>College-Education Ch.</item>
+        <item>Community-Humanist Ch.</item>
+        <item>Crisis-Disaster Ch.</item>
         <item>Health Care Ch.</item>
         <item>Palliative Care Ch.</item>
         <item>Pediatric Ch.</item>
         <item>Mental Health Ch.</item>
         <item>Hospice Ch.</item>
-        <item>Law Enforcement/Police Ch.</item>
+        <item>Law Enforcement-Police Ch.</item>
         <item>Military Ch.</item>
-        <item>Prison/Correctional Facilities Ch</item>
+        <item>Prison-Correctional Facilities Ch</item>
         <item>Corporate Ch.</item>
         <item>Pet Ch.</item>
     </string-array>
@@ -241,10 +241,10 @@
     //Spinner array for credentials title in the chaplain sign up page
     <string-array name="ethnicBackgroundArray">
         <item>Nothing Selected</item>
-        <item>American Indian/Alaska Native</item>
+        <item>American Indian-Alaska Native</item>
         <item>Asian</item>
-        <item>Black/African American</item>
-        <item>Hispanic/Latino</item>
+        <item>Black-African American</item>
+        <item>Hispanic-Latino</item>
         <item>More than one race</item>
         <item>Native Hawaiian or other Pacific Islander</item>
         <item>White</item>

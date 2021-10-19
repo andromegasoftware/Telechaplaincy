@@ -311,7 +311,7 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
             "cridentials title" to credentialTitleArrayList.joinToString("/"),
             "faith" to faithArrayList.joinToString("/"),
             "ethnic" to ethnicArrayList.joinToString("/"),
-            "other languages" to otherLanguagesArrayList.joinToString()
+            "other languages" to otherLanguagesArrayList.joinToString("/")
         )
         dbSave.set(data, SetOptions.merge())
             .addOnSuccessListener {
@@ -324,6 +324,7 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
                     R.string.sign_up_toast_message_data_uploaded,
                     Toast.LENGTH_SHORT
                 ).show()
+
             }
             .addOnFailureListener {
                     e -> Log.w("data upload", "Error writing document", e)
@@ -422,6 +423,7 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
 
                             //assign input to chip and add chip
                             chipCredentialTitle.text = selection
+                            chaplainProfileCredentialTitle = selection
                             credentials_chip_group.addView(chipCredentialTitle)
                             Log.d("otherSelection: ", selection)
                             credentialTitleArrayList.add(chaplainProfileCredentialTitle)
@@ -535,6 +537,7 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
 
                             //assign input to chip and add chip
                             chipChaplainFaith.text = selection
+                            chaplainProfileFieldChaplainFaith = selection
                             chaplain_faith_chip_group.addView(chipChaplainFaith)
                             Log.d("otherSelection: ", selection)
                             faithArrayList.add(chaplainProfileFieldChaplainFaith)
@@ -607,6 +610,7 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
 
                             //assign input to chip and add chip
                             chipChaplainEthnic.text = selection
+                            chaplainProfileFieldChaplainEthnic = selection
                             chaplain_ethnic_chip_group.addView(chipChaplainEthnic)
                             Log.d("otherSelection: ", selection)
                             ethnicArrayList.add(chaplainProfileFieldChaplainEthnic)
@@ -902,7 +906,7 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         takeProfileInfo()
-        saveData()
+        saveDataInBackground()
     }
 
     override fun onStart() {
@@ -912,68 +916,298 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
     private fun readData(){
         dbSave.get().addOnSuccessListener { document ->
             if (document != null){
-                Log.d("TAG", "DocumentSnapshot data: ${document.data}")
-                chaplainProfileAddresTitle = document.data?.get("addressing title").toString() //if it is empty, it will return "Nothing Selected"
-                chaplainProfileFieldPhone = document.data?.get("phone").toString()
+                if (document.data?.containsKey("addressing title") == true){
+                    chaplainProfileAddresTitle = document.data?.get("addressing title").toString() //if it is empty, it will return "Nothing Selected"
+                        val optionAddresing = resources.getStringArray(R.array.addressingTitleArray)
+                        spinnerAdressingTitle.setSelection(optionAddresing.indexOf(chaplainProfileAddresTitle))
+                }
+                if (document.data?.containsKey("phone") == true){
+                    chaplainProfileFieldPhone = document.data?.get("phone").toString()
+                }
 
-                val birthDate = document.data?.get("birth date") as com.google.firebase.Timestamp
+                var birthDate = Timestamp(Date(chaplainProfileFieldBirthDate.toLong()))
+                if (document.data?.containsKey("birth date") == true){
+                    birthDate = (document.data?.get("birth date") as? com.google.firebase.Timestamp)!!
+                }
                 val millisecondsLong = birthDate.seconds * 1000 + birthDate.nanoseconds / 1000000
                 val sdf = SimpleDateFormat("MMM dd, yyyy")
                 val netDate = Date(millisecondsLong)
                 val date = sdf.format(netDate).toString()
                 chaplainProfileFieldBirthDate = millisecondsLong.toString()
-                chaplainProfileFieldEducation = document.data?.get("education").toString()
-                chaplainProfileFieldExperience = document.data?.get("experiance").toString()
-                chaplainProfileFieldPreferredLanguage = document.data?.get("language").toString()
-                chaplainProfileFieldSsn = document.data?.get("ssn").toString()
-                chaplainProfileOrdained = document.data?.get("ordained name").toString()
-                chaplainProfileOrdainedPeriod = document.data?.get("ordained period").toString()
-                chaplainProfileAddCridentials = document.data?.get("additional cridential").toString()
-                chaplainProfileExplanation = document.data?.get("bio").toString()
-                chaplainCertificateName = document.data?.get("certificate name").toString()
-                chaplainResumeName = document.data?.get("cv name").toString()
-                chaplainCvUrl = document.data?.get("cv url").toString()
-                chaplainCertificateUrl = document.data?.get("certificate url").toString()
-                Log.d("a AddresTitle: ", chaplainProfileAddresTitle)
-                Log.d("a Phone: ", chaplainProfileFieldPhone)
-                Log.d("a BirthDate: ", date)
-                Log.d("a BirthDate m: ", chaplainProfileFieldBirthDate)
-                Log.d("a Education: ", chaplainProfileFieldEducation)
-                Log.d("a Experience: ", chaplainProfileFieldExperience)
-                Log.d("a PreferredLanguage: ", chaplainProfileFieldPreferredLanguage)
-                Log.d("a Ssn: ", chaplainProfileFieldSsn)
-                Log.d("a Ordained: ", chaplainProfileOrdained)
-                Log.d("a OrdainedPeriod: ", chaplainProfileOrdainedPeriod)
-                Log.d("a AddCridentials: ", chaplainProfileAddCridentials)
-                Log.d("a Explanation: ", chaplainProfileExplanation)
-                Log.d("a CertificateName: ", chaplainCertificateName)
-                Log.d("a ResumeName: ", chaplainResumeName)
-                chaplainSignUpeditTextPhone.setText(chaplainProfileFieldPhone)
-                textView_chaplain_birth_date.text = getString(R.string.chaplain_sign_up_birth_date) + date
-                chaplainSignUpeditTextEducation.setText(chaplainProfileFieldEducation)
-                chaplainSignUpeditTextExperience.setText(chaplainProfileFieldExperience)
-                chaplainSignUpeditTextPreferredLang.setText(chaplainProfileFieldPreferredLanguage)
-                chaplainSignUpeditTextSsn.setText(chaplainProfileFieldSsn)
-                chaplainSignUpeditTextOrdeined.setText(chaplainProfileOrdained)
-                chaplainSignUpeditTextOrdPeriod.setText(chaplainProfileOrdainedPeriod)
-                chaplainSignUpeditAddCrident.setText(chaplainProfileAddCridentials)
-                chaplainSignUpeditTextExp.setText(chaplainProfileExplanation)
-                if (chaplainCertificateName != ""){
-                    chaplain_certificate_name_lineer_layout.visibility = View.VISIBLE
-                    certificateFileNameTextView.text = chaplainCertificateName
-                }
-                if(chaplainResumeName != ""){
-                    chaplain_cv_name_show_lineer_layout.visibility = View.VISIBLE
-                    resumeFileNameTextView.text = chaplainResumeName
+
+                if (document.data?.containsKey("education") == true){
+                    chaplainProfileFieldEducation = document.data?.get("education").toString()
+                    chaplainSignUpeditTextEducation.setText(chaplainProfileFieldEducation)
                 }
 
-            }else {
+                if (document.data?.containsKey("experiance") == true){
+                    chaplainProfileFieldExperience = document.data?.get("experiance").toString()
+                    chaplainSignUpeditTextExperience.setText(chaplainProfileFieldExperience)
+                }
+
+                if (document.data?.containsKey("language") == true){
+                    chaplainProfileFieldPreferredLanguage = document.data?.get("language").toString()
+                    chaplainSignUpeditTextPreferredLang.setText(chaplainProfileFieldPreferredLanguage)
+                }
+
+                if (document.data?.containsKey("ssn") == true){
+                    chaplainProfileFieldSsn = document.data?.get("ssn").toString()
+                    chaplainSignUpeditTextSsn.setText(chaplainProfileFieldSsn)
+                }
+
+                if (document.data?.containsKey("ordained name") == true){
+                    chaplainProfileOrdained = document.data?.get("ordained name").toString()
+                    chaplainSignUpeditTextOrdeined.setText(chaplainProfileOrdained)
+                }
+
+                if (document.data?.containsKey("ordained period") == true){
+                    chaplainProfileOrdainedPeriod = document.data?.get("ordained period").toString()
+                    chaplainSignUpeditTextOrdPeriod.setText(chaplainProfileOrdainedPeriod)
+                }
+
+                if (document.data?.containsKey("additional cridential") == true){
+                    chaplainProfileAddCridentials = document.data?.get("additional cridential").toString()
+                    chaplainSignUpeditAddCrident.setText(chaplainProfileAddCridentials)
+                }
+
+                if (document.data?.containsKey("bio") == true){
+                    chaplainProfileExplanation = document.data?.get("bio").toString()
+                    chaplainSignUpeditTextExp.setText(chaplainProfileExplanation)
+                }
+
+                if (document.data?.containsKey("certificate name") == true){
+                    chaplainCertificateName = document.data?.get("certificate name").toString()
+                    if (chaplainCertificateName != ""){
+                        chaplain_certificate_name_lineer_layout.visibility = View.VISIBLE
+                        certificateFileNameTextView.text = chaplainCertificateName
+                    }
+                }
+
+                if (document.data?.containsKey("cv name") == true){
+                    chaplainResumeName = document.data?.get("cv name").toString()
+                    if(chaplainResumeName != ""){
+                        chaplain_cv_name_show_lineer_layout.visibility = View.VISIBLE
+                        resumeFileNameTextView.text = chaplainResumeName
+                    }
+                }
+
+                if (document.data?.containsKey("cv url") == true){
+                    chaplainCvUrl = document.data?.get("cv url").toString()
+                }
+
+                if (document.data?.containsKey("certificate url") == true){
+                    chaplainCertificateUrl = document.data?.get("certificate url").toString()
+                }
+
+                chaplainSignUpeditTextPhone.setText(chaplainProfileFieldPhone)
+                if (date != "Jan 01, 1970"){
+                    textView_chaplain_birth_date.text = getString(R.string.chaplain_sign_up_birth_date) + date
+                }
+
+                if (document.data?.containsKey("cridentials title") == true ) {
+                    val cridentials = document.data?.get("cridentials title").toString()
+                    if (cridentials != "") {
+                        if (cridentials.contains("/")) {
+                            credentialTitleArrayList = cridentials.split("/") as ArrayList<String>
+                        } else {
+                            credentialTitleArrayList.add(cridentials)
+                        }
+
+                        for (k in credentialTitleArrayList.indices) {
+                            if (credentialTitleArrayList[k] != "Nothing Selected") {
+                                val chipCredentialTitle = Chip(this@ChaplainSignUpSecondPart)
+                                chipCredentialTitle.isCloseIconVisible = true
+                                chipCredentialTitle.setChipBackgroundColorResource(R.color.colorAccent)
+                                chipCredentialTitle.setTextColor(resources.getColor(R.color.colorPrimary))
+                                chipCredentialTitle.text = credentialTitleArrayList[k]
+                                credentials_chip_group.addView(chipCredentialTitle)
+
+                                chipCredentialTitle.setOnClickListener {
+                                    credentials_chip_group.removeView(chipCredentialTitle)
+                                    credentialTitleArrayList.remove(chipCredentialTitle.text)
+                                }
+                            }
+                        }
+                    }
+                }
+
+                    if (document.data?.containsKey("faith") == true ) {
+                        val chaplainFaith = document.data?.get("faith").toString()
+                        if (chaplainFaith != "") {
+                            if (chaplainFaith.contains("/")) {
+                                faithArrayList =
+                                    chaplainFaith.split("/") as ArrayList<String>
+                            } else {
+                                faithArrayList.add(chaplainFaith)
+                            }
+
+                            for (k in faithArrayList.indices) {
+                                if (faithArrayList[k] != "Nothing Selected") {
+                                    val chipChaplainFaith = Chip(this@ChaplainSignUpSecondPart)
+                                    chipChaplainFaith.isCloseIconVisible = true
+                                    chipChaplainFaith.setChipBackgroundColorResource(R.color.colorAccent)
+                                    chipChaplainFaith.setTextColor(resources.getColor(R.color.colorPrimary))
+                                    chipChaplainFaith.text = faithArrayList[k]
+                                    chaplain_faith_chip_group.addView(chipChaplainFaith)
+
+                                    chipChaplainFaith.setOnClickListener {
+                                        chaplain_faith_chip_group.removeView(chipChaplainFaith)
+                                        faithArrayList.remove(chipChaplainFaith.text)
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                if (document.data?.containsKey("ethnic") == true ) {
+                    val ethnicBackground = document.data?.get("ethnic").toString()
+                    if (ethnicBackground != "") {
+                        if (ethnicBackground.contains("/")) {
+                            ethnicArrayList = ethnicBackground.split("/") as ArrayList<String>
+                        } else {
+                            ethnicArrayList.add(ethnicBackground)
+                        }
+
+                        for (k in ethnicArrayList.indices) {
+                            if (ethnicArrayList[k] != "Nothing Selected") {
+                                val chipChaplainEthnic = Chip(this@ChaplainSignUpSecondPart)
+                                chipChaplainEthnic.isCloseIconVisible = true
+                                chipChaplainEthnic.setChipBackgroundColorResource(R.color.colorAccent)
+                                chipChaplainEthnic.setTextColor(resources.getColor(R.color.colorPrimary))
+                                chipChaplainEthnic.text = ethnicArrayList[k]
+                                chaplain_ethnic_chip_group.addView(chipChaplainEthnic)
+
+                                chipChaplainEthnic.setOnClickListener {
+                                    chaplain_ethnic_chip_group.removeView(chipChaplainEthnic)
+                                    ethnicArrayList.remove(chipChaplainEthnic.text)
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (document.data?.containsKey("other languages") == true ) {
+                    val chaplainOtherLanguages = document.data?.get("other languages").toString()
+                    if (chaplainOtherLanguages != "") {
+                        if (chaplainOtherLanguages.contains("/")) {
+                            otherLanguagesArrayList =
+                                chaplainOtherLanguages.split("/") as ArrayList<String>
+                        } else {
+                            otherLanguagesArrayList.add(chaplainOtherLanguages)
+                        }
+
+                        for (k in otherLanguagesArrayList.indices) {
+                                val chipChaplainOtherLanguage = Chip(this@ChaplainSignUpSecondPart)
+                                chipChaplainOtherLanguage.isCloseIconVisible = true
+                                chipChaplainOtherLanguage.setChipBackgroundColorResource(R.color.colorAccent)
+                                chipChaplainOtherLanguage.setTextColor(resources.getColor(R.color.colorPrimary))
+                                chipChaplainOtherLanguage.text = otherLanguagesArrayList[k]
+                            chaplain_other_languages_chip_group.addView(chipChaplainOtherLanguage)
+
+                                chipChaplainOtherLanguage.setOnClickListener {
+                                    chaplain_other_languages_chip_group.removeView(chipChaplainOtherLanguage)
+                                    otherLanguagesArrayList.remove(chipChaplainOtherLanguage.text)
+                                }
+                        }
+                    }
+                }
+            }
+            else {
                 Log.d("TAG", "No such document")
             }
         }
         .addOnFailureListener { exception ->
             Log.d("TAG", "get failed with ", exception)
+        }
 
+        dbChaplainFieldSave.get().addOnSuccessListener { document ->
+            if (document != null) {
+                Log.d("TAG", "DocumentSnapshot data: ${document.data}")
+                val result = document.data!!
+                for ((k, v) in result){
+                    chaplainFieldArrayList.add(v.toString())
+                }
+                Log.d("TA", result.toString())
+                for (k in chaplainFieldArrayList.indices) {
+                    val chipChaplainFieldTitle = Chip(this@ChaplainSignUpSecondPart)
+                    chipChaplainFieldTitle.isCloseIconVisible = true
+                    chipChaplainFieldTitle.setChipBackgroundColorResource(R.color.colorAccent)
+                    chipChaplainFieldTitle.setTextColor(resources.getColor(R.color.colorPrimary))
+                    chipChaplainFieldTitle.text = chaplainFieldArrayList[k]
+                    chaplain_field_chip_group.addView(chipChaplainFieldTitle)
+
+                    chipChaplainFieldTitle.setOnClickListener {
+                        chaplain_field_chip_group.removeView(chipChaplainFieldTitle)
+                        chaplainFieldArrayList.remove(chipChaplainFieldTitle.text)
+                    }
+                }
+            }
+            else {
+                Log.d("TAG", "No such document")
+            }
+        }
+            .addOnFailureListener { exception ->
+                Log.d("TAG", "get failed with ", exception)
+
+            }
+    }
+
+    fun saveDataInBackground(){
+        val data = hashMapOf(
+            "addressing title" to chaplainProfileAddresTitle,
+            "phone" to chaplainProfileFieldPhone,
+            "birth date" to Timestamp(Date(chaplainProfileFieldBirthDate.toLong())),
+            "education" to chaplainProfileFieldEducation,
+            "experiance" to chaplainProfileFieldExperience,
+            "language" to chaplainProfileFieldPreferredLanguage,
+            "ssn" to chaplainProfileFieldSsn,
+            "ordained name" to chaplainProfileOrdained,
+            "ordained period" to chaplainProfileOrdainedPeriod,
+            "additional cridential" to chaplainProfileAddCridentials,
+            "bio" to chaplainProfileExplanation,
+            "cv url" to chaplainCvUrl,
+            "certificate url" to chaplainCertificateUrl,
+            "certificate name" to chaplainCertificateName,
+            "cv name" to chaplainResumeName,
+            "cridentials title" to credentialTitleArrayList.joinToString("/"),
+            "faith" to faithArrayList.joinToString("/"),
+            "ethnic" to ethnicArrayList.joinToString("/"),
+            "other languages" to otherLanguagesArrayList.joinToString("/")
+        )
+        dbSave.set(data, SetOptions.merge())
+            .addOnSuccessListener {
+                Log.d("data upload", "DocumentSnapshot successfully written!")
+                credentials_chip_group.removeAllViews()
+                credentialTitleArrayList.clear()
+
+                chaplain_faith_chip_group.removeAllViews()
+                faithArrayList.clear()
+
+                chaplain_ethnic_chip_group.removeAllViews()
+                ethnicArrayList.clear()
+
+                chaplain_other_languages_chip_group.removeAllViews()
+                otherLanguagesArrayList.clear()
+
+                chaplain_field_chip_group.removeAllViews()
+                chaplainFieldArrayList.clear()
+
+            }
+            .addOnFailureListener {
+                    e -> Log.w("data upload", "Error writing document", e)
+            }
+
+        val field = HashMap<String, String>()
+        var a = 1
+        for (k in chaplainFieldArrayList){
+            field[a.toString()] = k
+            Log.d("liste", k)
+            a += 1
+        }
+        dbChaplainFieldSave.set(field).addOnCompleteListener {
+            Log.d("field", "uploaded")
+        }.addOnFailureListener {
+            Log.d("field", "failed")
         }
     }
 }
