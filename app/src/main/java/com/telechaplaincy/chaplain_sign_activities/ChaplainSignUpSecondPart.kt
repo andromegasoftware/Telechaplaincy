@@ -33,6 +33,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.telechaplaincy.R
+import com.telechaplaincy.chaplain.ChaplainMainActivity
 import kotlinx.android.synthetic.main.activity_chaplain_sign_up.*
 import kotlinx.android.synthetic.main.activity_chaplain_sign_up_second_part.*
 import java.text.SimpleDateFormat
@@ -193,80 +194,6 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
         chaplainProfileOrdainedPeriod = chaplainSignUpeditTextOrdPeriod.text.toString()
         chaplainProfileAddCridentials = chaplainSignUpeditAddCrident.text.toString()
         chaplainProfileExplanation = chaplainSignUpeditTextExp.text.toString()
-
-        /*if (chaplainProfileAddresTitle == "Nothing Selected"){
-            val toast = Toast.makeText(
-                this,
-                R.string.sign_up_toast_message_enter_chaplain_addressing_title,
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-        else if (chaplainProfileCredentialTitle == "Nothing Selected"){
-            val toast = Toast.makeText(
-                this,
-                R.string.sign_up_toast_message_enter_chaplain_credentials_title,
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-        else if (chaplainProfileFieldPhone == ""){
-            val toast = Toast.makeText(
-                this,
-                R.string.sign_up_toast_message_enter_phone,
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-        else if (chaplainProfileFieldEducation == ""){
-            val toast = Toast.makeText(
-                this,
-                R.string.sign_up_toast_message_enter_edu,
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-        else if (chaplainProfileFieldExperience == ""){
-            val toast = Toast.makeText(
-                this,
-                R.string.sign_up_toast_message_enter_exp,
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-        else if (chaplainProfileFieldChaplainField == "Nothing Selected"){
-            val toast = Toast.makeText(
-                this,
-                R.string.sign_up_toast_message_enter_chaplain_field,
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-        else if (chaplainProfileFieldPreferredLanguage == ""){
-            val toast = Toast.makeText(
-                this,
-                R.string.sign_up_toast_message_enter_preferred_lang,
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-        else if (chaplainProfileFieldSsn == ""){
-            val toast = Toast.makeText(
-                this,
-                R.string.sign_up_toast_message_enter_ssn,
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-        else if (chaplainCvUrl == ""){
-            val toast = Toast.makeText(
-                this,
-                R.string.sign_up_toast_message_pdf_file_upload,
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-        else if (chaplainCertificateUrl == ""){
-            val toast = Toast.makeText(
-                this,
-                R.string.sign_up_toast_message_pdf_file_certificate,
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-        else{
-            saveData()
-        }*/
     }
 
     private fun takeChaplainBirthDate(){
@@ -365,9 +292,8 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
                 position: Int,
                 id: Long
             ) {
-                chaplainProfileAddresTitle = optionAddresing[position]
-
-            }
+                    chaplainProfileAddresTitle = optionAddresing[position]
+                }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
@@ -1209,5 +1135,12 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
         }.addOnFailureListener {
             Log.d("field", "failed")
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intent = Intent(this, ChaplainMainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }

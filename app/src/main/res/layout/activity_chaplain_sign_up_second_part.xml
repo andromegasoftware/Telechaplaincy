@@ -70,7 +70,6 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="1dp"
                     android:layout_weight="5"
-                    app:cardBackgroundColor="#FFFFFF"
                     app:strokeColor="@color/loginPageTitleTextColor"
                     app:strokeWidth="1dp">
 
@@ -86,7 +85,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="1dp"
-                    android:layout_marginLeft="1dp"
                     android:layout_weight="5"
                     app:strokeColor="@color/loginPageTitleTextColor"
                     app:strokeWidth="1dp">

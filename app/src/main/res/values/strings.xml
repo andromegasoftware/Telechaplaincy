@@ -126,6 +126,8 @@
     <string name="chaplain_sign_add_cri">Additional credentials</string>
     <string name="chaplain_sign_exp_title">Short Bio</string>
     <string name="chaplain_sign_exp">Tell the patients about yourself</string>
+    <string name="chaplain_sign_up_profile_check_button_text">YOU NEED TO ENTER SOME INFO TO USE APP</string>
+
     <string name="sign_up_toast_message_enter_phone">Please enter phone number</string>
     //sign up page toast message if phone number is empty
     <string name="sign_up_toast_message_enter_birth_day">Please enter day of birth date</string>
