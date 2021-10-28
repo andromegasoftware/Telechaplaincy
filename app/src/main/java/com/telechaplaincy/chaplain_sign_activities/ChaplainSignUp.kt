@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -48,6 +49,7 @@ class ChaplainSignUp : AppCompatActivity() {
     private var isImageEmpty:Boolean = false
     private lateinit var imageFile: Uri
     private var imageLink: String = ""
+    private var userRole:String = "2"
 
       override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -139,6 +141,12 @@ class ChaplainSignUp : AppCompatActivity() {
             .addOnFailureListener {
                 Log.d("user complete: ", "not added")
             }
+
+        //this part defines the chaplain a role
+        val data = hashMapOf("userRole" to userRole)
+        db.collection("users").document(chaplainProfileFieldUserId).set(data, SetOptions.merge())
+            .addOnSuccessListener { Log.d("TAG", "DocumentSnapshot successfully written!") }
+            .addOnFailureListener { e -> Log.w("TAG", "Error writing document", e) }
 
         finish()
         val chaplainLogIn = ChaplainLogIn()

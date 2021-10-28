@@ -3,9 +3,11 @@ package com.telechaplaincy.patient_sign_activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.telechaplaincy.patient.PatientMainActivity
@@ -31,6 +33,7 @@ class SignUpActivity : AppCompatActivity() {
     private var patientProfileFieldSurname:String = ""
     private var patientProfileFieldEmail:String = ""
     private var patientProfileFieldUserId:String = ""
+    private var userRole:String = "1"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -115,13 +118,17 @@ class SignUpActivity : AppCompatActivity() {
         sign_up_page_progressBar.visibility = View.GONE
         sign_up_page_signUp_button.isClickable = true
 
-        val userId = auth.currentUser?.uid
-        val profile = userId?.let { UserProfile(userName, userSurName, userEmail, it) }
-        if (profile != null) {
-            db.collection(patientCollectionName).document(userId)
-                .collection(patientProfileCollectionName).document(patientProfileDocumentName)
-                .set(profile)
-        }
+        patientProfileFieldUserId = auth.currentUser?.uid.toString()
+        val profile = UserProfile(userName, userSurName, userEmail, patientProfileFieldUserId)
+        db.collection(patientCollectionName).document(patientProfileFieldUserId)
+            .collection(patientProfileCollectionName).document(patientProfileDocumentName)
+            .set(profile)
+
+        //this part defines the chaplain a role
+        val data = hashMapOf("userRole" to userRole)
+        db.collection("users").document(patientProfileFieldUserId).set(data, SetOptions.merge())
+            .addOnSuccessListener { Log.d("TAG", "DocumentSnapshot successfully written!") }
+            .addOnFailureListener { e -> Log.w("TAG", "Error writing document", e) }
 
         finish()
         val loginPage = LoginPage()

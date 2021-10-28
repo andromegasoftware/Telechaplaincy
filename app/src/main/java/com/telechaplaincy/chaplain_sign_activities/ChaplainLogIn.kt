@@ -3,9 +3,13 @@ package com.telechaplaincy.chaplain_sign_activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.telechaplaincy.chaplain.ChaplainMainActivity
 import com.telechaplaincy.MainEntry
 import com.telechaplaincy.R
@@ -16,9 +20,12 @@ import kotlinx.android.synthetic.main.activity_chaplain_log_in.*
 class ChaplainLogIn : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
+    private val db = Firebase.firestore
 
     private var userEmail : String = ""
     private var userPassword: String = ""
+    private var chaplainProfileFieldUserId:String = ""
+    private var userRole:String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,12 +86,10 @@ class ChaplainLogIn : AppCompatActivity() {
     }
         //when sign in ok, what will happen
         private fun updateUI(){
-            val intent = Intent(this, ChaplainMainActivity::class.java)
-            startActivity(intent)
             //val toast = Toast.makeText(this, R.string.sign_up_toast_account_created, Toast.LENGTH_SHORT).show()
             chaplain_login_page_progressBar.visibility = View.GONE
             chaplain_login_page_login_button.isClickable = true
-            finish()
+            checkUserRole()
 
         }
 
@@ -100,9 +105,49 @@ class ChaplainLogIn : AppCompatActivity() {
         // Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = auth.currentUser
         if(currentUser != null){
-            val intent = Intent(this, ChaplainMainActivity::class.java)
+            checkUserRole()
+        }
+    }
+    private fun checkUserRole(){
+        chaplainProfileFieldUserId = auth.currentUser?.uid ?: chaplainProfileFieldUserId
+        val docRef = db.collection("users").document(chaplainProfileFieldUserId)
+            .get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    if (document.data?.containsKey("userRole") == true){
+                        val data = document.data as Map<String, String>
+                        userRole = data["userRole"].toString()
+                        if (userRole == "2"){
+                            val intent = Intent(this, ChaplainMainActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }else{
+                            alertDialogMessage()
+                        }
+                    }
+                    Log.d("TAG", "DocumentSnapshot data: ${document.data}")
+                    Log.d("TAG", "DocumentSnapshot data: $userRole")
+                } else {
+                    Log.d("TAG", "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d("TAG", "get failed with ", exception)
+            }
+
+    }
+    private fun alertDialogMessage(){
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Sorry")
+        builder.setMessage(R.string.sign_up_toast_message_user_role)
+        builder.setCancelable(false)
+        builder.setPositiveButton("OK") { dialog, which ->
+            //Toast.makeText(baseContext, R.string.sign_up_toast_message_user_role, Toast.LENGTH_SHORT).show()
+            auth.signOut()
+            val intent = Intent(this, MainEntry::class.java)
             startActivity(intent)
             finish()
         }
+        builder.show()
     }
 }

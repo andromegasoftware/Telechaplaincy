@@ -1048,12 +1048,15 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
 
         dbChaplainFieldSave.get().addOnSuccessListener { document ->
             if (document != null) {
-                Log.d("TAG", "DocumentSnapshot data: ${document.data}")
-                val result = document.data!!
-                for ((k, v) in result){
-                    chaplainFieldArrayList.add(v.toString())
+                if (document.data?.containsKey("1") == true ){
+                    Log.d("TAG", "DocumentSnapshot data: ${document.data}")
+                    val result = document.data!!
+                    for ((k, v) in result){
+                        chaplainFieldArrayList.add(v.toString())
+                    }
+                    Log.d("TA", result.toString())
                 }
-                Log.d("TA", result.toString())
+
                 for (k in chaplainFieldArrayList.indices) {
                     val chipChaplainFieldTitle = Chip(this@ChaplainSignUpSecondPart)
                     chipChaplainFieldTitle.isCloseIconVisible = true

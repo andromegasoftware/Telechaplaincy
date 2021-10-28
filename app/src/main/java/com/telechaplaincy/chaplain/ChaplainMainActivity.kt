@@ -46,7 +46,6 @@ class ChaplainMainActivity : AppCompatActivity() {
     private var chaplainProfileFieldChaplainField:String = ""
     private var chaplainProfileFieldPreferredLanguage:String = ""
     private var chaplainProfileFieldSsn:String = ""
-    private var chaplainProfileExplanation:String = ""
     var chaplainCvUrl: String = ""   // this is chaplain uploaded cv link to reach cv later in the storage
     var chaplainCertificateUrl: String = ""   // this is chaplain uploaded cv link to reach cv later in the storage
 
@@ -108,9 +107,11 @@ class ChaplainMainActivity : AppCompatActivity() {
                 if (document.data?.containsKey("addressing title") == true) {
                     chaplainProfileAddresTitle = document.data?.get("addressing title")
                         .toString() //if it is empty, it will return "Nothing Selected"
+                    //Log.d("CProfile a", chaplainProfileAddresTitle)
                 }
                 if (document.data?.containsKey("phone") == true) {
                     chaplainProfileFieldPhone = document.data?.get("phone").toString()
+                    //Log.d("CProfile b", chaplainProfileFieldPhone)
                 }
 
 
@@ -119,59 +120,69 @@ class ChaplainMainActivity : AppCompatActivity() {
                     birthDate = (document.data?.get("birth date") as? com.google.firebase.Timestamp)!!
                     val millisecondsLong = birthDate.seconds * 1000 + birthDate.nanoseconds / 1000000
                     chaplainProfileFieldBirthDate = millisecondsLong.toString()
+                    //Log.d("CProfile d", chaplainProfileFieldBirthDate)
                 }
 
 
                 if (document.data?.containsKey("education") == true) {
                     chaplainProfileFieldEducation = document.data?.get("education").toString()
+                    //Log.d("CProfile e", chaplainProfileFieldEducation)
                 }
 
                 if (document.data?.containsKey("experiance") == true) {
                     chaplainProfileFieldExperience = document.data?.get("experiance").toString()
+                    //Log.d("CProfile f", chaplainProfileFieldExperience)
                 }
 
                 if (document.data?.containsKey("language") == true) {
                     chaplainProfileFieldPreferredLanguage =
                         document.data?.get("language").toString()
+                    //Log.d("CProfile g", chaplainProfileFieldPreferredLanguage)
                 }
 
                 if (document.data?.containsKey("ssn") == true) {
                     chaplainProfileFieldSsn = document.data?.get("ssn").toString()
+                    //Log.d("CProfile h", chaplainProfileFieldSsn)
                 }
 
                 if (document.data?.containsKey("cv url") == true) {
                     chaplainCvUrl = document.data?.get("cv url").toString()
+                   // Log.d("CProfile i", chaplainCvUrl)
                 }
 
                 if (document.data?.containsKey("certificate url") == true) {
                     chaplainCertificateUrl = document.data?.get("certificate url").toString()
+                   // Log.d("CProfile j", chaplainCertificateUrl)
                 }
 
                 if (document.data?.containsKey("cridentials title") == true) {
                     chaplainProfileCredentialTitle = document.data?.get("cridentials title").toString()
+                    //Log.d("CProfile k", chaplainProfileCredentialTitle)
                 }
             }
+
             else{
-                Log.d("CProfile", "no such a document")
+               // Log.d("CProfile", "no such a document")
             }
-            checkSignUpData()
+
         }.addOnFailureListener { exception ->
-                Log.d("CProfile", "get failed with ", exception)
+                //Log.d("CProfile", "get failed with ", exception)
         }
 
 
         dbChaplainFieldSave.get().addOnSuccessListener { document ->
             if (document != null) {
-                Log.d("CField", "DocumentSnapshot data: ${document.data}")
+                //Log.d("CField", "DocumentSnapshot data: ${document.data}")
                 chaplainProfileFieldChaplainField = document.data.toString()
-
+                //Log.d("CProfile L", chaplainProfileFieldChaplainField)
             }
             else {
-                Log.d("CField", "No such document")
+               // Log.d("CField", "No such document")
             }
+            checkSignUpData()
         }
             .addOnFailureListener { exception ->
-                Log.d("CField", "get failed with ", exception)
+                //Log.d("CField", "get failed with ", exception)
 
             }
 
@@ -179,16 +190,23 @@ class ChaplainMainActivity : AppCompatActivity() {
 
     //This method will check if the chaplain filled in the all necessary fields in the sign up page
     private fun checkSignUpData(){
-        if (chaplainProfileAddresTitle != "" && chaplainProfileAddresTitle != "Nothing Selected" &&
-            chaplainProfileCredentialTitle != ""
+        if (chaplainProfileAddresTitle != "" && chaplainProfileAddresTitle != "Nothing Selected"
+            && chaplainProfileCredentialTitle != ""
             && chaplainProfileFieldPhone != "" && chaplainProfileFieldBirthDate != "0"
             && chaplainProfileFieldEducation != "" && chaplainProfileFieldExperience != ""
             && chaplainProfileFieldChaplainField != "" && chaplainProfileFieldPreferredLanguage != ""
             && chaplainProfileFieldSsn != "" && chaplainCvUrl != "" && chaplainCertificateUrl != ""){
 
             chaplain_signUp_continue_button.visibility = View.GONE
-            Log.d("Button", "OK")
+            //Log.d("Button", "OK")
+        }else{
+            //Log.d("Button", "NOT OK")
+
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
     }
 
     fun addingActivitiesToBottomMenu(){

@@ -22,7 +22,7 @@
     //login page chaplain textView
 
 
-    //sign up page strings
+    //patient sign up page strings
     <string name="sign_up_page_title">Patient Sign Up</string>
     //Sign up page title textView
 
@@ -49,6 +49,8 @@
 
     <string name="sign_up_page_go_back_login_textView">Already have an account? <font color='#BB6BD9'> <u> Login</u></font></string>
     //Sign up page go back login textView
+    <string name="patient_sign_up_toast_message_user_role">Your account is not a patient account. You need to enter as a Chaplain</string>
+    //sign up page toast message if user not a patient
 
     <string name="sign_up_toast_message_enter_name">Please enter your name</string>
     //sign up page toast message if name is empty
@@ -160,6 +162,8 @@
     //sign up page toast message if chaplin data uploaded to the firestore
     <string name="sign_up_toast_message_data_not_uploaded">Sorry, Profile info could not save. Please try again later.</string>
     //sign up page toast message if chaplin data uploaded to the firestore
+    <string name="sign_up_toast_message_user_role">Your account is not a Chaplain account. You need to enter as a patient</string>
+    //sign up page toast message if user not a chaplain
 
     //Firestore chaplain document and collection names
     <string name="chaplain_collection">chaplain</string>
