@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Tele Chaplaincy</string>
+    <string name="app_int_connection_alert">Sorry! We could not find any internet connection. App work with internet connection.</string>
+
 
     //Patient login page string
     <string name="login_page_textView_title_login">Patient Login</string>

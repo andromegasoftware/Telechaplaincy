@@ -102,11 +102,11 @@ class ChaplainLogIn : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
+        /*// Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = auth.currentUser
         if(currentUser != null){
             checkUserRole()
-        }
+        }*/
     }
     private fun checkUserRole(){
         chaplainProfileFieldUserId = auth.currentUser?.uid ?: chaplainProfileFieldUserId
@@ -121,8 +121,10 @@ class ChaplainLogIn : AppCompatActivity() {
                             val intent = Intent(this, ChaplainMainActivity::class.java)
                             startActivity(intent)
                             finish()
-                        }else{
-                            alertDialogMessage()
+                        }else if (userRole == "1"){
+                            val intent = Intent(this, PatientMainActivity::class.java)
+                            startActivity(intent)
+                            finish()
                         }
                     }
                     Log.d("TAG", "DocumentSnapshot data: ${document.data}")
@@ -136,7 +138,7 @@ class ChaplainLogIn : AppCompatActivity() {
             }
 
     }
-    private fun alertDialogMessage(){
+   /* private fun alertDialogMessage(){
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Sorry")
         builder.setMessage(R.string.sign_up_toast_message_user_role)
@@ -149,5 +151,5 @@ class ChaplainLogIn : AppCompatActivity() {
             finish()
         }
         builder.show()
-    }
+    }*/
 }

@@ -2,11 +2,13 @@ package com.telechaplaincy
 
 import android.app.Dialog
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Window
 import android.widget.Button
+import androidx.core.content.ContextCompat
 import com.telechaplaincy.chaplain_sign_activities.ChaplainLogIn
 import com.telechaplaincy.network_connection.ConnectionType
 import com.telechaplaincy.network_connection.NetworkMonitorUtil

@@ -30,5 +30,12 @@
         <item name="android:homeAsUpIndicator">@drawable/ic_baseline_arrow_back_24</item>
     </style>
 
+    //splash screen theme
+    <style name="SplashScreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#BB6BD9</item>
+        <item name="colorPrimaryDark">#BB6BD9</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
 
 </resources>

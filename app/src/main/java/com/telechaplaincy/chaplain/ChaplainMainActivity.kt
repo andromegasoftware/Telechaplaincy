@@ -48,10 +48,12 @@ class ChaplainMainActivity : AppCompatActivity() {
     private var chaplainProfileFieldSsn:String = ""
     var chaplainCvUrl: String = ""   // this is chaplain uploaded cv link to reach cv later in the storage
     var chaplainCertificateUrl: String = ""   // this is chaplain uploaded cv link to reach cv later in the storage
+    private var chaplainAccountStatus = "1"
 
     private val db = Firebase.firestore
     private lateinit var dbSave: DocumentReference
     private lateinit var dbChaplainFieldSave: DocumentReference
+    private lateinit var dbChaplainAccountStatus: DocumentReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,7 +80,11 @@ class ChaplainMainActivity : AppCompatActivity() {
         dbChaplainFieldSave = db.collection(chaplainCollectionName)
             .document(chaplainProfileFieldUserId).collection(chaplainField).document("field")
 
+        dbChaplainAccountStatus = db.collection(chaplainCollectionName)
+            .document(chaplainProfileFieldUserId).collection("account").document("status")
+
         readData() //to check if the chaplain profile filled in fully or not
+        readAccountStatus()//to check chaplain account status
 
         chaplain_logout.setOnClickListener {
             auth.signOut()
@@ -88,20 +94,88 @@ class ChaplainMainActivity : AppCompatActivity() {
         }
 
         chaplain_signUp_continue_button.setOnClickListener {
-            val intent = Intent(this, ChaplainSignUpSecondPart::class.java)
-            startActivity(intent)
-            finish()
+            checkSignUpData()
+
         }
     }
-    override fun onBackPressed() {
-        super.onBackPressed()
-        val intent = Intent(this, MainEntry::class.java)
-        startActivity(intent)
-        finish()
+
+    private fun readAccountStatus(){
+        dbChaplainAccountStatus.addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                Log.w("account", "Listen failed.", e)
+                return@addSnapshotListener
+            }
+
+            if (snapshot != null && snapshot.exists()) {
+                chaplainAccountStatus = snapshot.data?.get("accountStatus").toString()
+                Log.d("account", chaplainAccountStatus)
+            }
+        }
     }
 
     //this method will read the chaplain profile data from the firebase
     private fun readData(){
+
+        //this part is for the realtime listening, if we need this
+        /*dbSave.addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                Log.w("TAG", "Listen failed.", e)
+                return@addSnapshotListener
+            }
+
+            if (snapshot != null && snapshot.exists()) {
+                chaplainProfileAddresTitle = snapshot.data?.get("addressing title").toString()
+                Log.d("CProfile a", chaplainProfileAddresTitle)
+
+                chaplainProfileFieldPhone = snapshot.data?.get("phone").toString()
+                Log.d("CProfile b", chaplainProfileFieldPhone)
+
+                var birthDate = Timestamp(Date(chaplainProfileFieldBirthDate.toLong()))
+                birthDate = (snapshot.data?.get("birth date") as? com.google.firebase.Timestamp)!!
+                val millisecondsLong = birthDate.seconds * 1000 + birthDate.nanoseconds / 1000000
+                chaplainProfileFieldBirthDate = millisecondsLong.toString()
+                Log.d("CProfile d", chaplainProfileFieldBirthDate)
+
+                chaplainProfileFieldEducation = snapshot.data?.get("education").toString()
+                Log.d("CProfile e", chaplainProfileFieldEducation)
+
+                chaplainProfileFieldExperience = snapshot.data?.get("experiance").toString()
+                Log.d("CProfile f", chaplainProfileFieldExperience)
+
+                chaplainProfileFieldPreferredLanguage =
+                    snapshot.data?.get("language").toString()
+                Log.d("CProfile g", chaplainProfileFieldPreferredLanguage)
+
+                chaplainProfileFieldSsn = snapshot.data?.get("ssn").toString()
+                Log.d("CProfile h", chaplainProfileFieldSsn)
+
+                chaplainCvUrl = snapshot.data?.get("cv url").toString()
+                Log.d("CProfile i", chaplainCvUrl)
+
+                chaplainCertificateUrl = snapshot.data?.get("certificate url").toString()
+                Log.d("CProfile j", chaplainCertificateUrl)
+
+                chaplainProfileCredentialTitle = snapshot.data?.get("cridentials title").toString()
+                Log.d("CProfile k", chaplainProfileCredentialTitle)
+
+
+            }
+
+        }
+
+        dbChaplainFieldSave.addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                Log.w("CProfile c", "Listen failed.", e)
+                return@addSnapshotListener
+            }
+
+            if (snapshot != null && snapshot.exists()) {
+                chaplainProfileFieldChaplainField = snapshot.data.toString()
+                Log.d("CProfile c", chaplainProfileFieldChaplainField)
+            }
+        }*/
+
+        //this part is to get the profile data from the firestore
         dbSave.get().addOnSuccessListener { document ->
             if (document != null) {
                 if (document.data?.containsKey("addressing title") == true) {
@@ -164,6 +238,7 @@ class ChaplainMainActivity : AppCompatActivity() {
             else{
                // Log.d("CProfile", "no such a document")
             }
+            Log.d("CProfile", document.data.toString())
 
         }.addOnFailureListener { exception ->
                 //Log.d("CProfile", "get failed with ", exception)
@@ -173,13 +248,15 @@ class ChaplainMainActivity : AppCompatActivity() {
         dbChaplainFieldSave.get().addOnSuccessListener { document ->
             if (document != null) {
                 //Log.d("CField", "DocumentSnapshot data: ${document.data}")
-                chaplainProfileFieldChaplainField = document.data.toString()
+                if (document.data?.containsKey("1") == true) {
+                    chaplainProfileFieldChaplainField = document.data.toString()
+                }
                 //Log.d("CProfile L", chaplainProfileFieldChaplainField)
             }
             else {
                // Log.d("CField", "No such document")
             }
-            checkSignUpData()
+            Log.d("CProfile1", document.data.toString())
         }
             .addOnFailureListener { exception ->
                 //Log.d("CField", "get failed with ", exception)
@@ -194,20 +271,32 @@ class ChaplainMainActivity : AppCompatActivity() {
             && chaplainProfileCredentialTitle != ""
             && chaplainProfileFieldPhone != "" && chaplainProfileFieldBirthDate != "0"
             && chaplainProfileFieldEducation != "" && chaplainProfileFieldExperience != ""
-            && chaplainProfileFieldChaplainField != "" && chaplainProfileFieldPreferredLanguage != ""
-            && chaplainProfileFieldSsn != "" && chaplainCvUrl != "" && chaplainCertificateUrl != ""){
+            && chaplainProfileFieldPreferredLanguage != ""
+            && chaplainProfileFieldSsn != "" && chaplainCvUrl != "" && chaplainCertificateUrl != ""
+            && chaplainProfileFieldChaplainField != ""){
 
             chaplain_signUp_continue_button.visibility = View.GONE
-            //Log.d("Button", "OK")
+            val toast = Toast.makeText(this, "You entered every necessary info. You can change your info from the profile page", Toast.LENGTH_LONG).show()
+            /*Log.d("Button", "OK")
+            Log.d("Button", chaplainProfileAddresTitle)*/
         }else{
-            //Log.d("Button", "NOT OK")
-
+            val intent = Intent(this, ChaplainSignUpSecondPart::class.java)
+            startActivity(intent)
+            finish()
+            /*Log.d("Button", "NOT OK")
+            Log.d("Button a", chaplainProfileAddresTitle)
+            Log.d("Button b", chaplainProfileFieldPhone)
+            Log.d("Button d", chaplainProfileFieldBirthDate)
+            Log.d("Button e", chaplainProfileFieldEducation)
+            Log.d("Button f", chaplainProfileFieldExperience)
+            Log.d("Button g", chaplainProfileFieldPreferredLanguage)
+            Log.d("Button h", chaplainProfileFieldSsn)
+            Log.d("Button i", chaplainCvUrl)
+            Log.d("Button j", chaplainCertificateUrl)
+            Log.d("Button k", chaplainProfileCredentialTitle)*/
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-    }
 
     fun addingActivitiesToBottomMenu(){
 

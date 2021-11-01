@@ -29,9 +29,6 @@ class SignUpActivity : AppCompatActivity() {
     private var patientCollectionName:String = ""
     private var patientProfileCollectionName:String = ""
     private var patientProfileDocumentName:String = ""
-    private var patientProfileFieldName:String = ""
-    private var patientProfileFieldSurname:String = ""
-    private var patientProfileFieldEmail:String = ""
     private var patientProfileFieldUserId:String = ""
     private var userRole:String = "1"
 

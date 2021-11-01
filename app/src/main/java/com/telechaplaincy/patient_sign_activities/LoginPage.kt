@@ -82,11 +82,11 @@ class LoginPage : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
+        /*// Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = auth.currentUser
         if(currentUser != null){
             checkUserRole()
-        }
+        }*/
     }
 
     //when sign in ok, what will happen
@@ -117,8 +117,10 @@ class LoginPage : AppCompatActivity() {
                             val intent = Intent(this, PatientMainActivity::class.java)
                             startActivity(intent)
                             finish()
-                        }else{
-                            alertDialogMessage()
+                        }else if (userRole == "2"){
+                            val intent = Intent(this, ChaplainMainActivity::class.java)
+                            startActivity(intent)
+                            finish()
                         }
                     }
                     Log.d("TAG", "DocumentSnapshot data: ${document.data}")
@@ -133,7 +135,7 @@ class LoginPage : AppCompatActivity() {
 
     }
 
-    private fun alertDialogMessage(){
+   /* private fun alertDialogMessage(){
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Sorry")
         builder.setMessage(R.string.patient_sign_up_toast_message_user_role)
@@ -146,5 +148,5 @@ class LoginPage : AppCompatActivity() {
             finish()
         }
         builder.show()
-    }
+    }*/
 }

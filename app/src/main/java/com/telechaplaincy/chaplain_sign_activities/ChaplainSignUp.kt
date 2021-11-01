@@ -142,6 +142,17 @@ class ChaplainSignUp : AppCompatActivity() {
                 Log.d("user complete: ", "not added")
             }
 
+        val accountStatus = hashMapOf("accountStatus" to "1")
+        db.collection(chaplainCollectionName).document(chaplainProfileFieldUserId)
+            .collection("account").document("status")
+            .set(accountStatus).addOnCompleteListener {
+                Log.d("user complete: ", "added")
+                Log.d("user complete i: ", imageLink)
+            }
+            .addOnFailureListener {
+                Log.d("user complete: ", "not added")
+            }
+
         //this part defines the chaplain a role
         val data = hashMapOf("userRole" to userRole)
         db.collection("users").document(chaplainProfileFieldUserId).set(data, SetOptions.merge())

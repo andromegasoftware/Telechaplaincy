@@ -14,17 +14,19 @@
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".chaplain.ChaplainMainActivity"/>
-        <activity
-            android:name=".chaplain_sign_activities.ChaplainSignUpSecondPart"
-            android:theme="@style/ChaplainSignUpPageTheme" />
-        <activity android:name=".MainEntry">
+        <activity android:name=".SplashScreen"
+            android:theme="@style/SplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".chaplain.ChaplainMainActivity" />
+        <activity
+            android:name=".chaplain_sign_activities.ChaplainSignUpSecondPart"
+            android:theme="@style/ChaplainSignUpPageTheme" />
+        <activity android:name=".MainEntry"/>
         <activity
             android:name=".chaplain_sign_activities.ChaplainSignUp"
             android:parentActivityName=".chaplain_sign_activities.ChaplainLogIn" />
