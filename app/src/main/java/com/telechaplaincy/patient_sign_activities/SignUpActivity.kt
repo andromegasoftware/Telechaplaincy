@@ -121,7 +121,7 @@ class SignUpActivity : AppCompatActivity() {
             .collection(patientProfileCollectionName).document(patientProfileDocumentName)
             .set(profile)
 
-        //this part defines the chaplain a role
+        //this part defines the patient a role
         val data = hashMapOf("userRole" to userRole)
         db.collection("users").document(patientProfileFieldUserId).set(data, SetOptions.merge())
             .addOnSuccessListener { Log.d("TAG", "DocumentSnapshot successfully written!") }

@@ -2,7 +2,6 @@
     <string name="app_name">Tele Chaplaincy</string>
     <string name="app_int_connection_alert">Sorry! We could not find any internet connection. App work with internet connection.</string>
 
-
     //Patient login page string
     <string name="login_page_textView_title_login">Patient Login</string>
     //login page login title textView
@@ -23,6 +22,13 @@
     <string name="login_page_textView_chaplain"><u>Chaplain</u></string>
     //login page chaplain textView
 
+    //patient main activity
+    <string name="new_appointment">NEW APPOINTMENT</string>
+    <string name="future_appointment_text">You do not have any future appointments.</string>
+    <string name="old_appointment_text">You do not have any past appointments.</string>
+
+    <string name="future_appointment">Future Appointments</string>
+    <string name="old_appointment">Past Appointments</string>
 
     //patient sign up page strings
     <string name="sign_up_page_title">Patient Sign Up</string>
@@ -131,6 +137,11 @@
     <string name="chaplain_sign_exp_title">Short Bio</string>
     <string name="chaplain_sign_exp">Tell the patients about yourself</string>
     <string name="chaplain_sign_up_profile_check_button_text">YOU NEED TO ENTER SOME INFO TO USE APP</string>
+
+    //chaplain main activity
+    <string name="thankYou">Thank You</string>
+    <string name="application_accepted_message">Your application has been send to us. You will be notified when the application is accepted.</string>
+
 
     <string name="sign_up_toast_message_enter_phone">Please enter phone number</string>
     //sign up page toast message if phone number is empty

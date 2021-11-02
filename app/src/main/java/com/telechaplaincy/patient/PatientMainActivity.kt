@@ -1,20 +1,23 @@
 package com.telechaplaincy.patient
 
-import android.app.Dialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.appcompat.app.AlertDialog
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.telechaplaincy.MainEntry
 import com.telechaplaincy.R
 import com.telechaplaincy.chaplain.ChaplainMainActivity
+import com.telechaplaincy.patient_profile.PatientAppointmentPersonalInfo
+import com.telechaplaincy.patient_profile.PatientProfileActivity
 import com.telechaplaincy.patient_sign_activities.LoginPage
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_chaplain_main.*
+import kotlinx.android.synthetic.main.activity_patient_main.*
+import kotlinx.android.synthetic.main.activity_patient_main.bottomNavigation
 
 class PatientMainActivity : AppCompatActivity() {
 
@@ -25,16 +28,18 @@ class PatientMainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_patient_main)
+
+        addingActivitiesToBottomMenu()
 
         auth = FirebaseAuth.getInstance()
 
-        logOut.setOnClickListener {
-            auth.signOut()
-            val intent = Intent(this, LoginPage::class.java)
+        patient_new_appointment_button.setOnClickListener {
+            val intent = Intent(this, PatientAppointmentPersonalInfo::class.java)
             startActivity(intent)
-            finish()
+            //finish()
         }
+
     }
 
     override fun onStart() {
@@ -57,7 +62,7 @@ class PatientMainActivity : AppCompatActivity() {
         val docRef = db.collection("users").document(userId)
             .get()
             .addOnSuccessListener { document ->
-                progressBarPatientMain.visibility = View.GONE
+                //progressBarPatientMain.visibility = View.GONE
                 if (document != null) {
                     if (document.data?.containsKey("userRole") == true){
                         val data = document.data as Map<String, String>
@@ -75,9 +80,39 @@ class PatientMainActivity : AppCompatActivity() {
                 }
             }
             .addOnFailureListener { exception ->
-                progressBarPatientMain.visibility = View.GONE
+                //progressBarPatientMain.visibility = View.GONE
                 Log.d("TAG", "get failed with ", exception)
             }
 
+    }
+
+    private fun addingActivitiesToBottomMenu(){
+
+        bottomNavigation.selectedItemId = R.id.bottom_menu_home
+
+        bottomNavigation.setOnNavigationItemSelectedListener {
+            when(it.itemId){
+                R.id.bottom_menu_home -> {
+                    //val intent = Intent(this, PatientMainActivity::class.java)
+                    //startActivity(intent)
+                    Toast.makeText(this, "main", Toast.LENGTH_LONG).show()
+                    //finish()
+                }
+
+                R.id.bottom_menu_notification -> {
+                    //val intent = Intent(this, MyListActivity::class.java)
+                    //startActivity(intent)
+                    Toast.makeText(this, "Notification", Toast.LENGTH_LONG).show()
+                    //finish()
+                }
+                R.id.bottom_menu_profile -> {
+                    val intent = Intent(this, PatientProfileActivity::class.java)
+                    startActivity(intent)
+                    Toast.makeText(this, "profile", Toast.LENGTH_LONG).show()
+                    finish()
+                }
+            }
+            true
+        }
     }
 }

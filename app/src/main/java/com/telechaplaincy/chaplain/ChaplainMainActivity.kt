@@ -18,6 +18,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.telechaplaincy.MainEntry
 import com.telechaplaincy.R
+import com.telechaplaincy.chaplain_profile.ChaplainProfileActivity
 import com.telechaplaincy.chaplain_sign_activities.ChaplainLogIn
 import com.telechaplaincy.chaplain_sign_activities.ChaplainSignUpSecondPart
 import kotlinx.android.synthetic.main.activity_chaplain_main.*
@@ -86,13 +87,6 @@ class ChaplainMainActivity : AppCompatActivity() {
         readData() //to check if the chaplain profile filled in fully or not
         readAccountStatus()//to check chaplain account status
 
-        chaplain_logout.setOnClickListener {
-            auth.signOut()
-            val intent = Intent(this, ChaplainLogIn::class.java)
-            startActivity(intent)
-            finish()
-        }
-
         chaplain_signUp_continue_button.setOnClickListener {
             checkSignUpData()
 
@@ -109,6 +103,11 @@ class ChaplainMainActivity : AppCompatActivity() {
             if (snapshot != null && snapshot.exists()) {
                 chaplainAccountStatus = snapshot.data?.get("accountStatus").toString()
                 Log.d("account", chaplainAccountStatus)
+                if (chaplainAccountStatus == "1"){
+                    lineerLayoutChaplainAppWait.visibility = View.VISIBLE
+                }else{
+                    lineerLayoutChaplainAppWait.visibility = View.GONE
+                }
             }
         }
     }
@@ -315,10 +314,10 @@ class ChaplainMainActivity : AppCompatActivity() {
                     //finish()
                 }
                 R.id.bottom_menu_profile -> {
-                    //val intent = Intent(this, ProfileActivity::class.java)
-                    //startActivity(intent)
+                    val intent = Intent(this, ChaplainProfileActivity::class.java)
+                    startActivity(intent)
                     Toast.makeText(this, "profile", Toast.LENGTH_LONG).show()
-                    //finish()
+                    finish()
                 }
             }
             true

@@ -14,7 +14,11 @@
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SplashScreen"
+        <activity android:name=".patient_profile.PatientAppointmentPersonalInfo"></activity>
+        <activity android:name=".patient_profile.PatientProfileActivity" />
+        <activity android:name=".chaplain_profile.ChaplainProfileActivity" />
+        <activity
+            android:name=".SplashScreen"
             android:theme="@style/SplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,7 +30,7 @@
         <activity
             android:name=".chaplain_sign_activities.ChaplainSignUpSecondPart"
             android:theme="@style/ChaplainSignUpPageTheme" />
-        <activity android:name=".MainEntry"/>
+        <activity android:name=".MainEntry" />
         <activity
             android:name=".chaplain_sign_activities.ChaplainSignUp"
             android:parentActivityName=".chaplain_sign_activities.ChaplainLogIn" />
@@ -34,7 +38,9 @@
         <activity
             android:name=".patient_sign_activities.ForgotPassword"
             android:parentActivityName=".patient_sign_activities.LoginPage" />
-        <activity android:name=".patient.PatientMainActivity" />
+        <activity
+            android:name=".patient.PatientMainActivity"
+            android:theme="@style/PatientMainActivityTheme" />
         <activity
             android:name=".patient_sign_activities.SignUpActivity"
             android:parentActivityName=".patient_sign_activities.LoginPage" />
