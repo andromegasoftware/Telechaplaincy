@@ -87,7 +87,7 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chaplain_sign_up_second_part)
-        supportActionBar?.title = Html.fromHtml("<font color='#FBF3FE'>Tele Chaplaincy</font>")
+        //supportActionBar?.title = Html.fromHtml("<font color='#FBF3FE'>Tele Chaplaincy</font>")
 
         //this is for the progress bar visibility in the chaplain cv upload
         chaplain_cv_progressBar.visibility = View.GONE

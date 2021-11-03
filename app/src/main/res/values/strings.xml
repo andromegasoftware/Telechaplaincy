@@ -27,6 +27,18 @@
     <string name="future_appointment_text">You do not have any future appointments.</string>
     <string name="old_appointment_text">You do not have any past appointments.</string>
 
+    //patient appointment personal info page
+    <string name="personal_info_title">Personal Information</string>
+    <string name="personal_info_first_name">First Name</string>
+    <string name="personal_info_last_name">Last Name</string>
+    <string name="personal_info_date_of_birth">Birth Date (dd/MM/yyyy)</string>
+    <string name="personal_info_gender">Sex/Gender</string>
+    <string name="personal_info_marital_status">Marital Status</string>
+    <string name="personal_info_occupation">Occupation</string>
+    <string name="personal_info_language">Spoken Languages</string>
+    <string name="personal_info_country">Country of Residency/State</string>
+    <string name="personal_info_next_button_text">CONTINUE</string>
+
     <string name="future_appointment">Future Appointments</string>
     <string name="old_appointment">Past Appointments</string>
 
@@ -270,5 +282,28 @@
         <item>South Asian</item>
         <item>Middle Eastern</item>
         <item>Other</item>
+    </string-array>
+
+    //Spinner array for sex/gender in the patient personal info page
+    <string-array name="genderArray">
+        <item>Nothing Selected</item>
+        <item>Female</item>
+        <item>Male</item>
+        <item>Intersex</item>
+        <item>Trans</item>
+        <item>Non-Conforming</item>
+        <item>Non-Binary</item>
+        <item>Personal(unspecified)</item>
+        <item>Prefer not to say (undisclosed)</item>
+    </string-array>
+
+    //Spinner array for marital status in the patient personal info page
+    <string-array name="maritalStatusArray">
+        <item>Nothing Selected</item>
+        <item>Single</item>
+        <item>Married</item>
+        <item>Separated/Divorced</item>
+        <item>Widowed</item>
+        <item>Living with Partner</item>
     </string-array>
 </resources>

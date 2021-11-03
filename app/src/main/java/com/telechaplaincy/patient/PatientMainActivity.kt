@@ -37,7 +37,7 @@ class PatientMainActivity : AppCompatActivity() {
         patient_new_appointment_button.setOnClickListener {
             val intent = Intent(this, PatientAppointmentPersonalInfo::class.java)
             startActivity(intent)
-            //finish()
+            finish()
         }
 
     }

@@ -14,7 +14,7 @@
         <!-- <item name="android:fontFamily">FONT_HERE</item> -->
     </style>
 
-    <style name="ChaplainSignUpPageTheme" parent="Theme.MaterialComponents.Light">
+    <style name="ChaplainSignUpPageTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">#BB6BD9</item>
         <item name="colorPrimaryDark">#BB6BD9</item>
