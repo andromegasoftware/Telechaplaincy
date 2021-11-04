@@ -216,7 +216,7 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
     }
 
     //to save chaplain profile info when the user click the save button
-    fun saveData(){
+    private fun saveData(){
         chaplain_cv_progressBarUploadData.visibility = View.VISIBLE
         chaplain_sign_up_page_next_button.isClickable = false
         val data = hashMapOf(

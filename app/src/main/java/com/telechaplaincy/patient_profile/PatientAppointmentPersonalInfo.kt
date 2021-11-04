@@ -11,14 +11,19 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.Toast
 import com.google.android.material.chip.Chip
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.telechaplaincy.R
 import com.telechaplaincy.birth_date_class.DateMask
 import com.telechaplaincy.patient.PatientMainActivity
+import com.telechaplaincy.patient_sign_activities.UserProfile
 import kotlinx.android.synthetic.main.activity_chaplain_sign_up_second_part.*
 import kotlinx.android.synthetic.main.activity_patient_appointment_personal_info.*
 
@@ -26,6 +31,7 @@ class PatientAppointmentPersonalInfo : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var user: FirebaseUser
+    private lateinit var dbSave: DocumentReference
 
     private var userName: String = ""
     private var userSurName: String = ""
@@ -38,6 +44,7 @@ class PatientAppointmentPersonalInfo : AppCompatActivity() {
 
     private var patientProfileFirstName:String = ""
     private var patientProfileLastName:String = ""
+    private var patientProfileEmail:String = ""
     private var patientProfilePhone:String = ""
     private var patientProfileBirthDate:String = ""
     private var patientEthnicArrayList = ArrayList<String>()
@@ -64,13 +71,14 @@ class PatientAppointmentPersonalInfo : AppCompatActivity() {
         if (auth.currentUser != null){
             user = auth.currentUser!!
             patientProfileFieldUserId = user.uid
+            patientProfileEmail = user.email.toString()
         }
 
         patientCollectionName = getString(R.string.patient_collection)
         patientProfileCollectionName = getString(R.string.patient_profile_collection)
         patientProfileDocumentName = getString(R.string.patient_profile_document)
 
-        val dbSave = db.collection(patientCollectionName).document(patientProfileFieldUserId)
+        dbSave = db.collection(patientCollectionName).document(patientProfileFieldUserId)
             .collection(patientProfileCollectionName).document(patientProfileDocumentName)
 
         patientEthnicBackgroundSelection()
@@ -88,11 +96,155 @@ class PatientAppointmentPersonalInfo : AppCompatActivity() {
         }
 
         patient_personal_info_next_button.setOnClickListener {
-            takePatientProfileInfo()
+            savePatientPersonalInfo()
 
             //Log.d("selection: ", "$patientProfileFirstName\n$patientProfileLastName\n$patientProfilePhone/n$patientProfileBirthDate/n$patientEthnicArrayList/n$patientFaithArrayList/n$patientProfileOccupation/n$patientProfileEducation/n$patientProfileLanguage/n$patientProfileCountry/n$patientGender/n$patientMaritalStatus")
         }
     }
+
+    override fun onPause() {
+        super.onPause()
+        savePatientPersonalInfoOnPause()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        readPatientPersonalInfo()
+    }
+
+    //this function will save the patient personal info to the firestore when the user making the appointment
+    private fun savePatientPersonalInfoOnPause(){
+        takePatientProfileInfo()//first we will take data what the user entered, then save it to the firestore
+        val userProfile = UserProfile(patientProfileFirstName, patientProfileLastName,
+            patientProfileEmail, patientProfileFieldUserId, patientProfileBirthDate, patientProfilePhone,
+            patientProfileOccupation, patientProfileEducation, patientProfileLanguage, patientProfileCountry,
+            patientGender, patientMaritalStatus, patientEthnicArrayList, patientFaithArrayList)
+        dbSave.set(userProfile, SetOptions.merge())
+            .addOnSuccessListener {
+                Log.d("data upload", "DocumentSnapshot successfully written!")
+
+                patientEthnicArrayList.clear()
+                patientFaithArrayList.clear()
+                patient_ethnic_chip_group.removeAllViews()
+                patient_faith_chip_group.removeAllViews()
+            }
+            .addOnFailureListener {
+                    e -> Log.w("data upload", "Error writing document", e)
+            }
+    }
+
+    //this function will save the patient personal info to the firestore when the user making the appointment
+    private fun savePatientPersonalInfo(){
+        patient_info_progress_bar.visibility = View.VISIBLE
+        patient_personal_info_next_button.isClickable = false
+        takePatientProfileInfo()//first we will take data what the user entered, then save it to the firestore
+        val userProfile = UserProfile(patientProfileFirstName, patientProfileLastName,
+            patientProfileEmail, patientProfileFieldUserId, patientProfileBirthDate, patientProfilePhone,
+            patientProfileOccupation, patientProfileEducation, patientProfileLanguage, patientProfileCountry,
+            patientGender, patientMaritalStatus, patientEthnicArrayList, patientFaithArrayList)
+        dbSave.set(userProfile, SetOptions.merge())
+            .addOnSuccessListener {
+                Log.d("data upload", "DocumentSnapshot successfully written!")
+                patient_info_progress_bar.visibility = View.GONE
+                patient_personal_info_next_button.isClickable = true
+            }
+            .addOnFailureListener {
+                    e -> Log.w("data upload", "Error writing document", e)
+                patient_info_progress_bar.visibility = View.GONE
+                patient_personal_info_next_button.isClickable = true
+            }
+    }
+
+    //this function will read the patient personal info from the firestore when the user opening the appointment page
+    private fun readPatientPersonalInfo(){
+        progressBarPersonalInfoPageMain.visibility = View.VISIBLE
+        dbSave.get().addOnSuccessListener { document ->
+            progressBarPersonalInfoPageMain.visibility = View.GONE
+            if (document != null){
+                val userProfile = document.toObject<UserProfile>()
+                if (userProfile != null) {
+                    patientProfileFirstName = userProfile.name.toString()
+                    patient_personal_info_first_name_editText.setText(patientProfileFirstName)
+
+                    patientProfileLastName = userProfile.surname.toString()
+                    patient_personal_info_last_name_editText.setText(patientProfileLastName)
+
+                    patientProfileBirthDate = userProfile.birthDate.toString()
+                    patient_personal_info_birth_date_editText.setText(patientProfileBirthDate)
+
+                    patientProfilePhone = userProfile.phone.toString()
+                    patient_personal_info_phone_number_editText.setText(patientProfilePhone)
+
+                    patientProfileOccupation = userProfile.occupation.toString()
+                    patient_personal_info_occupation_editText.setText(patientProfileOccupation)
+
+                    patientProfileEducation = userProfile.education.toString()
+                    patient_personal_info_education_editText.setText(patientProfileEducation)
+
+                    patientProfileLanguage = userProfile.language.toString()
+                    patient_personal_info_language_editText.setText(patientProfileLanguage)
+
+                    patientProfileCountry = userProfile.country.toString()
+                    patient_personal_info_country_editText.setText(patientProfileCountry)
+
+                    patientGender = userProfile.gender.toString()
+                    val optionGender = resources.getStringArray(R.array.genderArray)
+                    spinner_patient_gender.setSelection(optionGender.indexOf(patientGender))
+
+                    patientMaritalStatus = userProfile.maritalStatus.toString()
+                    val optionMaritalStatus = resources.getStringArray(R.array.maritalStatusArray)
+                    spinner_patient_marital_status.setSelection(
+                        optionMaritalStatus.indexOf(
+                            patientMaritalStatus
+                        )
+                    )
+
+                    if (userProfile.ethnic != null) {
+                        patientEthnicArrayList = userProfile.ethnic
+                        for (k in patientEthnicArrayList.indices) {
+                            if (patientEthnicArrayList[k] != "Nothing Selected") {
+                                val chipEthnicBackground = Chip(this@PatientAppointmentPersonalInfo)
+                                chipEthnicBackground.isCloseIconVisible = true
+                                chipEthnicBackground.setChipBackgroundColorResource(R.color.colorAccent)
+                                chipEthnicBackground.setTextColor(resources.getColor(R.color.colorPrimary))
+                                chipEthnicBackground.text = patientEthnicArrayList[k]
+                                patient_ethnic_chip_group.addView(chipEthnicBackground)
+
+                                chipEthnicBackground.setOnClickListener {
+                                    patient_ethnic_chip_group.removeView(chipEthnicBackground)
+                                    patientEthnicArrayList.remove(chipEthnicBackground.text)
+                                }
+                            }
+                        }
+                    }
+
+                    if (userProfile.faith != null) {
+                        patientFaithArrayList = userProfile.faith
+                        for (k in patientFaithArrayList.indices) {
+                            if (patientFaithArrayList[k] != "Nothing Selected") {
+                                val chipFaith = Chip(this@PatientAppointmentPersonalInfo)
+                                chipFaith.isCloseIconVisible = true
+                                chipFaith.setChipBackgroundColorResource(R.color.colorAccent)
+                                chipFaith.setTextColor(resources.getColor(R.color.colorPrimary))
+                                chipFaith.text = patientFaithArrayList[k]
+                                patient_faith_chip_group.addView(chipFaith)
+
+                                chipFaith.setOnClickListener {
+                                    patient_faith_chip_group.removeView(chipFaith)
+                                    patientFaithArrayList.remove(chipFaith.text)
+                                }
+                            }
+                        }
+                    }
+                }
+            }else {
+                Log.d("TAG", "No such document")
+            }
+        }
+            .addOnFailureListener { exception ->
+                Log.d("TAG", "get failed with ", exception)
+            }
+        }
 
     //patient Ethnic Background spinner item selection function
     private fun patientEthnicBackgroundSelection(){
