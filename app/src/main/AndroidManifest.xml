@@ -14,8 +14,11 @@
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".patient_profile.PatientAppointmentPersonalInfo"
+        <activity android:name=".patient.CategorySelection"
             android:theme="@style/ChaplainSignUpPageTheme"></activity>
+        <activity
+            android:name=".patient_profile.PatientAppointmentPersonalInfo"
+            android:theme="@style/ChaplainSignUpPageTheme" />
         <activity android:name=".patient_profile.PatientProfileActivity" />
         <activity android:name=".chaplain_profile.ChaplainProfileActivity" />
         <activity

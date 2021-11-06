@@ -22,6 +22,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.telechaplaincy.R
 import com.telechaplaincy.birth_date_class.DateMask
+import com.telechaplaincy.patient.CategorySelection
 import com.telechaplaincy.patient.PatientMainActivity
 import com.telechaplaincy.patient_sign_activities.UserProfile
 import kotlinx.android.synthetic.main.activity_chaplain_sign_up_second_part.*
@@ -66,8 +67,6 @@ class PatientAppointmentPersonalInfo : AppCompatActivity() {
         patient_info_progress_bar.visibility = View.GONE
 
         auth = FirebaseAuth.getInstance()
-
-        auth = FirebaseAuth.getInstance()
         if (auth.currentUser != null){
             user = auth.currentUser!!
             patientProfileFieldUserId = user.uid
@@ -97,8 +96,9 @@ class PatientAppointmentPersonalInfo : AppCompatActivity() {
 
         patient_personal_info_next_button.setOnClickListener {
             savePatientPersonalInfo()
-
-            //Log.d("selection: ", "$patientProfileFirstName\n$patientProfileLastName\n$patientProfilePhone/n$patientProfileBirthDate/n$patientEthnicArrayList/n$patientFaithArrayList/n$patientProfileOccupation/n$patientProfileEducation/n$patientProfileLanguage/n$patientProfileCountry/n$patientGender/n$patientMaritalStatus")
+            val intent = Intent(this, CategorySelection::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 
@@ -164,28 +164,43 @@ class PatientAppointmentPersonalInfo : AppCompatActivity() {
                 val userProfile = document.toObject<UserProfile>()
                 if (userProfile != null) {
                     patientProfileFirstName = userProfile.name.toString()
-                    patient_personal_info_first_name_editText.setText(patientProfileFirstName)
-
+                    if (patientProfileFirstName != "null"){
+                        patient_personal_info_first_name_editText.setText(patientProfileFirstName)
+                    }
                     patientProfileLastName = userProfile.surname.toString()
-                    patient_personal_info_last_name_editText.setText(patientProfileLastName)
+                    if (patientProfileLastName != "null"){
+                        patient_personal_info_last_name_editText.setText(patientProfileLastName)
+                    }
 
                     patientProfileBirthDate = userProfile.birthDate.toString()
-                    patient_personal_info_birth_date_editText.setText(patientProfileBirthDate)
+                    if (patientProfileBirthDate != "null"){
+                        patient_personal_info_birth_date_editText.setText(patientProfileBirthDate)
+                    }
 
                     patientProfilePhone = userProfile.phone.toString()
-                    patient_personal_info_phone_number_editText.setText(patientProfilePhone)
+                    if (patientProfilePhone != "null"){
+                        patient_personal_info_phone_number_editText.setText(patientProfilePhone)
+                    }
 
                     patientProfileOccupation = userProfile.occupation.toString()
-                    patient_personal_info_occupation_editText.setText(patientProfileOccupation)
+                    if (patientProfileOccupation != "null"){
+                        patient_personal_info_occupation_editText.setText(patientProfileOccupation)
+                    }
 
                     patientProfileEducation = userProfile.education.toString()
-                    patient_personal_info_education_editText.setText(patientProfileEducation)
+                    if (patientProfileEducation != "null"){
+                        patient_personal_info_education_editText.setText(patientProfileEducation)
+                    }
 
                     patientProfileLanguage = userProfile.language.toString()
-                    patient_personal_info_language_editText.setText(patientProfileLanguage)
+                    if (patientProfileLanguage != "null"){
+                        patient_personal_info_language_editText.setText(patientProfileLanguage)
+                    }
 
                     patientProfileCountry = userProfile.country.toString()
-                    patient_personal_info_country_editText.setText(patientProfileCountry)
+                    if (patientProfileCountry != "null"){
+                        patient_personal_info_country_editText.setText(patientProfileCountry)
+                    }
 
                     patientGender = userProfile.gender.toString()
                     val optionGender = resources.getStringArray(R.array.genderArray)

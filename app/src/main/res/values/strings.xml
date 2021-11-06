@@ -238,6 +238,25 @@
         <item>Other</item>
     </string-array>
 
+    //chaplain category strings
+    <string name="chaplain_field_title">Chaplain Field</string>
+    <string name="chaplain_count_text">Chaplain</string>
+    <string name="college_chaplain">College-Education Chaplain</string>
+    <string name="community_chaplain">Community-Humanist Chaplain</string>
+    <string name="crisis_chaplain">Crisis-Disaster Chaplain</string>
+    <string name="health_chaplain">Health Care Chaplain</string>
+    <string name="palliative_chaplain">Palliative Care Chaplain</string>
+    <string name="pediatric_chaplain">Pediatric Chaplain</string>
+    <string name="mental_chaplain">Mental Health Chaplain</string>
+    <string name="hospice_chaplain">Hospice Chaplain</string>
+    <string name="law_chaplain">Law Enforcement \nPolice Chaplain</string>
+    <string name="military_chaplain">Military Chaplain</string>
+    <string name="prison_chaplain">Prison-Correctional \nFacilities Chaplain</string>
+    <string name="corporate_chaplain">Corporate Chaplain</string>
+    <string name="pet_chaplain">Pet Chaplain</string>
+
+
+
     //Spinner array for credentials title in the chaplain sign up page
     <string-array name="chaplaincyFieldArray">
         <item>Nothing Selected</item>
