@@ -19,7 +19,6 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.telechaplaincy.patient.PatientMainActivity
 import com.telechaplaincy.R
 import com.telechaplaincy.chaplain.ChaplainMainActivity
 import kotlinx.android.synthetic.main.activity_chaplain_sign_up.*
@@ -133,8 +132,7 @@ class ChaplainSignUp : AppCompatActivity() {
         val profile = ChaplainUserProfile(userName, userSurName, userEmail, chaplainProfileFieldUserId, imageLink)
 
         db.collection(chaplainCollectionName).document(chaplainProfileFieldUserId)
-           .collection(chaplainProfileCollectionName).document(chaplainProfileDocumentName)
-           .set(profile).addOnCompleteListener {
+           .set(profile, SetOptions.merge()).addOnCompleteListener {
                 Log.d("user complete: ", "added")
                 Log.d("user complete i: ", imageLink)
             }
@@ -144,8 +142,7 @@ class ChaplainSignUp : AppCompatActivity() {
 
         val accountStatus = hashMapOf("accountStatus" to "1")
         db.collection(chaplainCollectionName).document(chaplainProfileFieldUserId)
-            .collection("account").document("status")
-            .set(accountStatus).addOnCompleteListener {
+            .set(accountStatus, SetOptions.merge()).addOnCompleteListener {
                 Log.d("user complete: ", "added")
                 Log.d("user complete i: ", imageLink)
             }

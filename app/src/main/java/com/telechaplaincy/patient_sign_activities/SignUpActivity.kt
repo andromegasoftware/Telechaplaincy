@@ -118,7 +118,6 @@ class SignUpActivity : AppCompatActivity() {
         patientProfileFieldUserId = auth.currentUser?.uid.toString()
         val profile = UserProfile(userName, userSurName, userEmail, patientProfileFieldUserId)
         db.collection(patientCollectionName).document(patientProfileFieldUserId)
-            .collection(patientProfileCollectionName).document(patientProfileDocumentName)
             .set(profile)
 
         //this part defines the patient a role

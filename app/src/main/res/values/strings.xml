@@ -101,7 +101,7 @@
     <string name="back_to_login">BACK TO LOGIN</string>
 
     //Firestore patient document and collection names
-    <string name="patient_collection">patient</string>
+    <string name="patient_collection">patients</string>
     <string name="patient_profile_collection">userProfile</string>
     <string name="patient_profile_document">profile</string>
 
@@ -116,9 +116,10 @@
     <string name="chaplain_sign_up_title">Chaplain Sing Up</string>
     <string name="chaplain_sign_up_alert_ok_button">OK</string>
     <string name="chaplain_sign_up_alert_cancel_button">CANCEL</string>
+    <string name="chaplain_sign_up_alert_close_button">Close</string>
     <string name="chaplain_sign_up_sign_up_button">SIGN UP</string>
     <string name="chaplain_sign_up_next_button">Save</string>
-    <string name="chaplain_sign_up_next_button_after_save">PROFILE INFO SAVED</string>
+    <string name="chaplain_sign_up_next_button_after_save">PROFILE SAVED</string>
     <string name="chaplain_sign_up_addressing_title_textView_text">Addressing Title</string>
     <string name="chaplain_sign_up_credential_title_textView_text">Credentials Title</string>
     <string name="chaplain_sign_up_chaplain_field_title_textView_text">Chaplaincy Field</string>
@@ -191,7 +192,7 @@
     //sign up page toast message if user not a chaplain
 
     //Firestore chaplain document and collection names
-    <string name="chaplain_collection">chaplain</string>
+    <string name="chaplain_collection">chaplains</string>
     <string name="chaplain_profile_collection">chaplainUserProfile</string>
     <string name="chaplain_profile_document">chaplainProfile</string>
     <string name="chaplain_profile_photo_select_exp">chaplainProfile</string>

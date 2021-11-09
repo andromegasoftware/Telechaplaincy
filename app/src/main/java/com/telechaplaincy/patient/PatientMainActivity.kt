@@ -16,6 +16,7 @@ import com.telechaplaincy.patient_profile.PatientAppointmentPersonalInfo
 import com.telechaplaincy.patient_profile.PatientProfileActivity
 import com.telechaplaincy.patient_sign_activities.LoginPage
 import kotlinx.android.synthetic.main.activity_chaplain_main.*
+import kotlinx.android.synthetic.main.activity_patient_appointment_personal_info.*
 import kotlinx.android.synthetic.main.activity_patient_main.*
 import kotlinx.android.synthetic.main.activity_patient_main.bottomNavigation
 
@@ -29,6 +30,7 @@ class PatientMainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patient_main)
+        progressBarPatientMainActivity.bringToFront()
 
         addingActivitiesToBottomMenu()
 
@@ -62,7 +64,7 @@ class PatientMainActivity : AppCompatActivity() {
         val docRef = db.collection("users").document(userId)
             .get()
             .addOnSuccessListener { document ->
-                //progressBarPatientMain.visibility = View.GONE
+                progressBarPatientMainActivity.visibility = View.GONE
                 if (document != null) {
                     if (document.data?.containsKey("userRole") == true){
                         val data = document.data as Map<String, String>

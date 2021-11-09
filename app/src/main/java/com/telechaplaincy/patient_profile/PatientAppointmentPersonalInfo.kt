@@ -78,7 +78,6 @@ class PatientAppointmentPersonalInfo : AppCompatActivity() {
         patientProfileDocumentName = getString(R.string.patient_profile_document)
 
         dbSave = db.collection(patientCollectionName).document(patientProfileFieldUserId)
-            .collection(patientProfileCollectionName).document(patientProfileDocumentName)
 
         patientEthnicBackgroundSelection()
         patientFaithSelection()

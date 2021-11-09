@@ -8,6 +8,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.telechaplaincy.R
 import com.telechaplaincy.chaplain.ChaplainMainActivity
 import com.telechaplaincy.chaplain_sign_activities.ChaplainLogIn
+import com.telechaplaincy.chaplain_sign_activities.ChaplainSignUpSecondPart
 import kotlinx.android.synthetic.main.activity_chaplain_main.*
 import kotlinx.android.synthetic.main.activity_chaplain_main.bottomNavigation
 import kotlinx.android.synthetic.main.activity_chaplain_profile.*
@@ -27,6 +28,12 @@ class ChaplainProfileActivity : AppCompatActivity() {
         chaplain_logout.setOnClickListener {
             auth.signOut()
             val intent = Intent(this, ChaplainLogIn::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        profile_page_button.setOnClickListener {
+            val intent = Intent(this, ChaplainSignUpSecondPart::class.java)
             startActivity(intent)
             finish()
         }

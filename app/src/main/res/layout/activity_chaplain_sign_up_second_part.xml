@@ -32,6 +32,32 @@
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/chaplain_sign_up_second_profile_image"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/ic_baseline_account_circle_24"
+                app:civ_border_color="@color/colorAccent" />
+
+            <EditText
+                android:id="@+id/chaplainSignUpeditTextName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:ems="10"
+                android:hint="@string/personal_info_first_name"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/chaplainSignUpeditTextLastName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:ems="10"
+                android:hint="@string/personal_info_last_name"
+                android:inputType="textPersonName" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -122,35 +148,19 @@
                 android:hint="@string/chaplain_sign_up_phone_hint"
                 android:inputType="phone" />
 
+            <EditText
+                android:id="@+id/chaplainSignUpeditTextBirthDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:ems="10"
+                android:hint="@string/personal_info_date_of_birth"
+                android:inputType="phone" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textView_chaplain_birth_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="8"
-                    android:text="@string/chaplain_sign_up_birth_date"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:id="@+id/chaplain_birth_date_select_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="2"
-                    android:scaleType="center"
-                    app:srcCompat="@drawable/ic_baseline_date_range_24" />
-
-            </LinearLayout>
+                android:orientation="horizontal"/>
 
             <EditText
                 android:id="@+id/chaplainSignUpeditTextEducation"
@@ -521,17 +531,35 @@
                 android:layout_marginBottom="40dp"
                 android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/chaplain_sign_up_page_next_button"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginTop="40dp"
-                    android:layout_marginRight="40dp"
-                    android:background="@drawable/button_shape"
-                    android:gravity="center"
-                    android:text="@string/chaplain_sign_up_next_button"
-                    android:textColor="@color/design_default_color_background" />
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/chaplain_sign_up_page_cancel_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="40dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="5"
+                        android:background="@drawable/button_shape"
+                        android:text="@string/chaplain_sign_up_alert_close_button"
+                        android:textColor="@color/design_default_color_background" />
+
+                    <Button
+                        android:id="@+id/chaplain_sign_up_page_next_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="40dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="5"
+                        android:background="@drawable/button_shape"
+                        android:text="@string/chaplain_sign_up_next_button"
+                        android:textColor="@color/design_default_color_background" />
+                </LinearLayout>
 
                 <ProgressBar
                     android:id="@+id/chaplain_cv_progressBarUploadData"
