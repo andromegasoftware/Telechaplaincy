@@ -14,8 +14,11 @@
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".patient.CategorySelection"
+        <activity android:name=".chaplain.ChaplainCalendarActivity"
             android:theme="@style/ChaplainSignUpPageTheme"></activity>
+        <activity
+            android:name=".patient.CategorySelection"
+            android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".patient_profile.PatientAppointmentPersonalInfo"
             android:theme="@style/ChaplainSignUpPageTheme" />
@@ -30,7 +33,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".chaplain.ChaplainMainActivity" />
+        <activity
+            android:name=".chaplain.ChaplainMainActivity"
+            android:theme="@style/PatientMainActivityTheme" />
         <activity
             android:name=".chaplain_sign_activities.ChaplainSignUpSecondPart"
             android:theme="@style/ChaplainSignUpPageTheme" />

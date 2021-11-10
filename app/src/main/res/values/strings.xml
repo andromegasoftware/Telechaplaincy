@@ -153,8 +153,18 @@
 
     //chaplain main activity
     <string name="thankYou">Thank You</string>
+    <string name="enter_calendar_button_title">ENTER YOUR CALENDAR</string>
     <string name="application_accepted_message">Your application has been send to us. You will be notified when the application is accepted.</string>
 
+    //chaplain calendar entry activity
+    <string name="appointment_time_exp_textView">Appointment length: 20 min. \nFeedback writing: 10 min.</string>
+    <string name="early_morning">-Early Morning-</string>
+    <string name="morning">-Morning-</string>
+    <string name="afternoon">-Afternoon-</string>
+    <string name="evening">-Evening-</string>
+    <string name="confirm_button">CONFIRM</string>
+    <string name="cancel_button">CLOSE</string>
+    <string name="enter_calendar_title">Select Available Times</string>
 
     <string name="sign_up_toast_message_enter_phone">Please enter phone number</string>
     //sign up page toast message if phone number is empty
@@ -255,7 +265,6 @@
     <string name="prison_chaplain">Prison-Correctional \nFacilities Chaplain</string>
     <string name="corporate_chaplain">Corporate Chaplain</string>
     <string name="pet_chaplain">Pet Chaplain</string>
-
 
 
     //Spinner array for credentials title in the chaplain sign up page

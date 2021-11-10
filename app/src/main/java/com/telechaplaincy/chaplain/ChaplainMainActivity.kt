@@ -91,6 +91,12 @@ class ChaplainMainActivity : AppCompatActivity() {
             checkSignUpData()
 
         }
+
+        chaplain_enter_calendar_button.setOnClickListener {
+            val intent = Intent(this, ChaplainCalendarActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 
     private fun readAccountStatus(){
@@ -152,17 +158,6 @@ class ChaplainMainActivity : AppCompatActivity() {
                     if (chaplainUserProfile.field != null) {
                         chaplainProfileFieldChaplainField = chaplainUserProfile.field.toString()
                     }
-
-        Log.d("Button a", chaplainProfileAddresTitle)
-        Log.d("Button b", chaplainProfileFieldPhone)
-        Log.d("Button d", chaplainProfileFieldBirthDate)
-        Log.d("Button e", chaplainProfileFieldEducation)
-        Log.d("Button f", chaplainProfileFieldExperience)
-        Log.d("Button g", chaplainProfileFieldPreferredLanguage)
-        Log.d("Button h", chaplainProfileFieldSsn)
-        Log.d("Button i", chaplainCvUrl)
-        Log.d("Button j", chaplainCertificateUrl)
-        Log.d("Button k", chaplainProfileCredentialTitle)
                 }
             }
         }
