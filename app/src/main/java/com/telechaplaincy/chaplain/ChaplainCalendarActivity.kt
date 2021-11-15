@@ -12,29 +12,53 @@ import androidx.annotation.RequiresApi
 import androidx.core.view.forEach
 import com.google.android.material.chip.Chip
 import com.telechaplaincy.R
+import com.telechaplaincy.databinding.ActivityChaplainCalendarBinding
 import kotlinx.android.synthetic.main.activity_chaplain_calendar.*
+import kotlinx.android.synthetic.main.activity_forgot_password.*
 import kotlinx.android.synthetic.main.activity_patient_appointment_personal_info.*
 import kotlinx.android.synthetic.main.activity_patient_appointment_personal_info.spinner_patient_marital_status
+import java.sql.Time
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
 
 class ChaplainCalendarActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityChaplainCalendarBinding
+
     private var chaplainTimeZone:String = ""
     private var chaplainAvailableTimes = ArrayList<String>()
+    private var chaplainAvailableTime = ""
+    private var formattedDate: String = ""
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chaplain_calendar)
 
+        binding = ActivityChaplainCalendarBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+
         chaplain_enter_calendar_progressBar.visibility = View.GONE
 
+        chaplain_enter_calendar_confirm_button.setOnClickListener {
+            //chaplainAvailableTime = calendarViewChaplainEntry.date.toString()
+
+        }
+
         chaplainTimeZoneSelection()
+        calenderSelectedDate()
 
         chipSelection()
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun chipSelection(){
         val chip1 = findViewById<Chip>(R.id.chip1)
         val chip2 = findViewById<Chip>(R.id.chip2)
@@ -134,14 +158,60 @@ class ChaplainCalendarActivity : AppCompatActivity() {
         chipArrayList.add(chip46)
         chipArrayList.add(chip47)
         chipArrayList.add(chip48)
+
         for (i in 0..47){
             chipArrayList[i].isCheckedIconVisible = false
             chipArrayList[i].setOnCheckedChangeListener { group, checkedId ->
                 if (group.isChecked){
-                    Log.d("timezone", chipArrayList[i].text as String)
+                    val chipText = chipArrayList[i].text as String
+                    val chipTextTime = chipText.take(5)
+                    chaplainAvailableTime = "$formattedDate $chipTextTime:00"
+                    val parser =  DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                    val formattedDate = LocalDateTime.parse(chaplainAvailableTime, parser)
+                    Log.d("timezone cha", formattedDate.toString())
+
+                    val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm")
+                    dateFormat.timeZone = TimeZone.getTimeZone("GMT")
+                    val dateStr = dateFormat.format(Date.from(formattedDate.atZone(ZoneId.systemDefault()).toInstant()))
+                    Log.d("timezone", dateStr)
                 }
             }
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun calenderSelectedDate(){
+        calendarViewChaplainEntry.minDate = calendarViewChaplainEntry.date + 86400000
+        calendarViewChaplainEntry.date = calendarViewChaplainEntry.date
+        val format = SimpleDateFormat("yyyy-MM-dd")
+        formattedDate = format.format(calendarViewChaplainEntry.date)
+        Log.d("timezone long", formattedDate)
+        binding.calendarViewChaplainEntry.setOnDateChangeListener{ view, year, month, dayOfMonth ->
+            var day = dayOfMonth.toString()
+            if (day.length == 1){
+                day = "0$dayOfMonth"
+            }
+            var selectedMonth = (month+1).toString()
+            if (selectedMonth.length == 1){
+                selectedMonth = "0$selectedMonth"
+            }
+            val date = "$year-$selectedMonth-$day"
+            formattedDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString()
+            Log.d("timezone c", formattedDate)
+        }
+
+    }
+
+    private fun String.toDate(dateFormat: String = "yyyy-MM-dd HH:mm:ss", timeZone: TimeZone = TimeZone.getTimeZone("UTC")): Date {
+        val parser = SimpleDateFormat(dateFormat, Locale.getDefault())
+        parser.timeZone = timeZone
+        return parser.parse(this)
+    }
+
+    private fun Date.formatTo(dateFormat: String = "yyyy-MM-dd HH:mm:ss", timeZone: TimeZone = TimeZone.getDefault()): String {
+        val formatter = SimpleDateFormat(dateFormat, Locale.getDefault())
+        formatter.timeZone = timeZone
+        return formatter.format(this)
     }
 
     private fun chaplainTimeZoneSelection(){
