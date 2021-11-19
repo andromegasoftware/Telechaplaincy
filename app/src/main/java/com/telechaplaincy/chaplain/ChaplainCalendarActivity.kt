@@ -7,9 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.core.view.forEach
 import com.google.android.material.chip.Chip
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -18,16 +16,12 @@ import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.google.type.DateTime
 import com.telechaplaincy.R
+import com.telechaplaincy.chaplain_sign_activities.ChaplainUserProfile
 import com.telechaplaincy.databinding.ActivityChaplainCalendarBinding
-import com.telechaplaincy.patient_sign_activities.UserProfile
 import kotlinx.android.synthetic.main.activity_chaplain_calendar.*
 import kotlinx.android.synthetic.main.activity_forgot_password.*
 import kotlinx.android.synthetic.main.activity_patient_appointment_personal_info.*
-import kotlinx.android.synthetic.main.activity_patient_appointment_personal_info.spinner_patient_marital_status
-import java.sql.Time
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -43,20 +37,21 @@ class ChaplainCalendarActivity : AppCompatActivity() {
     private lateinit var dbSaveAvailableTimes: DocumentReference
     private val db = Firebase.firestore
     private var chaplainCollectionName:String = ""
-    private var chaplainAvailableTimesCollectionName:String = "chaplainAvailableTimes"
-    private var chaplainDaysCollectionName:String = "days"
     private var chaplainUserId:String = ""
 
     private lateinit var binding: ActivityChaplainCalendarBinding
 
     private var chaplainTimeZone:String = ""
     private var chaplainAvailableTimes = ArrayList<String>()
-    private var chaplainAvailableTimesRead = ArrayList<String>() //this array for reading the dates
+    private var chaplainAvailableTimesDeleted = ArrayList<String>() //this array for reading the dates
     private var chaplainAvailableTime = ""
     private var formattedDate: String = ""
     private var chaplainAvailableTimeLongFormat = ""
     private var chaplainSelectedMonth = ""
     private var chaplainSelectedDay = ""
+    private var todayDateLong = ""
+    private var todayDateFormatted = ""
+    var cTimeSelectedString = ""
 
     private var chipArrayList = ArrayList<Chip>()
 
@@ -75,9 +70,11 @@ class ChaplainCalendarActivity : AppCompatActivity() {
             chaplainUserId = user.uid
         }
         chaplainTimeZoneSelection()
+        todayDateConvertSelectedTimeZone()
         calenderSelectedDate()
 
         chipSelection()
+        closeToSelectionTodayEarlyChips()
 
         chaplain_enter_calendar_progressBar.visibility = View.GONE
 
@@ -204,24 +201,46 @@ class ChaplainCalendarActivity : AppCompatActivity() {
                     val dateStrLong = dateFormat.parse(dateStr).time //this line converts time to long
                     chaplainAvailableTimeLongFormat = dateStrLong.toString() // this line converts long time to string for sending to firebase
                     chaplainAvailableTimes.add(chaplainAvailableTimeLongFormat)
-                    Log.d("timezone", dateStrLong.toString())
-                    Log.d("timezone", dateStr)
-                    Log.d("timezone", ZoneId.of(chaplainTimeZone).toString())
+                    //Log.d("timezone", dateStrLong.toString())
+                   // Log.d("timezone", dateStr)
+                    //Log.d("timezone", ZoneId.of(chaplainTimeZone).toString())
+                }
+                if (!chipArrayList[i].isChecked){
+                    val chipText = chipArrayList[i].text as String
+                    val chipTextTime = chipText.take(5)
+                    val chaplainUnAvailableTime = "$formattedDate $chipTextTime:00"
+                    val parser =  DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                    val formattedDate = LocalDateTime.parse(chaplainUnAvailableTime, parser)
+
+                    val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm")
+                    dateFormat.timeZone = TimeZone.getTimeZone("GMT") //this defines the time zone that time will be converter
+                    val dateStr = dateFormat.format(Date.from(formattedDate.atZone(ZoneId.of(chaplainTimeZone)).toInstant())) //this converts from selected time zone to gmt time zone
+                    val dateStrLong = dateFormat.parse(dateStr.toString()).time //this line converts time to long
+                    val chaplainUnAvailableTimeLongFormat = dateStrLong.toString() // this line converts long time to string for sending to firebase
+                    Log.d("timezone_1", chaplainUnAvailableTimeLongFormat)
+                    Log.d("timezone_2", dateStr)
+                    chaplainAvailableTimesDeleted.add(chaplainUnAvailableTimeLongFormat)
+                    Log.d("timezone_3", chaplainAvailableTimesDeleted.toString())
+
                 }
             }
         }
     }
 
     private fun calenderSelectedDate(){
-        calendarViewChaplainEntry.minDate = calendarViewChaplainEntry.date + 86400000
-        calendarViewChaplainEntry.date = calendarViewChaplainEntry.date
+        calendarViewChaplainEntry.minDate = todayDateLong.toLong()
+        calendarViewChaplainEntry.date = todayDateLong.toLong()
         val format = SimpleDateFormat("yyyy-MM-dd")
-        formattedDate = format.format(calendarViewChaplainEntry.date)
+        formattedDate = format.format(todayDateLong.toLong())
 
         chaplainSelectedMonth = formattedDate.substring(5, 7)
         chaplainSelectedDay = formattedDate.substring(8, 10)
-        Log.d("timezone long", chaplainSelectedDay)
+        //Log.d("formattedDate", formattedDate)
         readChaplainSelectedDates()
+
+        var cTimeSelected = calendarViewChaplainEntry.date
+        cTimeSelectedString = format.format(cTimeSelected).toString()
+
         binding.calendarViewChaplainEntry.setOnDateChangeListener{ view, year, month, dayOfMonth ->
             allChipsUnSelection()
             saveChaplainAvailableDates()
@@ -229,32 +248,40 @@ class ChaplainCalendarActivity : AppCompatActivity() {
             if (chaplainSelectedDay.length == 1){
                 chaplainSelectedDay = "0$dayOfMonth"
             }
-            Log.d("timezone long", chaplainSelectedDay)
+            //Log.d("chaplainSelectedDay", chaplainSelectedDay)
             chaplainSelectedMonth = (month+1).toString()
             if (chaplainSelectedMonth.length == 1){
                 chaplainSelectedMonth = "0$chaplainSelectedMonth"
             }
             val date = "$year-$chaplainSelectedMonth-$chaplainSelectedDay"
+            cTimeSelectedString = "$year-$chaplainSelectedMonth-$chaplainSelectedDay"
+            //Log.d("chaplainSelectedDay1", cTimeSelectedString)
             formattedDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString()
             //Log.d("timezone c", formattedDate)
             readChaplainSelectedDates()
-            chaplainAvailableTimes.clear()
+            //chaplainAvailableTimes.clear()
+            closeToSelectionTodayEarlyChips()
         }
 
     }
 
     private fun saveChaplainAvailableDates(){
         dbSaveAvailableTimes = db.collection(chaplainCollectionName).document(chaplainUserId)
-            .collection(chaplainAvailableTimesCollectionName).document(chaplainSelectedMonth)
-            .collection(chaplainDaysCollectionName).document(chaplainSelectedDay)
-
+        Log.d("array_1", chaplainAvailableTimes.toString())
+        val distinct = chaplainAvailableTimes.toSet().toList()
+        chaplainAvailableTimes.clear()
+        chaplainAvailableTimes.addAll(distinct)
+        Log.d("array_2", chaplainAvailableTimes.toString())
         if (chaplainAvailableTimes.isNotEmpty()){
-            val calendarModelClass = ChaplainCalendarModelClass(chaplainAvailableTimes, chaplainTimeZone)
-            dbSaveAvailableTimes.set(calendarModelClass, SetOptions.merge())
+            dbSaveAvailableTimes.update(mapOf(
+                "availableTimes" to chaplainAvailableTimes
+            ))
                 .addOnSuccessListener {
                     Log.d("data upload", "DocumentSnapshot successfully written!")
 
-                    //chaplainAvailableTimes.clear()
+                    chaplainAvailableTimes.clear()
+
+                    Log.d("AvailableTimes 1", chaplainAvailableTimes.toString())
                 }
                 .addOnFailureListener {
                         e -> Log.w("data upload", "Error writing document", e)
@@ -264,31 +291,36 @@ class ChaplainCalendarActivity : AppCompatActivity() {
 
     private fun readChaplainSelectedDates(){
         dbSaveAvailableTimes = db.collection(chaplainCollectionName).document(chaplainUserId)
-            .collection(chaplainAvailableTimesCollectionName).document(chaplainSelectedMonth)
-            .collection(chaplainDaysCollectionName).document(chaplainSelectedDay)
 
         dbSaveAvailableTimes.get()
             .addOnSuccessListener { document ->
                 if (document != null) {
-                    val chaplainCalendar = document.toObject<ChaplainCalendarModelClass>()
-                    if (chaplainCalendar != null) {
-                        chaplainCalendar.chaplainAvailableTimes?.let { chaplainAvailableTimesRead.addAll(it) }
+                    val chaplainUserProfile = document.toObject<ChaplainUserProfile>()
+                    if (chaplainUserProfile != null) {
+                        if (chaplainUserProfile.availableTimes != null) {
+                            chaplainAvailableTimes = chaplainUserProfile.availableTimes!!
+                        }
                     }
-                    if (chaplainAvailableTimesRead.isNotEmpty()){
-                        for (k in 0 until chaplainAvailableTimesRead.size){
-                            val readTime = chaplainAvailableTimesRead[k]
+                    if (chaplainAvailableTimes.isNotEmpty()) {
+                        for (k in 0 until chaplainAvailableTimes.size) {
+                            val readTime = chaplainAvailableTimes[k]
 
                             val dateFormatLocalZone = SimpleDateFormat("yyyy-MM-dd HH:mm")
-                            dateFormatLocalZone.timeZone = TimeZone.getTimeZone(ZoneId.of(chaplainTimeZone))
+                            dateFormatLocalZone.timeZone =
+                                TimeZone.getTimeZone(ZoneId.of(chaplainTimeZone))
                             val dateLocale = dateFormatLocalZone.format(Date(readTime.toLong()))
-                            val chipText = dateLocale.takeLast(5)
-                            for (i in 0..47){
-                                if ((chipArrayList[i].text).contains(chipText)){
-                                    chipArrayList[i].isChecked = true
+                            if (dateLocale.take(10) == cTimeSelectedString){
+                                val chipText = dateLocale.takeLast(5)
+                                for (i in 0..47) {
+                                    if ((chipArrayList[i].text).contains(chipText)) {
+                                        chipArrayList[i].isChecked = true
+                                    }
                                 }
+                                Log.d("TAG 2", chipText)
+                                Log.d("TAG 2", ZoneId.of(chaplainTimeZone).toString())
                             }
-                            Log.d("TAG 2", chipText)
-                            Log.d("TAG 2", ZoneId.of(chaplainTimeZone).toString())
+                            Log.d("TAG_1", dateLocale.take(10))
+                            Log.d("TAG_2", cTimeSelectedString)
                         }
                     }
                     //Log.d("TAG", "DocumentSnapshot data: $chaplainAvailableTimes")
@@ -299,13 +331,49 @@ class ChaplainCalendarActivity : AppCompatActivity() {
             .addOnFailureListener { exception ->
                 Log.d("TAG", "get failed with ", exception)
             }
-        chaplainAvailableTimesRead.clear()
+        //chaplainAvailableTimesRead.clear()
     }
 
     private fun allChipsUnSelection(){
         for (i in 0..47){
             chipArrayList[i].isChecked = false
             }
+    }
+
+    private fun closeToSelectionTodayEarlyChips(){
+        val cTime = LocalDate.now().toString()
+        //Log.d("todayTime", cTime)
+       // Log.d("todayTime1", cTimeSelectedString)
+        if (cTime == cTimeSelectedString) {
+            val todayTimeHour = todayDateFormatted.substring(11, 13)
+            val todayTimeMinute = todayDateFormatted.substring(14, 16)
+            val todayTime = (todayTimeHour + todayTimeMinute).toInt()
+            //Log.d("todayTime", todayTime.toString())
+            for (i in 0..47) {
+                val chipTextHour = chipArrayList[i].text.take(2).toString()
+                val chipTextMinute = chipArrayList[i].text.substring(3, 5)
+                val cText = (chipTextHour + chipTextMinute).toInt()
+                //Log.d("todayTime", cText.toString())
+                if (cText <= todayTime) {
+                    chipArrayList[i].isCheckable = false
+                    chipArrayList[i].isClickable = false
+                }
+            }
+        }else{
+            for (i in 0..47) {
+                chipArrayList[i].isCheckable = true
+                chipArrayList[i].isClickable = true
+            }
+        }
+    }
+
+    private fun todayDateConvertSelectedTimeZone(){
+        todayDateLong = System.currentTimeMillis().toString()
+        //Log.d("todayDateLong", todayDateLong)
+        val dateFormatLocalZone = SimpleDateFormat("yyyy-MM-dd HH:mm")
+        dateFormatLocalZone.timeZone = TimeZone.getTimeZone(ZoneId.of(chaplainTimeZone))
+        todayDateFormatted = dateFormatLocalZone.format(Date(todayDateLong.toLong()))
+        //Log.d("todayDateLong tz select", todayDateFormatted)
     }
 
     private fun chaplainTimeZoneSelection(){
@@ -326,6 +394,7 @@ class ChaplainCalendarActivity : AppCompatActivity() {
                 id: Long
             ) {
                 chaplainTimeZone = optionChaplainTimeZoneSelection[position]
+                todayDateConvertSelectedTimeZone()
                 chaplainAvailableTimes.clear()
                 allChipsUnSelection()
                 readChaplainSelectedDates()
