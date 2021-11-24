@@ -12,6 +12,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.telechaplaincy.R
+import com.telechaplaincy.chaplain_selection.college_chaplains_selection.CollegeChaplainsSelectionActivity
 import com.telechaplaincy.chaplain_sign_activities.ChaplainUserProfile
 import com.telechaplaincy.patient_profile.PatientAppointmentPersonalInfo
 import kotlinx.android.synthetic.main.activity_category_selection.*
@@ -48,6 +49,12 @@ class CategorySelection : AppCompatActivity() {
         chaplainCollectionName = getString(R.string.chaplain_collection)
 
         queryRef = db.collection(chaplainCollectionName)
+
+        college_chaplain_cardView.setOnClickListener {
+            val intent = Intent(this, CollegeChaplainsSelectionActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
 
         chaplain_field_back_button.setOnClickListener {
             val intent = Intent(this, PatientAppointmentPersonalInfo::class.java)

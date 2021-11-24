@@ -2,6 +2,9 @@
     <string name="app_name">Tele Chaplaincy</string>
     <string name="app_int_connection_alert">Sorry! We could not find any internet connection. App work with internet connection.</string>
 
+    //patient chaplains listing page
+    <string name="view_details_button">VIEW DETAILS</string>
+
     //Patient login page string
     <string name="login_page_textView_title_login">Patient Login</string>
     //login page login title textView
