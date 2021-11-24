@@ -26,8 +26,7 @@ class ChaplainUserProfile(
     val ethnic:ArrayList<String>? = null,
     val otherLanguages:ArrayList<String>? = null,
     val field:ArrayList<String>? = null,
-    var accountStatus: String ?= "1",
-    var availableTimes:ArrayList<String>? = null
+    var accountStatus: String ?= "1"
     ) {
 
 }

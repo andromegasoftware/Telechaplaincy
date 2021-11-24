@@ -1,5 +1,6 @@
 package com.telechaplaincy.chaplain
 
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -44,7 +45,7 @@ class ChaplainCalendarActivity : AppCompatActivity() {
 
     private var chaplainTimeZone:String = ""
     private var chaplainAvailableTimesArray = ArrayList<String>()
-    private var temporaryTimes= ArrayList<String>()
+    private var chaplainWillBeDeletedOldTimesArray= ArrayList<String>()
     private var chipsArray= ArrayList<String>()
     private var chipsArrayTemp= ArrayList<String>()
     private var chaplainAvailableTime = ""
@@ -78,12 +79,13 @@ class ChaplainCalendarActivity : AppCompatActivity() {
         chipSelection()
         closeToSelectionTodayEarlyChips()
 
-        chaplain_enter_calendar_progressBar.visibility = View.GONE
+    }
 
-        chaplain_enter_calendar_confirm_button.setOnClickListener {
-            deleteUnselectedDateFromFireStore()
-        }
-
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intent = Intent(this, ChaplainMainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     private fun chipSelection(){
@@ -105,7 +107,9 @@ class ChaplainCalendarActivity : AppCompatActivity() {
                     val chipTime = dateStrLong.toString() // this line converts long time to string for sending to firebase
 
                     chipsArray.add(chipTime)
-                    Log.d("timezone", chipsArray.toString())
+                    chipsArrayTemp.remove(chipTime)
+                    Log.d("timezone_3", chipsArray.toString())
+                    Log.d("timezone_4", chipsArrayTemp.toString())
                 }
                 if (!group.isChecked){
                     val chipText = chipArrayList[i].text as String
@@ -121,7 +125,7 @@ class ChaplainCalendarActivity : AppCompatActivity() {
                     val chaplainUnAvailableTimeLongFormat = dateStrLong.toString() // this line converts long time to string for sending to firebase
                     chipsArray.remove(chaplainUnAvailableTimeLongFormat)
                     chipsArrayTemp.add(chaplainUnAvailableTimeLongFormat)
-                    Log.d("timezone_1", chaplainUnAvailableTimeLongFormat)
+                    Log.d("timezone_1", chipsArray.toString())
                     Log.d("timezone_2", chipsArrayTemp.toString())
                 }
             }
@@ -135,14 +139,14 @@ class ChaplainCalendarActivity : AppCompatActivity() {
             .collection("chaplainTimes").document("availableTimes")
         if (chipsArrayTemp.isNotEmpty()){
             val distinct = chipsArrayTemp.distinct().toList()
-
+            Log.d("timezone_3", distinct.toString())
             for (element in distinct){
                 //Log.d("timezone_3", "time deleted: $element")
                 val deleteTimeFromFireStore = hashMapOf<String, Any>(
                     element to FieldValue.delete()
                 )
                 dbSaveAvailableTimes.update(deleteTimeFromFireStore).addOnCompleteListener {
-                    Log.d("timezone_3", "time deleted: $element")
+                    //Log.d("timezone_3", "time deleted: $element")
                 }
             }
         }
@@ -189,6 +193,7 @@ class ChaplainCalendarActivity : AppCompatActivity() {
     }
 
     private fun saveChaplainAvailableDates() {
+        deleteUnselectedDateFromFireStore()
         Log.d("data_1", chipsArray.toString())
         if (chipsArray.isNotEmpty()) {
             chipsArray.removeAll(chaplainAvailableTimesArray)
@@ -220,7 +225,6 @@ class ChaplainCalendarActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun readChaplainSelectedDates() {
-        //deleteUnselectedDateFromFireStore()
         chipsArray.clear()
         allChipsUnSelection()
         chipsArrayTemp.clear()
@@ -341,6 +345,39 @@ class ChaplainCalendarActivity : AppCompatActivity() {
             }
 
         }
+    }
+
+    private fun deleteOldEmptyTimesFromFireStore(){
+        chaplainWillBeDeletedOldTimesArray.clear()
+        val nowTimeLong = System.currentTimeMillis().toString()
+        dbSaveAvailableTimes = db.collection(chaplainCollectionName).document(chaplainUserId)
+            .collection("chaplainTimes").document("availableTimes")
+        dbSaveAvailableTimes.get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    val chaplainAvailableTimes = document.data
+                    chaplainAvailableTimes?.let {
+                        for ((key) in chaplainAvailableTimes) {
+                            if(key < nowTimeLong){
+                                val deleteTimeFromFireStore = hashMapOf<String, Any>(
+                                    key to FieldValue.delete()
+                                )
+                                dbSaveAvailableTimes.update(deleteTimeFromFireStore).addOnCompleteListener {}
+                            }
+                        }
+                    }
+                } else {
+                    Log.d("TAG", "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d("TAG", "get failed with ", exception)
+            }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        deleteOldEmptyTimesFromFireStore()
     }
 
     private fun addingChipsToView(){

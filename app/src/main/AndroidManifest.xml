@@ -16,11 +16,6 @@
         android:theme="@style/AppTheme">
         <activity android:name=".chaplain.ChaplainCalendarActivity"
             android:theme="@style/ChaplainSignUpPageTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity
@@ -34,6 +29,11 @@
         <activity
             android:name=".SplashScreen"
             android:theme="@style/SplashScreenTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".chaplain.ChaplainMainActivity"
