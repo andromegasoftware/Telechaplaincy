@@ -20,57 +20,25 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:orientation="vertical">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:listitem="@layout/chaplain_selection_recyclerview_model_layout" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="9"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/patient_personal_info_cancel_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:layout_weight="5"
-                    android:background="@drawable/button_shape"
-                    android:text="@string/chaplain_sign_up_alert_cancel_button"
-                    android:textColor="@color/design_default_color_background" />
-
-                <Button
-                    android:id="@+id/patient_personal_info_next_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_weight="5"
-                    android:background="@drawable/button_shape"
-                    android:text="@string/personal_info_next_button_text"
-                    android:textColor="@color/design_default_color_background" />
-            </LinearLayout>
-
-            <ProgressBar
-                android:id="@+id/patient_info_progress_bar"
-                style="?android:attr/progressBarStyle"
+            <TextView
+                android:id="@+id/textViewChaplainsListTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
-                tools:visibility="gone" />
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="@string/chaplains_title_college"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/collegeChaplainsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/chaplain_selection_recyclerview_model_layout" />
         </LinearLayout>
 
     </LinearLayout>

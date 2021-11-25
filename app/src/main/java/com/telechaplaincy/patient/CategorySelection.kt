@@ -52,6 +52,80 @@ class CategorySelection : AppCompatActivity() {
 
         college_chaplain_cardView.setOnClickListener {
             val intent = Intent(this, CollegeChaplainsSelectionActivity::class.java)
+            intent.putExtra("chaplain_category", "CollegeChaplains")
+            startActivity(intent)
+            finish()
+        }
+
+        community_chaplain_cardView.setOnClickListener {
+            val intent = Intent(this, CollegeChaplainsSelectionActivity::class.java)
+            intent.putExtra("chaplain_category", "HumanistChaplains")
+            startActivity(intent)
+            finish()
+        }
+        crisis_chaplain_cardView.setOnClickListener {
+            val intent = Intent(this, CollegeChaplainsSelectionActivity::class.java)
+            intent.putExtra("chaplain_category", "CrisisChaplains")
+            startActivity(intent)
+            finish()
+        }
+        health_chaplain_cardView.setOnClickListener {
+            val intent = Intent(this, CollegeChaplainsSelectionActivity::class.java)
+            intent.putExtra("chaplain_category", "HealthChaplains")
+            startActivity(intent)
+            finish()
+        }
+        pallative_chaplain_cardView.setOnClickListener {
+            val intent = Intent(this, CollegeChaplainsSelectionActivity::class.java)
+            intent.putExtra("chaplain_category", "PalliativeChaplains")
+            startActivity(intent)
+            finish()
+        }
+        pediatric_chaplain_cardView.setOnClickListener {
+            val intent = Intent(this, CollegeChaplainsSelectionActivity::class.java)
+            intent.putExtra("chaplain_category", "PediatricChaplains")
+            startActivity(intent)
+            finish()
+        }
+        mental_chaplain_cardView.setOnClickListener {
+            val intent = Intent(this, CollegeChaplainsSelectionActivity::class.java)
+            intent.putExtra("chaplain_category", "MentalChaplains")
+            startActivity(intent)
+            finish()
+        }
+        hospice_chaplain_cardView.setOnClickListener {
+            val intent = Intent(this, CollegeChaplainsSelectionActivity::class.java)
+            intent.putExtra("chaplain_category", "HospiceChaplains")
+            startActivity(intent)
+            finish()
+        }
+        law_chaplain_cardView.setOnClickListener {
+            val intent = Intent(this, CollegeChaplainsSelectionActivity::class.java)
+            intent.putExtra("chaplain_category", "LawChaplains")
+            startActivity(intent)
+            finish()
+        }
+        military_chaplain_cardView.setOnClickListener {
+            val intent = Intent(this, CollegeChaplainsSelectionActivity::class.java)
+            intent.putExtra("chaplain_category", "MilitaryChaplains")
+            startActivity(intent)
+            finish()
+        }
+        correctional_chaplain_cardView.setOnClickListener {
+            val intent = Intent(this, CollegeChaplainsSelectionActivity::class.java)
+            intent.putExtra("chaplain_category", "PrisonChaplains")
+            startActivity(intent)
+            finish()
+        }
+        corporate_chaplain_cardView.setOnClickListener {
+            val intent = Intent(this, CollegeChaplainsSelectionActivity::class.java)
+            intent.putExtra("chaplain_category", "CorporateChaplains")
+            startActivity(intent)
+            finish()
+        }
+        pet_chaplain_cardView.setOnClickListener {
+            val intent = Intent(this, CollegeChaplainsSelectionActivity::class.java)
+            intent.putExtra("chaplain_category", "PetChaplains")
             startActivity(intent)
             finish()
         }

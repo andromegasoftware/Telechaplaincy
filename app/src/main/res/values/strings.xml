@@ -4,6 +4,19 @@
 
     //patient chaplains listing page
     <string name="view_details_button">VIEW DETAILS</string>
+    <string name="chaplains_title_college">College-Education Chaplains</string>
+    <string name="chaplains_title_community">Community-Humanist Chaplains</string>
+    <string name="chaplains_title_crisis">Crisis-Disaster Chaplains</string>
+    <string name="chaplains_title_health">Health Care Chaplains</string>
+    <string name="chaplains_title_pallative">Palliative Care Chaplains</string>
+    <string name="chaplains_title_pediatric">Pediatric Chaplains</string>
+    <string name="chaplains_title_mental">Mental Health Chaplains</string>
+    <string name="chaplains_title_hospice">Hospice Chaplains</string>
+    <string name="chaplains_title_law">Law Enforcement Chaplains</string>
+    <string name="chaplains_title_military">Military Chaplains</string>
+    <string name="chaplains_title_prison">Prison Chaplains</string>
+    <string name="chaplains_title_corporate">Corporate Chaplains</string>
+    <string name="chaplains_title_pet">Pet Chaplains</string>
 
     //Patient login page string
     <string name="login_page_textView_title_login">Patient Login</string>
