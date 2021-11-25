@@ -10,7 +10,7 @@ import com.telechaplaincy.R
 import com.telechaplaincy.chaplain_sign_activities.ChaplainUserProfile
 import kotlinx.android.synthetic.main.chaplain_selection_recyclerview_model_layout.view.*
 
-class CollegeChaplainsListAdapterClass(var chaplainList: List<ChaplainUserProfile>, private val clickListener: (ChaplainUserProfile) -> Unit): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class ChaplainsListedAdapterClass(var chaplainList: List<ChaplainUserProfile>, private val clickListener: (ChaplainUserProfile) -> Unit): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
     var chaplains: List<ChaplainUserProfile> = ArrayList()
 

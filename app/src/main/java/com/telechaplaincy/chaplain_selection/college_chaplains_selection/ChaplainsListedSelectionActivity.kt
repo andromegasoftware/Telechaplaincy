@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
@@ -16,11 +15,9 @@ import com.google.firebase.ktx.Firebase
 import com.telechaplaincy.R
 import com.telechaplaincy.chaplain_sign_activities.ChaplainUserProfile
 import com.telechaplaincy.patient.CategorySelection
-import com.telechaplaincy.patient.PatientMainActivity
-import kotlinx.android.synthetic.main.activity_category_selection.*
 import kotlinx.android.synthetic.main.activity_college_chaplains_selection.*
 
-class CollegeChaplainsSelectionActivity : AppCompatActivity() {
+class ChaplainsListedSelectionActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private val db = Firebase.firestore
@@ -29,7 +26,7 @@ class CollegeChaplainsSelectionActivity : AppCompatActivity() {
 
     private var chaplainCollectionName: String = ""
     private var collegeChaplainsListArray = ArrayList<ChaplainUserProfile>()
-    private lateinit var collegeChaplainsListAdapterClass: CollegeChaplainsListAdapterClass
+    private lateinit var chaplainsListedAdapterClass: ChaplainsListedAdapterClass
 
     private var chaplainCategory = ""
 
@@ -48,8 +45,8 @@ class CollegeChaplainsSelectionActivity : AppCompatActivity() {
 
         queryRef = db.collection(chaplainCollectionName)
 
-        collegeChaplainsListAdapterClass =
-            CollegeChaplainsListAdapterClass(collegeChaplainsListArray) { chaplainListModelClassItem: ChaplainUserProfile ->
+        chaplainsListedAdapterClass =
+            ChaplainsListedAdapterClass(collegeChaplainsListArray) { chaplainListModelClassItem: ChaplainUserProfile ->
                 chaplainsListClickListener(chaplainListModelClassItem)
             }
 
@@ -59,12 +56,12 @@ class CollegeChaplainsSelectionActivity : AppCompatActivity() {
         val chaplainListsLayoutManager = LinearLayoutManager(this)
         chaplainListsLayoutManager.orientation = LinearLayoutManager.VERTICAL
         collegeChaplainsRecyclerView.layoutManager = chaplainListsLayoutManager
-        collegeChaplainsRecyclerView.adapter = collegeChaplainsListAdapterClass
+        collegeChaplainsRecyclerView.adapter = chaplainsListedAdapterClass
 
     }
 
     private fun chaplainsListClickListener(chaplainUserProfile: ChaplainUserProfile) {
-        val toast = Toast.makeText(this, "Clicked", Toast.LENGTH_LONG).show()
+
     }
 
     override fun onBackPressed() {
@@ -136,8 +133,8 @@ class CollegeChaplainsSelectionActivity : AppCompatActivity() {
                     for (document in documents) {
                         collegeChaplainsListArray.add(document.toObject())
                     }
-                    collegeChaplainsListAdapterClass.submitList(collegeChaplainsListArray)
-                    collegeChaplainsListAdapterClass.notifyDataSetChanged()
+                    chaplainsListedAdapterClass.submitList(collegeChaplainsListArray)
+                    chaplainsListedAdapterClass.notifyDataSetChanged()
                 }
                 .addOnFailureListener { exception ->
                     Log.d("deneme", "Error getting documents: ", exception)
@@ -151,8 +148,8 @@ class CollegeChaplainsSelectionActivity : AppCompatActivity() {
                     for (document in documents) {
                         collegeChaplainsListArray.add(document.toObject())
                     }
-                    collegeChaplainsListAdapterClass.submitList(collegeChaplainsListArray)
-                    collegeChaplainsListAdapterClass.notifyDataSetChanged()
+                    chaplainsListedAdapterClass.submitList(collegeChaplainsListArray)
+                    chaplainsListedAdapterClass.notifyDataSetChanged()
                 }
                 .addOnFailureListener { exception ->
                     Log.d("deneme", "Error getting documents: ", exception)
@@ -165,8 +162,8 @@ class CollegeChaplainsSelectionActivity : AppCompatActivity() {
                 for (document in documents) {
                     collegeChaplainsListArray.add(document.toObject())
                 }
-                collegeChaplainsListAdapterClass.submitList(collegeChaplainsListArray)
-                collegeChaplainsListAdapterClass.notifyDataSetChanged()
+                chaplainsListedAdapterClass.submitList(collegeChaplainsListArray)
+                chaplainsListedAdapterClass.notifyDataSetChanged()
             }
             .addOnFailureListener { exception ->
                 Log.d("deneme", "Error getting documents: ", exception)
@@ -179,8 +176,8 @@ class CollegeChaplainsSelectionActivity : AppCompatActivity() {
                 for (document in documents) {
                     collegeChaplainsListArray.add(document.toObject())
                 }
-                collegeChaplainsListAdapterClass.submitList(collegeChaplainsListArray)
-                collegeChaplainsListAdapterClass.notifyDataSetChanged()
+                chaplainsListedAdapterClass.submitList(collegeChaplainsListArray)
+                chaplainsListedAdapterClass.notifyDataSetChanged()
             }
             .addOnFailureListener { exception ->
                 Log.d("deneme", "Error getting documents: ", exception)
@@ -193,8 +190,8 @@ class CollegeChaplainsSelectionActivity : AppCompatActivity() {
                 for (document in documents) {
                     collegeChaplainsListArray.add(document.toObject())
                 }
-                collegeChaplainsListAdapterClass.submitList(collegeChaplainsListArray)
-                collegeChaplainsListAdapterClass.notifyDataSetChanged()
+                chaplainsListedAdapterClass.submitList(collegeChaplainsListArray)
+                chaplainsListedAdapterClass.notifyDataSetChanged()
             }
             .addOnFailureListener { exception ->
                 Log.d("deneme", "Error getting documents: ", exception)
@@ -207,8 +204,8 @@ class CollegeChaplainsSelectionActivity : AppCompatActivity() {
                 for (document in documents) {
                     collegeChaplainsListArray.add(document.toObject())
                 }
-                collegeChaplainsListAdapterClass.submitList(collegeChaplainsListArray)
-                collegeChaplainsListAdapterClass.notifyDataSetChanged()
+                chaplainsListedAdapterClass.submitList(collegeChaplainsListArray)
+                chaplainsListedAdapterClass.notifyDataSetChanged()
             }
             .addOnFailureListener { exception ->
                 Log.d("deneme", "Error getting documents: ", exception)
@@ -221,8 +218,8 @@ class CollegeChaplainsSelectionActivity : AppCompatActivity() {
                 for (document in documents) {
                     collegeChaplainsListArray.add(document.toObject())
                 }
-                collegeChaplainsListAdapterClass.submitList(collegeChaplainsListArray)
-                collegeChaplainsListAdapterClass.notifyDataSetChanged()
+                chaplainsListedAdapterClass.submitList(collegeChaplainsListArray)
+                chaplainsListedAdapterClass.notifyDataSetChanged()
             }
             .addOnFailureListener { exception ->
                 Log.d("deneme", "Error getting documents: ", exception)
@@ -235,8 +232,8 @@ class CollegeChaplainsSelectionActivity : AppCompatActivity() {
                 for (document in documents) {
                     collegeChaplainsListArray.add(document.toObject())
                 }
-                collegeChaplainsListAdapterClass.submitList(collegeChaplainsListArray)
-                collegeChaplainsListAdapterClass.notifyDataSetChanged()
+                chaplainsListedAdapterClass.submitList(collegeChaplainsListArray)
+                chaplainsListedAdapterClass.notifyDataSetChanged()
             }
             .addOnFailureListener { exception ->
                 Log.d("deneme", "Error getting documents: ", exception)
@@ -249,8 +246,8 @@ class CollegeChaplainsSelectionActivity : AppCompatActivity() {
                 for (document in documents) {
                     collegeChaplainsListArray.add(document.toObject())
                 }
-                collegeChaplainsListAdapterClass.submitList(collegeChaplainsListArray)
-                collegeChaplainsListAdapterClass.notifyDataSetChanged()
+                chaplainsListedAdapterClass.submitList(collegeChaplainsListArray)
+                chaplainsListedAdapterClass.notifyDataSetChanged()
             }
             .addOnFailureListener { exception ->
                 Log.d("deneme", "Error getting documents: ", exception)
@@ -263,8 +260,8 @@ class CollegeChaplainsSelectionActivity : AppCompatActivity() {
                 for (document in documents) {
                     collegeChaplainsListArray.add(document.toObject())
                 }
-                collegeChaplainsListAdapterClass.submitList(collegeChaplainsListArray)
-                collegeChaplainsListAdapterClass.notifyDataSetChanged()
+                chaplainsListedAdapterClass.submitList(collegeChaplainsListArray)
+                chaplainsListedAdapterClass.notifyDataSetChanged()
             }
             .addOnFailureListener { exception ->
                 Log.d("deneme", "Error getting documents: ", exception)
@@ -277,8 +274,8 @@ class CollegeChaplainsSelectionActivity : AppCompatActivity() {
                 for (document in documents) {
                     collegeChaplainsListArray.add(document.toObject())
                 }
-                collegeChaplainsListAdapterClass.submitList(collegeChaplainsListArray)
-                collegeChaplainsListAdapterClass.notifyDataSetChanged()
+                chaplainsListedAdapterClass.submitList(collegeChaplainsListArray)
+                chaplainsListedAdapterClass.notifyDataSetChanged()
             }
             .addOnFailureListener { exception ->
                 Log.d("deneme", "Error getting documents: ", exception)
@@ -291,8 +288,8 @@ class CollegeChaplainsSelectionActivity : AppCompatActivity() {
                 for (document in documents) {
                     collegeChaplainsListArray.add(document.toObject())
                 }
-                collegeChaplainsListAdapterClass.submitList(collegeChaplainsListArray)
-                collegeChaplainsListAdapterClass.notifyDataSetChanged()
+                chaplainsListedAdapterClass.submitList(collegeChaplainsListArray)
+                chaplainsListedAdapterClass.notifyDataSetChanged()
             }
             .addOnFailureListener { exception ->
                 Log.d("deneme", "Error getting documents: ", exception)
@@ -305,8 +302,8 @@ class CollegeChaplainsSelectionActivity : AppCompatActivity() {
                 for (document in documents) {
                     collegeChaplainsListArray.add(document.toObject())
                 }
-                collegeChaplainsListAdapterClass.submitList(collegeChaplainsListArray)
-                collegeChaplainsListAdapterClass.notifyDataSetChanged()
+                chaplainsListedAdapterClass.submitList(collegeChaplainsListArray)
+                chaplainsListedAdapterClass.notifyDataSetChanged()
             }
             .addOnFailureListener { exception ->
                 Log.d("deneme", "Error getting documents: ", exception)
