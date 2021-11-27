@@ -1,10 +1,9 @@
-package com.telechaplaincy.chaplain_selection.college_chaplains_selection
+package com.telechaplaincy.chaplain_selection.chaplains_selection
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -13,6 +12,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.telechaplaincy.R
+import com.telechaplaincy.appointment.PatientAppointmentContinueActivity
 import com.telechaplaincy.chaplain_sign_activities.ChaplainUserProfile
 import com.telechaplaincy.patient.CategorySelection
 import kotlinx.android.synthetic.main.activity_college_chaplains_selection.*
@@ -35,7 +35,7 @@ class ChaplainsListedSelectionActivity : AppCompatActivity() {
         setContentView(R.layout.activity_college_chaplains_selection)
 
         chaplainCategory = intent.getStringExtra("chaplain_category").toString()
-        Log.d("deneme_", chaplainCategory)
+        //Log.d("deneme_", chaplainCategory)
 
         auth = FirebaseAuth.getInstance()
         user = auth.currentUser!!
@@ -61,7 +61,11 @@ class ChaplainsListedSelectionActivity : AppCompatActivity() {
     }
 
     private fun chaplainsListClickListener(chaplainUserProfile: ChaplainUserProfile) {
-
+        val intent = Intent(this, PatientAppointmentContinueActivity::class.java)
+        intent.putExtra("chaplain_id", chaplainUserProfile.userId)
+        intent.putExtra("chaplain_category", chaplainCategory)
+        startActivity(intent)
+        finish()
     }
 
     override fun onBackPressed() {
@@ -128,7 +132,9 @@ class ChaplainsListedSelectionActivity : AppCompatActivity() {
 
     private fun humanistChaplains() {
         val queryHumanistChaplain =
-            queryRef.whereArrayContains("field", "Community-Humanist Ch.").get()
+            queryRef.whereArrayContains("field", "Community-Humanist Ch.")
+                .whereEqualTo("accountStatus", "2")
+                .get()
                 .addOnSuccessListener { documents ->
                     for (document in documents) {
                         collegeChaplainsListArray.add(document.toObject())
@@ -143,7 +149,9 @@ class ChaplainsListedSelectionActivity : AppCompatActivity() {
 
     private fun collegeChaplains() {
         val queryCollegeChaplain =
-            queryRef.whereArrayContains("field", "College-Education Ch.").get()
+            queryRef.whereArrayContains("field", "College-Education Ch.")
+                .whereEqualTo("accountStatus", "2")
+                .get()
                 .addOnSuccessListener { documents ->
                     for (document in documents) {
                         collegeChaplainsListArray.add(document.toObject())
@@ -157,7 +165,9 @@ class ChaplainsListedSelectionActivity : AppCompatActivity() {
     }
 
     private fun petChaplains(){
-        val queryPetChaplain = queryRef.whereArrayContains("field", "Pet Ch.").get()
+        val queryPetChaplain = queryRef.whereArrayContains("field", "Pet Ch.")
+            .whereEqualTo("accountStatus", "2")
+            .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
                     collegeChaplainsListArray.add(document.toObject())
@@ -171,7 +181,9 @@ class ChaplainsListedSelectionActivity : AppCompatActivity() {
     }
 
     private fun corporateChaplains(){
-        val queryCorporateChaplain = queryRef.whereArrayContains("field", "Corporate Ch.").get()
+        val queryCorporateChaplain = queryRef.whereArrayContains("field", "Corporate Ch.")
+            .whereEqualTo("accountStatus", "2")
+            .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
                     collegeChaplainsListArray.add(document.toObject())
@@ -185,7 +197,9 @@ class ChaplainsListedSelectionActivity : AppCompatActivity() {
     }
 
     private fun prisonChaplains(){
-        val queryPrisonChaplain = queryRef.whereArrayContains("field", "Prison-Correctional Facilities Ch").get()
+        val queryPrisonChaplain = queryRef.whereArrayContains("field", "Prison-Correctional Facilities Ch")
+            .whereEqualTo("accountStatus", "2")
+            .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
                     collegeChaplainsListArray.add(document.toObject())
@@ -199,7 +213,9 @@ class ChaplainsListedSelectionActivity : AppCompatActivity() {
     }
 
     private fun militaryChaplains(){
-        val queryMilitaryChaplain = queryRef.whereArrayContains("field", "Military Ch.").get()
+        val queryMilitaryChaplain = queryRef.whereArrayContains("field", "Military Ch.")
+            .whereEqualTo("accountStatus", "2")
+            .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
                     collegeChaplainsListArray.add(document.toObject())
@@ -213,7 +229,9 @@ class ChaplainsListedSelectionActivity : AppCompatActivity() {
     }
 
     private fun lawChaplains(){
-        val queryLawChaplain = queryRef.whereArrayContains("field", "Law Enforcement-Police Ch.").get()
+        val queryLawChaplain = queryRef.whereArrayContains("field", "Law Enforcement-Police Ch.")
+            .whereEqualTo("accountStatus", "2")
+            .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
                     collegeChaplainsListArray.add(document.toObject())
@@ -227,7 +245,9 @@ class ChaplainsListedSelectionActivity : AppCompatActivity() {
     }
 
     private fun hospiceChaplains(){
-        val queryHospiceChaplain = queryRef.whereArrayContains("field", "Hospice Ch.").get()
+        val queryHospiceChaplain = queryRef.whereArrayContains("field", "Hospice Ch.")
+            .whereEqualTo("accountStatus", "2")
+            .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
                     collegeChaplainsListArray.add(document.toObject())
@@ -241,7 +261,9 @@ class ChaplainsListedSelectionActivity : AppCompatActivity() {
     }
 
     private fun mentalChaplains(){
-        val queryMentalChaplain = queryRef.whereArrayContains("field", "Mental Health Ch.").get()
+        val queryMentalChaplain = queryRef.whereArrayContains("field", "Mental Health Ch.")
+            .whereEqualTo("accountStatus", "2")
+            .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
                     collegeChaplainsListArray.add(document.toObject())
@@ -255,7 +277,9 @@ class ChaplainsListedSelectionActivity : AppCompatActivity() {
     }
 
     private fun pediatricChaplains(){
-        val queryPediatricChaplain = queryRef.whereArrayContains("field", "Pediatric Ch.").get()
+        val queryPediatricChaplain = queryRef.whereArrayContains("field", "Pediatric Ch.")
+            .whereEqualTo("accountStatus", "2")
+            .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
                     collegeChaplainsListArray.add(document.toObject())
@@ -269,7 +293,9 @@ class ChaplainsListedSelectionActivity : AppCompatActivity() {
     }
 
     private fun palliativeChaplains(){
-        val queryPalliativeChaplain = queryRef.whereArrayContains("field", "Palliative Care Ch.").get()
+        val queryPalliativeChaplain = queryRef.whereArrayContains("field", "Palliative Care Ch.")
+            .whereEqualTo("accountStatus", "2")
+            .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
                     collegeChaplainsListArray.add(document.toObject())
@@ -283,7 +309,9 @@ class ChaplainsListedSelectionActivity : AppCompatActivity() {
     }
 
     private fun healthChaplains(){
-        val queryHealthChaplain = queryRef.whereArrayContains("field", "Health Care Ch.").get()
+        val queryHealthChaplain = queryRef.whereArrayContains("field", "Health Care Ch.")
+            .whereEqualTo("accountStatus", "2")
+            .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
                     collegeChaplainsListArray.add(document.toObject())
@@ -297,7 +325,9 @@ class ChaplainsListedSelectionActivity : AppCompatActivity() {
     }
 
     private fun crisisChaplains(){
-        val queryCrisisChaplain = queryRef.whereArrayContains("field", "Crisis-Disaster Ch.").get()
+        val queryCrisisChaplain = queryRef.whereArrayContains("field", "Crisis-Disaster Ch.")
+            .whereEqualTo("accountStatus", "2")
+            .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
                     collegeChaplainsListArray.add(document.toObject())

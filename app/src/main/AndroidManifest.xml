@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.telechaplaincy" >
+    package="com.telechaplaincy">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -13,18 +13,21 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
-        <activity android:name=".chaplain_selection.college_chaplains_selection.ChaplainsListedSelectionActivity"
-            android:theme="@style/ChaplainSignUpPageTheme">
-        </activity>
+        android:theme="@style/AppTheme">
+        <activity android:name=".appointment.PatientAppointmentTimeSelectionActivity"
+            android:theme="@style/ChaplainSignUpPageTheme"></activity>
+        <activity
+            android:name=".appointment.PatientAppointmentContinueActivity"
+            android:theme="@style/ChaplainSignUpPageTheme"></activity>
+        <activity
+            android:name=".chaplain_selection.chaplains_selection.ChaplainsListedSelectionActivity"
+            android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".chaplain.ChaplainCalendarActivity"
-            android:theme="@style/ChaplainSignUpPageTheme" >
-        </activity>
+            android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".patient.CategorySelection"
-            android:theme="@style/ChaplainSignUpPageTheme">
-        </activity>
+            android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".patient_profile.PatientAppointmentPersonalInfo"
             android:theme="@style/ChaplainSignUpPageTheme" />
@@ -32,7 +35,7 @@
         <activity android:name=".chaplain_profile.ChaplainProfileActivity" />
         <activity
             android:name=".SplashScreen"
-            android:theme="@style/SplashScreenTheme" >
+            android:theme="@style/SplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -2,6 +2,15 @@
     <string name="app_name">Tele Chaplaincy</string>
     <string name="app_int_connection_alert">Sorry! We could not find any internet connection. App work with internet connection.</string>
 
+    //Patient Appointment Continue Activity
+    <string name="chaplain_title">Chaplain</string>
+    <string name="level_of_education">Highest Level of Education and Degree</string>
+    <string name="chaplain_main_language">Main Language</string>
+    <string name="chaplain_other_language">Other languages chaplain can minister in</string>
+    <string name="about_chaplain">About Chaplain</string>
+    <string name="select_chaplain_button">SELECT CHAPLAIN AND CONTINUE</string>
+    <string name="earliest_appointment">Earliest Appointment: </string>
+
     //patient chaplains listing page
     <string name="view_details_button">VIEW DETAILS</string>
     <string name="chaplains_title_college">College-Education Chaplains</string>

@@ -1,6 +1,5 @@
-package com.telechaplaincy.chaplain_selection.college_chaplains_selection
+package com.telechaplaincy.chaplain_selection.chaplains_selection
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
