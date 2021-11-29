@@ -83,6 +83,7 @@ class ChaplainCalendarActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
+        saveChaplainAvailableDates()
         val intent = Intent(this, ChaplainMainActivity::class.java)
         startActivity(intent)
         finish()
@@ -152,7 +153,6 @@ class ChaplainCalendarActivity : AppCompatActivity() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun calenderSelectedDate(){
         calendarViewChaplainEntry.minDate = todayDateLong.toLong()
         calendarViewChaplainEntry.maxDate = todayDateLong.toLong()+(2592000000)
@@ -223,7 +223,6 @@ class ChaplainCalendarActivity : AppCompatActivity() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun readChaplainSelectedDates() {
         chipsArray.clear()
         allChipsUnSelection()
@@ -305,7 +304,6 @@ class ChaplainCalendarActivity : AppCompatActivity() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun todayDateConvertSelectedTimeZone(){
         todayDateLong = System.currentTimeMillis().toString()
         //Log.d("todayDateLong", todayDateLong)
@@ -326,7 +324,6 @@ class ChaplainCalendarActivity : AppCompatActivity() {
         )
         spinnerChaplainTimeZone.setSelection(optionChaplainTimeZoneSelection.indexOf(chaplainTimeZone))
         spinnerChaplainTimeZone.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            @RequiresApi(Build.VERSION_CODES.O)
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,

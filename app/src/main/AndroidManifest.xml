@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".appointment.PatientAppointmentTimeSelectionActivity"
-            android:theme="@style/ChaplainSignUpPageTheme"></activity>
+            android:theme="@style/ChaplainSignUpPageTheme">
+        </activity>
         <activity
             android:name=".appointment.PatientAppointmentContinueActivity"
             android:theme="@style/ChaplainSignUpPageTheme"></activity>
