@@ -168,12 +168,12 @@ class PatientAppointmentTimeSelectionActivity : AppCompatActivity() {
                             val readTime = time.toString()
                             if (readTime > todayDateLong) {
                                 val dateFormatLocalZone = SimpleDateFormat("yyyy-MM-dd HH:mm")
-                                dateFormatLocalZone.timeZone =
-                                    TimeZone.getTimeZone(ZoneId.of(patientTimeZone))
-                                val chipTimeLocale =
-                                    dateFormatLocalZone.format(Date(readTime.toLong()))
+                                dateFormatLocalZone.timeZone = TimeZone.getTimeZone(ZoneId.of(patientTimeZone))
+                                val chipTimeLocale = dateFormatLocalZone.format(Date(readTime.toLong()))
                                 if (chipTimeLocale.take(10) == timeSelectedString) {
-                                    val chipText = chipTimeLocale.takeLast(5)
+                                    val dateFormatLocalZoneForChip = SimpleDateFormat("H:mm a")
+                                    dateFormatLocalZoneForChip.timeZone = TimeZone.getTimeZone(ZoneId.of(patientTimeZone))
+                                    val chipText = dateFormatLocalZoneForChip.format(Date(readTime.toLong()))
                                     val chipChaplainAvailableTime = layoutInflater.inflate(
                                         R.layout.single_chip_layout,
                                         patient_select_calender_chip_group,
