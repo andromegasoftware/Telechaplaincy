@@ -51,6 +51,7 @@ class PatientAppointmentContinueActivity : AppCompatActivity() {
     private var chaplainProfileExplanation:String = ""
     private var chaplainCategory = ""
     private var chaplainAvailableTimesArray = ArrayList<String>()
+    private var readTime = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,6 +71,7 @@ class PatientAppointmentContinueActivity : AppCompatActivity() {
             val intent = Intent(this, PatientAppointmentTimeSelectionActivity::class.java)
             intent.putExtra("chaplain_id", chaplainProfileFieldUserId)
             intent.putExtra("chaplain_category", chaplainCategory)
+            intent.putExtra("readTime", readTime)
             startActivity(intent)
             finish()
         }
@@ -194,7 +196,7 @@ class PatientAppointmentContinueActivity : AppCompatActivity() {
                         for ((key) in chaplainAvailableTimes) {
                             chaplainAvailableTimesArray.add(key)
                         }
-                        val readTime = Collections.min(chaplainAvailableTimesArray)
+                        readTime = Collections.min(chaplainAvailableTimesArray)
                         //Log.d("TAG", "data: $chaplainAvailableTimes")
                         val dateFormatLocalZone = SimpleDateFormat("dd-MM-yyyy HH:mm")
                         val patientTimeZone = TimeZone.getDefault().id

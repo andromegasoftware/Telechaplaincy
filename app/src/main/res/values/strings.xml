@@ -10,6 +10,8 @@
     <string name="about_chaplain">About Chaplain</string>
     <string name="select_chaplain_button">SELECT CHAPLAIN AND CONTINUE</string>
     <string name="earliest_appointment">Earliest Appointment: </string>
+    <string name="select_time_button">CONTINUE</string>
+    <string name="select_time_button_toast_message">Please select a time</string>
 
     //patient chaplains listing page
     <string name="view_details_button">VIEW DETAILS</string>

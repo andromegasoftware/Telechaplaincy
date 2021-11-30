@@ -8,11 +8,13 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.google.android.material.chip.Chip
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.telechaplaincy.R
@@ -20,6 +22,7 @@ import com.telechaplaincy.chaplain_selection.chaplains_selection.ChaplainsListed
 import com.telechaplaincy.databinding.ActivityChaplainCalendarBinding
 import com.telechaplaincy.databinding.ActivityPatientAppointmentTimeSelectionBinding
 import kotlinx.android.synthetic.main.activity_chaplain_calendar.*
+import kotlinx.android.synthetic.main.activity_patient_appointment_continue.*
 import kotlinx.android.synthetic.main.activity_patient_appointment_personal_info.*
 import kotlinx.android.synthetic.main.activity_patient_appointment_time_selection.*
 import java.text.SimpleDateFormat
@@ -50,6 +53,9 @@ class PatientAppointmentTimeSelectionActivity : AppCompatActivity() {
     private var chaplainCategory = ""
     private var chaplainProfileFieldUserId:String = ""
     private var chaplainCollectionName:String = ""
+    private var continueButton:Boolean = false
+    private var patientSelectedTime = ""
+    private var chaplainEarliestDate: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +63,8 @@ class PatientAppointmentTimeSelectionActivity : AppCompatActivity() {
 
         chaplainProfileFieldUserId = intent.getStringExtra("chaplain_id").toString()
         chaplainCategory = intent.getStringExtra("chaplain_category").toString()
+        chaplainEarliestDate = intent.getStringExtra("readTime").toString()
+        patientSelectedTime = intent.getStringExtra("patientSelectedTime").toString()
 
         binding = ActivityPatientAppointmentTimeSelectionBinding.inflate(layoutInflater)
         val view = binding.root
@@ -69,16 +77,50 @@ class PatientAppointmentTimeSelectionActivity : AppCompatActivity() {
             patientUserId = user.uid
         }
 
+        dbSaveAvailableTimes = db.collection(chaplainCollectionName).document(chaplainProfileFieldUserId)
+            .collection("chaplainTimes").document("availableTimes")
+
         patientTimeZoneSelection()
         todayDateConvertSelectedTimeZone()
         calenderSelectedDate()
+
+        patient_appointment_time_selection_button.setOnClickListener {
+            if (continueButton){
+                val map = HashMap<String, Any>()
+                map["time"] = patientSelectedTime
+                map["isBooked"] = true
+                map["patientUid"] = patientUserId
+                dbSaveAvailableTimes.update((patientSelectedTime), map)
+                    .addOnSuccessListener {
+                        Log.d("data upload", "DocumentSnapshot successfully written!")
+                    }
+                    .addOnFailureListener { e ->
+                        Log.w("data upload", "Error writing document", e)
+                    }
+                val intent = Intent(this, PatientAppointmentSummaryActivity::class.java)
+                intent.putExtra("chaplain_id", chaplainProfileFieldUserId)
+                intent.putExtra("chaplain_category", chaplainCategory)
+                intent.putExtra("readTime", chaplainEarliestDate)
+                intent.putExtra("patientSelectedTime", patientSelectedTime)
+                startActivity(intent)
+                finish()
+
+            }
+            else{
+                Toast.makeText(this, R.string.select_time_button_toast_message, Toast.LENGTH_LONG).show()
+            }
+        }
 
     }
 
     private fun calenderSelectedDate(){
         calendarViewPatientSelection.minDate = todayDateLong.toLong()
         calendarViewPatientSelection.maxDate = todayDateLong.toLong()+(2592000000)
-        calendarViewPatientSelection.date = todayDateLong.toLong()
+        if (patientSelectedTime != "" && patientSelectedTime != "null"){
+            calendarViewPatientSelection.date = patientSelectedTime.toLong()
+        }else{
+            calendarViewPatientSelection.date = chaplainEarliestDate.toLong()
+        }
         val format = SimpleDateFormat("yyyy-MM-dd")
         formattedDate = format.format(todayDateLong.toLong())
 
@@ -88,6 +130,7 @@ class PatientAppointmentTimeSelectionActivity : AppCompatActivity() {
         readChaplainSelectedDates()
 
         binding.calendarViewPatientSelection.setOnDateChangeListener{ view, year, month, dayOfMonth ->
+            continueButton = false
             patientSelectedDay = dayOfMonth.toString()
             if (patientSelectedDay.length == 1){
                 patientSelectedDay = "0$dayOfMonth"
@@ -110,41 +153,50 @@ class PatientAppointmentTimeSelectionActivity : AppCompatActivity() {
     }
 
     private fun readChaplainSelectedDates() {
-        dbSaveAvailableTimes = db.collection(chaplainCollectionName).document(chaplainProfileFieldUserId)
-            .collection("chaplainTimes").document("availableTimes")
-
         dbSaveAvailableTimes.addSnapshotListener { snapshot, e ->
+            patient_select_calender_chip_group.removeAllViews()
             if (snapshot != null && snapshot.exists()) {
-                patient_select_calender_chip_group.removeAllViews()
                 var chaplainAvailableTimes = snapshot.data
                 chaplainAvailableTimes?.let {
                     chaplainAvailableTimes = chaplainAvailableTimes!!.toList().sortedBy { (key, _) -> key }.toMap()
                     for ((key, value) in chaplainAvailableTimes!!) {
                         val v = value as Map<*, *>
                         val time = v["time"]
-                        val isBooked = v["isBooked"]
-                        if (isBooked == false){
+                        var isBooked = v["isBooked"]
+                        var patientUid = v["patientUid"]
+                        if (isBooked == false) {
                             val readTime = time.toString()
-                            if (readTime > todayDateLong){
-                            val dateFormatLocalZone = SimpleDateFormat("yyyy-MM-dd HH:mm")
-                            dateFormatLocalZone.timeZone = TimeZone.getTimeZone(ZoneId.of(patientTimeZone))
-                            val chipTimeLocale = dateFormatLocalZone.format(Date(readTime.toLong()))
-                            if (chipTimeLocale.take(10) == timeSelectedString) {
-                                val chipText = chipTimeLocale.takeLast(5)
-                                val chipChaplainAvailableTime = layoutInflater.inflate(
-                                    R.layout.single_chip_layout,
-                                    patient_select_calender_chip_group,
-                                    false
-                                ) as Chip
-                                chipChaplainAvailableTime.isCheckedIconVisible = true
-                                chipChaplainAvailableTime.isCheckable = true
-                                chipChaplainAvailableTime.text = chipText
-                                patient_select_calender_chip_group.addView(chipChaplainAvailableTime)
-
-                                chipChaplainAvailableTime.setOnCloseIconClickListener {
-
+                            if (readTime > todayDateLong) {
+                                val dateFormatLocalZone = SimpleDateFormat("yyyy-MM-dd HH:mm")
+                                dateFormatLocalZone.timeZone =
+                                    TimeZone.getTimeZone(ZoneId.of(patientTimeZone))
+                                val chipTimeLocale =
+                                    dateFormatLocalZone.format(Date(readTime.toLong()))
+                                if (chipTimeLocale.take(10) == timeSelectedString) {
+                                    val chipText = chipTimeLocale.takeLast(5)
+                                    val chipChaplainAvailableTime = layoutInflater.inflate(
+                                        R.layout.single_chip_layout,
+                                        patient_select_calender_chip_group,
+                                        false
+                                    ) as Chip
+                                    chipChaplainAvailableTime.isCheckedIconVisible = false
+                                    chipChaplainAvailableTime.text = chipText
+                                    patient_select_calender_chip_group.addView(
+                                        chipChaplainAvailableTime
+                                    )
+                                    chipChaplainAvailableTime.setOnClickListener {
+                                        if (chipChaplainAvailableTime.isChecked) {
+                                            continueButton = true
+                                            patientSelectedTime = time.toString()
+                                        }else{
+                                        continueButton = false
+                                    }
+                                    }
+                                    if (patientSelectedTime == time){
+                                        chipChaplainAvailableTime.isChecked = true
+                                        continueButton = true
+                                    }
                                 }
-                            }
                             }
                         }
                     }
