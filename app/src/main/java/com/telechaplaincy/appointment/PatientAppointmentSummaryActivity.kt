@@ -104,6 +104,7 @@ class PatientAppointmentSummaryActivity : AppCompatActivity() {
         intent.putExtra("chaplain_category", chaplainCategory)
         intent.putExtra("readTime", chaplainEarliestDate)
         intent.putExtra("patientSelectedTime", patientSelectedTime)
+        intent.putExtra("appointmentPrice", appointmentPrice)
         startActivity(intent)
         finish()
     }
