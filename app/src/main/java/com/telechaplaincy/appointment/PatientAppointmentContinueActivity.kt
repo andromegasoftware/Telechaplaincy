@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
@@ -68,12 +69,18 @@ class PatientAppointmentContinueActivity : AppCompatActivity() {
         dbSave = db.collection(chaplainCollectionName).document(chaplainProfileFieldUserId)
 
         patient_appointment_page_chaplain_select_button.setOnClickListener {
-            val intent = Intent(this, PatientAppointmentTimeSelectionActivity::class.java)
-            intent.putExtra("chaplain_id", chaplainProfileFieldUserId)
-            intent.putExtra("chaplain_category", chaplainCategory)
-            intent.putExtra("readTime", readTime)
-            startActivity(intent)
-            finish()
+            if (readTime != ""){
+                val intent = Intent(this, PatientAppointmentTimeSelectionActivity::class.java)
+                intent.putExtra("chaplain_id", chaplainProfileFieldUserId)
+                intent.putExtra("chaplain_category", chaplainCategory)
+                intent.putExtra("readTime", readTime)
+                startActivity(intent)
+                finish()
+            }else{
+                val toast = Toast.makeText(this, R.string.chaplain_time_empty_button_toast_message,
+                Toast.LENGTH_LONG).show()
+            }
+
         }
 
         readChaplainInfo()

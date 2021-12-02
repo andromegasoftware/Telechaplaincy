@@ -75,9 +75,20 @@
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/patient_future_appointments_recyclerView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    tools:listitem="@layout/chaplain_selection_recyclerview_model_layout" />
+
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/future_appointment_cardView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:visibility="visible"
                     app:cardBackgroundColor="@android:color/white"
                     app:cardCornerRadius="20dp"
                     app:cardElevation="2dp">
@@ -87,7 +98,8 @@
                         android:layout_height="match_parent"
                         android:layout_margin="10dp"
                         android:gravity="center_horizontal"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="visible">
 
                         <ImageView
                             android:id="@+id/imageView5"
@@ -104,6 +116,7 @@
                             android:textSize="16sp" />
 
                     </LinearLayout>
+
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
 
@@ -125,9 +138,19 @@
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/patient_past_appointments_recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    tools:listitem="@layout/chaplain_selection_recyclerview_model_layout" />
+
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/past_appointment_cardView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
                     app:cardBackgroundColor="@android:color/white"
                     app:cardCornerRadius="20dp"
                     app:cardElevation="2dp">

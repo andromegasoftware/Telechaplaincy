@@ -1,22 +1,19 @@
-package com.telechaplaincy.appointment
+package com.telechaplaincy.patient_past_appointments
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.telechaplaincy.R
 import com.telechaplaincy.patient.PatientMainActivity
-import kotlinx.android.synthetic.main.activity_patient_appointment_finish.*
+import kotlinx.android.synthetic.main.activity_patient_future_appointment_detail.*
+import kotlinx.android.synthetic.main.activity_patient_past_appointments_detail.*
 
-class PatientAppointmentFinishActivity : AppCompatActivity() {
+class PatientPastAppointmentsDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_patient_appointment_finish)
+        setContentView(R.layout.activity_patient_past_appointments_detail)
 
-        patient_appointment_finish_page_go_to_main_button.setOnClickListener {
-            val intent = Intent(this, PatientMainActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
+        textView64.text = intent.getStringExtra("appointment_id").toString()
     }
 
     override fun onBackPressed() {

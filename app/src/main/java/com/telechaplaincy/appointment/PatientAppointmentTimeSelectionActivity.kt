@@ -48,7 +48,7 @@ class PatientAppointmentTimeSelectionActivity : AppCompatActivity() {
     private var patientSelectedDay = ""
     private var todayDateLong = ""
     private var todayDateFormatted = ""
-    var timeSelectedString = ""
+    private var timeSelectedString = ""
 
     private var chaplainCategory = ""
     private var chaplainProfileFieldUserId:String = ""
@@ -102,6 +102,7 @@ class PatientAppointmentTimeSelectionActivity : AppCompatActivity() {
                 intent.putExtra("chaplain_category", chaplainCategory)
                 intent.putExtra("readTime", chaplainEarliestDate)
                 intent.putExtra("patientSelectedTime", patientSelectedTime)
+                intent.putExtra("appointmentTimeZone", patientTimeZone)
                 startActivity(intent)
                 finish()
 

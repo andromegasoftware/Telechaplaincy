@@ -9,8 +9,11 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.telechaplaincy.R
+import com.telechaplaincy.chaplain_sign_activities.ChaplainUserProfile
+import com.telechaplaincy.patient_sign_activities.UserProfile
 import kotlinx.android.synthetic.main.activity_patient_appointment_credit_card.*
 
 class PatientAppointmentCreditCardActivity : AppCompatActivity() {
@@ -25,12 +28,21 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
     private var chaplainCollectionName: String = ""
 
     private var chaplainCategory = ""
+
     private var chaplainProfileFieldUserId: String = ""
     private var chaplainEarliestDate: String = ""
     private var patientSelectedTime = ""
     private var appointmentPrice = ""
-
     private var appointmentId = ""
+    private var patientName = ""
+    private var patientSurname = ""
+    private var chaplainName = ""
+    private var chaplainSurname = ""
+    private var chaplainProfileImageLink = ""
+    private var chaplainAddressingTitle = ""
+    private var credentialTitleArrayList = ArrayList<String>()
+    private var chaplainFieldArrayList = ArrayList<String>()
+    private var patientTimeZone:String = ""
 
     private var isPaymentDone = false
 
@@ -50,6 +62,7 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
         chaplainEarliestDate = intent.getStringExtra("readTime").toString()
         patientSelectedTime = intent.getStringExtra("patientSelectedTime").toString()
         appointmentPrice = intent.getStringExtra("appointmentPrice").toString()
+        patientTimeZone = intent.getStringExtra("appointmentTimeZone").toString()
 
         dbSaveAppointmentForPatient =
             db.collection("patients").document(patientUserId)
@@ -58,6 +71,9 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
             db.collection(chaplainCollectionName).document(chaplainProfileFieldUserId)
 
         dbSaveAppointmentForMainCollection = db.collection("appointment").document()
+
+        readPatientData()
+        readChaplainData()
 
         payButton.setOnClickListener {
             isPaymentDone = true
@@ -75,7 +91,9 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
 
         appointmentId = dbSaveAppointmentForMainCollection.id
         val appointmentModelClass = AppointmentModelClass(appointmentId, patientUserId,
-            chaplainProfileFieldUserId, appointmentPrice, patientSelectedTime)
+            chaplainProfileFieldUserId, appointmentPrice, patientSelectedTime, patientName,
+            patientSurname, chaplainName, chaplainSurname, chaplainProfileImageLink,
+            chaplainAddressingTitle, credentialTitleArrayList, chaplainFieldArrayList, patientTimeZone)
 
         dbSaveAppointmentForMainCollection.set(appointmentModelClass, SetOptions.merge())
             .addOnSuccessListener {
@@ -106,6 +124,40 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
 
     }
 
+    private fun readPatientData(){
+        dbSaveAppointmentForPatient.get().addOnSuccessListener { document ->
+            val result = document.toObject<UserProfile>()
+            if (result != null) {
+                patientName = result.name.toString()
+                patientSurname = result.surname.toString()
+            }
+        }
+            .addOnFailureListener { exception ->
+                Log.d("deneme", "Error getting documents: ", exception)
+            }
+    }
+    private fun readChaplainData(){
+        dbSaveAppointmentForChaplain.get().addOnSuccessListener { document ->
+            val result = document.toObject<ChaplainUserProfile>()
+            if (result != null) {
+                chaplainName = result.name.toString()
+                chaplainSurname = result.surname.toString()
+                chaplainProfileImageLink = result.profileImageLink.toString()
+                chaplainAddressingTitle = result.addressingTitle.toString()
+                if (!result.credentialsTitle.isNullOrEmpty()){
+                    credentialTitleArrayList = result.credentialsTitle
+                }
+                if (!result.field.isNullOrEmpty()){
+                    chaplainFieldArrayList = result.field
+                }
+
+            }
+        }
+            .addOnFailureListener { exception ->
+                Log.d("deneme", "Error getting documents: ", exception)
+            }
+    }
+
     override fun onBackPressed() {
         super.onBackPressed()
         val intent = Intent(this, PatientAppointmentSummaryActivity::class.java)
@@ -113,6 +165,7 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
         intent.putExtra("chaplain_category", chaplainCategory)
         intent.putExtra("readTime", chaplainEarliestDate)
         intent.putExtra("patientSelectedTime", patientSelectedTime)
+        intent.putExtra("appointmentTimeZone", patientTimeZone)
         startActivity(intent)
         finish()
     }

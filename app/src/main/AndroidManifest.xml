@@ -14,7 +14,14 @@
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".appointment.PatientAppointmentFinishActivity"></activity>
+        <activity android:name=".patient_past_appointments.PatientPastAppointmentsDetailActivity"
+            android:theme="@style/ChaplainSignUpPageTheme" />
+        <activity
+            android:name=".patient_future_appointments.PatientFutureAppointmentDetailActivity"
+            android:theme="@style/ChaplainSignUpPageTheme" />
+        <activity
+            android:name=".appointment.PatientAppointmentFinishActivity"
+            android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".appointment.PatientAppointmentCreditCardActivity"
             android:theme="@style/ChaplainSignUpPageTheme" />

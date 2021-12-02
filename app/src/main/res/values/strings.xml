@@ -2,9 +2,16 @@
     <string name="app_name">Tele Chaplaincy</string>
     <string name="app_int_connection_alert">Sorry! We could not find any internet connection. App work with internet connection.</string>
 
+    //patient appointment finished activity
+    <string name="payment_title">Payment Successfully Done</string>
+    <string name="go_back_main_page">GO TO MAIN PAGE</string>
+    <string name="answer_question">ANSWER QUESTIONS BEFORE YOUR APPOINTMENT</string>
+
+
     //patient appointment summary activity
     <string name="page_title">Appointment Details</string>
     <string name="date_and_time_textView">Date and Time</string>
+    <string name="time_zone_textView">Time Zone:</string>
     <string name="chaplain_name_textView">Chaplain Name</string>
     <string name="patient_name_textView">Patient Name</string>
     <string name="appointment_price_textView">Appointment Price</string>
@@ -21,6 +28,7 @@
     <string name="earliest_appointment">Earliest Appointment: </string>
     <string name="select_time_button">CONTINUE</string>
     <string name="select_time_button_toast_message">Please select a time</string>
+    <string name="chaplain_time_empty_button_toast_message">This Chaplain has no available time right now. Please select another chaplain!</string>
 
     //patient chaplains listing page
     <string name="view_details_button">VIEW DETAILS</string>

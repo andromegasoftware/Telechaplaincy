@@ -45,6 +45,7 @@ class PatientAppointmentSummaryActivity : AppCompatActivity() {
     private var patientProfileLastName = ""
 
     private var appointmentPrice = ""
+    private var patientTimeZone:String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +62,7 @@ class PatientAppointmentSummaryActivity : AppCompatActivity() {
         chaplainCategory = intent.getStringExtra("chaplain_category").toString()
         chaplainEarliestDate = intent.getStringExtra("readTime").toString()
         patientSelectedTime = intent.getStringExtra("patientSelectedTime").toString()
+        patientTimeZone = intent.getStringExtra("appointmentTimeZone").toString()
 
         dbSaveAvailableTimes =
             db.collection(chaplainCollectionName).document(chaplainProfileFieldUserId)
@@ -72,10 +74,10 @@ class PatientAppointmentSummaryActivity : AppCompatActivity() {
         dbDatabaseAppointmentPrice = db.collection("appointment").document("price")
 
         val dateFormatLocalZone = SimpleDateFormat("EEE HH:mm aaa, dd-MM-yyyy")
-        dateFormatLocalZone.timeZone = TimeZone.getTimeZone(TimeZone.getDefault().id)
+        dateFormatLocalZone.timeZone = TimeZone.getTimeZone(patientTimeZone)
         val chipTimeLocale = dateFormatLocalZone.format(Date(patientSelectedTime.toLong()))
         patient_appointment_summary_page_appointment_date_textView.text = chipTimeLocale
-
+        patient_appointment_summary_page_appointment_timeZone_textView.text = getString(R.string.time_zone_textView) + patientTimeZone
         chaplainInfoTake()
         patientInfoTake()
         appointmentInfoTake()
@@ -105,6 +107,7 @@ class PatientAppointmentSummaryActivity : AppCompatActivity() {
         intent.putExtra("readTime", chaplainEarliestDate)
         intent.putExtra("patientSelectedTime", patientSelectedTime)
         intent.putExtra("appointmentPrice", appointmentPrice)
+        intent.putExtra("appointmentTimeZone", patientTimeZone)
         startActivity(intent)
         finish()
     }
