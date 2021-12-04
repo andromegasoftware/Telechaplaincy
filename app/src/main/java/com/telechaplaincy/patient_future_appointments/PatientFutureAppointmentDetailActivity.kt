@@ -11,7 +11,7 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patient_future_appointment_detail)
-        textView63.text = intent.getStringExtra("appointment_id").toString()
+        val appointmentId = intent.getStringExtra("appointment_id").toString()
     }
 
     override fun onBackPressed() {

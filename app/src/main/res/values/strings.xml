@@ -2,6 +2,14 @@
     <string name="app_name">Tele Chaplaincy</string>
     <string name="app_int_connection_alert">Sorry! We could not find any internet connection. App work with internet connection.</string>
 
+    //patient future_appointment activity
+    <string name="appointment_day">Appointment Day</string>
+    <string name="appointment_time">Appointment Time</string>
+    <string name="patient_name">Patient Name</string>
+    <string name="appointment_fee">Appointment Fee</string>
+    <string name="appointment_number">Appointment Number</string>
+
+
     //patient appointment finished activity
     <string name="payment_title">Payment Successfully Done</string>
     <string name="go_back_main_page">GO TO MAIN PAGE</string>
