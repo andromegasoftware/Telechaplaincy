@@ -38,16 +38,16 @@
                     android:layout_marginRight="5dp"
                     android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/imageView19"
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/future_appointment_imageView_chaplain_image"
                         android:layout_width="96dp"
                         android:layout_height="96dp"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="20dp"
-                        app:srcCompat="@drawable/ic_baseline_account_circle_24" />
+                        android:src="@drawable/ic_baseline_account_circle_24" />
 
                     <TextView
-                        android:id="@+id/chaplain_selection_list_name_textView2"
+                        android:id="@+id/future_appointment_chaplain_name_textView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -70,7 +70,7 @@
                         android:orientation="horizontal">
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="5"
                             android:orientation="vertical">
@@ -83,7 +83,7 @@
                                 android:text="@string/appointment_day" />
 
                             <TextView
-                                android:id="@+id/patient_appointment_summary_page_chaplain_name_textView2"
+                                android:id="@+id/future_appointment_date_textView"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="20dp"
@@ -95,7 +95,7 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="5"
                             android:orientation="vertical">
@@ -108,7 +108,7 @@
                                 android:text="@string/appointment_time" />
 
                             <TextView
-                                android:id="@+id/patient_appointment_summary_page_chaplain_name_textView3"
+                                android:id="@+id/future_appointment_time_textView"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="20dp"
@@ -128,14 +128,14 @@
                         android:background="#c0c0c0" />
 
                     <TextView
-                        android:id="@+id/textView66"
+                        android:id="@+id/textView_a"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:text="@string/appointment_number" />
 
                     <TextView
-                        android:id="@+id/chaplain_selection_list_name_textView3"
+                        android:id="@+id/future_appointment_number_textView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -160,7 +160,7 @@
                         android:text="@string/patient_name" />
 
                     <TextView
-                        android:id="@+id/chaplain_selection_list_name_textView5"
+                        android:id="@+id/future_appointment_patient_textView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -185,7 +185,7 @@
                         android:text="@string/appointment_fee" />
 
                     <TextView
-                        android:id="@+id/chaplain_selection_list_name_textView4"
+                        android:id="@+id/future_appointment_price_textView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -203,7 +203,7 @@
                         android:background="#c0c0c0" />
 
                     <TextView
-                        android:id="@+id/textView69"
+                        android:id="@+id/future_appointment_remaining_time_textView"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
                         android:layout_gravity="center_horizontal"
@@ -214,7 +214,7 @@
                         android:paddingRight="20dp"
                         android:text="27:12"
                         android:textColor="@android:color/white"
-                        android:textSize="24sp" />
+                        android:textSize="12sp" />
 
                     <View
                         android:id="@+id/view17"
@@ -231,7 +231,7 @@
                         android:orientation="horizontal">
 
                         <Button
-                            android:id="@+id/button2"
+                            android:id="@+id/future_appointment_cancel_button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="20dp"
@@ -242,7 +242,7 @@
                             app:iconGravity="textStart" />
 
                         <Button
-                            android:id="@+id/button3"
+                            android:id="@+id/future_appointment_call_button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="20dp"
@@ -253,7 +253,7 @@
                             app:iconGravity="textStart" />
 
                         <Button
-                            android:id="@+id/button4"
+                            android:id="@+id/future_appointment_edit_button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="20dp"

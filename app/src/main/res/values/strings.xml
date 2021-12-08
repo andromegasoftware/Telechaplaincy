@@ -8,6 +8,11 @@
     <string name="patient_name">Patient Name</string>
     <string name="appointment_fee">Appointment Fee</string>
     <string name="appointment_number">Appointment Number</string>
+    <string name="appointment_price">Total Price: </string>
+    <string name="day">%1$s days %2$s hours %3$s minutes %4$s seconds</string>
+    <string name="minute">minutes</string>
+    <string name="hour">hours</string>
+    <string name="second">seconds</string>
 
 
     //patient appointment finished activity
@@ -387,4 +392,7 @@
         <item>Widowed</item>
         <item>Living with Partner</item>
     </string-array>
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

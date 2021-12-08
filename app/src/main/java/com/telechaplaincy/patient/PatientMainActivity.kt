@@ -33,6 +33,9 @@ import kotlinx.android.synthetic.main.activity_college_chaplains_selection.*
 import kotlinx.android.synthetic.main.activity_patient_appointment_personal_info.*
 import kotlinx.android.synthetic.main.activity_patient_main.*
 import kotlinx.android.synthetic.main.activity_patient_main.bottomNavigation
+import java.math.BigInteger
+import java.util.*
+import kotlin.collections.ArrayList
 
 class PatientMainActivity : AppCompatActivity() {
 
@@ -69,9 +72,10 @@ class PatientMainActivity : AppCompatActivity() {
             PatientPastAppointmentAdapterClass(patientPastAppointmentsListArray) { patientFutureAppointmentsModelClass: PatientFutureAppointmentsModelClass ->
                 pastAppointmentsListClickListener(patientFutureAppointmentsModelClass)
             }
-
-        patientFutureAppointmentsFillRecyclerView()
-        patientPastAppointmentsFillRecyclerView()
+        if(auth.currentUser != null){
+            patientFutureAppointmentsFillRecyclerView()
+            patientPastAppointmentsFillRecyclerView()
+        }
 
         // patient Future Appointments lists recyclerview
         val patientFutureAppointmentsListsLayoutManager = LinearLayoutManager(this)

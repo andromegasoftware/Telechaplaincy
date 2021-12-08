@@ -9,6 +9,7 @@ import com.telechaplaincy.R
 import com.telechaplaincy.chaplain.ChaplainMainActivity
 import com.telechaplaincy.chaplain_sign_activities.ChaplainLogIn
 import com.telechaplaincy.chaplain_sign_activities.ChaplainSignUpSecondPart
+import com.telechaplaincy.video_call.VideoCallActivity
 import kotlinx.android.synthetic.main.activity_chaplain_main.*
 import kotlinx.android.synthetic.main.activity_chaplain_main.bottomNavigation
 import kotlinx.android.synthetic.main.activity_chaplain_profile.*
@@ -24,6 +25,13 @@ class ChaplainProfileActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         addingActivitiesToBottomMenu()
+
+        buttonJoinCall.setOnClickListener {
+            val intent = Intent(this, VideoCallActivity::class.java)
+            intent.putExtra("chaplainUniqueUserId", "351748629")
+            startActivity(intent)
+            finish()
+        }
 
         chaplain_logout.setOnClickListener {
             auth.signOut()

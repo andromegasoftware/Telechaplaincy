@@ -7,6 +7,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:homeAsUpIndicator">@drawable/ic_baseline_arrow_back_24</item>
     </style>
+
     <style name="TextAppearance.AppCompat.Widget.ActionBar.Title" parent="@style/TextAppearance.AppCompat">
 
         <item name="android:textSize">24dp</item>
@@ -31,6 +32,7 @@
     </style>
 
     //splash screen theme
+
     <style name="SplashScreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">#BB6BD9</item>
@@ -39,6 +41,7 @@
     </style>
 
     //splash screen theme
+
     <style name="PatientMainActivityTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">#BB6BD9</item>
@@ -47,8 +50,32 @@
     </style>
 
     //custom chip style
+
     <style name="CustomChipChoice" parent="@style/Widget.MaterialComponents.Chip.Choice">
         <item name="chipBackgroundColor">@color/background_color_chip_state_list</item>
         <item name="android:textColor">@color/text_color_chip_state_list</item>
     </style>
+
+    <style name="FullscreenTheme" parent="AppTheme">
+        <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>
+        <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
+    </style>
+
+    <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">@color/black_overlay</item>
+    </style>
+
+    //video chat page theme
+
+    <style name="VideoChatPageTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#000000</item>
+        <item name="colorPrimaryDark">#000000</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_baseline_arrow_back_24</item>
+    </style>
+
 </resources>

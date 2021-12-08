@@ -1,9 +1,9 @@
 package com.telechaplaincy.appointment
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
@@ -15,6 +15,9 @@ import com.telechaplaincy.R
 import com.telechaplaincy.chaplain_sign_activities.ChaplainUserProfile
 import com.telechaplaincy.patient_sign_activities.UserProfile
 import kotlinx.android.synthetic.main.activity_patient_appointment_credit_card.*
+import java.math.BigInteger
+import java.util.*
+import kotlin.collections.ArrayList
 
 class PatientAppointmentCreditCardActivity : AppCompatActivity() {
 
@@ -43,12 +46,19 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
     private var credentialTitleArrayList = ArrayList<String>()
     private var chaplainFieldArrayList = ArrayList<String>()
     private var patientTimeZone:String = ""
+    private var chaplainUniqueUserId:String = ""
+    private var patientUniqueUserId:String = ""
 
     private var isPaymentDone = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patient_appointment_credit_card)
+
+        chaplainUniqueUserId = String.format("%010d", BigInteger(UUID.randomUUID().toString().replace("-", ""), 16))
+        chaplainUniqueUserId = chaplainUniqueUserId.substring(chaplainUniqueUserId.length - 9)
+        patientUniqueUserId = String.format("%010d", BigInteger(UUID.randomUUID().toString().replace("-", ""), 16))
+        patientUniqueUserId = patientUniqueUserId.substring(patientUniqueUserId.length - 9)
 
         chaplainCollectionName = getString(R.string.chaplain_collection)
         auth = FirebaseAuth.getInstance()
@@ -90,10 +100,24 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
         payButton.isClickable = false
 
         appointmentId = dbSaveAppointmentForMainCollection.id
-        val appointmentModelClass = AppointmentModelClass(appointmentId, patientUserId,
-            chaplainProfileFieldUserId, appointmentPrice, patientSelectedTime, patientName,
-            patientSurname, chaplainName, chaplainSurname, chaplainProfileImageLink,
-            chaplainAddressingTitle, credentialTitleArrayList, chaplainFieldArrayList, patientTimeZone)
+        val appointmentModelClass = AppointmentModelClass(
+            appointmentId,
+            patientUserId,
+            chaplainProfileFieldUserId,
+            appointmentPrice,
+            patientSelectedTime,
+            patientName,
+            patientSurname,
+            chaplainName,
+            chaplainSurname,
+            chaplainProfileImageLink,
+            chaplainAddressingTitle,
+            credentialTitleArrayList,
+            chaplainFieldArrayList,
+            patientTimeZone,
+            chaplainUniqueUserId,
+            patientUniqueUserId
+        )
 
         dbSaveAppointmentForMainCollection.set(appointmentModelClass, SetOptions.merge())
             .addOnSuccessListener {

@@ -200,20 +200,27 @@ class PatientAppointmentContinueActivity : AppCompatActivity() {
                 if (document != null) {
                     val chaplainAvailableTimes = document.data
                     if (chaplainAvailableTimes != null) {
-                        for ((key) in chaplainAvailableTimes) {
-                            chaplainAvailableTimesArray.add(key)
+                        for ((key, value) in chaplainAvailableTimes) {
+                            val v = value as Map<*, *>
+                            val time = v["time"]
+                            val isBooked = v["isBooked"]
+                            if (isBooked == false) {
+                                chaplainAvailableTimesArray.add(key)
+                            }
                         }
-                        readTime = Collections.min(chaplainAvailableTimesArray)
-                        //Log.d("TAG", "data: $chaplainAvailableTimes")
-                        val dateFormatLocalZone = SimpleDateFormat("dd-MM-yyyy HH:mm")
-                        val patientTimeZone = TimeZone.getDefault().id
-                        dateFormatLocalZone.timeZone =
-                            TimeZone.getTimeZone(ZoneId.of(patientTimeZone))
-                        val dateLocale = dateFormatLocalZone.format(Date(readTime.toLong()))
-                        patient_appointment_page_earliest_date.text =
-                            getString(R.string.earliest_appointment) + dateLocale
-                        //Log.d("chaplainArray", chaplainAvailableTimesArray.toString())
-                        Log.d("TAG", "DocumentSnapshot data: $readTime")
+                        if (!chaplainAvailableTimesArray.isNullOrEmpty()){
+                            readTime = Collections.min(chaplainAvailableTimesArray)
+                            //Log.d("TAG", "data: $chaplainAvailableTimes")
+                            val dateFormatLocalZone = SimpleDateFormat("dd-MM-yyyy HH:mm")
+                            val patientTimeZone = TimeZone.getDefault().id
+                            dateFormatLocalZone.timeZone =
+                                TimeZone.getTimeZone(ZoneId.of(patientTimeZone))
+                            val dateLocale = dateFormatLocalZone.format(Date(readTime.toLong()))
+                            patient_appointment_page_earliest_date.text =
+                                getString(R.string.earliest_appointment) + dateLocale
+                            //Log.d("chaplainArray", chaplainAvailableTimesArray.toString())
+                            Log.d("TAG", "DocumentSnapshot data: $readTime")
+                        }
                     }
                 } else {
                     Log.d("TAG", "No such document")

@@ -7,4 +7,6 @@
     <color name="loginPageSignUpTextColor">#7F3DFF</color>
     <color name="loginPageTitleTextColor">#212325</color>
     <color name="buttonColor">#eed2fb</color>
+
+    <color name="black_overlay">#66000000</color>
 </resources>
