@@ -62,4 +62,14 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
     implementation 'io.agora.rtc:full-sdk:3.5.0'
+    implementation 'com.stripe:stripe-android:14.5.0'
+
+    implementation 'com.google.firebase:firebase-functions-ktx:20.0.1'
+
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.0.0'
+
+
+    //retrofit library to take data from restAPI
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
 }

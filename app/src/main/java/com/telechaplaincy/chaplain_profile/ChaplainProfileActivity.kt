@@ -9,6 +9,7 @@ import com.telechaplaincy.R
 import com.telechaplaincy.chaplain.ChaplainMainActivity
 import com.telechaplaincy.chaplain_sign_activities.ChaplainLogIn
 import com.telechaplaincy.chaplain_sign_activities.ChaplainSignUpSecondPart
+import com.telechaplaincy.video_call.ChaplainVideoActivity
 import com.telechaplaincy.video_call.VideoCallActivity
 import kotlinx.android.synthetic.main.activity_chaplain_main.*
 import kotlinx.android.synthetic.main.activity_chaplain_main.bottomNavigation
@@ -27,10 +28,10 @@ class ChaplainProfileActivity : AppCompatActivity() {
         addingActivitiesToBottomMenu()
 
         buttonJoinCall.setOnClickListener {
-            val intent = Intent(this, VideoCallActivity::class.java)
-            intent.putExtra("chaplainUniqueUserId", "351748629")
+            val intent = Intent(this, ChaplainVideoActivity::class.java)
+            //intent.putExtra("chaplainUniqueUserId", "437897592")
+            //intent.putExtra("token", "006afb5ee413d864417bbcf32ba55b40dacIAAlFbcY+uDAu62JeS1VOelMuwkiAysz7GgsnahbgknOIET4OP5cLkU+IgA6TwEAl5G4YQQAAQAnTrdhAwAnTrdhAgAnTrdhBAAnTrdh")
             startActivity(intent)
-            finish()
         }
 
         chaplain_logout.setOnClickListener {

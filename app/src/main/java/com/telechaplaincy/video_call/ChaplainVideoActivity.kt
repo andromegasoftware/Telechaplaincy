@@ -2,22 +2,15 @@ package com.telechaplaincy.video_call
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.telechaplaincy.R
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.os.CountDownTimer
 import android.util.Log
-import android.view.SurfaceView;
 import android.view.View
-import android.view.WindowManager
-import android.widget.FrameLayout;
+import android.widget.FrameLayout
 import com.squareup.picasso.Picasso
-import io.agora.rtc.IRtcEngineEventHandler;
-import io.agora.rtc.RtcEngine;
-import io.agora.rtc.video.VideoCanvas;
+import com.telechaplaincy.R
+import io.agora.rtc.IRtcEngineEventHandler
+import io.agora.rtc.RtcEngine
+import io.agora.rtc.video.VideoCanvas
 import kotlinx.android.synthetic.main.activity_patient_future_appointment_detail.*
 import kotlinx.android.synthetic.main.activity_video_call.*
 import retrofit2.Call
@@ -25,29 +18,27 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.text.DecimalFormat
-import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.TimeUnit
 
-class VideoCallActivity : AppCompatActivity() {
+class ChaplainVideoActivity : AppCompatActivity() {
+
     // Kotlin
     // Fill the App ID of your project generated on Agora Console.
     private val APP_ID = "afb5ee413d864417bbcf32ba55b40dac"
     // Fill the channel name.
     private val CHANNEL = "appointment"
     // Fill the temp token generated on Agora Console.
-    private var TOKEN = ""
+    private var TOKEN = "006afb5ee413d864417bbcf32ba55b40dacIAD4RDR9rZYHumRa04mzz4I6i+Hrj7MBSkY41rADX0soJ0T4OP5cLkU+IgBQqAAA3JS4YQQAAQBsUbdhAwBsUbdhAgBsUbdhBABsUbdh"
 
-    private var mRtcEngine: RtcEngine ?= null
+    private var mRtcEngine: RtcEngine?= null
 
     private lateinit var localContainer: FrameLayout
     private lateinit var remoteContainer: FrameLayout
-    private lateinit var timer:CountDownTimer
+    private lateinit var timer: CountDownTimer
 
     private var chaplainName = ""
-    private var uniqueUserId:Int = 0
+    private var uniqueUserId:Int = 437897592
     private var chaplainProfileImageLink = ""
     private var isMicMuted = false
     private var isCameraOpen = true
@@ -83,26 +74,27 @@ class VideoCallActivity : AppCompatActivity() {
             }
         }
     }
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_video_call)
+        setContentView(R.layout.activity_chaplain_video)
 
         localContainer = findViewById<FrameLayout>(R.id.local_video_view_container)
         remoteContainer = findViewById<FrameLayout>(R.id.remote_video_view_container)
 
-        chaplainName = intent.getStringExtra("chaplain_name").toString()
-        val userId = intent.getStringExtra("chaplainUniqueUserId").toString()
+        // chaplainName = intent.getStringExtra("chaplain_name").toString()
+        // val userId = intent.getStringExtra("chaplainUniqueUserId").toString()
+        // TOKEN = intent.getStringExtra("token").toString()
         chaplainProfileImageLink = intent.getStringExtra("chaplainProfileImageLink").toString()
-        uniqueUserId = userId.toInt(10)
+        //uniqueUserId = userId.toInt(10)
         video_page_name_textView.text = chaplainName
         if (chaplainProfileImageLink != ""){
             Picasso.get().load(chaplainProfileImageLink).into(video_chat_remote_user_image_view)
         }
 
-        getToken()
-        //initializeAndJoinChannel()
+        //getToken()
+        Log.e("TOKEN_3: ", TOKEN)
+        Log.e("TOKEN_4: ", uniqueUserId.toString())
+        initializeAndJoinChannel()
 
         video_page_mic_imageButton.setOnClickListener {
             if (!isMicMuted){
@@ -166,10 +158,10 @@ class VideoCallActivity : AppCompatActivity() {
 
         api.fetchAllData(uid = uniqueUserId.toString()).enqueue(object : Callback<TokenModelClass> {
             override fun onResponse(call: Call<TokenModelClass>, response: Response<TokenModelClass>) {
-                TOKEN = response.body()?.token ?: TOKEN
+                //TOKEN = response.body()?.token ?: TOKEN
                 Log.e("TOKEN_1: ", TOKEN)
                 Log.e("TOKEN_2: ", uniqueUserId.toString())
-                initializeAndJoinChannel(TOKEN)
+                //initializeAndJoinChannel(TOKEN)
             }
 
             override fun onFailure(call: Call<TokenModelClass>, t: Throwable) {
@@ -197,7 +189,7 @@ class VideoCallActivity : AppCompatActivity() {
         }.start()
     }
 
-    private fun initializeAndJoinChannel(TOKENNEW:String) {
+    private fun initializeAndJoinChannel() {
         try {
             mRtcEngine = RtcEngine.create(baseContext, APP_ID, mRtcEventHandler)
         } catch (e: Exception) {
@@ -214,7 +206,7 @@ class VideoCallActivity : AppCompatActivity() {
         mRtcEngine!!.setupLocalVideo(VideoCanvas(localFrame, VideoCanvas.RENDER_MODE_FIT, uniqueUserId))
 
         // Join the channel with a token.
-        mRtcEngine!!.joinChannel(TOKENNEW, CHANNEL, "", uniqueUserId)
+        mRtcEngine!!.joinChannel(TOKEN, CHANNEL, "", uniqueUserId)
 
     }
 

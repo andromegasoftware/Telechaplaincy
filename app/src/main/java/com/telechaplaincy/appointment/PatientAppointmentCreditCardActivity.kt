@@ -3,6 +3,7 @@ package com.telechaplaincy.appointment
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -11,9 +12,14 @@ import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.stripe.android.*
+import com.stripe.android.model.ConfirmPaymentIntentParams
+import com.stripe.android.model.PaymentMethod
+import com.stripe.android.view.BillingAddressFields
 import com.telechaplaincy.R
 import com.telechaplaincy.chaplain_sign_activities.ChaplainUserProfile
 import com.telechaplaincy.patient_sign_activities.UserProfile
+import com.telechaplaincy.payment.FirebaseEphemeralKeyProvider
 import kotlinx.android.synthetic.main.activity_patient_appointment_credit_card.*
 import java.math.BigInteger
 import java.util.*
@@ -51,6 +57,12 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
 
     private var isPaymentDone = false
 
+    private var currentUserWillPay: FirebaseUser? = null
+    private lateinit var paymentSession: PaymentSession
+    private lateinit var selectedPaymentMethod: PaymentMethod
+    private val stripe: Stripe by lazy { Stripe(applicationContext, "pk_test_51K1nMiJNPvINJFSH7tpyrBYdY2iD6O8FSt9B8QgtY4FSF2WfIDPajZuKd68AqvQVKI6pCzNo4OdHzZqkc0JPMlHt00sASHpQ8U")}
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patient_appointment_credit_card)
@@ -64,6 +76,7 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         if (auth.currentUser != null) {
             user = auth.currentUser!!
+            currentUserWillPay = auth.currentUser!!
             patientUserId = user.uid
         }
 
@@ -86,12 +99,17 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
         readChaplainData()
 
         payButton.setOnClickListener {
-            isPaymentDone = true
-            if (isPaymentDone){
-                saveAppointmentInfoFireStore()
 
-            }
+            confirmPayment(selectedPaymentMethod.id!!)
+
         }
+
+        paymentMethod.setOnClickListener {
+            // Create the customer session and kick start the payment flow
+            paymentSession.presentPaymentMethodSelection()
+        }
+
+        setupPaymentSession ()
 
     }
 
@@ -193,4 +211,101 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
+
+    private fun confirmPayment(paymentMethodId: String) {
+        payButton.isClickable = false
+
+        val paymentCollection = Firebase.firestore
+            .collection("stripe_customers").document(currentUserWillPay?.uid?:"")
+            .collection("payments")
+
+        // Add a new document with a generated ID
+        val price = appointmentPrice + "00"
+        paymentCollection.add(hashMapOf(
+            "amount" to price,
+            "currency" to "usd"
+        ))
+            .addOnSuccessListener { documentReference ->
+                Log.d("payment", "DocumentSnapshot added with ID: ${documentReference.id}")
+                documentReference.addSnapshotListener { snapshot, e ->
+                    if (e != null) {
+                        Log.w("payment", "Listen failed.", e)
+                        return@addSnapshotListener
+                    }
+
+                    if (snapshot != null && snapshot.exists()) {
+                        Log.d("payment", "Current data: ${snapshot.data}")
+                        val clientSecret = snapshot.data?.get("client_secret")
+                        Log.d("payment", "Create paymentIntent returns $clientSecret")
+                        clientSecret?.let {
+                            stripe.confirmPayment(this, ConfirmPaymentIntentParams.createWithPaymentMethodId(
+                                paymentMethodId,
+                                (it as String)
+                            ))
+
+                            checkoutSummary.text = "Thank you for your payment"
+                            Toast.makeText(applicationContext, "Payment Done!!", Toast.LENGTH_LONG).show()
+                            isPaymentDone = true
+                            saveAppointmentInfoFireStore()
+                        }
+                    } else {
+                        Log.e("payment", "Current payment intent : null")
+                        payButton.isEnabled = true
+                    }
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.w("payment", "Error adding document", e)
+                payButton.isClickable = true
+            }
+    }
+
+    private fun setupPaymentSession () {
+        PaymentConfiguration.init(applicationContext, "pk_test_51K1nMiJNPvINJFSH7tpyrBYdY2iD6O8FSt9B8QgtY4FSF2WfIDPajZuKd68AqvQVKI6pCzNo4OdHzZqkc0JPMlHt00sASHpQ8U")
+
+        // Setup Customer Session
+        CustomerSession.initCustomerSession(this, FirebaseEphemeralKeyProvider())
+        // Setup a payment session
+        paymentSession = PaymentSession(this, PaymentSessionConfig.Builder()
+            .setShippingInfoRequired(false)
+            .setShippingMethodsRequired(false)
+            .setBillingAddressFields(BillingAddressFields.None)
+            .setShouldShowGooglePay(false)
+            .build())
+
+        paymentSession.init(
+            object: PaymentSession.PaymentSessionListener {
+                override fun onPaymentSessionDataChanged(data: PaymentSessionData) {
+                    Log.d("PaymentSession", "PaymentSession has changed: $data")
+                    Log.d("PaymentSession", "${data.isPaymentReadyToCharge} <> ${data.paymentMethod}")
+
+                    if (data.isPaymentReadyToCharge) {
+                        Log.d("PaymentSession", "Ready to charge");
+                        payButton.isEnabled = true
+
+                        data.paymentMethod?.let {
+                            Log.d("PaymentSession", "PaymentMethod $it selected")
+                            paymentMethod.text = "${it.card?.brand} card ends with ${it.card?.last4}"
+                            selectedPaymentMethod = it
+                        }
+                    }
+                }
+
+                override fun onCommunicatingStateChanged(isCommunicating: Boolean) {
+                    Log.d("PaymentSession",  "isCommunicating $isCommunicating")
+                }
+
+                override fun onError(errorCode: Int, errorMessage: String) {
+                    Log.e("PaymentSession",  "onError: $errorCode, $errorMessage")
+                }
+            }
+        )
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        paymentSession.handlePaymentData(requestCode, resultCode, data ?: Intent())
+    }
+
 }
