@@ -3,6 +3,7 @@ package com.telechaplaincy.appointment
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -55,7 +56,7 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
     private var chaplainUniqueUserId:String = ""
     private var patientUniqueUserId:String = ""
 
-    private var isPaymentDone = false
+    private var isPaymentMethodSelected = false
 
     private var currentUserWillPay: FirebaseUser? = null
     private lateinit var paymentSession: PaymentSession
@@ -98,10 +99,16 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
         readPatientData()
         readChaplainData()
 
+        credit_card_page_price_textView.text = "$appointmentPrice$"
+
         payButton.setOnClickListener {
-
-            confirmPayment(selectedPaymentMethod.id!!)
-
+            if(isPaymentMethodSelected){
+                confirmPayment(selectedPaymentMethod.id!!)
+                credit_card_progressBar.visibility = View.VISIBLE
+            }
+            else{
+                Toast.makeText(applicationContext, getString(R.string.payment_method__toast_message), Toast.LENGTH_LONG).show()
+            }
         }
 
         paymentMethod.setOnClickListener {
@@ -114,8 +121,7 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
     }
 
     private fun saveAppointmentInfoFireStore(){
-
-        payButton.isClickable = false
+        //payButton.isClickable = false
 
         appointmentId = dbSaveAppointmentForMainCollection.id
         val appointmentModelClass = AppointmentModelClass(
@@ -243,9 +249,9 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
                                 (it as String)
                             ))
 
-                            checkoutSummary.text = "Thank you for your payment"
+                            //checkoutSummary.text = "Thank you for your payment"
                             Toast.makeText(applicationContext, "Payment Done!!", Toast.LENGTH_LONG).show()
-                            isPaymentDone = true
+                            //isPaymentDone = true
                             saveAppointmentInfoFireStore()
                         }
                     } else {
@@ -257,6 +263,8 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
             .addOnFailureListener { e ->
                 Log.w("payment", "Error adding document", e)
                 payButton.isClickable = true
+                checkoutSummary.text = getString(R.string.credit_card_reject_info)
+                credit_card_progressBar.visibility = View.GONE
             }
     }
 
@@ -281,11 +289,20 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
 
                     if (data.isPaymentReadyToCharge) {
                         Log.d("PaymentSession", "Ready to charge");
-                        payButton.isEnabled = true
-
+                        //payButton.isClickable = true
+                        isPaymentMethodSelected = true
                         data.paymentMethod?.let {
                             Log.d("PaymentSession", "PaymentMethod $it selected")
-                            paymentMethod.text = "${it.card?.brand} card ends with ${it.card?.last4}"
+                            var month = it.card?.expiryMonth.toString()
+                            if(month.length == 1){
+                                month = "0$month"
+                            }
+                            var year = it.card?.expiryYear.toString()
+                            year = year.substring(2)
+                            credit_card_type_textView.text = it.card?.brand
+                            credit_card_last_four_textView.text = it.card?.last4
+                            credit_card_exp_date_textView.text = "$month/$year"
+                            // paymentMethod.text = "${it.card?.brand} card ends with ${it.card?.last4}"
                             selectedPaymentMethod = it
                         }
                     }

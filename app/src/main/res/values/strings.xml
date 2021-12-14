@@ -2,6 +2,14 @@
     <string name="app_name">Tele Chaplaincy</string>
     <string name="app_int_connection_alert">Sorry! We could not find any internet connection. App work with internet connection.</string>
 
+    //patient credit card payment activity
+    <string name="card_holder">CARD HOLDER</string>
+    <string name="card_holder_name">Name Surname</string>
+    <string name="card_expires_date">EXP. DATE</string>
+    <string name="payment_method_button">SELECT PAYMENT METHOD</string>
+    <string name="payment_method__toast_message">Please first select a payment method</string>
+    <string name="credit_card_reject_info">Sorry! There is a problem with your credit card. Payment could not be done.</string>
+
     //patient future_appointment activity
     <string name="appointment_day">Appointment Day</string>
     <string name="appointment_time">Appointment Time</string>

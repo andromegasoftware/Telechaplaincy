@@ -35,7 +35,9 @@
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".appointment.PatientAppointmentCreditCardActivity"
-            android:theme="@style/ChaplainSignUpPageTheme"></activity>
+            android:theme="@style/ChaplainSignUpPageTheme">
+
+        </activity>
         <activity
             android:name=".appointment.PatientAppointmentSummaryActivity"
             android:theme="@style/ChaplainSignUpPageTheme" />
