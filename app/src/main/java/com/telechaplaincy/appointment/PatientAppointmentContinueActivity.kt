@@ -53,6 +53,7 @@ class PatientAppointmentContinueActivity : AppCompatActivity() {
     private var chaplainCategory = ""
     private var chaplainAvailableTimesArray = ArrayList<String>()
     private var readTime = ""
+    private var timeNow = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -195,6 +196,7 @@ class PatientAppointmentContinueActivity : AppCompatActivity() {
     }
 
     private fun readChaplainEarliestDate(){
+        timeNow = System.currentTimeMillis().toString()
         dbSave.collection("chaplainTimes").document("availableTimes").get()
             .addOnSuccessListener { document ->
                 if (document != null) {
@@ -204,7 +206,8 @@ class PatientAppointmentContinueActivity : AppCompatActivity() {
                             val v = value as Map<*, *>
                             val time = v["time"]
                             val isBooked = v["isBooked"]
-                            if (isBooked == false) {
+                            //Log.d("time", "time: ${time.toString()}, time now: $timeNow")
+                            if (isBooked == false && time.toString().toLong() > timeNow.toLong()) {
                                 chaplainAvailableTimesArray.add(key)
                             }
                         }

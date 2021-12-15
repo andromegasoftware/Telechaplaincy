@@ -2,6 +2,29 @@
     <string name="app_name">Tele Chaplaincy</string>
     <string name="app_int_connection_alert">Sorry! We could not find any internet connection. App work with internet connection.</string>
 
+    //patient profile details activity
+    <string name="patient_profile_details_activity_title">Profile</string>
+    <string name="patient_profile_details_activity_email">Email</string>
+    <string name="patient_profile_details_activity_birth_date">Birth Date</string>
+    <string name="patient_profile_details_activity_gender">Gender</string>
+    <string name="patient_profile_details_activity_language">Language</string>
+    <string name="patient_profile_details_activity_phone_number">Phone Number</string>
+    <string name="patient_profile_details_activity_marital_status">Marital Status</string>
+    <string name="patient_profile_details_activity_ethnicity">Ethnicity</string>
+    <string name="patient_profile_details_activity_faith">Faith Affiliation</string>
+    <string name="patient_profile_details_activity_occupation">Occupation</string>
+    <string name="patient_profile_details_activity_education">Education</string>
+    <string name="patient_profile_details_activity_country">Country of Residency/State</string>
+
+
+    //patient profile activity
+    <string name="sign_out_button_title">SIGN OUT</string>
+    <string name="help_button_title">HELP</string>
+    <string name="privacy_policy_button_title">PRIVACY POLICY</string>
+    <string name="rate_us_button_title">RATE US</string>
+    <string name="profile_button_title">PROFILE</string>
+
+
     //patient credit card payment activity
     <string name="card_holder">CARD HOLDER</string>
     <string name="card_holder_name">Name Surname</string>

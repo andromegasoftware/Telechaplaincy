@@ -19,8 +19,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".video_call.ChaplainVideoActivity"
-        android:theme="@style/VideoChatPageTheme"/>
+        <activity android:name=".patient_profile.PatientProfileDetailsActivity"
+            android:theme="@style/ChaplainSignUpPageTheme" />
+        <activity
+            android:name=".video_call.ChaplainVideoActivity"
+            android:theme="@style/VideoChatPageTheme" />
         <activity
             android:name=".video_call.VideoCallActivity"
             android:theme="@style/VideoChatPageTheme" />
@@ -35,9 +38,7 @@
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".appointment.PatientAppointmentCreditCardActivity"
-            android:theme="@style/ChaplainSignUpPageTheme">
-
-        </activity>
+            android:theme="@style/ChaplainSignUpPageTheme"></activity>
         <activity
             android:name=".appointment.PatientAppointmentSummaryActivity"
             android:theme="@style/ChaplainSignUpPageTheme" />
@@ -59,8 +60,12 @@
         <activity
             android:name=".patient_profile.PatientAppointmentPersonalInfo"
             android:theme="@style/ChaplainSignUpPageTheme" />
-        <activity android:name=".patient_profile.PatientProfileActivity" />
-        <activity android:name=".chaplain_profile.ChaplainProfileActivity" />
+        <activity
+            android:name=".patient_profile.PatientProfileActivity"
+            android:theme="@style/ChaplainSignUpPageTheme" />
+        <activity
+            android:name=".chaplain_profile.ChaplainProfileActivity"
+            android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".SplashScreen"
             android:theme="@style/SplashScreenTheme">

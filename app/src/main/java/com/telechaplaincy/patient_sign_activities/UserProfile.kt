@@ -15,6 +15,7 @@ class UserProfile(
     val gender:String? = null,
     val maritalStatus:String? = null,
     val ethnic:ArrayList<String>? = null,
-    val faith:ArrayList<String>? = null
+    val faith:ArrayList<String>? = null,
+    val profileImage: String? = null
 )
 

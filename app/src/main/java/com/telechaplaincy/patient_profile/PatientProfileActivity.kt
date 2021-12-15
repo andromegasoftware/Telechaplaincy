@@ -3,19 +3,37 @@ package com.telechaplaincy.patient_profile
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.Toast
+import com.google.android.material.chip.Chip
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
+import com.squareup.picasso.Picasso
 import com.telechaplaincy.R
 import com.telechaplaincy.chaplain.ChaplainMainActivity
 import com.telechaplaincy.patient.PatientMainActivity
 import com.telechaplaincy.patient_sign_activities.LoginPage
+import com.telechaplaincy.patient_sign_activities.UserProfile
 import kotlinx.android.synthetic.main.activity_chaplain_main.*
+import kotlinx.android.synthetic.main.activity_patient_appointment_personal_info.*
 import kotlinx.android.synthetic.main.activity_patient_profile.*
 import kotlinx.android.synthetic.main.activity_patient_profile.bottomNavigation
 
 class PatientProfileActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
+    private lateinit var user: FirebaseUser
+    private lateinit var dbSave: DocumentReference
+    private val db = Firebase.firestore
+    private var patientProfileFieldUserId:String = ""
+    private var patientProfileFirstName:String = ""
+    private var patientProfileLastName:String = ""
+    private var patientProfileImageLink:String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,8 +42,22 @@ class PatientProfileActivity : AppCompatActivity() {
         addingActivitiesToBottomMenu()
 
         auth = FirebaseAuth.getInstance()
+        if (auth.currentUser != null){
+            user = auth.currentUser!!
+            patientProfileFieldUserId = user.uid
+        }
 
-        logOut.setOnClickListener {
+        dbSave = db.collection("patients").document(patientProfileFieldUserId)
+
+        readPatientPersonalInfo()
+
+        patient_profile_profile_button.setOnClickListener {
+            val intent = Intent(this, PatientProfileDetailsActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        patient_profile_sign_out_button.setOnClickListener {
             auth.signOut()
             val intent = Intent(this, LoginPage::class.java)
             startActivity(intent)
@@ -60,5 +92,33 @@ class PatientProfileActivity : AppCompatActivity() {
             }
             true
         }
+    }
+
+    //this function will read the patient personal info from the firestore when the user opening the appointment page
+    private fun readPatientPersonalInfo(){
+        dbSave.get().addOnSuccessListener { document ->
+            if (document != null){
+                val userProfile = document.toObject<UserProfile>()
+                if (userProfile != null) {
+                    patientProfileFirstName = userProfile.name.toString()
+                    if (patientProfileFirstName != "null"){
+                    }
+                    patientProfileLastName = userProfile.surname.toString()
+                    if (patientProfileLastName != "null"){
+                        patient_profile_name_textView.text = "$patientProfileFirstName $patientProfileLastName"
+                    }
+                    patientProfileImageLink = userProfile.profileImage.toString()
+                    if (patientProfileImageLink != "null"){
+                        Picasso.get().load(patientProfileImageLink).into(patient_profile_profile_image_image_view)
+                    }
+
+                }
+            }else {
+                Log.d("TAG", "No such document")
+            }
+        }
+            .addOnFailureListener { exception ->
+                Log.d("TAG", "get failed with ", exception)
+            }
     }
 }

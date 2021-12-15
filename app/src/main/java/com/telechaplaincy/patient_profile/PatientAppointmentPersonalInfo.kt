@@ -20,6 +20,7 @@ import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.squareup.picasso.Picasso
 import com.telechaplaincy.R
 import com.telechaplaincy.birth_date_class.DateMask
 import com.telechaplaincy.patient.CategorySelection
@@ -27,6 +28,7 @@ import com.telechaplaincy.patient.PatientMainActivity
 import com.telechaplaincy.patient_sign_activities.UserProfile
 import kotlinx.android.synthetic.main.activity_chaplain_sign_up_second_part.*
 import kotlinx.android.synthetic.main.activity_patient_appointment_personal_info.*
+import kotlinx.android.synthetic.main.activity_patient_profile.*
 
 class PatientAppointmentPersonalInfo : AppCompatActivity() {
 
@@ -58,6 +60,7 @@ class PatientAppointmentPersonalInfo : AppCompatActivity() {
     private var patientMaritalStatus:String = ""
     private var patientEthnic:String = ""
     private var patientFaith:String = ""
+    private var patientProfileImageLink:String = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -117,7 +120,7 @@ class PatientAppointmentPersonalInfo : AppCompatActivity() {
         val userProfile = UserProfile(patientProfileFirstName, patientProfileLastName,
             patientProfileEmail, patientProfileFieldUserId, patientProfileBirthDate, patientProfilePhone,
             patientProfileOccupation, patientProfileEducation, patientProfileLanguage, patientProfileCountry,
-            patientGender, patientMaritalStatus, patientEthnicArrayList, patientFaithArrayList)
+            patientGender, patientMaritalStatus, patientEthnicArrayList, patientFaithArrayList, patientProfileImageLink)
         dbSave.set(userProfile, SetOptions.merge())
             .addOnSuccessListener {
                 Log.d("data upload", "DocumentSnapshot successfully written!")
@@ -140,7 +143,7 @@ class PatientAppointmentPersonalInfo : AppCompatActivity() {
         val userProfile = UserProfile(patientProfileFirstName, patientProfileLastName,
             patientProfileEmail, patientProfileFieldUserId, patientProfileBirthDate, patientProfilePhone,
             patientProfileOccupation, patientProfileEducation, patientProfileLanguage, patientProfileCountry,
-            patientGender, patientMaritalStatus, patientEthnicArrayList, patientFaithArrayList)
+            patientGender, patientMaritalStatus, patientEthnicArrayList, patientFaithArrayList, patientProfileImageLink)
         dbSave.set(userProfile, SetOptions.merge())
             .addOnSuccessListener {
                 Log.d("data upload", "DocumentSnapshot successfully written!")
@@ -162,6 +165,10 @@ class PatientAppointmentPersonalInfo : AppCompatActivity() {
             if (document != null){
                 val userProfile = document.toObject<UserProfile>()
                 if (userProfile != null) {
+                    patientProfileImageLink = userProfile.profileImage.toString()
+                    if (patientProfileImageLink != "null"){
+                        Picasso.get().load(patientProfileImageLink).into(patient_appointment_personal_info_image_view)
+                    }
                     patientProfileFirstName = userProfile.name.toString()
                     if (patientProfileFirstName != "null"){
                         patient_personal_info_first_name_editText.setText(patientProfileFirstName)
