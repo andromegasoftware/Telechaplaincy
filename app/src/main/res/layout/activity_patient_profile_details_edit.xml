@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".patient_profile.PatientAppointmentPersonalInfo">
+    tools:context=".patient_profile.PatientProfileDetailsEditActivity">
 
     <ProgressBar
         android:id="@+id/progressBarPersonalInfoPageMain"
@@ -302,23 +302,12 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/patient_personal_info_cancel_button"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="20dp"
-                        android:layout_weight="5"
-                        android:background="@drawable/button_shape"
-                        android:text="@string/chaplain_sign_up_alert_cancel_button"
-                        android:textColor="@color/design_default_color_background" />
-
-                    <Button
                         android:id="@+id/patient_personal_info_next_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_weight="5"
+                        android:layout_margin="20dp"
                         android:background="@drawable/button_shape"
-                        android:text="@string/personal_info_next_button_text"
+                        android:text="@string/patient_profile_details_edit_activity_button"
                         android:textColor="@color/design_default_color_background" />
                 </LinearLayout>
 

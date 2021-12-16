@@ -108,7 +108,8 @@ class PatientProfileActivity : AppCompatActivity() {
                         patient_profile_name_textView.text = "$patientProfileFirstName $patientProfileLastName"
                     }
                     patientProfileImageLink = userProfile.profileImage.toString()
-                    if (patientProfileImageLink != "null"){
+                    Log.d("image: ", "patientProfileImageLink")
+                    if (patientProfileImageLink != "null" && patientProfileImageLink != ""){
                         Picasso.get().load(patientProfileImageLink).into(patient_profile_profile_image_image_view)
                     }
 

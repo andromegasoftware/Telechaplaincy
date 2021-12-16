@@ -31,17 +31,13 @@ import com.google.firebase.storage.StorageReference
 import com.squareup.picasso.Picasso
 import com.telechaplaincy.R
 import com.telechaplaincy.birth_date_class.DateMask
-import com.telechaplaincy.chaplain_sign_activities.ChaplainSignUpSecondPart
 import com.telechaplaincy.patient.CategorySelection
 import com.telechaplaincy.patient.PatientMainActivity
 import com.telechaplaincy.patient_sign_activities.UserProfile
-import kotlinx.android.synthetic.main.activity_chaplain_sign_up.*
-import kotlinx.android.synthetic.main.activity_chaplain_sign_up_second_part.*
 import kotlinx.android.synthetic.main.activity_patient_appointment_personal_info.*
-import kotlinx.android.synthetic.main.activity_patient_profile.*
 import java.io.File
 
-class PatientAppointmentPersonalInfo : AppCompatActivity() {
+class PatientProfileDetailsEditActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var user: FirebaseUser
@@ -80,7 +76,7 @@ class PatientAppointmentPersonalInfo : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_patient_appointment_personal_info)
+        setContentView(R.layout.activity_patient_profile_details_edit)
 
         patient_info_progress_bar.visibility = View.GONE
 
@@ -108,17 +104,8 @@ class PatientAppointmentPersonalInfo : AppCompatActivity() {
         //this part makes editText birth date format like dd/mm/yyyy
         DateMask(patient_personal_info_birth_date_editText).listen()
 
-        patient_personal_info_cancel_button.setOnClickListener {
-            val intent = Intent(this, PatientMainActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
-
         patient_personal_info_next_button.setOnClickListener {
             savePatientPersonalInfo()
-            val intent = Intent(this, CategorySelection::class.java)
-            startActivity(intent)
-            finish()
         }
 
         patient_appointment_personal_info_image_view.setOnClickListener {
@@ -171,6 +158,10 @@ class PatientAppointmentPersonalInfo : AppCompatActivity() {
                 Log.d("data upload", "DocumentSnapshot successfully written!")
                 patient_info_progress_bar.visibility = View.GONE
                 patient_personal_info_next_button.isClickable = true
+                val toast = Toast.makeText(this, getString(R.string.patient_profile_details_edit_activity_button_toast_message), Toast.LENGTH_LONG).show()
+                val intent = Intent(this, PatientProfileDetailsActivity::class.java)
+                startActivity(intent)
+                finish()
             }
             .addOnFailureListener {
                     e -> Log.w("data upload", "Error writing document", e)
@@ -248,7 +239,7 @@ class PatientAppointmentPersonalInfo : AppCompatActivity() {
                         patientEthnicArrayList = userProfile.ethnic
                         for (k in patientEthnicArrayList.indices) {
                             if (patientEthnicArrayList[k] != "Nothing Selected") {
-                                val chipEthnicBackground = Chip(this@PatientAppointmentPersonalInfo)
+                                val chipEthnicBackground = Chip(this@PatientProfileDetailsEditActivity)
                                 chipEthnicBackground.isCloseIconVisible = true
                                 chipEthnicBackground.setChipBackgroundColorResource(R.color.colorAccent)
                                 chipEthnicBackground.setTextColor(resources.getColor(R.color.colorPrimary))
@@ -267,7 +258,7 @@ class PatientAppointmentPersonalInfo : AppCompatActivity() {
                         patientFaithArrayList = userProfile.faith
                         for (k in patientFaithArrayList.indices) {
                             if (patientFaithArrayList[k] != "Nothing Selected") {
-                                val chipFaith = Chip(this@PatientAppointmentPersonalInfo)
+                                val chipFaith = Chip(this@PatientProfileDetailsEditActivity)
                                 chipFaith.isCloseIconVisible = true
                                 chipFaith.setChipBackgroundColorResource(R.color.colorAccent)
                                 chipFaith.setTextColor(resources.getColor(R.color.colorPrimary))
@@ -289,7 +280,7 @@ class PatientAppointmentPersonalInfo : AppCompatActivity() {
             .addOnFailureListener { exception ->
                 Log.d("TAG", "get failed with ", exception)
             }
-        }
+    }
 
     //patient Ethnic Background spinner item selection function
     private fun patientEthnicBackgroundSelection(){
@@ -307,7 +298,7 @@ class PatientAppointmentPersonalInfo : AppCompatActivity() {
                 id: Long
             ) {
                 patientEthnic = optionEthnic[position]
-                val chipPatientEthnic= Chip(this@PatientAppointmentPersonalInfo)
+                val chipPatientEthnic= Chip(this@PatientProfileDetailsEditActivity)
                 chipPatientEthnic.isCloseIconVisible = true
                 chipPatientEthnic.setChipBackgroundColorResource(R.color.colorAccent)
                 chipPatientEthnic.setTextColor(resources.getColor(R.color.colorPrimary))
@@ -319,11 +310,11 @@ class PatientAppointmentPersonalInfo : AppCompatActivity() {
                 else if (patientEthnic == "Other"){
 
                     //alert dialog create
-                    val builder= AlertDialog.Builder(this@PatientAppointmentPersonalInfo)
+                    val builder= AlertDialog.Builder(this@PatientProfileDetailsEditActivity)
                     builder.setTitle(R.string.chaplain_sign_up_ethnic_title_textView_text)
 
                     // Set up the input
-                    val input = EditText(this@PatientAppointmentPersonalInfo)
+                    val input = EditText(this@PatientProfileDetailsEditActivity)
                     // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
                     input.hint = getString(R.string.chaplain_sign_up_ethnic_title_textView_text)
                     input.inputType = InputType.TYPE_CLASS_TEXT
@@ -380,7 +371,7 @@ class PatientAppointmentPersonalInfo : AppCompatActivity() {
                 id: Long
             ) {
                 patientFaith = optionFaith[position]
-                val chipPatientFaith= Chip(this@PatientAppointmentPersonalInfo)
+                val chipPatientFaith= Chip(this@PatientProfileDetailsEditActivity)
                 chipPatientFaith.isCloseIconVisible = true
                 chipPatientFaith.setChipBackgroundColorResource(R.color.colorAccent)
                 chipPatientFaith.setTextColor(resources.getColor(R.color.colorPrimary))
@@ -392,11 +383,11 @@ class PatientAppointmentPersonalInfo : AppCompatActivity() {
                 else if (patientFaith == "Other"){
 
                     //alert dialog create
-                    val builder= AlertDialog.Builder(this@PatientAppointmentPersonalInfo)
+                    val builder= AlertDialog.Builder(this@PatientProfileDetailsEditActivity)
                     builder.setTitle(R.string.chaplain_sign_up_chaplaincy_faith)
 
                     // Set up the input
-                    val input = EditText(this@PatientAppointmentPersonalInfo)
+                    val input = EditText(this@PatientProfileDetailsEditActivity)
                     // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
                     input.hint = getString(R.string.chaplain_sign_up_chaplaincy_faith)
                     input.inputType = InputType.TYPE_CLASS_TEXT
@@ -498,7 +489,7 @@ class PatientAppointmentPersonalInfo : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        val intent = Intent(this, PatientMainActivity::class.java)
+        val intent = Intent(this, PatientProfileDetailsActivity::class.java)
         startActivity(intent)
         finish()
     }

@@ -19,7 +19,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".patient_profile.PatientProfileDetailsActivity"
+        <activity android:name=".patient_profile.PatientProfileDetailsEditActivity"
+            android:theme="@style/ChaplainSignUpPageTheme" />
+        <activity
+            android:name=".patient_profile.PatientProfileDetailsActivity"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".video_call.ChaplainVideoActivity"
@@ -38,7 +41,7 @@
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".appointment.PatientAppointmentCreditCardActivity"
-            android:theme="@style/ChaplainSignUpPageTheme"></activity>
+            android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".appointment.PatientAppointmentSummaryActivity"
             android:theme="@style/ChaplainSignUpPageTheme" />
