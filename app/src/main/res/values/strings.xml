@@ -2,9 +2,22 @@
     <string name="app_name">Tele Chaplaincy</string>
     <string name="app_int_connection_alert">Sorry! We could not find any internet connection. App work with internet connection.</string>
 
+
+    //patient future appointment edit activity
+    <string name="patient_future_appointment_edit_activity_save_button_text">SAVE</string>
+    <string name="patient_future_appointment_edit_activity_saved_button_text">SAVED</string>
+    <string name="patient_future_appointment_edit_activity_edit_alert_dialog_title">Edit Appointment</string>
+    <string name="patient_future_appointment_edit_activity_edit_alert_dialog_question">Do you want to edit your appointment?</string>
+    <string name="patient_future_appointment_edit_activity_toast_message">Sorry! You cannot change your appointment date because there is less than %1$s hours left until the appointment date.</string>
+
+
+    //patient past appointment details activity
+    <string name="patient_past_appointments_details_doctor_note_title">Doctor\'s Note</string>
+    <string name="patient_past_appointments_details_make_another_appointment_button_text">MAKE ANOTHER APPOINTMENT</string>
+
     //patient profile details edit activity
     <string name="patient_profile_details_edit_activity_button">Save</string>
-    <string name="patient_profile_details_edit_activity_button_toast_message">Your Profile Info Saved Sccessfully</string>
+    <string name="patient_profile_details_edit_activity_button_toast_message">Your Profile Info Saved Successfully</string>
 
 
     //patient profile details activity

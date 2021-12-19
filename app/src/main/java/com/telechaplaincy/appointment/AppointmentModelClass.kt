@@ -16,6 +16,9 @@ class AppointmentModelClass(
     val chaplainField:ArrayList<String>? = null,
     var patientAppointmentTimeZone: String? = null,
     val chaplainUniqueUserId:String? = null,
-    var patientUniqueUserId: String? = null
+    var patientUniqueUserId: String? = null,
+    var chaplainNoteForPatient: String? = null,
+    var chaplainNoteForDoctors: String? = null,
+    var chaplainCategory: String? = null
 ) {
 }

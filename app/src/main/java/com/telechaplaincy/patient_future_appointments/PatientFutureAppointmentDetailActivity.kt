@@ -9,6 +9,7 @@ import android.os.CountDownTimer
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
@@ -22,6 +23,7 @@ import com.telechaplaincy.R
 import com.telechaplaincy.appointment.AppointmentModelClass
 import com.telechaplaincy.chaplain_sign_activities.ChaplainUserProfile
 import com.telechaplaincy.patient.PatientMainActivity
+import com.telechaplaincy.patient_edit_appointment.PatientAppointmentEditActivity
 import com.telechaplaincy.patient_profile.PatientAppointmentPersonalInfo
 import com.telechaplaincy.video_call.VideoCallActivity
 import kotlinx.android.synthetic.main.activity_patient_appointment_continue.*
@@ -53,6 +55,7 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
     private var appointmentPrice:String = ""
     private var appointmentId:String = ""
     private var patientAppointmentTimeZone:String = ""
+    private var lastAppointmentEditTime: String = ""
 
     private val PERMISSION_REQ_ID_RECORD_AUDIO = 22
     private val PERMISSION_REQ_ID_CAMERA = PERMISSION_REQ_ID_RECORD_AUDIO + 1
@@ -90,7 +93,7 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
         }
 
         future_appointment_edit_button.setOnClickListener {
-
+            alertDialogMessageMethod()
         }
     }
 
@@ -202,6 +205,9 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
                             appointmentPrice = result.appointmentPrice
                             future_appointment_price_textView.text = getString(R.string.appointment_price) + appointmentPrice
                         }
+                        if (result.chaplainId != null){
+                            chaplainProfileFieldUserId = result.chaplainId
+                        }
                     }
                 } else {
                     Log.d("TAG", "No such document")
@@ -218,5 +224,51 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
         val intent = Intent(this, PatientMainActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    private fun checkEditTimeAndEditAppointment(){
+        db.collection("appointment").document("editLastDate").get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    lastAppointmentEditTime = document["appointmentEditLastDate"].toString()
+                    //Log.d("lastAppointmentEditTime", lastAppointmentEditTime)
+                    val timeNow = System.currentTimeMillis()
+                    val appointmentTimeLong = appointmentTime.toLong()
+                    val timeDifference:Long = appointmentTimeLong - timeNow
+                    val leftAppointmentTimeHours = TimeUnit.MILLISECONDS.toHours(timeDifference)
+                    if(timeDifference > lastAppointmentEditTime.toLong()){
+                        val intent = Intent(this, PatientAppointmentEditActivity::class.java)
+                        intent.putExtra("chaplain_id", chaplainProfileFieldUserId)
+                        intent.putExtra("patientSelectedTime", appointmentTime)
+                        intent.putExtra("patientAppointmentTimeZone", patientAppointmentTimeZone)
+                        intent.putExtra("appointment_id", appointmentId)
+                        startActivity(intent)
+                        finish()
+                    }else{
+                        val toast = Toast.makeText(this, getString(R.string.patient_future_appointment_edit_activity_toast_message, leftAppointmentTimeHours.toString()), Toast.LENGTH_LONG).show()
+                    }
+                } else {
+                    //Log.d(TAG, "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                //Log.d(TAG, "get failed with ", exception)
+            }
+    }
+
+    private fun alertDialogMessageMethod(){
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(getString(R.string.patient_future_appointment_edit_activity_edit_alert_dialog_title))
+        builder.setMessage(getString(R.string.patient_future_appointment_edit_activity_edit_alert_dialog_question))
+        //builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = x))
+
+        builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+            checkEditTimeAndEditAppointment()
+        }
+
+        builder.setNegativeButton(android.R.string.no) { dialog, which ->
+            dialog.dismiss()
+        }
+        builder.show()
     }
 }

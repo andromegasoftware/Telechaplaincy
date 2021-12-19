@@ -1,9 +1,11 @@
-package com.telechaplaincy.appointment
+package com.telechaplaincy.patient_edit_appointment
 
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
@@ -14,32 +16,36 @@ import com.google.android.material.chip.Chip
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.telechaplaincy.R
-import com.telechaplaincy.chaplain_selection.chaplains_selection.ChaplainsListedSelectionActivity
-import com.telechaplaincy.databinding.ActivityChaplainCalendarBinding
+import com.telechaplaincy.appointment.PatientAppointmentContinueActivity
+import com.telechaplaincy.appointment.PatientAppointmentSummaryActivity
+import com.telechaplaincy.databinding.ActivityPatientAppointmentEditBinding
 import com.telechaplaincy.databinding.ActivityPatientAppointmentTimeSelectionBinding
-import kotlinx.android.synthetic.main.activity_chaplain_calendar.*
+import com.telechaplaincy.patient.PatientMainActivity
+import com.telechaplaincy.patient_future_appointments.PatientFutureAppointmentDetailActivity
 import kotlinx.android.synthetic.main.activity_patient_appointment_continue.*
-import kotlinx.android.synthetic.main.activity_patient_appointment_personal_info.*
+import kotlinx.android.synthetic.main.activity_patient_appointment_edit.*
 import kotlinx.android.synthetic.main.activity_patient_appointment_time_selection.*
+import kotlinx.android.synthetic.main.activity_patient_appointment_time_selection.patient_select_calender_chip_group
+import kotlinx.android.synthetic.main.activity_patient_appointment_time_selection.spinnerPatientTimeZone
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-class PatientAppointmentTimeSelectionActivity : AppCompatActivity() {
+class PatientAppointmentEditActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var user: FirebaseUser
     private lateinit var dbSaveAvailableTimes: DocumentReference
+    private lateinit var dbAppointmentTimeEdit: DocumentReference
     private val db = Firebase.firestore
     private var patientUserId:String = ""
 
-    private lateinit var binding: ActivityPatientAppointmentTimeSelectionBinding
+    private lateinit var binding: ActivityPatientAppointmentEditBinding
 
     private var patientTimeZone:String = ""
 
@@ -50,23 +56,25 @@ class PatientAppointmentTimeSelectionActivity : AppCompatActivity() {
     private var todayDateFormatted = ""
     private var timeSelectedString = ""
 
-    private var chaplainCategory = ""
     private var chaplainProfileFieldUserId:String = ""
     private var chaplainCollectionName:String = ""
     private var continueButton:Boolean = false
     private var patientSelectedTime = ""
     private var chaplainEarliestDate: String = ""
+    private var appointmentId:String = ""
+    private var newAppointmentTime:String = ""
+    private var chaplainAvailableTimesArray = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_patient_appointment_time_selection)
+        setContentView(R.layout.activity_patient_appointment_edit)
 
         chaplainProfileFieldUserId = intent.getStringExtra("chaplain_id").toString()
-        chaplainCategory = intent.getStringExtra("chaplain_category").toString()
-        chaplainEarliestDate = intent.getStringExtra("readTime").toString()
         patientSelectedTime = intent.getStringExtra("patientSelectedTime").toString()
+        patientTimeZone = intent.getStringExtra("patientAppointmentTimeZone").toString()
+        appointmentId = intent.getStringExtra("appointment_id").toString()
 
-        binding = ActivityPatientAppointmentTimeSelectionBinding.inflate(layoutInflater)
+        binding = ActivityPatientAppointmentEditBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
@@ -80,57 +88,91 @@ class PatientAppointmentTimeSelectionActivity : AppCompatActivity() {
         dbSaveAvailableTimes = db.collection(chaplainCollectionName).document(chaplainProfileFieldUserId)
             .collection("chaplainTimes").document("availableTimes")
 
+        readChaplainEarliestDate()
         patientTimeZoneSelection()
         todayDateConvertSelectedTimeZone()
-        calenderSelectedDate()
 
-        patient_appointment_time_selection_button.setOnClickListener {
-            if (continueButton){
-                val map = HashMap<String, Any>()
-                map["time"] = patientSelectedTime
-                map["isBooked"] = true
-                map["patientUid"] = patientUserId
-                dbSaveAvailableTimes.update((patientSelectedTime), map)
-                    .addOnSuccessListener {
-                        Log.d("data upload", "DocumentSnapshot successfully written!")
-                    }
-                    .addOnFailureListener { e ->
-                        Log.w("data upload", "Error writing document", e)
-                    }
-                val intent = Intent(this, PatientAppointmentSummaryActivity::class.java)
-                intent.putExtra("chaplain_id", chaplainProfileFieldUserId)
-                intent.putExtra("chaplain_category", chaplainCategory)
-                intent.putExtra("readTime", chaplainEarliestDate)
-                intent.putExtra("patientSelectedTime", patientSelectedTime)
-                intent.putExtra("appointmentTimeZone", patientTimeZone)
-                startActivity(intent)
-                finish()
-
-            }
-            else{
-                Toast.makeText(this, R.string.select_time_button_toast_message, Toast.LENGTH_LONG).show()
-            }
+        patient_future_appointment_edit_activity_save_button_text.setOnClickListener {
+            editedAppointmentTimeFromDatabase()
+            appointmentTimeTakeBack()
+            editedAppointmentTimeSave()
         }
+    }
 
+    private fun editedAppointmentTimeFromDatabase(){
+        db.collection("appointment").document(appointmentId)
+            .update("appointmentDate", newAppointmentTime)
+            .addOnSuccessListener {  }
+            .addOnFailureListener { }
+
+        db.collection("chaplains").document(chaplainProfileFieldUserId)
+            .collection("appointments").document(appointmentId)
+            .update("appointmentDate", newAppointmentTime)
+
+        db.collection("patients").document(patientUserId)
+            .collection("appointments").document(appointmentId)
+            .update("appointmentDate", newAppointmentTime)
+    }
+
+    private fun editedAppointmentTimeSave(){
+        progressBarAppointmentEditActivity.visibility = View.VISIBLE
+        patient_future_appointment_edit_activity_save_button_text.isClickable = false
+        if (continueButton){
+            val map = HashMap<String, Any>()
+            map["time"] = newAppointmentTime
+            map["isBooked"] = true
+            map["patientUid"] = patientUserId
+            //Log.d("data upload", newAppointmentTime)
+            dbSaveAvailableTimes.update((newAppointmentTime), map)
+                .addOnSuccessListener {
+                    patient_future_appointment_edit_activity_save_button_text.text = getString(R.string.patient_future_appointment_edit_activity_saved_button_text)
+                    //Log.d("data upload", "DocumentSnapshot successfully written!")
+                        progressBarAppointmentEditActivity.visibility = View.GONE
+                        patient_future_appointment_edit_activity_save_button_text.isClickable = true
+                        val intent = Intent(this, PatientFutureAppointmentDetailActivity::class.java)
+                        intent.putExtra("appointment_id", appointmentId)
+                        startActivity(intent)
+                        finish()
+
+                }
+                .addOnFailureListener { e ->
+                    progressBarAppointmentEditActivity.visibility = View.GONE
+                    patient_future_appointment_edit_activity_save_button_text.isClickable = true
+                    //Log.w("data upload", "Error writing document", e)
+                }
+        }
+        else{
+            Toast.makeText(this, R.string.select_time_button_toast_message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun appointmentTimeTakeBack() {
+        val map = HashMap<String, Any>()
+        map["time"] = patientSelectedTime
+        map["isBooked"] = false
+        map["patientUid"] = "null"
+        dbSaveAvailableTimes.update((patientSelectedTime), map)
+            .addOnSuccessListener {
+                Log.d("data upload", "DocumentSnapshot successfully written!")
+            }
+            .addOnFailureListener { e ->
+                Log.w("data upload", "Error writing document", e)
+            }
     }
 
     private fun calenderSelectedDate(){
-        calendarViewPatientSelection.minDate = todayDateLong.toLong()
-        calendarViewPatientSelection.maxDate = todayDateLong.toLong()+(2592000000)
-        if (patientSelectedTime != "" && patientSelectedTime != "null"){
-            calendarViewPatientSelection.date = patientSelectedTime.toLong()
-        }else{
-            calendarViewPatientSelection.date = chaplainEarliestDate.toLong()
-        }
+        calendarViewPatientSelectionAppointmentEditActivity.minDate = todayDateLong.toLong()
+        calendarViewPatientSelectionAppointmentEditActivity.maxDate = todayDateLong.toLong()+(2592000000)
+        calendarViewPatientSelectionAppointmentEditActivity.date = chaplainEarliestDate.toLong()
         val format = SimpleDateFormat("yyyy-MM-dd")
         formattedDate = format.format(todayDateLong.toLong())
 
-        val cTimeSelected = calendarViewPatientSelection.date
+        val cTimeSelected = calendarViewPatientSelectionAppointmentEditActivity.date
         timeSelectedString = format.format(cTimeSelected).toString()
 
         readChaplainSelectedDates()
 
-        binding.calendarViewPatientSelection.setOnDateChangeListener{ view, year, month, dayOfMonth ->
+        binding.calendarViewPatientSelectionAppointmentEditActivity.setOnDateChangeListener{ view, year, month, dayOfMonth ->
             continueButton = false
             patientSelectedDay = dayOfMonth.toString()
             if (patientSelectedDay.length == 1){
@@ -148,9 +190,7 @@ class PatientAppointmentTimeSelectionActivity : AppCompatActivity() {
             //Log.d("timezone c", formattedDate)
 
             readChaplainSelectedDates()
-
         }
-
     }
 
     private fun readChaplainSelectedDates() {
@@ -173,7 +213,8 @@ class PatientAppointmentTimeSelectionActivity : AppCompatActivity() {
                                 val chipTimeLocale = dateFormatLocalZone.format(Date(readTime.toLong()))
                                 if (chipTimeLocale.take(10) == timeSelectedString) {
                                     val dateFormatLocalZoneForChip = SimpleDateFormat("H:mm a")
-                                    dateFormatLocalZoneForChip.timeZone = TimeZone.getTimeZone(ZoneId.of(patientTimeZone))
+                                    dateFormatLocalZoneForChip.timeZone = TimeZone.getTimeZone(
+                                        ZoneId.of(patientTimeZone))
                                     val chipText = dateFormatLocalZoneForChip.format(Date(readTime.toLong()))
                                     val chipChaplainAvailableTime = layoutInflater.inflate(
                                         R.layout.single_chip_layout,
@@ -188,14 +229,10 @@ class PatientAppointmentTimeSelectionActivity : AppCompatActivity() {
                                     chipChaplainAvailableTime.setOnClickListener {
                                         if (chipChaplainAvailableTime.isChecked) {
                                             continueButton = true
-                                            patientSelectedTime = time.toString()
+                                            newAppointmentTime = time.toString()
                                         }else{
-                                        continueButton = false
-                                            }
+                                            continueButton = false
                                         }
-                                    if (patientSelectedTime == time){
-                                        chipChaplainAvailableTime.isChecked = true
-                                        continueButton = true
                                     }
                                 }
                             }
@@ -214,16 +251,15 @@ class PatientAppointmentTimeSelectionActivity : AppCompatActivity() {
     }
 
     private fun patientTimeZoneSelection(){
-        patientTimeZone = TimeZone.getDefault().id
-        //Log.d("patientTimeZone", patientTimeZone)
+        //Log.d("timezone", chaplainTimeZone)
         val optionPatientTimeZoneSelection = TimeZone.getAvailableIDs()
-        spinnerPatientTimeZone.adapter = ArrayAdapter<String>(
+        spinnerPatientTimeZoneAppointmentEditActivity.adapter = ArrayAdapter<String>(
             this,
             android.R.layout.simple_list_item_1,
             optionPatientTimeZoneSelection
         )
-        spinnerPatientTimeZone.setSelection(optionPatientTimeZoneSelection.indexOf(patientTimeZone))
-        spinnerPatientTimeZone.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+        spinnerPatientTimeZoneAppointmentEditActivity.setSelection(optionPatientTimeZoneSelection.indexOf(patientTimeZone))
+        spinnerPatientTimeZoneAppointmentEditActivity.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -254,10 +290,39 @@ class PatientAppointmentTimeSelectionActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        val intent = Intent(this, PatientAppointmentContinueActivity::class.java)
-        intent.putExtra("chaplain_id", chaplainProfileFieldUserId)
-        intent.putExtra("chaplain_category", chaplainCategory)
+        val intent = Intent(this, PatientFutureAppointmentDetailActivity::class.java)
+        intent.putExtra("appointment_id", appointmentId)
         startActivity(intent)
         finish()
+    }
+
+    private fun readChaplainEarliestDate(){
+        var timeNow = System.currentTimeMillis().toString()
+        dbSaveAvailableTimes.get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    val chaplainAvailableTimes = document.data
+                    if (chaplainAvailableTimes != null) {
+                        for ((key, value) in chaplainAvailableTimes) {
+                            val v = value as Map<*, *>
+                            val time = v["time"]
+                            val isBooked = v["isBooked"]
+                            //Log.d("time", "time: ${time.toString()}, time now: $timeNow")
+                            if (isBooked == false && time.toString().toLong() > timeNow.toLong()) {
+                                chaplainAvailableTimesArray.add(key)
+                            }
+                        }
+                        if (!chaplainAvailableTimesArray.isNullOrEmpty()){
+                            chaplainEarliestDate = Collections.min(chaplainAvailableTimesArray)
+                            calenderSelectedDate()
+                        }
+                    }
+                } else {
+                    Log.d("TAG", "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d("TAG", "get failed with ", exception)
+            }
     }
 }

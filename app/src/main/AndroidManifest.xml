@@ -19,7 +19,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".patient_profile.PatientProfileDetailsEditActivity"
+        <activity android:name=".patient_edit_appointment.PatientAppointmentEditActivity"
+            android:theme="@style/ChaplainSignUpPageTheme" />
+        <activity
+            android:name=".patient_profile.PatientProfileDetailsEditActivity"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".patient_profile.PatientProfileDetailsActivity"

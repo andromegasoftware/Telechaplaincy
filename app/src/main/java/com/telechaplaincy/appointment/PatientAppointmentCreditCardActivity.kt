@@ -140,7 +140,10 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
             chaplainFieldArrayList,
             patientTimeZone,
             chaplainUniqueUserId,
-            patientUniqueUserId
+            patientUniqueUserId,
+            null,
+            null,
+            chaplainCategory
         )
 
         dbSaveAppointmentForMainCollection.set(appointmentModelClass, SetOptions.merge())
