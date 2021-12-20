@@ -9,6 +9,9 @@
     <string name="patient_future_appointment_edit_activity_edit_alert_dialog_title">Edit Appointment</string>
     <string name="patient_future_appointment_edit_activity_edit_alert_dialog_question">Do you want to edit your appointment?</string>
     <string name="patient_future_appointment_edit_activity_toast_message">Sorry! You cannot change your appointment date because there is less than %1$s hours left until the appointment date.</string>
+    <string name="patient_future_appointment_cancel_activity_toast_message">Sorry! You cannot cancel your appointment date because there is less than %1$s hours left until the appointment date.</string>
+    <string name="patient_future_appointment_cancel_activity_cancel_alert_dialog_title">Cancel Appointment</string>
+    <string name="patient_future_appointment_cancel_activity_cancel_alert_dialog_question">Do you want to cancel your appointment?</string>
 
 
     //patient past appointment details activity

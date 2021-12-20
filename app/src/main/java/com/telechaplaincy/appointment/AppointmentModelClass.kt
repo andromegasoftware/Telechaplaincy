@@ -19,6 +19,7 @@ class AppointmentModelClass(
     var patientUniqueUserId: String? = null,
     var chaplainNoteForPatient: String? = null,
     var chaplainNoteForDoctors: String? = null,
-    var chaplainCategory: String? = null
+    var chaplainCategory: String? = null,
+    var appointmentStatus: String? = null
 ) {
 }

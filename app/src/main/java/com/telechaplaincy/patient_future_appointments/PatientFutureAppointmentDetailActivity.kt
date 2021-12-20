@@ -56,6 +56,8 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
     private var appointmentId:String = ""
     private var patientAppointmentTimeZone:String = ""
     private var lastAppointmentEditTime: String = ""
+    private var lastAppointmentCancelTime: String = ""
+    private var appointmentStatus: String = ""
 
     private val PERMISSION_REQ_ID_RECORD_AUDIO = 22
     private val PERMISSION_REQ_ID_CAMERA = PERMISSION_REQ_ID_RECORD_AUDIO + 1
@@ -79,7 +81,7 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
         takeAppointmentInfo()
 
         future_appointment_cancel_button.setOnClickListener {
-
+            alertDialogMessageMethodForAppointmentCancel()
         }
 
         future_appointment_call_button.setOnClickListener {
@@ -93,7 +95,7 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
         }
 
         future_appointment_edit_button.setOnClickListener {
-            alertDialogMessageMethod()
+            alertDialogMessageMethodForAppointmentEdit()
         }
     }
 
@@ -208,11 +210,22 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
                         if (result.chaplainId != null){
                             chaplainProfileFieldUserId = result.chaplainId
                         }
+                        if (result.appointmentStatus != null){
+                            appointmentStatus = result.appointmentStatus.toString()
+                        }
                     }
                 } else {
                     Log.d("TAG", "No such document")
                 }
-                timerMethod()
+                if (appointmentStatus != "canceled"){
+                    timerMethod()
+                }else{
+                    future_appointment_remaining_time_textView.text = appointmentStatus
+                    future_appointment_edit_button.isClickable = false
+                    future_appointment_call_button.isClickable = false
+                    future_appointment_cancel_button.isClickable = false
+                }
+
             }
             .addOnFailureListener { exception ->
                 Log.d("TAG", "get failed with ", exception)
@@ -256,7 +269,7 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
             }
     }
 
-    private fun alertDialogMessageMethod(){
+    private fun alertDialogMessageMethodForAppointmentEdit(){
         val builder = AlertDialog.Builder(this)
         builder.setTitle(getString(R.string.patient_future_appointment_edit_activity_edit_alert_dialog_title))
         builder.setMessage(getString(R.string.patient_future_appointment_edit_activity_edit_alert_dialog_question))
@@ -270,5 +283,83 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
             dialog.dismiss()
         }
         builder.show()
+    }
+
+    private fun checkCancelTimeAndCancelAppointment(){
+        db.collection("appointment").document("cancelLastDate").get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    lastAppointmentCancelTime = document["appointmentCancelLastDate"].toString()
+                    //Log.d("lastAppointmentEditTime", lastAppointmentEditTime)
+                    val timeNow = System.currentTimeMillis()
+                    val appointmentTimeLong = appointmentTime.toLong()
+                    val timeDifference:Long = appointmentTimeLong - timeNow
+                    val leftAppointmentTimeHours = TimeUnit.MILLISECONDS.toHours(timeDifference)
+                    if(timeDifference > lastAppointmentCancelTime.toLong()){
+                        futureAppointmentCancelMethod()
+                    }else{
+                        val toast = Toast.makeText(this, getString(R.string.patient_future_appointment_cancel_activity_toast_message, leftAppointmentTimeHours.toString()), Toast.LENGTH_LONG).show()
+                    }
+                } else {
+                    //Log.d(TAG, "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                //Log.d(TAG, "get failed with ", exception)
+            }
+    }
+
+    private fun alertDialogMessageMethodForAppointmentCancel(){
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(getString(R.string.patient_future_appointment_cancel_activity_cancel_alert_dialog_title))
+        builder.setMessage(getString(R.string.patient_future_appointment_cancel_activity_cancel_alert_dialog_question))
+        //builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = x))
+
+        builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+            checkCancelTimeAndCancelAppointment()
+        }
+
+        builder.setNegativeButton(android.R.string.no) { dialog, which ->
+            dialog.dismiss()
+        }
+        builder.show()
+    }
+
+    private fun futureAppointmentCancelMethod(){
+        appointmentStatus = "canceled"
+        db.collection("appointment").document(appointmentId)
+            .update("appointmentStatus", appointmentStatus)
+            .addOnSuccessListener {  }
+            .addOnFailureListener { }
+
+        db.collection("chaplains").document(chaplainProfileFieldUserId)
+            .collection("appointments").document(appointmentId)
+            .update("appointmentStatus", appointmentStatus)
+
+        db.collection("patients").document(patientUserId)
+            .collection("appointments").document(appointmentId)
+            .update("appointmentStatus", appointmentStatus)
+
+        makeAvailableChaplainTimeAfterCancelingAppointment()
+        val intent = Intent(this, PatientFutureAppointmentDetailActivity::class.java)
+        intent.putExtra("appointment_id", appointmentId)
+        startActivity(intent)
+        finish()
+    }
+
+    private fun makeAvailableChaplainTimeAfterCancelingAppointment() {
+        val map = HashMap<String, Any>()
+        map["time"] = appointmentTime
+        map["isBooked"] = false
+        map["patientUid"] = "null"
+        db.collection("chaplains").document(chaplainProfileFieldUserId)
+            .collection("chaplainTimes")
+            .document("availableTimes").update((appointmentTime), map)
+            .addOnSuccessListener {
+                Log.d("data upload", "DocumentSnapshot successfully written!")
+            }
+            .addOnFailureListener { e ->
+                Log.w("data upload", "Error writing document", e)
+            }
     }
 }
