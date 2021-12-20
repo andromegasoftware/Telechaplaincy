@@ -121,7 +121,16 @@
                         android:textSize="24sp"
                         android:textStyle="bold" />
 
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/chaplain_future_appointments_recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        tools:listitem="@layout/chaplain_selection_recyclerview_model_layout" />
+
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/chaplain_future_appointment_cardView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:cardBackgroundColor="@android:color/white"
@@ -171,7 +180,16 @@
                         android:textSize="24sp"
                         android:textStyle="bold" />
 
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/chaplain_past_appointments_recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        tools:listitem="@layout/chaplain_selection_recyclerview_model_layout" />
+
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/chaplain_past_appointment_cardView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:cardBackgroundColor="@android:color/white"

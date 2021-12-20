@@ -14,6 +14,7 @@ class PatientFutureAppointmentsModelClass(
     val chaplainAddressingTitle:String ?= null,
     val chaplainCredentialsTitle:ArrayList<String>? = null,
     val chaplainField:ArrayList<String>? = null,
-    var patientAppointmentTimeZone: String? = null
+    var patientAppointmentTimeZone: String? = null,
+    val patientProfileImageLink:String ?= null
 ) {
 }

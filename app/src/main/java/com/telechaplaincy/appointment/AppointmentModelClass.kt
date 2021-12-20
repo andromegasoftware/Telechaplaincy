@@ -11,6 +11,7 @@ class AppointmentModelClass(
     val chaplainName: String ?= null,
     val chaplainSurname: String ?= null,
     val chaplainProfileImageLink:String ?= null,
+    val patientProfileImageLink:String ?= null,
     val chaplainAddressingTitle:String ?= null,
     val chaplainCredentialsTitle:ArrayList<String>? = null,
     val chaplainField:ArrayList<String>? = null,

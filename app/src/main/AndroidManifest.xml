@@ -19,7 +19,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".patient_edit_appointment.PatientAppointmentEditActivity"
+        <activity android:name=".chaplain_past_appointments.ChaplainPastAppointmentDetailsActivity"
+            android:theme="@style/ChaplainSignUpPageTheme" />
+        <activity android:name=".chaplain_future_appointments.ChaplainFutureAppointmentDetailsActivity"
+            android:theme="@style/ChaplainSignUpPageTheme" />
+        <activity
+            android:name=".patient_edit_appointment.PatientAppointmentEditActivity"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".patient_profile.PatientProfileDetailsEditActivity"

@@ -46,6 +46,7 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
     private var appointmentId = ""
     private var patientName = ""
     private var patientSurname = ""
+    private var patientProfileImageLink = ""
     private var chaplainName = ""
     private var chaplainSurname = ""
     private var chaplainProfileImageLink = ""
@@ -135,6 +136,7 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
             chaplainName,
             chaplainSurname,
             chaplainProfileImageLink,
+            patientProfileImageLink,
             chaplainAddressingTitle,
             credentialTitleArrayList,
             chaplainFieldArrayList,
@@ -181,6 +183,7 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
             if (result != null) {
                 patientName = result.name.toString()
                 patientSurname = result.surname.toString()
+                patientProfileImageLink = result.profileImage.toString()
             }
         }
             .addOnFailureListener { exception ->
