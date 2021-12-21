@@ -2,6 +2,14 @@
     <string name="app_name">Tele Chaplaincy</string>
     <string name="app_int_connection_alert">Sorry! We could not find any internet connection. App work with internet connection.</string>
 
+    //chaplain past appointment details activity
+    <string name="chaplain_note_for_patient_title">Chaplain Note For Patient</string>
+    <string name="chaplain_note_for_patient_hint">Patient will see what you write here. You can write here some advice for patient or notes for patient.</string>
+    <string name="chaplain_note_for_chaplain_title">Chaplain Personal Note</string>
+    <string name="chaplain_note_for_chaplain_hint">You and other chaplains will see what you write here. You can write here notes for yourself or for other chaplains.</string>
+    <string name="chaplain_past_appointment_save_button_title_before_clicked">Save</string>
+    <string name="chaplain_past_appointment_save_button_title_after_clicked">Saved</string>
+
     //chaplain future appointment details activity
     <string name="chaplain_future_appointment_details_activity_chaplain_name">Chaplain Name</string>
     <string name="chaplain_future_appointment_details_activity_patient_info_title">See Patıent Informatıon</string>
