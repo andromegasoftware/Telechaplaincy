@@ -217,7 +217,7 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
                 } else {
                     Log.d("TAG", "No such document")
                 }
-                if (appointmentStatus != "canceled"){
+                if (appointmentStatus != "canceled by Chaplain" && appointmentStatus != "canceled by patient"){
                     timerMethod()
                 }else{
                     future_appointment_remaining_time_textView.text = appointmentStatus
@@ -326,7 +326,7 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
     }
 
     private fun futureAppointmentCancelMethod(){
-        appointmentStatus = "canceled"
+        appointmentStatus = "canceled by patient"
         db.collection("appointment").document(appointmentId)
             .update("appointmentStatus", appointmentStatus)
             .addOnSuccessListener {  }

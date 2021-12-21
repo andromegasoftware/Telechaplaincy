@@ -2,6 +2,12 @@
     <string name="app_name">Tele Chaplaincy</string>
     <string name="app_int_connection_alert">Sorry! We could not find any internet connection. App work with internet connection.</string>
 
+    //chaplain future appointment details activity
+    <string name="chaplain_future_appointment_details_activity_chaplain_name">Chaplain Name</string>
+    <string name="chaplain_future_appointment_details_activity_patient_info_title">See Patıent Informatıon</string>
+    <string name="chaplain_future_appointment_details_activity_patient_assessment_questions_button_text">Click here to see patient assessment information</string>
+    <string name="chaplain_future_appointment_details_activity_patient_other_appointments_button_text">Click here to see patient\'s past appointments and other chaplains\' notes</string>
+    <string name="chaplain_future_appointments_patient_info_title">Patient Information</string>
 
     //patient future appointment edit activity
     <string name="patient_future_appointment_edit_activity_save_button_text">SAVE</string>
