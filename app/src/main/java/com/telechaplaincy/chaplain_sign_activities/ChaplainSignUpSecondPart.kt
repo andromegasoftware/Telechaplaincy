@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.OpenableColumns
 import android.text.InputType
@@ -19,6 +18,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.google.android.material.chip.Chip
 import com.google.firebase.auth.FirebaseAuth
@@ -30,11 +30,11 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 import com.telechaplaincy.R
 import com.telechaplaincy.birth_date_class.DateMask
 import com.telechaplaincy.chaplain.ChaplainMainActivity
+import com.telechaplaincy.chaplain_profile.ChaplainProfileDetailsActivity
 import kotlinx.android.synthetic.main.activity_chaplain_sign_up.*
 import kotlinx.android.synthetic.main.activity_chaplain_sign_up_second_part.*
 import kotlinx.android.synthetic.main.activity_patient_appointment_personal_info.*
@@ -88,11 +88,13 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
     private var chaplainCertificateName = ""
     private var chaplainResumeName = ""
     private var chaplainAccountStatus = "1"
+    private var activityName = "" // this will show us which activity opened this activity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chaplain_sign_up_second_part)
-        //supportActionBar?.title = Html.fromHtml("<font color='#FBF3FE'>Tele Chaplaincy</font>")
+
+        activityName = intent.getStringExtra("activity_name").toString()
 
         //this is for the progress bar visibility in the chaplain cv upload
         chaplain_cv_progressBar.visibility = View.GONE
@@ -1092,8 +1094,12 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        val intent = Intent(this, ChaplainMainActivity::class.java)
-        startActivity(intent)
-        finish()
+        if (activityName == "ChaplainProfileDetailsActivity") {
+            val intent = Intent(this, ChaplainProfileDetailsActivity::class.java)
+            startActivity(intent)
+            finish()
+        } else {
+            finish()
+        }
     }
 }

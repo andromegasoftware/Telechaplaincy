@@ -1,15 +1,12 @@
 package com.telechaplaincy.chaplain
 
 import android.content.Intent
-import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.chip.Chip
-import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.CollectionReference
@@ -19,23 +16,17 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.squareup.picasso.NetworkPolicy
-import com.squareup.picasso.Picasso
-import com.telechaplaincy.MainEntry
 import com.telechaplaincy.R
 import com.telechaplaincy.chaplain_future_appointments.ChaplainFutureAppointmentDetailsActivity
 import com.telechaplaincy.chaplain_future_appointments.ChaplainFutureAppointmentsAdapterClass
 import com.telechaplaincy.chaplain_past_appointments.ChaplainPastAppointmentDetailsActivity
 import com.telechaplaincy.chaplain_past_appointments.ChaplainPastAppointmentsAdapterClass
 import com.telechaplaincy.chaplain_profile.ChaplainProfileActivity
-import com.telechaplaincy.chaplain_sign_activities.ChaplainLogIn
 import com.telechaplaincy.chaplain_sign_activities.ChaplainSignUpSecondPart
 import com.telechaplaincy.chaplain_sign_activities.ChaplainUserProfile
 import com.telechaplaincy.patient_future_appointments.PatientFutureAppointmentsModelClass
-import com.telechaplaincy.patient_past_appointments.PatientPastAppointmentAdapterClass
 import kotlinx.android.synthetic.main.activity_chaplain_main.*
 import kotlinx.android.synthetic.main.activity_chaplain_sign_up_second_part.*
-import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -108,7 +99,6 @@ class ChaplainMainActivity : AppCompatActivity() {
 
         chaplain_signUp_continue_button.setOnClickListener {
             checkSignUpData()
-
         }
 
         chaplain_enter_calendar_button.setOnClickListener {
@@ -283,7 +273,6 @@ class ChaplainMainActivity : AppCompatActivity() {
         }else{
             val intent = Intent(this, ChaplainSignUpSecondPart::class.java)
             startActivity(intent)
-            finish()
             /*Log.d("Button", "NOT OK")
             Log.d("Button a", chaplainProfileAddresTitle)
             Log.d("Button b", chaplainProfileFieldPhone)

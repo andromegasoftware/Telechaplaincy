@@ -1,12 +1,10 @@
 package com.telechaplaincy.patient_profile
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Toast
-import com.google.android.material.chip.Chip
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
@@ -15,14 +13,10 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import com.telechaplaincy.R
-import com.telechaplaincy.chaplain.ChaplainMainActivity
 import com.telechaplaincy.patient.PatientMainActivity
 import com.telechaplaincy.patient_sign_activities.LoginPage
 import com.telechaplaincy.patient_sign_activities.UserProfile
-import kotlinx.android.synthetic.main.activity_chaplain_main.*
-import kotlinx.android.synthetic.main.activity_patient_appointment_personal_info.*
 import kotlinx.android.synthetic.main.activity_patient_profile.*
-import kotlinx.android.synthetic.main.activity_patient_profile.bottomNavigation
 
 class PatientProfileActivity : AppCompatActivity() {
 
@@ -94,7 +88,7 @@ class PatientProfileActivity : AppCompatActivity() {
         }
     }
 
-    //this function will read the patient personal info from the firestore when the user opening the appointment page
+    //this function will read the patient personal info from the firestore
     private fun readPatientPersonalInfo(){
         dbSave.get().addOnSuccessListener { document ->
             if (document != null){

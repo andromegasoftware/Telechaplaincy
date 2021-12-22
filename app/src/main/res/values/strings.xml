@@ -2,6 +2,36 @@
     <string name="app_name">Tele Chaplaincy</string>
     <string name="app_int_connection_alert">Sorry! We could not find any internet connection. App work with internet connection.</string>
 
+    //chaplain profile details page
+    <string name="chaplain_profile_details_page_ssn_textView">SSN Number</string>
+    <string name="chaplain_profile_details_page_field_textView">Field</string>
+    <string name="chaplain_profile_details_page_email_textView">Email</string>
+    <string name="chaplain_profile_details_page_phone_textView">Phone Number</string>
+    <string name="chaplain_profile_details_page_birth_date_textView">Birth Date</string>
+    <string name="chaplain_profile_details_page_experience_textView">Experience</string>
+    <string name="chaplain_profile_details_page_ethnicity_textView">Ethnic Background</string>
+    <string name="chaplain_profile_details_page_faith_textView">Faith Affiliation</string>
+    <string name="chaplain_profile_details_page_education_textView">Education</string>
+    <string name="chaplain_profile_details_page_language_textView">Preferred Language</string>
+    <string name="chaplain_profile_details_page_other_languages_textView">Other Languages You can minister in</string>
+    <string name="chaplain_profile_details_page_ordained_textView">Ordained Organization Name</string>
+    <string name="chaplain_profile_details_page_ordained_period_textView">Ordained Period</string>
+    <string name="chaplain_profile_details_page_additional_credentials_textView">Additional Credentials</string>
+    <string name="chaplain_profile_details_page_bio_textView">Bio</string>
+    <string name="chaplain_profile_details_page_resume_textView">Resume</string>
+    <string name="chaplain_profile_details_page_certificate_textView">Certificate</string>
+    <string name="chaplain_profile_details_page_resume_link_textView"><u>Chaplain Resume</u></string>
+    <string name="chaplain_profile_details_page_certificate_link_textView"><u>Chaplain Certificate</u></string>
+
+    //chaplain profile page
+    <string name="chaplain_profile_page_profile_button_text">PROFILE</string>
+    <string name="chaplain_profile_page_bank_account_button_text">BANK ACCOUNT INFO</string>
+    <string name="chaplain_profile_page_reports_button_text">REPORTS</string>
+    <string name="chaplain_profile_page_reach_us_button_text">REACH US</string>
+    <string name="chaplain_profile_page_privacy_policy_button_text">PRIVACY POLICY</string>
+    <string name="chaplain_profile_page_rate_us_button_text">RATE US</string>
+    <string name="chaplain_profile_page_log_out_button_text">LOG OUT</string>
+
     //chaplain past appointment details activity
     <string name="chaplain_note_for_patient_title">Chaplain Note For Patient</string>
     <string name="chaplain_note_for_patient_hint">Patient will see what you write here. You can write here some advice for patient or notes for patient.</string>
