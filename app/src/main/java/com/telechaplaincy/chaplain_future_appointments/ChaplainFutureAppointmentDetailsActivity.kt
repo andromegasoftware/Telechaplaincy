@@ -3,12 +3,12 @@ package com.telechaplaincy.chaplain_future_appointments
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
@@ -218,7 +218,7 @@ class ChaplainFutureAppointmentDetailsActivity : AppCompatActivity() {
     }
 
     private fun checkCancelTimeAndCancelAppointment(){
-        db.collection("appointment").document("cancelLastDate").get()
+        db.collection("appointment").document("appointmentInfo").get()
             .addOnSuccessListener { document ->
                 if (document != null) {
                     lastAppointmentCancelTime = document["appointmentCancelLastDate"].toString()

@@ -2,6 +2,25 @@
     <string name="app_name">Tele Chaplaincy</string>
     <string name="app_int_connection_alert">Sorry! We could not find any internet connection. App work with internet connection.</string>
 
+    //reports array in the chaplain reports activity
+    <string-array name="reports_frequency">
+        <item>Last Week</item>
+        <item>Last Month</item>
+        <item>Last Year</item>
+        <item>Total</item>
+    </string-array>
+
+    //chaplain reports activity
+    <string name="chaplain_reports_activity_title">Reports Page</string>
+    <string name="chaplain_reports_activity_total_income">Total Income</string>
+    <string name="chaplain_reports_activity_total_numbers_appointments">Total Number of Appointments</string>
+    <string name="chaplain_reports_activity_appointment_price">Price For Per Appointment</string>
+    <string name="chaplain_reports_activity_appointment_commission">Commission for Per Appointment</string>
+    <string name="chaplain_reports_activity_canceled_appointments_by_you">Number of Canceled Appointments by You</string>
+    <string name="chaplain_reports_activity_canceled_appointments_by_patient">Number of Canceled Appointments by Patient</string>
+    <string name="chaplain_reports_activity_appointment_cancel_fine">Fine For Per Appointment Canceled by You</string>
+    <string name="chaplain_reports_activity_appointment_cancel_fine_total">Appointment Cancellation Fine in Total</string>
+
     //chaplain bank account info edit activity
     <string name="chaplain_bank_account_info_name_toast">Please Enter Account Holder Name</string>
     <string name="chaplain_bank_account_info_routing_number_toast">Please Enter Routing Number</string>

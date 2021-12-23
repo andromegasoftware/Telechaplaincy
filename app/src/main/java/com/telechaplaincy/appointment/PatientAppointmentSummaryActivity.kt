@@ -1,23 +1,20 @@
 package com.telechaplaincy.appointment
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.squareup.picasso.Picasso
 import com.telechaplaincy.R
 import com.telechaplaincy.chaplain_sign_activities.ChaplainUserProfile
 import com.telechaplaincy.patient_sign_activities.UserProfile
-import kotlinx.android.synthetic.main.activity_patient_appointment_continue.*
 import kotlinx.android.synthetic.main.activity_patient_appointment_summary.*
 import java.text.SimpleDateFormat
-import java.time.ZoneId
 import java.util.*
 
 class PatientAppointmentSummaryActivity : AppCompatActivity() {
@@ -71,7 +68,7 @@ class PatientAppointmentSummaryActivity : AppCompatActivity() {
         dbDatabaseChaplain =
             db.collection(chaplainCollectionName).document(chaplainProfileFieldUserId)
         dbDatabasePatient = db.collection("patients").document(patientUserId)
-        dbDatabaseAppointmentPrice = db.collection("appointment").document("price")
+        dbDatabaseAppointmentPrice = db.collection("appointment").document("appointmentInfo")
 
         val dateFormatLocalZone = SimpleDateFormat("EEE HH:mm aaa, dd-MM-yyyy")
         dateFormatLocalZone.timeZone = TimeZone.getTimeZone(patientTimeZone)

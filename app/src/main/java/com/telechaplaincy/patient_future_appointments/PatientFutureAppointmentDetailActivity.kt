@@ -3,13 +3,12 @@ package com.telechaplaincy.patient_future_appointments
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
@@ -21,14 +20,10 @@ import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import com.telechaplaincy.R
 import com.telechaplaincy.appointment.AppointmentModelClass
-import com.telechaplaincy.chaplain_sign_activities.ChaplainUserProfile
 import com.telechaplaincy.patient.PatientMainActivity
 import com.telechaplaincy.patient_edit_appointment.PatientAppointmentEditActivity
-import com.telechaplaincy.patient_profile.PatientAppointmentPersonalInfo
 import com.telechaplaincy.video_call.VideoCallActivity
-import kotlinx.android.synthetic.main.activity_patient_appointment_continue.*
 import kotlinx.android.synthetic.main.activity_patient_future_appointment_detail.*
-import kotlinx.android.synthetic.main.activity_video_call.*
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -240,7 +235,7 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
     }
 
     private fun checkEditTimeAndEditAppointment(){
-        db.collection("appointment").document("editLastDate").get()
+        db.collection("appointment").document("appointmentInfo").get()
             .addOnSuccessListener { document ->
                 if (document != null) {
                     lastAppointmentEditTime = document["appointmentEditLastDate"].toString()
@@ -286,7 +281,7 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
     }
 
     private fun checkCancelTimeAndCancelAppointment(){
-        db.collection("appointment").document("cancelLastDate").get()
+        db.collection("appointment").document("appointmentInfo").get()
             .addOnSuccessListener { document ->
                 if (document != null) {
                     lastAppointmentCancelTime = document["appointmentCancelLastDate"].toString()

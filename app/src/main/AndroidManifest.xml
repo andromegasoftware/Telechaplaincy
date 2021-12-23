@@ -21,6 +21,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".chaplain_reports.ChaplainReportsActivity"
+            android:theme="@style/ChaplainSignUpPageTheme" />
+        <activity
             android:name=".chaplain_bank_account_info.ChaplainBankAccountInfoEditActivity"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
