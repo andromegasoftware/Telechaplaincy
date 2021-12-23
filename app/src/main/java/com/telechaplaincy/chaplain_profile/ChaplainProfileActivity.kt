@@ -14,6 +14,7 @@ import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import com.telechaplaincy.R
 import com.telechaplaincy.chaplain.ChaplainMainActivity
+import com.telechaplaincy.chaplain_bank_account_info.ChaplainBankAccountInfoActivity
 import com.telechaplaincy.chaplain_sign_activities.ChaplainLogIn
 import com.telechaplaincy.chaplain_sign_activities.ChaplainUserProfile
 import kotlinx.android.synthetic.main.activity_chaplain_main.bottomNavigation
@@ -55,6 +56,9 @@ class ChaplainProfileActivity : AppCompatActivity() {
         }
 
         chaplain_profile_bank_account_button.setOnClickListener {
+            val intent = Intent(this, ChaplainBankAccountInfoActivity::class.java)
+            startActivity(intent)
+            finish()
         }
 
         chaplain_logout.setOnClickListener {

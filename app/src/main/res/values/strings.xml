@@ -2,6 +2,33 @@
     <string name="app_name">Tele Chaplaincy</string>
     <string name="app_int_connection_alert">Sorry! We could not find any internet connection. App work with internet connection.</string>
 
+    //chaplain bank account info edit activity
+    <string name="chaplain_bank_account_info_name_toast">Please Enter Account Holder Name</string>
+    <string name="chaplain_bank_account_info_routing_number_toast">Please Enter Routing Number</string>
+    <string name="chaplain_bank_account_info_account_number_toast">Please Enter Bank Account Number</string>
+    <string name="chaplain_bank_account_info_account_number_again_toast">Please Re-enter Bank Account Number</string>
+    <string name="chaplain_bank_account_info_account_number_check_toast">Account number and re-entered number is not same</string>
+    <string name="chaplain_bank_account_info_birth_date_toast">Please Enter Birth Date</string>
+    <string name="chaplain_bank_account_info_address_toast">Please Enter Address</string>
+    <string name="chaplain_bank_account_info_city_toast">Please Enter City</string>
+    <string name="chaplain_bank_account_info_state_toast">Please Enter State</string>
+    <string name="chaplain_bank_account_info_postal_code_toast">Please Enter Postal Code</string>
+
+    //chaplain bank account info activity
+    <string name="chaplain_bank_account_info_activity_title_textView">Bank Account Info</string>
+    <string name="chaplain_bank_account_info_name_textView">Name of Account Holder</string>
+    <string name="chaplain_bank_account_info_routing_number_textView">Routing Number</string>
+    <string name="chaplain_bank_account_info_account_number_textView">Bank Account Number</string>
+    <string name="chaplain_bank_account_info_account_number_again_textView">Re-enter Bank Account Number</string>
+    <string name="chaplain_bank_account_info_birth_date_textView">Birth Date (dd/MM/YYYY)</string>
+    <string name="chaplain_bank_account_info_address_textView">Address</string>
+    <string name="chaplain_bank_account_info_city_textView">City</string>
+    <string name="chaplain_bank_account_info_state_textView">State</string>
+    <string name="chaplain_bank_account_info_postal_code_textView">Postal Code</string>
+    <string name="chaplain_bank_account_info_edit_activity_title_textView">Enter Your Bank Account Info</string>
+    <string name="chaplain_bank_account_info_edit_save_button_before_click">Save</string>
+    <string name="chaplain_bank_account_info_edit_save_button_after_click">Saved</string>
+
     //chaplain profile details page
     <string name="chaplain_profile_details_page_ssn_textView">SSN Number</string>
     <string name="chaplain_profile_details_page_field_textView">Field</string>

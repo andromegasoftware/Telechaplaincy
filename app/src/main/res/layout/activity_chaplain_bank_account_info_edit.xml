@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".chaplain_bank_account_info.ChaplainBankAccountInfoEditActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView23"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_margin="30dp"
+                        android:gravity="center"
+                        android:text="@string/chaplain_bank_account_info_edit_activity_title_textView"
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/chaplain_bank_account_info_edit_activity_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:ems="10"
+                        android:hint="@string/chaplain_bank_account_info_name_textView"
+                        android:inputType="textPersonName" />
+
+                    <EditText
+                        android:id="@+id/chaplain_bank_account_info_edit_activity_routing_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:ems="10"
+                        android:hint="@string/chaplain_bank_account_info_routing_number_textView"
+                        android:inputType="number|textPersonName" />
+
+                    <EditText
+                        android:id="@+id/chaplain_bank_account_info_edit_activity_account_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:ems="10"
+                        android:hint="@string/chaplain_bank_account_info_account_number_textView"
+                        android:inputType="textPhonetic" />
+
+                    <EditText
+                        android:id="@+id/chaplain_bank_account_info_edit_activity_account_number_again"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:ems="10"
+                        android:hint="@string/chaplain_bank_account_info_account_number_again_textView"
+                        android:inputType="text" />
+
+                    <EditText
+                        android:id="@+id/chaplain_bank_account_info_edit_activity_birth_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:ems="10"
+                        android:hint="@string/chaplain_bank_account_info_birth_date_textView"
+                        android:inputType="date" />
+
+                    <EditText
+                        android:id="@+id/chaplain_bank_account_info_edit_activity_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:ems="10"
+                        android:hint="@string/chaplain_bank_account_info_address_textView"
+                        android:inputType="textMultiLine" />
+
+                    <EditText
+                        android:id="@+id/chaplain_bank_account_info_edit_activity_city"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:ems="10"
+                        android:hint="@string/chaplain_bank_account_info_city_textView"
+                        android:inputType="text" />
+
+                    <EditText
+                        android:id="@+id/chaplain_bank_account_info_edit_activity_state"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:ems="10"
+                        android:hint="@string/chaplain_bank_account_info_state_textView"
+                        android:inputType="text" />
+
+                    <EditText
+                        android:id="@+id/chaplain_bank_account_info_edit_activity_postal_code"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:ems="10"
+                        android:hint="@string/chaplain_bank_account_info_postal_code_textView"
+                        android:inputType="number" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="40dp"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/chaplain_bank_account_info_edit_activity_save_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:background="@drawable/button_shape"
+                            android:text="@string/chaplain_bank_account_info_edit_save_button_before_click"
+                            android:textColor="@color/design_default_color_background" />
+
+                        <ProgressBar
+                            android:id="@+id/chaplain_bank_account_info_progress_bar"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_weight="1"
+                            tools:visibility="gone" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
