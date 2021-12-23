@@ -1,12 +1,11 @@
 package com.telechaplaincy.chaplain_profile
 
-import android.content.Context
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
@@ -18,6 +17,7 @@ import com.telechaplaincy.R
 import com.telechaplaincy.chaplain_sign_activities.ChaplainSignUpSecondPart
 import com.telechaplaincy.chaplain_sign_activities.ChaplainUserProfile
 import kotlinx.android.synthetic.main.activity_chaplain_profile_details.*
+
 
 class ChaplainProfileDetailsActivity : AppCompatActivity() {
 
@@ -76,26 +76,29 @@ class ChaplainProfileDetailsActivity : AppCompatActivity() {
             intent.putExtra("activity_name", "ChaplainProfileDetailsActivity")
             startActivity(intent)
         }
-
+        chaplain_profile_details_activity_chaplain_certificate_textView.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.setDataAndType(Uri.parse(chaplainProfileCertificate), "application/pdf")
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            val newIntent = Intent.createChooser(intent, "Open File")
+            try {
+                startActivity(newIntent)
+            } catch (e: ActivityNotFoundException) {
+                // Instruct the user to install a PDF reader here, or something
+            }
+        }
         chaplain_profile_details_activity_chaplain_resume_textView.setOnClickListener {
-            chaplainProfileResume.asUri()?.openInBrowser(this)
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.setDataAndType(Uri.parse(chaplainProfileResume), "application/pdf")
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            val newIntent = Intent.createChooser(intent, "Open File")
+            try {
+                startActivity(newIntent)
+            } catch (e: ActivityNotFoundException) {
+                // Instruct the user to install a PDF reader here, or something
+            }
         }
 
-    }
-
-    private fun Uri?.openInBrowser(context: Context) {
-        this ?: return // Do nothing if uri is null
-
-        val browserIntent = Intent(Intent.ACTION_VIEW, this)
-        ContextCompat.startActivity(context, browserIntent, null)
-    }
-
-    private fun String?.asUri(): Uri? {
-        return try {
-            Uri.parse(this)
-        } catch (e: Exception) {
-            null
-        }
     }
 
     private fun readChaplainInfo() {
@@ -239,7 +242,7 @@ class ChaplainProfileDetailsActivity : AppCompatActivity() {
                         }
                         if (result.certificateUrl != null) {
                             chaplainProfileCertificate = result.certificateUrl.toString()
-                            Log.d("certificate", chaplainProfileCertificate)
+                            //Log.d("certificate", chaplainProfileCertificate)
                         }
                         if (result.cvUrl != null) {
                             chaplainProfileResume = result.cvUrl.toString()
