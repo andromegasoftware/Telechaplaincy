@@ -97,7 +97,8 @@
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".SplashScreen"
-            android:theme="@style/SplashScreenTheme">
+            android:exported="true"
+            android:theme="@style/SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

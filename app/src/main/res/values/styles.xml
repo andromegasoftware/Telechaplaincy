@@ -40,7 +40,15 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    //splash screen theme
+    //splash screen theme opening
+
+    <style name="SplashScreen" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#BB6BD9</item>
+        <item name="colorPrimaryDark">#BB6BD9</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+    </style>
 
     <style name="PatientMainActivityTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
