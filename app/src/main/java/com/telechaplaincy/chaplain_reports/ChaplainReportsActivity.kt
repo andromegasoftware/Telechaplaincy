@@ -78,8 +78,6 @@ class ChaplainReportsActivity : AppCompatActivity() {
                     chaplainSpinnerSelection = optionsFrequencies[position]
                     //chaplain_reports_date_frequency_textView.text = chaplainSpinnerSelection
                     getFineAndCommissionPercentages()
-                    reportRangeSelection()
-                    getReports()
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -151,6 +149,9 @@ class ChaplainReportsActivity : AppCompatActivity() {
     }
 
     private fun getFineAndCommissionPercentages() {
+        commissionForPerAppointment = 0.00
+        fineForPerCanceledAppointment = 0.00
+
         dbSave = db.collection("appointment").document("appointmentInfo")
         dbSave.get().addOnSuccessListener { document ->
             if (document != null) {
@@ -176,6 +177,7 @@ class ChaplainReportsActivity : AppCompatActivity() {
                     "Document",
                     "Document: $commissionForPerAppointmentPercentage - $appointmentCancelationFeePercentage"
                 )
+                reportRangeSelection()
             } else {
                 Log.d("TAG", "No such document")
             }
@@ -188,13 +190,8 @@ class ChaplainReportsActivity : AppCompatActivity() {
     private fun reportRangeSelection() {
         totalIncome = 0.00
         totalAppointmentsNumber = ""
-        priceForPerAppointment = ""
-        commissionForPerAppointment = 0.00
-        commissionForPerAppointmentPercentage = ""
-        appointmentCancelationFeePercentage = ""
         canceledAppointmentsNumberByYou = 0
         canceledAppointmentsNumberByPatient = 0
-        fineForPerCanceledAppointment = 0.00
         fineTotalForCanceledAppointment = 0.00
         appointmentsInfoModelClassArrayList.clear()
 
@@ -205,12 +202,12 @@ class ChaplainReportsActivity : AppCompatActivity() {
             calendar.clear(Calendar.SECOND)
             calendar.clear(Calendar.MILLISECOND)
 
-            calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek + 1)
+            calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
 
             timeRangeSelectionFirstTime = calendar.timeInMillis
             timeRangeSelectionSecondTime = System.currentTimeMillis()
 
-            val dateFormatLocalZone = SimpleDateFormat("EEE HH:mm dd-MM")
+            val dateFormatLocalZone = SimpleDateFormat("MMM dd, EEE HH:mm")
             dateFormatLocalZone.timeZone = TimeZone.getDefault()
             val timeRangeFirst = dateFormatLocalZone.format(Date(timeRangeSelectionFirstTime))
             val timeRangeSecond = dateFormatLocalZone.format(Date(timeRangeSelectionSecondTime))
@@ -225,12 +222,117 @@ class ChaplainReportsActivity : AppCompatActivity() {
             calendar.clear(Calendar.SECOND)
             calendar.clear(Calendar.MILLISECOND)
 
-            calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek + 1)
+            calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
 
             timeRangeSelectionFirstTime = calendar.timeInMillis - (7 * 24 * 60 * 60 * 1000)
-            timeRangeSelectionSecondTime = calendar.timeInMillis
+            timeRangeSelectionSecondTime = calendar.timeInMillis - 1000
 
-            val dateFormatLocalZone = SimpleDateFormat("EEE HH:mm dd-MM")
+            val dateFormatLocalZone = SimpleDateFormat("MMM dd, EEE HH:mm")
+            dateFormatLocalZone.timeZone = TimeZone.getDefault()
+            val timeRangeFirst = dateFormatLocalZone.format(Date(timeRangeSelectionFirstTime))
+            val timeRangeSecond = dateFormatLocalZone.format(Date(timeRangeSelectionSecondTime))
+            chaplain_reports_date_frequency_textView.text = "$timeRangeFirst - $timeRangeSecond"
+
+            Log.d("time:", "$timeRangeSelectionFirstTime - $timeRangeSelectionSecondTime")
+                .toString()
+        } else if (chaplainSpinnerSelection == "This Month") {
+            val calendar = Calendar.getInstance()
+            calendar.set(Calendar.HOUR_OF_DAY, 0)
+            calendar.clear(Calendar.MINUTE)
+            calendar.clear(Calendar.SECOND)
+            calendar.clear(Calendar.MILLISECOND)
+
+            calendar.set(Calendar.DAY_OF_MONTH, 1)
+
+            timeRangeSelectionFirstTime = calendar.timeInMillis
+            timeRangeSelectionSecondTime = System.currentTimeMillis()
+
+            val dateFormatLocalZone = SimpleDateFormat("MMM dd, EEE HH:mm")
+            dateFormatLocalZone.timeZone = TimeZone.getDefault()
+            val timeRangeFirst = dateFormatLocalZone.format(Date(timeRangeSelectionFirstTime))
+            val timeRangeSecond = dateFormatLocalZone.format(Date(timeRangeSelectionSecondTime))
+            chaplain_reports_date_frequency_textView.text = "$timeRangeFirst - $timeRangeSecond"
+
+            Log.d("time:", "$timeRangeSelectionFirstTime - $timeRangeSelectionSecondTime")
+                .toString()
+        } else if (chaplainSpinnerSelection == "Last Month") {
+
+            //this part is to find first of the this month
+            val calendar = Calendar.getInstance()
+            calendar.set(Calendar.HOUR_OF_DAY, 0)
+            calendar.clear(Calendar.MINUTE)
+            calendar.clear(Calendar.SECOND)
+            calendar.clear(Calendar.MILLISECOND)
+
+            calendar.set(Calendar.DAY_OF_MONTH, 1)
+
+            timeRangeSelectionSecondTime = calendar.timeInMillis - 1000
+
+            //this part is to find first of the last Month
+            val calendarLastMonth = Calendar.getInstance()
+            calendarLastMonth.add(Calendar.MONTH, -1)
+            calendarLastMonth.set(Calendar.DATE, 1)
+            calendarLastMonth.set(Calendar.HOUR_OF_DAY, 0)
+            calendarLastMonth.clear(Calendar.MINUTE)
+            calendarLastMonth.clear(Calendar.SECOND)
+            calendarLastMonth.clear(Calendar.MILLISECOND)
+
+            timeRangeSelectionFirstTime = calendarLastMonth.timeInMillis
+
+            val dateFormatLocalZone = SimpleDateFormat("MMM dd, EEE HH:mm")
+            dateFormatLocalZone.timeZone = TimeZone.getDefault()
+            val timeRangeFirst = dateFormatLocalZone.format(Date(timeRangeSelectionFirstTime))
+            val timeRangeSecond = dateFormatLocalZone.format(Date(timeRangeSelectionSecondTime))
+            chaplain_reports_date_frequency_textView.text = "$timeRangeFirst - $timeRangeSecond"
+
+            Log.d("time:", "$timeRangeSelectionFirstTime - $timeRangeSelectionSecondTime")
+                .toString()
+        } else if (chaplainSpinnerSelection == "This Year") {
+            val calendar = Calendar.getInstance()
+            calendar.set(Calendar.HOUR_OF_DAY, 0)
+            calendar.clear(Calendar.MINUTE)
+            calendar.clear(Calendar.SECOND)
+            calendar.clear(Calendar.MILLISECOND)
+
+            calendar.set(Calendar.DAY_OF_YEAR, 1)
+
+            timeRangeSelectionFirstTime = calendar.timeInMillis
+            timeRangeSelectionSecondTime = System.currentTimeMillis()
+
+            val dateFormatLocalZone = SimpleDateFormat("MMM dd yy, EEE HH:mm")
+            dateFormatLocalZone.timeZone = TimeZone.getDefault()
+            val timeRangeFirst = dateFormatLocalZone.format(Date(timeRangeSelectionFirstTime))
+            val timeRangeSecond = dateFormatLocalZone.format(Date(timeRangeSelectionSecondTime))
+            chaplain_reports_date_frequency_textView.text = "$timeRangeFirst - $timeRangeSecond"
+
+            Log.d("time:", "$timeRangeSelectionFirstTime - $timeRangeSelectionSecondTime")
+                .toString()
+        } else if (chaplainSpinnerSelection == "Last Year") {
+
+            //this part is to find first of the this month
+            val calendar = Calendar.getInstance()
+            calendar.set(Calendar.HOUR_OF_DAY, 0)
+            calendar.clear(Calendar.MINUTE)
+            calendar.clear(Calendar.SECOND)
+            calendar.clear(Calendar.MILLISECOND)
+
+            calendar.set(Calendar.DAY_OF_YEAR, 1)
+
+            timeRangeSelectionSecondTime = calendar.timeInMillis - 1000
+
+            //this part is to find first of the last Month
+            val calendarLastMonth = Calendar.getInstance()
+            calendarLastMonth.add(Calendar.YEAR, -1)
+            calendarLastMonth.set(Calendar.DATE, 1)
+            calendarLastMonth.set(Calendar.DAY_OF_YEAR, 1)
+            calendarLastMonth.set(Calendar.HOUR_OF_DAY, 0)
+            calendarLastMonth.clear(Calendar.MINUTE)
+            calendarLastMonth.clear(Calendar.SECOND)
+            calendarLastMonth.clear(Calendar.MILLISECOND)
+
+            timeRangeSelectionFirstTime = calendarLastMonth.timeInMillis
+
+            val dateFormatLocalZone = SimpleDateFormat("MMM dd yy, EEE HH:mm")
             dateFormatLocalZone.timeZone = TimeZone.getDefault()
             val timeRangeFirst = dateFormatLocalZone.format(Date(timeRangeSelectionFirstTime))
             val timeRangeSecond = dateFormatLocalZone.format(Date(timeRangeSelectionSecondTime))
@@ -239,6 +341,8 @@ class ChaplainReportsActivity : AppCompatActivity() {
             Log.d("time:", "$timeRangeSelectionFirstTime - $timeRangeSelectionSecondTime")
                 .toString()
         }
+
+        getReports()
 
     }
 
