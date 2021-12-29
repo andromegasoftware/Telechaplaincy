@@ -2,6 +2,24 @@
     <string name="app_name">Tele Chaplaincy</string>
     <string name="app_int_connection_alert">Sorry! We could not find any internet connection. App work with internet connection.</string>
 
+    //all chaplains activity
+    <string name="all_chaplains_activity_title">All Chaplains</string>
+
+    //admin main activity
+    <string name="admin_main_activity_main_page">Admin Main Page</string>
+    <string name="admin_main_activity_all_chaplains">All Chaplains</string>
+    <string name="admin_main_activity_all_patients">All Patients</string>
+    <string name="admin_main_activity_chaplains_to_confirm">Chaplains Wait to Confirm</string>
+    <string name="admin_main_activity_financial_reports">Financial Reports</string>
+    <string name="admin_main_activity_send_message">Send Message</string>
+    <string name="admin_main_activity_fee_and_commission">Fees and Commissions</string>
+    <string name="admin_main_activity_chaplains_wait_pay">Chaplains Wait Payment</string>
+    <string name="admin_main_activity_total_text">Total: %1$s</string>
+
+
+    //admin login page
+    <string name="admin_login_activity_title">Admin Login</string>
+
     //reports array in the chaplain reports activity
     <string-array name="reports_frequency">
         <item>This Week</item>

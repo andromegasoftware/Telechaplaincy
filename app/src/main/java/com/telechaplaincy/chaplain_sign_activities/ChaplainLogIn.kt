@@ -1,18 +1,18 @@
 package com.telechaplaincy.chaplain_sign_activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.telechaplaincy.chaplain.ChaplainMainActivity
 import com.telechaplaincy.MainEntry
 import com.telechaplaincy.R
+import com.telechaplaincy.admin.AdminMainActivity
+import com.telechaplaincy.chaplain.ChaplainMainActivity
 import com.telechaplaincy.patient.PatientMainActivity
 import com.telechaplaincy.patient_sign_activities.ForgotPassword
 import kotlinx.android.synthetic.main.activity_chaplain_log_in.*
@@ -25,11 +25,20 @@ class ChaplainLogIn : AppCompatActivity() {
     private var userEmail : String = ""
     private var userPassword: String = ""
     private var chaplainProfileFieldUserId:String = ""
-    private var userRole:String = ""
+    private var userRole: String = ""
+    private var adminLogin: Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chaplain_log_in)
+
+        adminLogin = intent.getIntExtra("admin_login", 1)
+
+        if (adminLogin == 3) {
+            chaplain_login_title_textView.text = getString(R.string.admin_login_activity_title)
+            chaplain_login_activity_forgot_password_textView.visibility = View.GONE
+            chaplain_login_page_sign_up_textView.visibility = View.GONE
+        }
 
         auth = FirebaseAuth.getInstance()
 
@@ -100,14 +109,6 @@ class ChaplainLogIn : AppCompatActivity() {
         finish()
     }
 
-    override fun onStart() {
-        super.onStart()
-        /*// Check if user is signed in (non-null) and update UI accordingly.
-        val currentUser = auth.currentUser
-        if(currentUser != null){
-            checkUserRole()
-        }*/
-    }
     private fun checkUserRole(){
         chaplainProfileFieldUserId = auth.currentUser?.uid ?: chaplainProfileFieldUserId
         val docRef = db.collection("users").document(chaplainProfileFieldUserId)
@@ -121,8 +122,12 @@ class ChaplainLogIn : AppCompatActivity() {
                             val intent = Intent(this, ChaplainMainActivity::class.java)
                             startActivity(intent)
                             finish()
-                        }else if (userRole == "1"){
+                        }else if (userRole == "1") {
                             val intent = Intent(this, PatientMainActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        } else if (userRole == "3") {
+                            val intent = Intent(this, AdminMainActivity::class.java)
                             startActivity(intent)
                             finish()
                         }

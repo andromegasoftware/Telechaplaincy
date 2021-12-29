@@ -1,25 +1,21 @@
 package com.telechaplaincy.patient
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.telechaplaincy.MainEntry
 import com.telechaplaincy.R
-import com.telechaplaincy.appointment.PatientAppointmentContinueActivity
-import com.telechaplaincy.appointment.PatientAppointmentSummaryActivity
+import com.telechaplaincy.admin.AdminMainActivity
 import com.telechaplaincy.chaplain.ChaplainMainActivity
-import com.telechaplaincy.chaplain_selection.chaplains_selection.ChaplainsListedAdapterClass
-import com.telechaplaincy.chaplain_sign_activities.ChaplainUserProfile
 import com.telechaplaincy.patient_future_appointments.PatientFutureAppointmentDetailActivity
 import com.telechaplaincy.patient_future_appointments.PatientFutureAppointmentsAdapterClass
 import com.telechaplaincy.patient_future_appointments.PatientFutureAppointmentsModelClass
@@ -27,15 +23,7 @@ import com.telechaplaincy.patient_past_appointments.PatientPastAppointmentAdapte
 import com.telechaplaincy.patient_past_appointments.PatientPastAppointmentsDetailActivity
 import com.telechaplaincy.patient_profile.PatientAppointmentPersonalInfo
 import com.telechaplaincy.patient_profile.PatientProfileActivity
-import com.telechaplaincy.patient_sign_activities.LoginPage
-import kotlinx.android.synthetic.main.activity_chaplain_main.*
-import kotlinx.android.synthetic.main.activity_college_chaplains_selection.*
-import kotlinx.android.synthetic.main.activity_patient_appointment_personal_info.*
 import kotlinx.android.synthetic.main.activity_patient_main.*
-import kotlinx.android.synthetic.main.activity_patient_main.bottomNavigation
-import java.math.BigInteger
-import java.util.*
-import kotlin.collections.ArrayList
 
 class PatientMainActivity : AppCompatActivity() {
 
@@ -178,8 +166,12 @@ class PatientMainActivity : AppCompatActivity() {
                     if (document.data?.containsKey("userRole") == true){
                         val data = document.data as Map<String, String>
                         userRole = data["userRole"].toString()
-                        if (userRole == "2"){
+                        if (userRole == "2") {
                             val intent = Intent(this, ChaplainMainActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        } else if (userRole == "3") {
+                            val intent = Intent(this, AdminMainActivity::class.java)
                             startActivity(intent)
                             finish()
                         }

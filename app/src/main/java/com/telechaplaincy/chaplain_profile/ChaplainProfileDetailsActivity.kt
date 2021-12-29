@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -14,6 +15,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import com.telechaplaincy.R
+import com.telechaplaincy.all_chaplains.AllChaplainsListActivity
 import com.telechaplaincy.chaplain_sign_activities.ChaplainSignUpSecondPart
 import com.telechaplaincy.chaplain_sign_activities.ChaplainUserProfile
 import kotlinx.android.synthetic.main.activity_chaplain_profile_details.*
@@ -29,6 +31,7 @@ class ChaplainProfileDetailsActivity : AppCompatActivity() {
     private var chaplainCollectionName: String = ""
 
     private var chaplainProfileFieldUserId: String = ""
+    private var chaplainUserIdSentByAdmin: String = ""
     private var chaplainProfileImageLink: String = ""
     private var chaplainProfileFirstName: String = ""
     private var chaplainProfileLastName: String = ""
@@ -62,9 +65,17 @@ class ChaplainProfileDetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chaplain_profile_details)
 
+        chaplainUserIdSentByAdmin = intent.getStringExtra("chaplain_id_send_by_admin").toString()
+        Log.d("uid_chaplain", chaplainUserIdSentByAdmin)
+
         auth = FirebaseAuth.getInstance()
         user = auth.currentUser!!
-        chaplainProfileFieldUserId = user.uid
+        if (chaplainUserIdSentByAdmin != "null") {
+            chaplainProfileFieldUserId = chaplainUserIdSentByAdmin
+            chaplain_profile_details_activity_edit_imageButton.visibility = View.GONE
+        } else {
+            chaplainProfileFieldUserId = user.uid
+        }
         chaplainCollectionName = getString(R.string.chaplain_collection)
 
         dbSave = db.collection(chaplainCollectionName).document(chaplainProfileFieldUserId)
@@ -259,8 +270,15 @@ class ChaplainProfileDetailsActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        val intent = Intent(this, ChaplainProfileActivity::class.java)
-        startActivity(intent)
-        finish()
+        if (chaplainUserIdSentByAdmin != "null") {
+            val intent = Intent(this, AllChaplainsListActivity::class.java)
+            startActivity(intent)
+            finish()
+        } else {
+            val intent = Intent(this, ChaplainProfileActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
     }
 }

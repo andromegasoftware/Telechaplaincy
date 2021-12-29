@@ -21,6 +21,12 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".all_chaplains.AllChaplainsListActivity"
+            android:theme="@style/ChaplainSignUpPageTheme" />
+        <activity
+            android:name=".admin.AdminMainActivity"
+            android:theme="@style/ChaplainSignUpPageTheme" />
+        <activity
             android:name=".chaplain_reports.ChaplainReportsActivity"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
@@ -111,7 +117,9 @@
         <activity
             android:name=".chaplain_sign_activities.ChaplainSignUpSecondPart"
             android:theme="@style/ChaplainSignUpPageTheme" />
-        <activity android:name=".MainEntry" />
+        <activity
+            android:name=".MainEntry"
+            android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".chaplain_sign_activities.ChaplainSignUp"
             android:parentActivityName=".chaplain_sign_activities.ChaplainLogIn" />
