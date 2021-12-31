@@ -10,6 +10,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.telechaplaincy.R
 import com.telechaplaincy.all_chaplains.AllChaplainsListActivity
+import com.telechaplaincy.all_patients.AllPatientsListActivity
 import kotlinx.android.synthetic.main.activity_admin_main.*
 
 class AdminMainActivity : AppCompatActivity() {
@@ -41,7 +42,9 @@ class AdminMainActivity : AppCompatActivity() {
             finish()
         }
         all_patients_cardView.setOnClickListener {
-
+            val intent = Intent(this, AllPatientsListActivity::class.java)
+            startActivity(intent)
+            finish()
         }
         chaplains_wait_confirm_cardView.setOnClickListener {
 

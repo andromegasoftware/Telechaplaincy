@@ -1,11 +1,10 @@
 package com.telechaplaincy.patient_profile
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import com.google.android.material.chip.Chip
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
@@ -14,9 +13,8 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import com.telechaplaincy.R
+import com.telechaplaincy.all_patients.AllPatientsListActivity
 import com.telechaplaincy.patient_sign_activities.UserProfile
-import kotlinx.android.synthetic.main.activity_patient_appointment_personal_info.*
-import kotlinx.android.synthetic.main.activity_patient_appointment_personal_info.patient_appointment_personal_info_image_view
 import kotlinx.android.synthetic.main.activity_patient_profile_details.*
 
 class PatientProfileDetailsActivity : AppCompatActivity() {
@@ -29,7 +27,8 @@ class PatientProfileDetailsActivity : AppCompatActivity() {
     private var patientCollectionName:String = ""
     private var patientProfileCollectionName:String = ""
     private var patientProfileDocumentName:String = ""
-    private var patientProfileFieldUserId:String = ""
+    private var patientProfileFieldUserId: String = ""
+    private var patientUserIdSentByAdmin: String = ""
 
     private var patientProfileFirstName:String = ""
     private var patientProfileLastName:String = ""
@@ -52,11 +51,18 @@ class PatientProfileDetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patient_profile_details)
 
+        patientUserIdSentByAdmin = intent.getStringExtra("chaplain_id_send_by_admin").toString()
+
         auth = FirebaseAuth.getInstance()
-        if (auth.currentUser != null){
-            user = auth.currentUser!!
-            patientProfileFieldUserId = user.uid
-            patientProfileEmail = user.email.toString()
+
+        if (patientUserIdSentByAdmin != "null") {
+            patientProfileFieldUserId = patientUserIdSentByAdmin
+            patient_profile_details_activity_edit_imageButton.visibility = View.GONE
+        } else {
+            if (auth.currentUser != null) {
+                user = auth.currentUser!!
+                patientProfileFieldUserId = user.uid
+            }
         }
 
         patientCollectionName = getString(R.string.patient_collection)
@@ -81,26 +87,33 @@ class PatientProfileDetailsActivity : AppCompatActivity() {
                 val userProfile = document.toObject<UserProfile>()
                 if (userProfile != null) {
                     patientProfileImageLink = userProfile.profileImage.toString()
-                    if (patientProfileImageLink != "null" && patientProfileImageLink != ""){
-                        Picasso.get().load(patientProfileImageLink).into(patient_profile_details_activity_profile_image)
+                    if (patientProfileImageLink != "null" && patientProfileImageLink != "") {
+                        Picasso.get().load(patientProfileImageLink)
+                            .into(patient_profile_details_activity_profile_image)
                     }
                     patientProfileFirstName = userProfile.name.toString()
 
                     patientProfileLastName = userProfile.surname.toString()
-                    if (patientProfileLastName != "null"){
-                        patient_profile_details_activity_patient_name_textView.text = "$patientProfileFirstName $patientProfileLastName"
+                    if (patientProfileLastName != "null") {
+                        patient_profile_details_activity_patient_name_textView.text =
+                            "$patientProfileFirstName $patientProfileLastName"
                     }
 
-                    patient_profile_details_activity_email_textView.text = patientProfileEmail
+                    patientProfileEmail = userProfile.email.toString()
+                    if (patientProfileEmail != "null") {
+                        patient_profile_details_activity_email_textView.text = patientProfileEmail
+                    }
 
                     patientProfilePhone = userProfile.phone.toString()
-                    if (patientProfilePhone != "null"){
-                        patient_profile_details_activity_patient_phone_textView.text = patientProfilePhone
+                    if (patientProfilePhone != "null") {
+                        patient_profile_details_activity_patient_phone_textView.text =
+                            patientProfilePhone
                     }
 
                     patientProfileBirthDate = userProfile.birthDate.toString()
-                    if (patientProfileBirthDate != "null"){
-                        patient_profile_details_activity_patient_birth_date_textView.text = patientProfileBirthDate
+                    if (patientProfileBirthDate != "null") {
+                        patient_profile_details_activity_patient_birth_date_textView.text =
+                            patientProfileBirthDate
                     }
 
                     patientGender = userProfile.gender.toString()
@@ -161,8 +174,14 @@ class PatientProfileDetailsActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        val intent = Intent(this, PatientProfileActivity::class.java)
-        startActivity(intent)
-        finish()
+        if (patientUserIdSentByAdmin != "null") {
+            val intent = Intent(this, AllPatientsListActivity::class.java)
+            startActivity(intent)
+            finish()
+        } else {
+            val intent = Intent(this, PatientProfileActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 }
