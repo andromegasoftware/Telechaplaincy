@@ -10,6 +10,8 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.telechaplaincy.R
 import com.telechaplaincy.all_chaplains.AllChaplainsListActivity
+import com.telechaplaincy.all_chaplains_wait_payment.AllChaplainsWaitPaymentActivity
+import com.telechaplaincy.all_chaplains_wait_to_confirm.AllChaplainsWaitConfirmActivity
 import com.telechaplaincy.all_patients.AllPatientsListActivity
 import kotlinx.android.synthetic.main.activity_admin_main.*
 
@@ -47,10 +49,14 @@ class AdminMainActivity : AppCompatActivity() {
             finish()
         }
         chaplains_wait_confirm_cardView.setOnClickListener {
-
+            val intent = Intent(this, AllChaplainsWaitConfirmActivity::class.java)
+            startActivity(intent)
+            finish()
         }
         chaplain_wait_pay_cardView.setOnClickListener {
-
+            val intent = Intent(this, AllChaplainsWaitPaymentActivity::class.java)
+            startActivity(intent)
+            finish()
         }
         send_message_cardView.setOnClickListener {
 
@@ -64,9 +70,9 @@ class AdminMainActivity : AppCompatActivity() {
     }
 
     private fun getChaplainsWaitPaymentCount() {
-        queryRef = db.collection("chaplainPayments")
+        queryRef = db.collection("chaplains")
         queryRef
-            .whereEqualTo("paymentStatus", false)
+            .whereEqualTo("isPaymentWait", true)
             .get()
             .addOnSuccessListener { documents ->
                 totalChaplainsWaitPaymentCount = documents.size().toString()

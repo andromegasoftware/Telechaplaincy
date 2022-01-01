@@ -464,10 +464,67 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:layout_marginBottom="20dp"
                         android:text="@string/chaplain_profile_details_page_certificate_link_textView"
                         android:textColor="@color/colorAccent"
                         android:textStyle="bold" />
+
+                    <View
+                        android:id="@+id/view31"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="#c0c0c0" />
+
+                    <LinearLayout
+                        android:id="@+id/chaplain_confirm_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="20dp"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal"
+                            android:visibility="visible">
+
+                            <Button
+                                android:id="@+id/chaplain_reject_button"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="20dp"
+                                android:layout_weight="5"
+                                android:background="@drawable/button_shape"
+                                android:text="@string/chaplain_profile_details_page_reject_button"
+                                android:textColor="@color/design_default_color_background" />
+
+                            <Button
+                                android:id="@+id/chaplain_confirm_button"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="20dp"
+                                android:layout_weight="5"
+                                android:background="@drawable/button_shape"
+                                android:text="@string/chaplain_profile_details_page_confirm_button"
+                                android:textColor="@color/design_default_color_background" />
+
+                        </LinearLayout>
+
+                        <ProgressBar
+                            android:id="@+id/chaplain_account_status_progress_bar"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_weight="1"
+                            android:visibility="gone" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 

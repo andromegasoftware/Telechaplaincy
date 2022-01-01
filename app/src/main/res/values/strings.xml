@@ -2,11 +2,23 @@
     <string name="app_name">Tele Chaplaincy</string>
     <string name="app_int_connection_alert">Sorry! We could not find any internet connection. App work with internet connection.</string>
 
+    //chaplain earnings report activity
+    <string name="all_chaplains_earnings_report_activity_title">Chaplain Payment Page</string>
+    <string name="chaplain_total_earnings_textView">Chaplain\'s Total Earnings</string>
+    <string name="chaplain_canceled_appointments_textView">Number of Canceled Appointments by Chaplain</string>
+    <string name="chaplain_fine_for_canceled_appointment_textView">Fine For Per Canceled Appointment by Chaplain</string>
+    <string name="chaplain_last_payment_textView">Last Payment To Chaplain</string>
+    <string name="chaplain_last_payment_date_textView">Last Payment Date</string>
+
+    //all chaplains wait_payment activity
+    <string name="all_chaplains_wait_payment_activity_title">All Chaplains Wait For Payment</string>
+
     //all patients activity
     <string name="all_patients_activity_title">All Patients</string>
 
     //all chaplains activity
     <string name="all_chaplains_activity_title">All Chaplains</string>
+    <string name="all_chaplains_wait_confirm_activity_title">All Chaplains Wait Confirm</string>
 
     //admin main activity
     <string name="admin_main_activity_main_page">Admin Main Page</string>
@@ -91,6 +103,10 @@
     <string name="chaplain_profile_details_page_certificate_textView">Certificate</string>
     <string name="chaplain_profile_details_page_resume_link_textView"><u>Chaplain Resume</u></string>
     <string name="chaplain_profile_details_page_certificate_link_textView"><u>Chaplain Certificate</u></string>
+    <string name="chaplain_profile_details_page_confirm_button">CONFIRM</string>
+    <string name="chaplain_profile_details_page_confirm_toast_message">You confirmed this chaplain. Chaplain can take patients now</string>
+    <string name="chaplain_profile_details_page_reject_toast_message">You rejected this chaplain. Chaplain will not be seen to the patients anymore</string>
+    <string name="chaplain_profile_details_page_reject_button">REJECT</string>
 
     //chaplain profile page
     <string name="chaplain_profile_page_profile_button_text">PROFILE</string>

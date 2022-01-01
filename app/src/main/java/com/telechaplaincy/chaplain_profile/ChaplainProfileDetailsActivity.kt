@@ -6,16 +6,19 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import com.telechaplaincy.R
 import com.telechaplaincy.all_chaplains.AllChaplainsListActivity
+import com.telechaplaincy.all_chaplains_wait_to_confirm.AllChaplainsWaitConfirmActivity
 import com.telechaplaincy.chaplain_sign_activities.ChaplainSignUpSecondPart
 import com.telechaplaincy.chaplain_sign_activities.ChaplainUserProfile
 import kotlinx.android.synthetic.main.activity_chaplain_profile_details.*
@@ -59,20 +62,28 @@ class ChaplainProfileDetailsActivity : AppCompatActivity() {
     private var chaplainProfileExplanation: String = ""
     private var chaplainProfileResume: String = ""
     private var chaplainProfileCertificate: String = ""
+    private var activityOpenCode: String = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chaplain_profile_details)
 
+
+        chaplain_confirm_layout.visibility = View.GONE
+
         chaplainUserIdSentByAdmin = intent.getStringExtra("chaplain_id_send_by_admin").toString()
-        Log.d("uid_chaplain", chaplainUserIdSentByAdmin)
+        activityOpenCode = intent.getStringExtra("activity_open_code").toString()
+        Log.d("uid_chaplain", activityOpenCode)
 
         auth = FirebaseAuth.getInstance()
         user = auth.currentUser!!
         if (chaplainUserIdSentByAdmin != "null") {
             chaplainProfileFieldUserId = chaplainUserIdSentByAdmin
             chaplain_profile_details_activity_edit_imageButton.visibility = View.GONE
+            if (activityOpenCode != "null") {
+                chaplain_confirm_layout.visibility = View.VISIBLE
+            }
         } else {
             chaplainProfileFieldUserId = user.uid
         }
@@ -110,6 +121,62 @@ class ChaplainProfileDetailsActivity : AppCompatActivity() {
             }
         }
 
+        chaplain_reject_button.setOnClickListener {
+            chaplainRejectMethod()
+        }
+
+        chaplain_confirm_button.setOnClickListener {
+            chaplainConfirmMethod()
+        }
+
+    }
+
+    private fun chaplainConfirmMethod() {
+        chaplain_confirm_button.isClickable = false
+        chaplain_account_status_progress_bar.visibility = View.VISIBLE
+        val data = hashMapOf(
+            "accountStatus" to "2"
+        )
+        dbSave.set(data, SetOptions.merge())
+            .addOnSuccessListener {
+
+                chaplain_confirm_button.isClickable = true
+                chaplain_account_status_progress_bar.visibility = View.GONE
+                Toast.makeText(
+                    this,
+                    getString(R.string.chaplain_profile_details_page_confirm_toast_message),
+                    Toast.LENGTH_LONG
+                ).show()
+                Log.d("TAG", "DocumentSnapshot successfully written!")
+                val intent = Intent(this, AllChaplainsWaitConfirmActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+            .addOnFailureListener { e -> Log.w("TAG", "Error writing document", e) }
+    }
+
+    private fun chaplainRejectMethod() {
+        chaplain_reject_button.isClickable = false
+        chaplain_account_status_progress_bar.visibility = View.VISIBLE
+        val data = hashMapOf(
+            "accountStatus" to "3"
+        )
+        dbSave.set(data, SetOptions.merge())
+            .addOnSuccessListener {
+
+                chaplain_reject_button.isClickable = true
+                chaplain_account_status_progress_bar.visibility = View.GONE
+                Toast.makeText(
+                    this,
+                    getString(R.string.chaplain_profile_details_page_reject_toast_message),
+                    Toast.LENGTH_LONG
+                ).show()
+                Log.d("TAG", "DocumentSnapshot successfully written!")
+                val intent = Intent(this, AllChaplainsWaitConfirmActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+            .addOnFailureListener { e -> Log.w("TAG", "Error writing document", e) }
     }
 
     private fun readChaplainInfo() {
@@ -271,9 +338,16 @@ class ChaplainProfileDetailsActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         if (chaplainUserIdSentByAdmin != "null") {
-            val intent = Intent(this, AllChaplainsListActivity::class.java)
-            startActivity(intent)
-            finish()
+            if (activityOpenCode != "null") {
+                val intent = Intent(this, AllChaplainsWaitConfirmActivity::class.java)
+                startActivity(intent)
+                finish()
+            } else {
+                val intent = Intent(this, AllChaplainsListActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+
         } else {
             val intent = Intent(this, ChaplainProfileActivity::class.java)
             startActivity(intent)

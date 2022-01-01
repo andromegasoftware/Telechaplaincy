@@ -21,6 +21,15 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".all_chaplains_wait_payment.ChaplainPaymentReportActivity"
+            android:theme="@style/ChaplainSignUpPageTheme" />
+        <activity
+            android:name=".all_chaplains_wait_payment.AllChaplainsWaitPaymentActivity"
+            android:theme="@style/ChaplainSignUpPageTheme" />
+        <activity
+            android:name=".all_chaplains_wait_to_confirm.AllChaplainsWaitConfirmActivity"
+            android:theme="@style/ChaplainSignUpPageTheme" />
+        <activity
             android:name=".all_patients.AllPatientsListActivity"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
