@@ -3,6 +3,7 @@ package com.telechaplaincy.chaplain_bank_account_info
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -11,6 +12,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.telechaplaincy.R
+import com.telechaplaincy.all_chaplains_wait_payment.ChaplainPaymentReportActivity
 import com.telechaplaincy.chaplain_profile.ChaplainProfileActivity
 import kotlinx.android.synthetic.main.activity_chaplain_bank_account_info.*
 
@@ -23,6 +25,7 @@ class ChaplainBankAccountInfoActivity : AppCompatActivity() {
     private lateinit var dbSave: DocumentReference
 
     private var chaplainProfileFieldUserId: String = ""
+    private var chaplainUserIdSentByAdmin: String = ""
     private var chaplainAccountHolderName: String = ""
     private var chaplainBankAccountRoutingNumber: String = ""
     private var chaplainBankAccountNumber: String = ""
@@ -37,10 +40,18 @@ class ChaplainBankAccountInfoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chaplain_bank_account_info)
 
+        chaplainUserIdSentByAdmin = intent.getStringExtra("chaplain_id_send_by_admin").toString()
+
         auth = FirebaseAuth.getInstance()
-        if (auth.currentUser != null) {
-            user = auth.currentUser!!
-            chaplainProfileFieldUserId = user.uid
+
+        if (chaplainUserIdSentByAdmin != "null") {
+            chaplainProfileFieldUserId = chaplainUserIdSentByAdmin
+            chaplain_bank_account_info_activity_edit_imageButton.visibility = View.GONE
+        } else {
+            if (auth.currentUser != null) {
+                user = auth.currentUser!!
+                chaplainProfileFieldUserId = user.uid
+            }
         }
 
         dbSave = db.collection("chaplains").document(chaplainProfileFieldUserId)
@@ -119,11 +130,17 @@ class ChaplainBankAccountInfoActivity : AppCompatActivity() {
         readChaplainBankAccountInfoFromFireStore()
     }
 
-
     override fun onBackPressed() {
         super.onBackPressed()
-        val intent = Intent(this, ChaplainProfileActivity::class.java)
-        startActivity(intent)
-        finish()
+        if (chaplainUserIdSentByAdmin != "null") {
+            val intent = Intent(this, ChaplainPaymentReportActivity::class.java)
+            intent.putExtra("chaplain_id_send_by_admin", chaplainProfileFieldUserId)
+            startActivity(intent)
+            finish()
+        } else {
+            val intent = Intent(this, ChaplainProfileActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 }

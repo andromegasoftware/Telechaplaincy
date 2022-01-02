@@ -132,6 +132,7 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
         intent.putExtra("chaplainUniqueUserId", chaplainUniqueUserId)
         intent.putExtra("patientUniqueUserId", patientUniqueUserId)
         intent.putExtra("chaplainProfileImageLink", chaplainProfileImageLink)
+        intent.putExtra("chaplainProfileFieldUserId", chaplainProfileFieldUserId)
         startActivity(intent)
     }
 

@@ -9,6 +9,9 @@
     <string name="chaplain_fine_for_canceled_appointment_textView">Fine For Per Canceled Appointment by Chaplain</string>
     <string name="chaplain_last_payment_textView">Last Payment To Chaplain</string>
     <string name="chaplain_last_payment_date_textView">Last Payment Date</string>
+    <string name="chaplain_see_bank_info_button">BANK INFO</string>
+    <string name="chaplain_mark_as_paid_button">MARK PAID</string>
+    <string name="chaplain_mark_as_paid_toast_message">You made payment to Chaplain and marked as paid</string>
 
     //all chaplains wait_payment activity
     <string name="all_chaplains_wait_payment_activity_title">All Chaplains Wait For Payment</string>

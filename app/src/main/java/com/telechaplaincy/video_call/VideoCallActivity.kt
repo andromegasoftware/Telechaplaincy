@@ -1,23 +1,18 @@
 package com.telechaplaincy.video_call
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.telechaplaincy.R
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.os.CountDownTimer
 import android.util.Log
-import android.view.SurfaceView;
 import android.view.View
-import android.view.WindowManager
-import android.widget.FrameLayout;
+import android.widget.FrameLayout
+import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
-import io.agora.rtc.IRtcEngineEventHandler;
-import io.agora.rtc.RtcEngine;
-import io.agora.rtc.video.VideoCanvas;
+import com.telechaplaincy.R
+import io.agora.rtc.IRtcEngineEventHandler
+import io.agora.rtc.RtcEngine
+import io.agora.rtc.video.VideoCanvas
 import kotlinx.android.synthetic.main.activity_patient_future_appointment_detail.*
 import kotlinx.android.synthetic.main.activity_video_call.*
 import retrofit2.Call
@@ -25,22 +20,25 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.text.DecimalFormat
-import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 class VideoCallActivity : AppCompatActivity() {
+
+    private val db = Firebase.firestore
+    private var chaplainProfileFieldUserId: String = ""
+
     // Kotlin
     // Fill the App ID of your project generated on Agora Console.
     private val APP_ID = "afb5ee413d864417bbcf32ba55b40dac"
+
     // Fill the channel name.
     private val CHANNEL = "appointment"
+
     // Fill the temp token generated on Agora Console.
     private var TOKEN = ""
 
-    private var mRtcEngine: RtcEngine ?= null
+    private var mRtcEngine: RtcEngine? = null
 
     private lateinit var localContainer: FrameLayout
     private lateinit var remoteContainer: FrameLayout
@@ -64,6 +62,7 @@ class VideoCallActivity : AppCompatActivity() {
                 video_chat_remote_user_image_view.visibility = View.GONE
                 video_page_name_textView.visibility = View.GONE
                 timer()
+                markChaplainPaymentWait()
             }
         }
 
@@ -92,12 +91,14 @@ class VideoCallActivity : AppCompatActivity() {
         localContainer = findViewById<FrameLayout>(R.id.local_video_view_container)
         remoteContainer = findViewById<FrameLayout>(R.id.remote_video_view_container)
 
+        chaplainProfileFieldUserId = intent.getStringExtra("chaplainProfileFieldUserId").toString()
+
         chaplainName = intent.getStringExtra("chaplain_name").toString()
         val userId = intent.getStringExtra("chaplainUniqueUserId").toString()
         chaplainProfileImageLink = intent.getStringExtra("chaplainProfileImageLink").toString()
         uniqueUserId = userId.toInt(10)
         video_page_name_textView.text = chaplainName
-        if (chaplainProfileImageLink != ""){
+        if (chaplainProfileImageLink != "") {
             Picasso.get().load(chaplainProfileImageLink).into(video_chat_remote_user_image_view)
         }
 
@@ -223,7 +224,13 @@ class VideoCallActivity : AppCompatActivity() {
         val remoteFrame = RtcEngine.CreateRendererView(baseContext)
         //remoteFrame.setZOrderMediaOverlay(true)
         remoteContainer.addView(remoteFrame)
-        mRtcEngine!!.setupRemoteVideo(VideoCanvas(remoteFrame, VideoCanvas.RENDER_MODE_FIT, uniqueUserId))
+        mRtcEngine!!.setupRemoteVideo(
+            VideoCanvas(
+                remoteFrame,
+                VideoCanvas.RENDER_MODE_FIT,
+                uniqueUserId
+            )
+        )
     }
 
     override fun onDestroy() {
@@ -231,5 +238,14 @@ class VideoCallActivity : AppCompatActivity() {
         mRtcEngine?.stopPreview()
         mRtcEngine?.leaveChannel()
         RtcEngine.destroy()
+    }
+
+    private fun markChaplainPaymentWait() {
+        db.collection("chaplains").document(chaplainProfileFieldUserId)
+            .update("isPaymentWait", true)
+            .addOnSuccessListener {
+
+            }
+            .addOnFailureListener { e -> Log.w("TAG", "Error writing document", e) }
     }
 }

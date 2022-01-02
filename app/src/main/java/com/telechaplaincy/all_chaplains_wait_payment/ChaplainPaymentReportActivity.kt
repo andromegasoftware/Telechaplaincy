@@ -3,15 +3,19 @@ package com.telechaplaincy.all_chaplains_wait_payment
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.telechaplaincy.R
 import com.telechaplaincy.appointment.AppointmentModelClass
+import com.telechaplaincy.chaplain_bank_account_info.ChaplainBankAccountInfoActivity
 import kotlinx.android.synthetic.main.activity_chaplain_payment_report.*
 
 class ChaplainPaymentReportActivity : AppCompatActivity() {
@@ -51,7 +55,78 @@ class ChaplainPaymentReportActivity : AppCompatActivity() {
         }
 
         getFineAndCommissionPercentages()
-        getReports()
+
+        chaplain_see_bank_info_button.setOnClickListener {
+            val intent = Intent(this, ChaplainBankAccountInfoActivity::class.java)
+            intent.putExtra("chaplain_id_send_by_admin", chaplainProfileFieldUserId)
+            startActivity(intent)
+            finish()
+        }
+
+        chaplain_mark_as_paid_button.setOnClickListener {
+            markAppointmentsPaidOut()
+        }
+    }
+
+    private fun savePaymentInfo() {
+        val data = hashMapOf(
+            "payerUid" to adminUserId,
+            "paymentAmount" to totalIncome,
+            "paymentDate" to timeNow,
+            "chaplainUid" to chaplainProfileFieldUserId
+        )
+        db.collection("chaplains").document(chaplainProfileFieldUserId)
+            .collection("payments").document()
+            .set(data, SetOptions.merge())
+            .addOnSuccessListener {
+
+                db.collection("admins").document(adminUserId)
+                    .collection("payments").document()
+                    .set(data, SetOptions.merge())
+                    .addOnSuccessListener {
+                        markChaplainPaymentWaitFalse()
+                    }
+
+            }
+            .addOnFailureListener { e -> Log.w("TAG", "Error writing document", e) }
+
+    }
+
+    private fun markAppointmentsPaidOut() {
+        chaplain_payment_page_progress_bar.visibility = View.VISIBLE
+        chaplain_mark_as_paid_button.isClickable = false
+        for (k in appointmentsInfoModelClassArrayList) {
+            val documentId = k.appointmentId
+            if (documentId != null) {
+                db.collection("chaplains").document(chaplainProfileFieldUserId)
+                    .collection("appointments").document(documentId)
+                    .update("isAppointmentPricePaidOutToChaplain", true)
+                    .addOnSuccessListener {
+                        if (k == appointmentsInfoModelClassArrayList.last()) {
+                            savePaymentInfo()
+                        }
+                    }
+                    .addOnFailureListener { e -> Log.w("TAG", "Error writing document", e) }
+            }
+        }
+    }
+
+    private fun markChaplainPaymentWaitFalse() {
+        db.collection("chaplains").document(chaplainProfileFieldUserId)
+            .update("isPaymentWait", false)
+            .addOnSuccessListener {
+                chaplain_payment_page_progress_bar.visibility = View.GONE
+                chaplain_mark_as_paid_button.isClickable = true
+                Toast.makeText(
+                    this,
+                    getString(R.string.chaplain_mark_as_paid_toast_message),
+                    Toast.LENGTH_LONG
+                ).show()
+                val intent = Intent(this, AllChaplainsWaitPaymentActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+            .addOnFailureListener { e -> Log.w("TAG", "Error writing document", e) }
     }
 
     private fun getReports() {
@@ -144,6 +219,10 @@ class ChaplainPaymentReportActivity : AppCompatActivity() {
                     "Document",
                     "Document: $commissionForPerAppointmentPercentage - $appointmentCancelationFeePercentage"
                 )
+
+
+                getReports()
+
             } else {
                 Log.d("TAG", "No such document")
             }
