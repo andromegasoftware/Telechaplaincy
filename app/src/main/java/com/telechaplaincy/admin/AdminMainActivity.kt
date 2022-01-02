@@ -8,11 +8,13 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.telechaplaincy.MainEntry
 import com.telechaplaincy.R
 import com.telechaplaincy.all_chaplains.AllChaplainsListActivity
 import com.telechaplaincy.all_chaplains_wait_payment.AllChaplainsWaitPaymentActivity
 import com.telechaplaincy.all_chaplains_wait_to_confirm.AllChaplainsWaitConfirmActivity
 import com.telechaplaincy.all_patients.AllPatientsListActivity
+import com.telechaplaincy.fees_and_commissions.FeesAndCommissionsActivity
 import kotlinx.android.synthetic.main.activity_admin_main.*
 
 class AdminMainActivity : AppCompatActivity() {
@@ -65,7 +67,16 @@ class AdminMainActivity : AppCompatActivity() {
 
         }
         fees_commissions_cardView.setOnClickListener {
+            val intent = Intent(this, FeesAndCommissionsActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        sign_out_cardView.setOnClickListener {
             auth.signOut()
+            val intent = Intent(this, MainEntry::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 

@@ -2,6 +2,21 @@
     <string name="app_name">Tele Chaplaincy</string>
     <string name="app_int_connection_alert">Sorry! We could not find any internet connection. App work with internet connection.</string>
 
+    //fees_and_commissions activity
+    <string name="fees_and_commissions_activity_title">Fees And Commissions</string>
+    <string name="fees_and_commissions_activity_price">Appointment Price</string>
+    <string name="fees_and_commissions_activity_commission">Appointment Commission Percentage</string>
+    <string name="fees_and_commissions_activity_cancel_fine">Appointment Cancellation Fee Percentage</string>
+    <string name="fees_and_commissions_activity_cancel_last_date_patient">Appointment Cancel Last Date For Patient</string>
+    <string name="fees_and_commissions_activity_cancel_last_date_chaplain">Appointment Cancel Last Date For Chaplain</string>
+    <string name="fees_and_commissions_activity_edit_last_date">Appointment Edit Last Date For Patient</string>
+    <string name="fees_and_commissions_activity_price_hint">Exp: 50</string>
+    <string name="fees_and_commissions_activity_commission_hint">Exp: 10</string>
+    <string name="fees_and_commissions_activity_cancel_fine_hint">Exp: 15</string>
+    <string name="fees_and_commissions_activity_cancel_last_date_patient_hint">Exp: 72</string>
+    <string name="fees_and_commissions_activity_cancel_last_date_chaplain_hint">Exp: 48</string>
+    <string name="fees_and_commissions_activity_edit_last_date_hint">Exp: 36</string>
+
     //chaplain earnings report activity
     <string name="all_chaplains_earnings_report_activity_title">Chaplain Payment Page</string>
     <string name="chaplain_total_earnings_textView">Chaplain\'s Total Earnings</string>
@@ -32,6 +47,7 @@
     <string name="admin_main_activity_send_message">Send Message</string>
     <string name="admin_main_activity_fee_and_commission">Fees and Commissions</string>
     <string name="admin_main_activity_chaplains_wait_pay">Chaplains Wait Payment</string>
+    <string name="admin_main_activity_chaplains_sign_out">Sign out</string>
     <string name="admin_main_activity_total_text">Total: %1$s</string>
 
 

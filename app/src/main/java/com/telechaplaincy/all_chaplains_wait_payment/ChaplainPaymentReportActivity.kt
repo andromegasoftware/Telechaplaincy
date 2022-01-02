@@ -17,6 +17,9 @@ import com.telechaplaincy.R
 import com.telechaplaincy.appointment.AppointmentModelClass
 import com.telechaplaincy.chaplain_bank_account_info.ChaplainBankAccountInfoActivity
 import kotlinx.android.synthetic.main.activity_chaplain_payment_report.*
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ChaplainPaymentReportActivity : AppCompatActivity() {
 
@@ -33,6 +36,8 @@ class ChaplainPaymentReportActivity : AppCompatActivity() {
     private var commissionForPerAppointment: Double = 0.00
     private var commissionForPerAppointmentPercentage: String = ""
     private var appointmentCancelationFeePercentage: String = ""
+    private var lastPayment: String = ""
+    private var lastPaymentDate: Long = 0
     private var canceledAppointmentsNumberByYou: Int = 0
     private var canceledAppointmentsNumberByPatient: Int = 0
     private var fineForPerCanceledAppointment: Double = 0.00
@@ -40,6 +45,8 @@ class ChaplainPaymentReportActivity : AppCompatActivity() {
     private var timeNow: Long = 0
 
     private var appointmentsInfoModelClassArrayList = ArrayList<AppointmentModelClass>()
+    private var paymentsInfoModelClassArrayList = ArrayList<ChaplainPaymentInfoModelClass>()
+    private var paymentsDateArrayList = ArrayList<Long>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +62,7 @@ class ChaplainPaymentReportActivity : AppCompatActivity() {
         }
 
         getFineAndCommissionPercentages()
+        getLastPaymentInfoForChaplain()
 
         chaplain_see_bank_info_button.setOnClickListener {
             val intent = Intent(this, ChaplainBankAccountInfoActivity::class.java)
@@ -68,11 +76,42 @@ class ChaplainPaymentReportActivity : AppCompatActivity() {
         }
     }
 
+    private fun getLastPaymentInfoForChaplain() {
+        db.collection("chaplains").document(chaplainProfileFieldUserId)
+            .collection("payments")
+            .whereLessThan("paymentDate", timeNow.toString())
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    paymentsInfoModelClassArrayList.add(document.toObject<ChaplainPaymentInfoModelClass>())
+                }
+                for (k in paymentsInfoModelClassArrayList) {
+                    k.paymentDate?.let { paymentsDateArrayList.add(it.toLong()) }
+                }
+                val biggestDate = paymentsDateArrayList.maxOrNull()
+                for (k in paymentsInfoModelClassArrayList) {
+                    if (k.paymentDate?.toLong() ?: biggestDate == biggestDate) {
+                        lastPayment = k.paymentAmount.toString()
+                        lastPaymentDate = k.paymentDate?.toLong() ?: lastPaymentDate
+                        chaplain_payment_activity_last_payment.text = "$lastPayment $"
+
+                        val date = Date(lastPaymentDate)
+                        val format = SimpleDateFormat("dd.MMM.yyyy HH:mm")
+                        val dateFormatted = format.format(date)
+                        chaplain_payment_activity_last_payment_date.text = dateFormatted
+                    }
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d("TAG", "get failed with ", exception)
+            }
+    }
+
     private fun savePaymentInfo() {
         val data = hashMapOf(
             "payerUid" to adminUserId,
-            "paymentAmount" to totalIncome,
-            "paymentDate" to timeNow,
+            "paymentAmount" to totalIncome.toString(),
+            "paymentDate" to timeNow.toString(),
             "chaplainUid" to chaplainProfileFieldUserId
         )
         db.collection("chaplains").document(chaplainProfileFieldUserId)

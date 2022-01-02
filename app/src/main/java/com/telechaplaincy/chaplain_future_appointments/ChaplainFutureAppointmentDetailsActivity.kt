@@ -221,7 +221,8 @@ class ChaplainFutureAppointmentDetailsActivity : AppCompatActivity() {
         db.collection("appointment").document("appointmentInfo").get()
             .addOnSuccessListener { document ->
                 if (document != null) {
-                    lastAppointmentCancelTime = document["appointmentCancelLastDate"].toString()
+                    lastAppointmentCancelTime =
+                        document["appointmentCancelLastDateForChaplain"].toString()
                     //Log.d("lastAppointmentEditTime", lastAppointmentEditTime)
                     val timeNow = System.currentTimeMillis()
                     val appointmentTimeLong = appointmentTime.toLong()
