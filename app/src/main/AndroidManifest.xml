@@ -21,6 +21,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".admin_reports.AdminFinancialReportsActivity"
+            android:theme="@style/ChaplainSignUpPageTheme" />
+        <activity
             android:name=".fees_and_commissions.FeesAndCommissionsActivity"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity

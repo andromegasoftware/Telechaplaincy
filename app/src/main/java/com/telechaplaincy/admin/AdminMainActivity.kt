@@ -10,6 +10,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.telechaplaincy.MainEntry
 import com.telechaplaincy.R
+import com.telechaplaincy.admin_reports.AdminFinancialReportsActivity
 import com.telechaplaincy.all_chaplains.AllChaplainsListActivity
 import com.telechaplaincy.all_chaplains_wait_payment.AllChaplainsWaitPaymentActivity
 import com.telechaplaincy.all_chaplains_wait_to_confirm.AllChaplainsWaitConfirmActivity
@@ -64,7 +65,9 @@ class AdminMainActivity : AppCompatActivity() {
 
         }
         financial_reports_cardView.setOnClickListener {
-
+            val intent = Intent(this, AdminFinancialReportsActivity::class.java)
+            startActivity(intent)
+            finish()
         }
         fees_commissions_cardView.setOnClickListener {
             val intent = Intent(this, FeesAndCommissionsActivity::class.java)
