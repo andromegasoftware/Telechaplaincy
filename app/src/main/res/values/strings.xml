@@ -7,6 +7,9 @@
     <string name="admin_financial_reports_total_income">Total Income</string>
     <string name="admin_financial_reports_total_amount_to_chaplain">Total Amount Paid to Chaplain</string>
     <string name="admin_financial_reports_total_commission">Total Commission Income</string>
+    <string name="bar_total_income">Total Income</string>
+    <string name="bar_total_amount_to_chaplain">Chaplain Income</string>
+    <string name="bar_total_commission">Total Commission</string>
 
     //fees_and_commissions activity
     <string name="fees_and_commissions_activity_title">Fees And Commissions</string>

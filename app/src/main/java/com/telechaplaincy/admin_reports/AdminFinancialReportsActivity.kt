@@ -9,6 +9,10 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
@@ -48,7 +52,42 @@ class AdminFinancialReportsActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
         user = auth.currentUser!!
+
         chaplainReportsFrequencySelectionMethod()
+    }
+
+    private fun setBarChart() {
+        val entries = ArrayList<BarEntry>()
+        entries.add(BarEntry(totalIncome.toFloat(), 0))
+        entries.add(BarEntry(totalPaymentToChaplain.toFloat(), 1))
+        entries.add(BarEntry(totalCommission.toFloat(), 2))
+
+        val barDataSet = BarDataSet(entries, "")
+
+        val labels = ArrayList<String>()
+        labels.add(getString(R.string.bar_total_income))
+        labels.add(getString(R.string.bar_total_amount_to_chaplain))
+        labels.add(getString(R.string.bar_total_commission))
+
+        val data = BarData(labels, barDataSet)
+        barChart.data = data // set the data and list of lables into chart
+
+        barChart.setDescription("")  // set the description
+
+        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS)
+
+        barChart.animateY(1000)
+
+        //hide grid lines
+        barChart.axisLeft.setDrawGridLines(false)
+        barChart.xAxis.setDrawGridLines(false)
+        barChart.xAxis.setDrawAxisLine(false)
+
+        //remove right y-axis
+        barChart.axisRight.isEnabled = false
+
+        //remove legend
+        barChart.legend.isEnabled = false
     }
 
     private fun getReports() {
@@ -100,7 +139,10 @@ class AdminFinancialReportsActivity : AppCompatActivity() {
                 admin_reports_activity_total_income.text = "$totalIncome $"
 
                 admin_reports_activity_total_payment_to_chaplain.text = "$totalPaymentToChaplain $"
+
                 admin_reports_activity_total_commission.text = "$totalCommission $"
+
+                setBarChart()
 
             }
             .addOnFailureListener { exception ->
