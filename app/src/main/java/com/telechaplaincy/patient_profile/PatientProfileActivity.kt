@@ -14,6 +14,7 @@ import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import com.telechaplaincy.R
 import com.telechaplaincy.patient.PatientMainActivity
+import com.telechaplaincy.patient_notification_page.PatientNotificationActivity
 import com.telechaplaincy.patient_sign_activities.LoginPage
 import com.telechaplaincy.patient_sign_activities.UserProfile
 import kotlinx.android.synthetic.main.activity_patient_profile.*
@@ -72,10 +73,10 @@ class PatientProfileActivity : AppCompatActivity() {
                 }
 
                 R.id.bottom_menu_notification -> {
-                    //val intent = Intent(this, MyListActivity::class.java)
-                    //startActivity(intent)
+                    val intent = Intent(this, PatientNotificationActivity::class.java)
+                    startActivity(intent)
                     Toast.makeText(this, "Notification", Toast.LENGTH_LONG).show()
-                    //finish()
+                    finish()
                 }
                 R.id.bottom_menu_profile -> {
                     //val intent = Intent(this, ProfileActivity::class.java)

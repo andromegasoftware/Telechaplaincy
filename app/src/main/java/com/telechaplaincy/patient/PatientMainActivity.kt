@@ -19,6 +19,7 @@ import com.telechaplaincy.chaplain.ChaplainMainActivity
 import com.telechaplaincy.patient_future_appointments.PatientFutureAppointmentDetailActivity
 import com.telechaplaincy.patient_future_appointments.PatientFutureAppointmentsAdapterClass
 import com.telechaplaincy.patient_future_appointments.PatientFutureAppointmentsModelClass
+import com.telechaplaincy.patient_notification_page.PatientNotificationActivity
 import com.telechaplaincy.patient_past_appointments.PatientPastAppointmentAdapterClass
 import com.telechaplaincy.patient_past_appointments.PatientPastAppointmentsDetailActivity
 import com.telechaplaincy.patient_profile.PatientAppointmentPersonalInfo
@@ -203,10 +204,10 @@ class PatientMainActivity : AppCompatActivity() {
                 }
 
                 R.id.bottom_menu_notification -> {
-                    //val intent = Intent(this, MyListActivity::class.java)
-                    //startActivity(intent)
+                    val intent = Intent(this, PatientNotificationActivity::class.java)
+                    startActivity(intent)
                     Toast.makeText(this, "Notification", Toast.LENGTH_LONG).show()
-                    //finish()
+                    finish()
                 }
                 R.id.bottom_menu_profile -> {
                     val intent = Intent(this, PatientProfileActivity::class.java)

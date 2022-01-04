@@ -2,6 +2,9 @@
     <string name="app_name">Tele Chaplaincy</string>
     <string name="app_int_connection_alert">Sorry! We could not find any internet connection. App work with internet connection.</string>
 
+    //notification activity
+    <string name="notification_activity_title">Messages</string>
+
     //Admin financial reports activity
     <string name="admin_financial_reports_activity_title">Financial Reports</string>
     <string name="admin_financial_reports_total_income">Total Income</string>
