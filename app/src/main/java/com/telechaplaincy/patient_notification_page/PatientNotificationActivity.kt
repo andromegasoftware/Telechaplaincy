@@ -3,16 +3,20 @@ package com.telechaplaincy.patient_notification_page
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.telechaplaincy.R
-import com.telechaplaincy.chaplain_profile.ChaplainProfileDetailsActivity
+import com.telechaplaincy.admin.AdminMainActivity
+import com.telechaplaincy.chaplain.ChaplainMainActivity
+import com.telechaplaincy.chaplain_profile.ChaplainProfileActivity
 import com.telechaplaincy.patient.PatientMainActivity
 import com.telechaplaincy.patient_profile.PatientProfileActivity
 import kotlinx.android.synthetic.main.activity_patient_notification.*
@@ -24,7 +28,10 @@ class PatientNotificationActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private val db = Firebase.firestore
     private lateinit var user: FirebaseUser
-    private lateinit var queryRef: DocumentReference
+    private lateinit var queryRef: CollectionReference
+    private lateinit var dbRef: DocumentReference
+    private var userType: String = ""
+    private var messageId: String = ""
 
     private var notificationsListArray = ArrayList<NotificationModelClass>()
     private lateinit var notificationsAdapter: NotificationAdapter
@@ -33,13 +40,27 @@ class PatientNotificationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patient_notification)
 
-        addingActivitiesToBottomMenu()
+        userType = intent.getStringExtra("userType").toString()
+        //Log.d("userType", userType)
+
+        if (userType != "admin") {
+            addingActivitiesToBottomMenu()
+            imageButtonMessageSend.visibility = View.GONE
+        } else {
+            bottomNavigation.visibility = View.GONE
+        }
 
         auth = FirebaseAuth.getInstance()
         user = auth.currentUser!!
         userId = user.uid
 
-        queryRef = db.collection("notifications").document(userId)
+        if (userType == "patient") {
+            queryRef = db.collection("patients").document(userId).collection("inbox")
+        } else if (userType == "chaplain") {
+            queryRef = db.collection("chaplains").document(userId).collection("inbox")
+        } else {
+            queryRef = db.collection("general_outbox")
+        }
 
         notificationsAdapter =
             NotificationAdapter(notificationsListArray) { notificationModelClassItem: NotificationModelClass ->
@@ -58,23 +79,9 @@ class PatientNotificationActivity : AppCompatActivity() {
 
     private fun notificationsListMethod() {
         queryRef.get()
-            .addOnSuccessListener { document ->
-                if (!document.data.isNullOrEmpty()) {
-                    val allNotifications = document.data
-                    if (!allNotifications.isNullOrEmpty()) {
-                        for ((key, value) in allNotifications) {
-                            val v = value as Map<*, *>
-                            val title = v["notificationTitle"]
-                            val message = v["notificationMessage"]
-                            val timeStamp = v["notificationTimeStamp"]
-                            val notificationModelClass = NotificationModelClass()
-                            notificationModelClass.notificationTitle = title.toString()
-                            notificationModelClass.notificationMessage = message.toString()
-                            notificationModelClass.notificationTimeStamp = timeStamp.toString()
-
-                            notificationsListArray.add(notificationModelClass)
-                        }
-                    }
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    notificationsListArray.add(document.toObject())
                 }
 
                 notificationsAdapter.submitList(notificationsListArray)
@@ -86,10 +93,29 @@ class PatientNotificationActivity : AppCompatActivity() {
     }
 
     private fun notificationClickListener(notificationModelClass: NotificationModelClass) {
-        val intent = Intent(this, ChaplainProfileDetailsActivity::class.java)
-        intent.putExtra("chaplain_id_send_by_admin", notificationModelClass.notificationTimeStamp)
-        startActivity(intent)
-        finish()
+        messageId = notificationModelClass.messageId.toString()
+        markMessageRead(messageId)
+    }
+
+    private fun markMessageRead(mMessageId: String) {
+        if (userType == "patient") {
+            dbRef =
+                db.collection("patients").document(userId).collection("inbox").document(mMessageId)
+        } else if (userType == "chaplain") {
+            dbRef =
+                db.collection("chaplains").document(userId).collection("inbox").document(mMessageId)
+        } else {
+            dbRef = db.collection("general_outbox").document(mMessageId)
+        }
+        dbRef.update("isMessageRead", true)
+            .addOnSuccessListener {
+                val intent = Intent(this, NotificationDetailsActivity::class.java)
+                intent.putExtra("messageId", messageId)
+                intent.putExtra("userType", userType)
+                startActivity(intent)
+                finish()
+            }
+            .addOnFailureListener { e -> Log.w("userType", "Error updating document", e) }
     }
 
 
@@ -100,10 +126,16 @@ class PatientNotificationActivity : AppCompatActivity() {
         bottomNavigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.bottom_menu_home -> {
-                    val intent = Intent(this, PatientMainActivity::class.java)
-                    startActivity(intent)
-                    Toast.makeText(this, "main", Toast.LENGTH_LONG).show()
-                    finish()
+                    Log.d("userType", userType)
+                    if (userType == "patient") {
+                        val intent = Intent(this, PatientMainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else if (userType == "chaplain") {
+                        val intent = Intent(this, ChaplainMainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
                 }
 
                 R.id.bottom_menu_notification -> {
@@ -113,13 +145,28 @@ class PatientNotificationActivity : AppCompatActivity() {
                     finish()*/
                 }
                 R.id.bottom_menu_profile -> {
-                    val intent = Intent(this, PatientProfileActivity::class.java)
-                    startActivity(intent)
-                    Toast.makeText(this, "profile", Toast.LENGTH_LONG).show()
-                    finish()
+                    Log.d("userType", userType)
+                    if (userType == "patient") {
+                        val intent = Intent(this, PatientProfileActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else if (userType == "chaplain") {
+                        val intent = Intent(this, ChaplainProfileActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
                 }
             }
             true
+        }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        if (userType == "admin") {
+            val intent = Intent(this, AdminMainActivity::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 }

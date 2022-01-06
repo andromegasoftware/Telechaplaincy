@@ -16,6 +16,7 @@ import com.telechaplaincy.all_chaplains_wait_payment.AllChaplainsWaitPaymentActi
 import com.telechaplaincy.all_chaplains_wait_to_confirm.AllChaplainsWaitConfirmActivity
 import com.telechaplaincy.all_patients.AllPatientsListActivity
 import com.telechaplaincy.fees_and_commissions.FeesAndCommissionsActivity
+import com.telechaplaincy.patient_notification_page.PatientNotificationActivity
 import kotlinx.android.synthetic.main.activity_admin_main.*
 
 class AdminMainActivity : AppCompatActivity() {
@@ -62,7 +63,10 @@ class AdminMainActivity : AppCompatActivity() {
             finish()
         }
         send_message_cardView.setOnClickListener {
-
+            val intent = Intent(this, PatientNotificationActivity::class.java)
+            intent.putExtra("userType", "admin")
+            startActivity(intent)
+            finish()
         }
         financial_reports_cardView.setOnClickListener {
             val intent = Intent(this, AdminFinancialReportsActivity::class.java)

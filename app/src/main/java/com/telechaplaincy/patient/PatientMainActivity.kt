@@ -205,6 +205,7 @@ class PatientMainActivity : AppCompatActivity() {
 
                 R.id.bottom_menu_notification -> {
                     val intent = Intent(this, PatientNotificationActivity::class.java)
+                    intent.putExtra("userType", "patient")
                     startActivity(intent)
                     Toast.makeText(this, "Notification", Toast.LENGTH_LONG).show()
                     finish()

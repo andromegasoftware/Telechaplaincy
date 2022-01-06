@@ -47,25 +47,33 @@ class NotificationAdapter(
         private val notificationTime = itemView.messageTime
         private val notificationImage = itemView.logo
         private val notificationCardView = itemView.notificationCardView
+        private val notificationMessageRead = itemView.imageViewMessageRead
 
         fun bind(
             notificationInfo: NotificationModelClass,
             clickListener: (NotificationModelClass) -> Unit
         ) {
-            notificationTitle.text = notificationInfo.notificationTitle
+            notificationTitle.text = notificationInfo.title
 
-            notificationMessage.text = notificationInfo.notificationMessage
+            notificationMessage.text = notificationInfo.body
 
-            val messageTime = notificationInfo.notificationTimeStamp
+            val messageTime = notificationInfo.dateSent
             val dateFormatLocalZone = SimpleDateFormat("HH:mm - MMM dd, yyyy")
             dateFormatLocalZone.timeZone = TimeZone.getDefault()
             val timeRangeFirst = dateFormatLocalZone.format(Date(messageTime!!.toLong()))
             notificationTime.text = timeRangeFirst.toString()
 
             Picasso.get().load(R.drawable.logo).into(notificationImage)
-            //Log.e("pictureUrl", pictureUrl)
 
-            notificationCardView.setOnClickListener { clickListener(notificationInfo) }
+            //notificationTime.text = notificationInfo.isMessageRead.toString()
+            /*if (isMessageRead == "no"){
+                notificationMessageRead.setImageResource(R.drawable.ic_baseline_mic_24)
+            }*/
+
+            notificationCardView.setOnClickListener {
+                clickListener(notificationInfo)
+            }
+
         }
     }
 }

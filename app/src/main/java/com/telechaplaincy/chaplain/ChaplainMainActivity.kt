@@ -25,6 +25,7 @@ import com.telechaplaincy.chaplain_profile.ChaplainProfileActivity
 import com.telechaplaincy.chaplain_sign_activities.ChaplainSignUpSecondPart
 import com.telechaplaincy.chaplain_sign_activities.ChaplainUserProfile
 import com.telechaplaincy.patient_future_appointments.PatientFutureAppointmentsModelClass
+import com.telechaplaincy.patient_notification_page.PatientNotificationActivity
 import kotlinx.android.synthetic.main.activity_chaplain_main.*
 import kotlinx.android.synthetic.main.activity_chaplain_sign_up_second_part.*
 import java.util.*
@@ -299,10 +300,11 @@ class ChaplainMainActivity : AppCompatActivity() {
                 }
 
                 R.id.bottom_menu_notification -> {
-                    //val intent = Intent(this, MyListActivity::class.java)
-                    //startActivity(intent)
+                    val intent = Intent(this, PatientNotificationActivity::class.java)
+                    intent.putExtra("userType", "chaplain")
+                    startActivity(intent)
                     Toast.makeText(this, "Notification", Toast.LENGTH_LONG).show()
-                    //finish()
+                    finish()
                 }
                 R.id.bottom_menu_profile -> {
                     val intent = Intent(this, ChaplainProfileActivity::class.java)
