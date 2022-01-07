@@ -13,8 +13,8 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import com.telechaplaincy.R
+import com.telechaplaincy.notification_page.PatientNotificationActivity
 import com.telechaplaincy.patient.PatientMainActivity
-import com.telechaplaincy.patient_notification_page.PatientNotificationActivity
 import com.telechaplaincy.patient_sign_activities.LoginPage
 import com.telechaplaincy.patient_sign_activities.UserProfile
 import kotlinx.android.synthetic.main.activity_patient_profile.*

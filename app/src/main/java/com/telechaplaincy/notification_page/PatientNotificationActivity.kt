@@ -1,4 +1,4 @@
-package com.telechaplaincy.patient_notification_page
+package com.telechaplaincy.notification_page
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -75,17 +76,27 @@ class PatientNotificationActivity : AppCompatActivity() {
         notification_page_recyclerView.layoutManager = notificationsLayoutManager
         notification_page_recyclerView.adapter = notificationsAdapter
 
+        imageButtonMessageSend.setOnClickListener {
+            val intent = Intent(this, AdminMessageSendActivity::class.java)
+            intent.putExtra("userType", userType)
+            startActivity(intent)
+            finish()
+        }
+
     }
 
     private fun notificationsListMethod() {
-        queryRef.get()
+        queryRef.orderBy("dateSent", Query.Direction.DESCENDING).get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
                     notificationsListArray.add(document.toObject())
                 }
-
                 notificationsAdapter.submitList(notificationsListArray)
                 notificationsAdapter.notifyDataSetChanged()
+
+                if (notificationsAdapter.itemCount == 0) {
+                    no_message_lineer_layout.visibility = View.VISIBLE
+                }
             }
             .addOnFailureListener { exception ->
                 Log.d("deneme", "Error getting documents: ", exception)
@@ -107,7 +118,7 @@ class PatientNotificationActivity : AppCompatActivity() {
         } else {
             dbRef = db.collection("general_outbox").document(mMessageId)
         }
-        dbRef.update("isMessageRead", true)
+        dbRef.update("messageRead", true)
             .addOnSuccessListener {
                 val intent = Intent(this, NotificationDetailsActivity::class.java)
                 intent.putExtra("messageId", messageId)

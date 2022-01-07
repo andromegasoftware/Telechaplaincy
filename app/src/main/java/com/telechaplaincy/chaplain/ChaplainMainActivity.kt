@@ -24,8 +24,8 @@ import com.telechaplaincy.chaplain_past_appointments.ChaplainPastAppointmentsAda
 import com.telechaplaincy.chaplain_profile.ChaplainProfileActivity
 import com.telechaplaincy.chaplain_sign_activities.ChaplainSignUpSecondPart
 import com.telechaplaincy.chaplain_sign_activities.ChaplainUserProfile
+import com.telechaplaincy.notification_page.PatientNotificationActivity
 import com.telechaplaincy.patient_future_appointments.PatientFutureAppointmentsModelClass
-import com.telechaplaincy.patient_notification_page.PatientNotificationActivity
 import kotlinx.android.synthetic.main.activity_chaplain_main.*
 import kotlinx.android.synthetic.main.activity_chaplain_sign_up_second_part.*
 import java.util.*

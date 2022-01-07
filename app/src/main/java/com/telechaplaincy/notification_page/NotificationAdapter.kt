@@ -1,4 +1,4 @@
-package com.telechaplaincy.patient_notification_page
+package com.telechaplaincy.notification_page
 
 import android.view.LayoutInflater
 import android.view.View
@@ -65,10 +65,9 @@ class NotificationAdapter(
 
             Picasso.get().load(R.drawable.logo).into(notificationImage)
 
-            //notificationTime.text = notificationInfo.isMessageRead.toString()
-            /*if (isMessageRead == "no"){
-                notificationMessageRead.setImageResource(R.drawable.ic_baseline_mic_24)
-            }*/
+            if (notificationInfo.messageRead!!) {
+                notificationMessageRead.visibility = View.GONE
+            }
 
             notificationCardView.setOnClickListener {
                 clickListener(notificationInfo)

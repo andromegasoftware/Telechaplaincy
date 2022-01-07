@@ -2,8 +2,27 @@
     <string name="app_name">Tele Chaplaincy</string>
     <string name="app_int_connection_alert">Sorry! We could not find any internet connection. App work with internet connection.</string>
 
+    //send message activity
+    <string name="send_message_activity_title">Send Message</string>
+    <string name="send_message_activity_message_title_hint">Message Title</string>
+    <string name="send_message_activity_message_body_hint">Your Message</string>
+    <string name="send_message_activity_send_message_button_text">Send Message</string>
+    <string name="send_message_activity_send_message_button_text_clicked">MESSAGE IS SENT</string>
+    <string name="send_message_activity_send_message_button_toast_message">Please select a receiver</string>
+
+    //message receivers array
+    <string-array name="message_receivers_array">
+        <item>Choose a receiver</item>
+        <item>All Patients</item>
+        <item>All Chaplains</item>
+        <item>All Users</item>
+    </string-array>
+
     //notification activity
     <string name="notification_activity_title">Messages</string>
+    <string name="notification_activity_alert_dialog">Do you want to delete this message?</string>
+    <string name="notification_activity_alert_dialog_title">Delete Message</string>
+    <string name="notification_activity_empty_message_box_text">You do not have any message right now</string>
 
     //Admin financial reports activity
     <string name="admin_financial_reports_activity_title">Financial Reports</string>

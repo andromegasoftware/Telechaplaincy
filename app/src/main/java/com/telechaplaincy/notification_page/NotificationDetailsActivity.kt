@@ -1,7 +1,10 @@
-package com.telechaplaincy.patient_notification_page
+package com.telechaplaincy.notification_page
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -45,6 +48,7 @@ class NotificationDetailsActivity : AppCompatActivity() {
                 db.collection("chaplains").document(userId).collection("inbox").document(messageId)
         } else {
             dbRef = db.collection("general_outbox").document(messageId)
+            imageButtonDeleteMessage.visibility = View.GONE
         }
 
         dbRef.get().addOnSuccessListener { documentSnapshot ->
@@ -61,6 +65,39 @@ class NotificationDetailsActivity : AppCompatActivity() {
                 textViewMessageDetailActivityBody.text = message.body
             }
         }
+
+        imageButtonDeleteMessage.setOnClickListener {
+            alertDialogMessageMethodForMessageDeleting()
+        }
+    }
+
+    private fun alertDialogMessageMethodForMessageDeleting() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(getString(R.string.notification_activity_alert_dialog_title))
+        builder.setMessage(getString(R.string.notification_activity_alert_dialog))
+        //builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = x))
+
+        builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+            messageDeleteMethod()
+        }
+
+        builder.setNegativeButton(android.R.string.no) { dialog, which ->
+            dialog.dismiss()
+        }
+        builder.show()
+    }
+
+    private fun messageDeleteMethod() {
+        progressBarMessageDelete.visibility = View.VISIBLE
+        dbRef.delete()
+            .addOnSuccessListener {
+                val intent = Intent(this, PatientNotificationActivity::class.java)
+                intent.putExtra("userType", userType)
+                startActivity(intent)
+                finish()
+                Log.d("TAG", "DocumentSnapshot successfully deleted!")
+            }
+            .addOnFailureListener { e -> Log.w("TAG", "Error deleting document", e) }
     }
 
     override fun onBackPressed() {

@@ -21,10 +21,13 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".patient_notification_page.NotificationDetailsActivity"
+            android:name=".notification_page.AdminMessageSendActivity"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
-            android:name=".patient_notification_page.PatientNotificationActivity"
+            android:name=".notification_page.NotificationDetailsActivity"
+            android:theme="@style/ChaplainSignUpPageTheme" />
+        <activity
+            android:name=".notification_page.PatientNotificationActivity"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".admin_reports.AdminFinancialReportsActivity"
