@@ -68,42 +68,47 @@ class FeesAndCommissionsActivity : AppCompatActivity() {
         db.collection("appointment").document("appointmentInfo")
             .get()
             .addOnSuccessListener { document ->
-                if (document != null) {
-                    appointmentPrice = document["appointmentPrice"].toString()
-                    appointmentCancelFinePercentage =
-                        document["appointmentCancelFinePercentage"].toString()
-                    appointmentCancelLastDateForChaplain =
-                        document["appointmentCancelLastDateForChaplain"].toString()
-                    appointmentCancelLastDateForPatient =
-                        document["appointmentCancelLastDateForPatient"].toString()
-                    appointmentCommissionPercentage =
-                        document["appointmentCommissionPercentage"].toString()
-                    appointmentEditLastDate = document["appointmentEditLastDate"].toString()
+                if (document.exists()) {
+                    if (document != null) {
+                        appointmentPrice = document["appointmentPrice"].toString()
+                        appointmentCancelFinePercentage =
+                            document["appointmentCancelFinePercentage"].toString()
+                        appointmentCancelLastDateForChaplain =
+                            document["appointmentCancelLastDateForChaplain"].toString()
+                        appointmentCancelLastDateForPatient =
+                            document["appointmentCancelLastDateForPatient"].toString()
+                        appointmentCommissionPercentage =
+                            document["appointmentCommissionPercentage"].toString()
+                        appointmentEditLastDate = document["appointmentEditLastDate"].toString()
 
-                    fees_and_commissions_activity_price.setText(appointmentPrice)
-                    fees_and_commissions_activity_commission.setText(appointmentCommissionPercentage)
-                    fees_and_commissions_activity_cancel_fine.setText(
-                        appointmentCancelFinePercentage
-                    )
-                    val appCancelLastHourPatient =
-                        TimeUnit.MILLISECONDS.toHours(appointmentCancelLastDateForPatient.toLong())
-                            .toString()
-                    fees_and_commissions_activity_cancel_last_date_patient.setText(
-                        appCancelLastHourPatient
-                    )
-                    val appCancelLastHourChaplain =
-                        TimeUnit.MILLISECONDS.toHours(appointmentCancelLastDateForChaplain.toLong())
-                            .toString()
-                    fees_and_commissions_activity_cancel_last_date_chaplain.setText(
-                        appCancelLastHourChaplain
-                    )
-                    val appCancelLastHourEditPatient =
-                        TimeUnit.MILLISECONDS.toHours(appointmentEditLastDate.toLong()).toString()
-                    fees_and_commissions_activity_edit_last_date.setText(
-                        appCancelLastHourEditPatient
-                    )
-                } else {
-                    Log.d("TAG", "No such document")
+                        fees_and_commissions_activity_price.setText(appointmentPrice)
+                        fees_and_commissions_activity_commission.setText(
+                            appointmentCommissionPercentage
+                        )
+                        fees_and_commissions_activity_cancel_fine.setText(
+                            appointmentCancelFinePercentage
+                        )
+                        val appCancelLastHourPatient =
+                            TimeUnit.MILLISECONDS.toHours(appointmentCancelLastDateForPatient.toLong())
+                                .toString()
+                        fees_and_commissions_activity_cancel_last_date_patient.setText(
+                            appCancelLastHourPatient
+                        )
+                        val appCancelLastHourChaplain =
+                            TimeUnit.MILLISECONDS.toHours(appointmentCancelLastDateForChaplain.toLong())
+                                .toString()
+                        fees_and_commissions_activity_cancel_last_date_chaplain.setText(
+                            appCancelLastHourChaplain
+                        )
+                        val appCancelLastHourEditPatient =
+                            TimeUnit.MILLISECONDS.toHours(appointmentEditLastDate.toLong())
+                                .toString()
+                        fees_and_commissions_activity_edit_last_date.setText(
+                            appCancelLastHourEditPatient
+                        )
+                    } else {
+                        Log.d("TAG", "No such document")
+                    }
                 }
             }
             .addOnFailureListener { exception ->

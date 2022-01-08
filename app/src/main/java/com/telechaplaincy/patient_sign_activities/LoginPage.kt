@@ -1,19 +1,19 @@
 package com.telechaplaincy.patient_sign_activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.telechaplaincy.patient.PatientMainActivity
 import com.telechaplaincy.MainEntry
 import com.telechaplaincy.R
+import com.telechaplaincy.admin.AdminMainActivity
 import com.telechaplaincy.chaplain.ChaplainMainActivity
+import com.telechaplaincy.patient.PatientMainActivity
 import kotlinx.android.synthetic.main.activity_log_in.*
 
 class LoginPage : AppCompatActivity() {
@@ -80,15 +80,6 @@ class LoginPage : AppCompatActivity() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        /*// Check if user is signed in (non-null) and update UI accordingly.
-        val currentUser = auth.currentUser
-        if(currentUser != null){
-            checkUserRole()
-        }*/
-    }
-
     //when sign in ok, what will happen
     private fun updateUI(){
         //val toast = Toast.makeText(this, R.string.sign_up_toast_account_created, Toast.LENGTH_SHORT).show()
@@ -117,8 +108,12 @@ class LoginPage : AppCompatActivity() {
                             val intent = Intent(this, PatientMainActivity::class.java)
                             startActivity(intent)
                             finish()
-                        }else if (userRole == "2"){
+                        }else if (userRole == "2") {
                             val intent = Intent(this, ChaplainMainActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        } else if (userRole == "3") {
+                            val intent = Intent(this, AdminMainActivity::class.java)
                             startActivity(intent)
                             finish()
                         }

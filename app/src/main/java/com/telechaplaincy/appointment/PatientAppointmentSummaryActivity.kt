@@ -42,7 +42,8 @@ class PatientAppointmentSummaryActivity : AppCompatActivity() {
     private var patientProfileLastName = ""
 
     private var appointmentPrice = ""
-    private var patientTimeZone:String = ""
+    private var patientTimeZone: String = ""
+    private var appointmentId: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +61,7 @@ class PatientAppointmentSummaryActivity : AppCompatActivity() {
         chaplainEarliestDate = intent.getStringExtra("readTime").toString()
         patientSelectedTime = intent.getStringExtra("patientSelectedTime").toString()
         patientTimeZone = intent.getStringExtra("appointmentTimeZone").toString()
+        appointmentId = intent.getStringExtra("appointmentId").toString()
 
         dbSaveAvailableTimes =
             db.collection(chaplainCollectionName).document(chaplainProfileFieldUserId)
@@ -93,6 +95,7 @@ class PatientAppointmentSummaryActivity : AppCompatActivity() {
         intent.putExtra("chaplain_category", chaplainCategory)
         intent.putExtra("readTime", chaplainEarliestDate)
         intent.putExtra("patientSelectedTime", patientSelectedTime)
+        intent.putExtra("appointmentId", appointmentId)
         startActivity(intent)
         finish()
     }
@@ -105,6 +108,7 @@ class PatientAppointmentSummaryActivity : AppCompatActivity() {
         intent.putExtra("patientSelectedTime", patientSelectedTime)
         intent.putExtra("appointmentPrice", appointmentPrice)
         intent.putExtra("appointmentTimeZone", patientTimeZone)
+        intent.putExtra("appointmentId", appointmentId)
         startActivity(intent)
         finish()
     }

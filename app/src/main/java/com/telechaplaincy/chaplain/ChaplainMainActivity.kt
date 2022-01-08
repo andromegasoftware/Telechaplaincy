@@ -11,6 +11,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -148,8 +149,9 @@ class ChaplainMainActivity : AppCompatActivity() {
 
     private fun patientPastAppointmentsFillRecyclerView(){
         patientTimeNow = System.currentTimeMillis().toString()
-        val query =  queryRef.document(chaplainProfileFieldUserId).collection("appointments")
-            .whereLessThanOrEqualTo("appointmentDate", patientTimeNow).get()
+        val query = queryRef.document(chaplainProfileFieldUserId).collection("appointments")
+            .whereLessThanOrEqualTo("appointmentDate", patientTimeNow)
+            .orderBy("appointmentDate", Query.Direction.DESCENDING).get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
                     patientPastAppointmentsListArray.add(document.toObject())
@@ -169,8 +171,9 @@ class ChaplainMainActivity : AppCompatActivity() {
 
     private fun patientFutureAppointmentsFillRecyclerView(){
         patientTimeNow = (System.currentTimeMillis()-1800000).toString()
-        val query =  queryRef.document(chaplainProfileFieldUserId).collection("appointments")
-            .whereGreaterThanOrEqualTo("appointmentDate", patientTimeNow).get()
+        val query = queryRef.document(chaplainProfileFieldUserId).collection("appointments")
+            .whereGreaterThanOrEqualTo("appointmentDate", patientTimeNow)
+            .orderBy("appointmentDate", Query.Direction.DESCENDING).get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
                     patientFutureAppointmentsListArray.add(document.toObject())

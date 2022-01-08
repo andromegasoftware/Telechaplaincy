@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -89,8 +90,9 @@ class PatientMainActivity : AppCompatActivity() {
 
     private fun patientPastAppointmentsFillRecyclerView(){
         patientTimeNow = System.currentTimeMillis().toString()
-        val query =  queryRef.document(userId).collection("appointments")
-            .whereLessThanOrEqualTo("appointmentDate", patientTimeNow).get()
+        val query = queryRef.document(userId).collection("appointments")
+            .whereLessThanOrEqualTo("appointmentDate", patientTimeNow)
+            .orderBy("appointmentDate", Query.Direction.DESCENDING).get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
                     patientPastAppointmentsListArray.add(document.toObject())
@@ -110,8 +112,9 @@ class PatientMainActivity : AppCompatActivity() {
 
     private fun patientFutureAppointmentsFillRecyclerView(){
         patientTimeNow = (System.currentTimeMillis()-1800000).toString()
-           val query =  queryRef.document(userId).collection("appointments")
-               .whereGreaterThanOrEqualTo("appointmentDate", patientTimeNow).get()
+           val query = queryRef.document(userId).collection("appointments")
+               .whereGreaterThanOrEqualTo("appointmentDate", patientTimeNow)
+               .orderBy("appointmentDate", Query.Direction.DESCENDING).get()
                 .addOnSuccessListener { documents ->
                     for (document in documents) {
                         patientFutureAppointmentsListArray.add(document.toObject())

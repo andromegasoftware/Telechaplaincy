@@ -2,7 +2,6 @@ package com.telechaplaincy.appointment
 
 import android.content.Intent
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -10,16 +9,16 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.chip.Chip
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.telechaplaincy.R
-import com.telechaplaincy.chaplain_selection.chaplains_selection.ChaplainsListedSelectionActivity
-import com.telechaplaincy.databinding.ActivityChaplainCalendarBinding
 import com.telechaplaincy.databinding.ActivityPatientAppointmentTimeSelectionBinding
 import kotlinx.android.synthetic.main.activity_chaplain_calendar.*
 import kotlinx.android.synthetic.main.activity_patient_appointment_continue.*
@@ -33,15 +32,18 @@ import java.util.*
 
 class PatientAppointmentTimeSelectionActivity : AppCompatActivity() {
 
+    private lateinit var dbSaveAppointmentForMainCollection: DocumentReference //this is to create appointment data in firestore to check 15 minutes
+    private var appointmentId = ""
+
     private lateinit var auth: FirebaseAuth
     private lateinit var user: FirebaseUser
     private lateinit var dbSaveAvailableTimes: DocumentReference
     private val db = Firebase.firestore
-    private var patientUserId:String = ""
+    private var patientUserId: String = ""
 
     private lateinit var binding: ActivityPatientAppointmentTimeSelectionBinding
 
-    private var patientTimeZone:String = ""
+    private var patientTimeZone: String = ""
 
     private var formattedDate: String = ""
     private var patientSelectedMonth = ""
@@ -60,6 +62,10 @@ class PatientAppointmentTimeSelectionActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patient_appointment_time_selection)
+
+        //this is to create appointment data in firestore to check 15 minutes
+        dbSaveAppointmentForMainCollection = db.collection("appointment_temporary").document()
+        appointmentId = intent.getStringExtra("appointmentId").toString()
 
         chaplainProfileFieldUserId = intent.getStringExtra("chaplain_id").toString()
         chaplainCategory = intent.getStringExtra("chaplain_category").toString()
@@ -93,25 +99,55 @@ class PatientAppointmentTimeSelectionActivity : AppCompatActivity() {
                 dbSaveAvailableTimes.update((patientSelectedTime), map)
                     .addOnSuccessListener {
                         Log.d("data upload", "DocumentSnapshot successfully written!")
+                        createAppointmentData()
                     }
                     .addOnFailureListener { e ->
                         Log.w("data upload", "Error writing document", e)
                     }
+
+            } else {
+                Toast.makeText(this, R.string.select_time_button_toast_message, Toast.LENGTH_LONG)
+                    .show()
+            }
+        }
+
+    }
+
+    //this is to delete appointment data in firestore created to check 15 minutes
+    private fun deleteAppointmentData() {
+        if (appointmentId != "null" && appointmentId != "") {
+            db.collection("appointment_temporary").document(appointmentId).delete()
+                .addOnSuccessListener {
+                    //Log.d("appointment_info", "DocumentSnapshot successfully written!")
+                }
+                .addOnFailureListener { e ->
+                    //Log.w("appointment_info", "Error writing document", e)
+                }
+        }
+    }
+
+    //this is to create appointment data in firestore to check 15 minutes
+    private fun createAppointmentData() {
+        appointmentId = dbSaveAppointmentForMainCollection.id
+        val appointmentInfo = hashMapOf(
+            "appointmentId" to appointmentId,
+            "appointmentDate" to patientSelectedTime,
+            "chaplainId" to chaplainProfileFieldUserId,
+            "isAppointmentPaymentDone" to false,
+            "appointmentCreationDate" to FieldValue.serverTimestamp()
+        )
+        dbSaveAppointmentForMainCollection.set(appointmentInfo, SetOptions.merge())
+            .addOnSuccessListener {
                 val intent = Intent(this, PatientAppointmentSummaryActivity::class.java)
                 intent.putExtra("chaplain_id", chaplainProfileFieldUserId)
                 intent.putExtra("chaplain_category", chaplainCategory)
                 intent.putExtra("readTime", chaplainEarliestDate)
                 intent.putExtra("patientSelectedTime", patientSelectedTime)
                 intent.putExtra("appointmentTimeZone", patientTimeZone)
+                intent.putExtra("appointmentId", appointmentId)
                 startActivity(intent)
                 finish()
-
             }
-            else{
-                Toast.makeText(this, R.string.select_time_button_toast_message, Toast.LENGTH_LONG).show()
-            }
-        }
-
     }
 
     private fun calenderSelectedDate(){
@@ -254,6 +290,7 @@ class PatientAppointmentTimeSelectionActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
+        deleteAppointmentData()
         val intent = Intent(this, PatientAppointmentContinueActivity::class.java)
         intent.putExtra("chaplain_id", chaplainProfileFieldUserId)
         intent.putExtra("chaplain_category", chaplainCategory)

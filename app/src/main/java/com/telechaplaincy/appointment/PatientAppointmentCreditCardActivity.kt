@@ -53,19 +53,27 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
     private var chaplainAddressingTitle = ""
     private var credentialTitleArrayList = ArrayList<String>()
     private var chaplainFieldArrayList = ArrayList<String>()
-    private var patientTimeZone:String = ""
-    private var chaplainUniqueUserId:String = ""
-    private var patientUniqueUserId:String = ""
+    private var patientTimeZone: String = ""
+    private var chaplainUniqueUserId: String = ""
+    private var patientUniqueUserId: String = ""
+
+    private var tempAppointmentId = ""
 
     private var isPaymentMethodSelected = false
 
     private var currentUserWillPay: FirebaseUser? = null
     private lateinit var paymentSession: PaymentSession
     private lateinit var selectedPaymentMethod: PaymentMethod
-    private val stripe: Stripe by lazy { Stripe(applicationContext, "pk_test_51K1nMiJNPvINJFSH7tpyrBYdY2iD6O8FSt9B8QgtY4FSF2WfIDPajZuKd68AqvQVKI6pCzNo4OdHzZqkc0JPMlHt00sASHpQ8U")}
+    private val stripe: Stripe by lazy {
+        Stripe(
+            applicationContext,
+            "pk_test_51K1nMiJNPvINJFSH7tpyrBYdY2iD6O8FSt9B8QgtY4FSF2WfIDPajZuKd68AqvQVKI6pCzNo4OdHzZqkc0JPMlHt00sASHpQ8U"
+        )
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patient_appointment_credit_card)
 
@@ -88,6 +96,7 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
         patientSelectedTime = intent.getStringExtra("patientSelectedTime").toString()
         appointmentPrice = intent.getStringExtra("appointmentPrice").toString()
         patientTimeZone = intent.getStringExtra("appointmentTimeZone").toString()
+        tempAppointmentId = intent.getStringExtra("appointmentId").toString()
 
         dbSaveAppointmentForPatient =
             db.collection("patients").document(patientUserId)
@@ -145,7 +154,10 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
             patientUniqueUserId,
             null,
             null,
-            chaplainCategory
+            chaplainCategory,
+            "confirmed",
+            false,
+            isAppointmentPaymentDone = true
         )
 
         dbSaveAppointmentForMainCollection.set(appointmentModelClass, SetOptions.merge())
@@ -175,6 +187,8 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
             }
             .addOnFailureListener { e -> Log.w("TAG", "Error writing document", e) }
 
+        db.collection("appointment_temporary").document(tempAppointmentId)
+            .update("isAppointmentPaymentDone", true)
     }
 
     private fun readPatientData(){
@@ -220,6 +234,7 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
         intent.putExtra("readTime", chaplainEarliestDate)
         intent.putExtra("patientSelectedTime", patientSelectedTime)
         intent.putExtra("appointmentTimeZone", patientTimeZone)
+        intent.putExtra("appointmentId", appointmentId)
         startActivity(intent)
         finish()
     }
@@ -288,19 +303,22 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
             .build())
 
         paymentSession.init(
-            object: PaymentSession.PaymentSessionListener {
+            object : PaymentSession.PaymentSessionListener {
                 override fun onPaymentSessionDataChanged(data: PaymentSessionData) {
                     Log.d("PaymentSession", "PaymentSession has changed: $data")
-                    Log.d("PaymentSession", "${data.isPaymentReadyToCharge} <> ${data.paymentMethod}")
+                    Log.d(
+                        "PaymentSession",
+                        "${data.isPaymentReadyToCharge} <> ${data.paymentMethod}"
+                    )
 
                     if (data.isPaymentReadyToCharge) {
-                        Log.d("PaymentSession", "Ready to charge");
+                        Log.d("PaymentSession", "Ready to charge")
                         //payButton.isClickable = true
                         isPaymentMethodSelected = true
                         data.paymentMethod?.let {
                             Log.d("PaymentSession", "PaymentMethod $it selected")
                             var month = it.card?.expiryMonth.toString()
-                            if(month.length == 1){
+                            if (month.length == 1) {
                                 month = "0$month"
                             }
                             var year = it.card?.expiryYear.toString()
@@ -315,11 +333,11 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
                 }
 
                 override fun onCommunicatingStateChanged(isCommunicating: Boolean) {
-                    Log.d("PaymentSession",  "isCommunicating $isCommunicating")
+                    Log.d("PaymentSession", "isCommunicating $isCommunicating")
                 }
 
                 override fun onError(errorCode: Int, errorMessage: String) {
-                    Log.e("PaymentSession",  "onError: $errorCode, $errorMessage")
+                    Log.e("PaymentSession", "onError: $errorCode, $errorMessage")
                 }
             }
         )
