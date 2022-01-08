@@ -12,6 +12,7 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
 import com.telechaplaincy.MainEntry
 import com.telechaplaincy.R
 import com.telechaplaincy.admin.AdminMainActivity
@@ -171,10 +172,18 @@ class PatientMainActivity : AppCompatActivity() {
                             val intent = Intent(this, ChaplainMainActivity::class.java)
                             startActivity(intent)
                             finish()
+
+                            Firebase.messaging.subscribeToTopic("chaplains")
+
                         } else if (userRole == "3") {
                             val intent = Intent(this, AdminMainActivity::class.java)
                             startActivity(intent)
                             finish()
+
+                            Firebase.messaging.subscribeToTopic("admins")
+                        } else if (userRole == "1") {
+                            Firebase.messaging.subscribeToTopic("patients")
+
                         }
                     }
                     Log.d("TAG", "DocumentSnapshot data: ${document.data}")

@@ -14,6 +14,7 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.telechaplaincy.R
@@ -75,12 +76,14 @@ class ChaplainMainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chaplain_main)
 
+        Firebase.messaging.subscribeToTopic("chaplains")
+
         queryRef = db.collection("chaplains")
 
         addingActivitiesToBottomMenu()
 
         auth = FirebaseAuth.getInstance()
-        if (auth.currentUser != null){
+        if (auth.currentUser != null) {
             user = auth.currentUser!!
             chaplainProfileFieldUserId = user.uid
         }

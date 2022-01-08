@@ -8,6 +8,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
 import com.telechaplaincy.MainEntry
 import com.telechaplaincy.R
 import com.telechaplaincy.admin_reports.AdminFinancialReportsActivity
@@ -33,6 +34,8 @@ class AdminMainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin_main)
+
+        Firebase.messaging.subscribeToTopic("admins")
 
         auth = FirebaseAuth.getInstance()
         adminUserId = auth.currentUser?.uid ?: adminUserId
