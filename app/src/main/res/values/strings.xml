@@ -6,6 +6,12 @@
     <string name="chaplain_confirm_message_title">Your Application is Accepted</string>
     <string name="chaplain_confirm_message_body">Hi, We would like to inform you about your application. We look into your application and confirm your profile. Now you can enter your available time and take patient.</string>
 
+    <string name="chaplain_appointment_cancel_message_title">Your Appointment is Cancelled by Chaplain</string>
+    <string name="chaplain_appointment_cancel_message_body">Hi, We regret to inform you that your appointment is canceled by Chaplain. In some cases, such cancellations may occur. Cancellation is usually due to a Chaplain\'s emergency situation. Your payment will be send to your credit card. If you want, you can make another appointment.</string>
+
+    <string name="patient_appointment_cancel_message_title">Your Appointment is Cancelled by Patient</string>
+    <string name="patient_appointment_cancel_message_body">Hi, We regret to inform you that your appointment is canceled by Patient. In some cases, such cancellations may occur. Cancellation is usually due to a Patient\'s emergency situation. Your available times are updated after this cancellation. New patients can make a new appointment for that time.</string>
+
     //send message activity
     <string name="send_message_activity_title">Send Message</string>.
     <string name="send_message_activity_message_title_hint">Message Title</string>

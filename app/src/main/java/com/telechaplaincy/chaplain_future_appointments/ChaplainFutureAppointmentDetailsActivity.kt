@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -21,6 +22,8 @@ import com.squareup.picasso.Picasso
 import com.telechaplaincy.R
 import com.telechaplaincy.appointment.AppointmentModelClass
 import com.telechaplaincy.chaplain.ChaplainMainActivity
+import com.telechaplaincy.cloud_message.FcmNotificationsSender
+import com.telechaplaincy.notification_page.NotificationModelClass
 import com.telechaplaincy.patient_profile.PatientProfileInfoActivityForChaplain
 import com.telechaplaincy.video_call.VideoCallActivity
 import kotlinx.android.synthetic.main.activity_chaplain_future_appointment_details.*
@@ -54,8 +57,13 @@ class ChaplainFutureAppointmentDetailsActivity : AppCompatActivity() {
     private val PERMISSION_REQ_ID_CAMERA = PERMISSION_REQ_ID_RECORD_AUDIO + 1
 
 
-    private var chaplainUniqueUserId:String = ""
-    private var patientUniqueUserId:String = ""
+    private var chaplainUniqueUserId: String = ""
+    private var patientUniqueUserId: String = ""
+
+
+    private var notificationTokenId: String = ""
+    private var title: String = ""
+    private var body: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,12 +103,68 @@ class ChaplainFutureAppointmentDetailsActivity : AppCompatActivity() {
         }
     }
 
+    private fun sendMessageToPatient() {
+
+        db.collection("patients").document(patientUserId).get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+
+                    notificationTokenId = document["notificationTokenId"].toString()
+                    //Log.d("notificationTokenId", notificationTokenId)
+
+                    title = getString(R.string.chaplain_appointment_cancel_message_title)
+                    body = getString(R.string.chaplain_appointment_cancel_message_body)
+
+                    val sender = FcmNotificationsSender(
+                        notificationTokenId,
+                        title,
+                        body,
+                        applicationContext,
+                        this
+                    )
+                    sender.SendNotifications()
+
+                    saveMessageToInbox()
+
+                } else {
+                    Log.d("TAG", "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d("TAG", "get failed with ", exception)
+            }
+    }
+
+    private fun saveMessageToInbox() {
+        val dbSave = db.collection("chaplains").document(chaplainProfileFieldUserId)
+            .collection("inbox").document()
+
+        val dateSent = System.currentTimeMillis().toString()
+        val messageId = dbSave.id
+
+        val message = NotificationModelClass(
+            title,
+            body,
+            null,
+            null,
+            chaplainProfileFieldUserId,
+            dateSent,
+            messageId,
+            false
+        )
+
+        dbSave.set(message, SetOptions.merge())
+    }
+
     private fun checkSelfPermission(permission: String, requestCode: Int): Boolean {
         if (ContextCompat.checkSelfPermission(this, permission) !=
-            PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
+            PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
                 arrayOf(permission),
-                requestCode)
+                requestCode
+            )
             return false
         }
         return true
@@ -262,7 +326,10 @@ class ChaplainFutureAppointmentDetailsActivity : AppCompatActivity() {
         appointmentStatus = "canceled by Chaplain"
         db.collection("appointment").document(appointmentId)
             .update("appointmentStatus", appointmentStatus)
-            .addOnSuccessListener {  }
+            .addOnSuccessListener {
+
+                sendMessageToPatient()
+            }
             .addOnFailureListener { }
 
         db.collection("chaplains").document(chaplainProfileFieldUserId)

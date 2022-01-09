@@ -22,6 +22,7 @@ import com.telechaplaincy.all_chaplains_wait_to_confirm.AllChaplainsWaitConfirmA
 import com.telechaplaincy.chaplain_sign_activities.ChaplainSignUpSecondPart
 import com.telechaplaincy.chaplain_sign_activities.ChaplainUserProfile
 import com.telechaplaincy.cloud_message.FcmNotificationsSender
+import com.telechaplaincy.notification_page.NotificationModelClass
 import kotlinx.android.synthetic.main.activity_chaplain_profile_details.*
 
 
@@ -65,6 +66,8 @@ class ChaplainProfileDetailsActivity : AppCompatActivity() {
     private var chaplainProfileCertificate: String = ""
     private var activityOpenCode: String = ""
     private var notificationTokenId: String = ""
+    private var title: String = ""
+    private var body: String = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -167,8 +170,8 @@ class ChaplainProfileDetailsActivity : AppCompatActivity() {
                     notificationTokenId = document["notificationTokenId"].toString()
                     //Log.d("notificationTokenId", notificationTokenId)
 
-                    val title = getString(R.string.chaplain_confirm_message_title)
-                    val body = getString(R.string.chaplain_confirm_message_body)
+                    title = getString(R.string.chaplain_confirm_message_title)
+                    body = getString(R.string.chaplain_confirm_message_body)
 
                     val sender = FcmNotificationsSender(
                         notificationTokenId,
@@ -179,6 +182,8 @@ class ChaplainProfileDetailsActivity : AppCompatActivity() {
                     )
                     sender.SendNotifications()
 
+                    saveMessageToInbox()
+
                 } else {
                     Log.d("TAG", "No such document")
                 }
@@ -186,6 +191,19 @@ class ChaplainProfileDetailsActivity : AppCompatActivity() {
             .addOnFailureListener { exception ->
                 Log.d("TAG", "get failed with ", exception)
             }
+    }
+
+    private fun saveMessageToInbox() {
+        val dbSave = db.collection("chaplains").document(chaplainProfileFieldUserId)
+            .collection("inbox").document()
+
+        val dateSent = System.currentTimeMillis().toString()
+        val messageId = dbSave.id
+
+        val message =
+            NotificationModelClass(title, body, null, null, null, dateSent, messageId, false)
+
+        dbSave.set(message, SetOptions.merge())
     }
 
     private fun chaplainRejectMethod() {
