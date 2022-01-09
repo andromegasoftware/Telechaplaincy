@@ -12,9 +12,11 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.ktx.messaging
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -66,12 +68,15 @@ class ChaplainMainActivity : AppCompatActivity() {
 
 
     private lateinit var queryRef: CollectionReference
-    private var patientFutureAppointmentsListArray = ArrayList<PatientFutureAppointmentsModelClass>()
+    private var patientFutureAppointmentsListArray =
+        ArrayList<PatientFutureAppointmentsModelClass>()
     private lateinit var chaplainFutureAppointmentsAdapterClass: ChaplainFutureAppointmentsAdapterClass
     private var patientTimeNow: String = ""
 
     private var patientPastAppointmentsListArray = ArrayList<PatientFutureAppointmentsModelClass>()
     private lateinit var chaplainPastAppointmentsAdapterClass: ChaplainPastAppointmentsAdapterClass
+
+    private var notificationTokenId: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,6 +106,16 @@ class ChaplainMainActivity : AppCompatActivity() {
 
         readData() //to check if the chaplain profile filled in fully or not
         readAccountStatus()//to check chaplain account status
+
+        FirebaseMessaging.getInstance().token.addOnSuccessListener { result ->
+            if (result != null) {
+                notificationTokenId = result
+                Log.d("tokenId", notificationTokenId)
+                val data = hashMapOf("notificationTokenId" to notificationTokenId)
+                db.collection("chaplains").document(chaplainProfileFieldUserId)
+                    .set(data, SetOptions.merge())
+            }
+        }
 
         chaplain_signUp_continue_button.setOnClickListener {
             checkSignUpData()

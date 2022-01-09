@@ -21,6 +21,7 @@ import com.telechaplaincy.all_chaplains.AllChaplainsListActivity
 import com.telechaplaincy.all_chaplains_wait_to_confirm.AllChaplainsWaitConfirmActivity
 import com.telechaplaincy.chaplain_sign_activities.ChaplainSignUpSecondPart
 import com.telechaplaincy.chaplain_sign_activities.ChaplainUserProfile
+import com.telechaplaincy.cloud_message.FcmNotificationsSender
 import kotlinx.android.synthetic.main.activity_chaplain_profile_details.*
 
 
@@ -63,6 +64,7 @@ class ChaplainProfileDetailsActivity : AppCompatActivity() {
     private var chaplainProfileResume: String = ""
     private var chaplainProfileCertificate: String = ""
     private var activityOpenCode: String = ""
+    private var notificationTokenId: String = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -127,6 +129,7 @@ class ChaplainProfileDetailsActivity : AppCompatActivity() {
 
         chaplain_confirm_button.setOnClickListener {
             chaplainConfirmMethod()
+            sendMessageToChaplain()
         }
 
     }
@@ -153,6 +156,36 @@ class ChaplainProfileDetailsActivity : AppCompatActivity() {
                 finish()
             }
             .addOnFailureListener { e -> Log.w("TAG", "Error writing document", e) }
+    }
+
+    private fun sendMessageToChaplain() {
+
+        db.collection("chaplains").document(chaplainProfileFieldUserId).get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+
+                    notificationTokenId = document["notificationTokenId"].toString()
+                    //Log.d("notificationTokenId", notificationTokenId)
+
+                    val title = getString(R.string.chaplain_confirm_message_title)
+                    val body = getString(R.string.chaplain_confirm_message_body)
+
+                    val sender = FcmNotificationsSender(
+                        notificationTokenId,
+                        title,
+                        body,
+                        applicationContext,
+                        this
+                    )
+                    sender.SendNotifications()
+
+                } else {
+                    Log.d("TAG", "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d("TAG", "get failed with ", exception)
+            }
     }
 
     private fun chaplainRejectMethod() {

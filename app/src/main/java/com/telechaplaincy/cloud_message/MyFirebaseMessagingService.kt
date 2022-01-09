@@ -63,6 +63,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 .setOnlyAlertOnce(true)
                 .setContentIntent(pendingIntent)
                 .setDefaults(Notification.DEFAULT_SOUND)
+                .setSmallIcon(R.drawable.logo)
 
 
         builder = builder.setContent(getRemoteView(title, message))

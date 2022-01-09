@@ -10,9 +10,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.ktx.messaging
 import com.telechaplaincy.MainEntry
 import com.telechaplaincy.R
@@ -32,15 +34,18 @@ class PatientMainActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private val db = Firebase.firestore
-    private var userRole:String = ""
-    private var userId:String = ""
+    private var userRole: String = ""
+    private var userId: String = ""
     private lateinit var queryRef: CollectionReference
-    private var patientFutureAppointmentsListArray = ArrayList<PatientFutureAppointmentsModelClass>()
+    private var patientFutureAppointmentsListArray =
+        ArrayList<PatientFutureAppointmentsModelClass>()
     private lateinit var patientFutureAppointmentsAdapterClass: PatientFutureAppointmentsAdapterClass
     private var patientTimeNow: String = ""
 
     private var patientPastAppointmentsListArray = ArrayList<PatientFutureAppointmentsModelClass>()
     private lateinit var patientPastAppointmentsAdapterClass: PatientPastAppointmentAdapterClass
+
+    private var notificationTokenId: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +58,15 @@ class PatientMainActivity : AppCompatActivity() {
         userId = auth.currentUser?.uid ?: userId
 
         queryRef = db.collection("patients")
+
+        FirebaseMessaging.getInstance().token.addOnSuccessListener { result ->
+            if (result != null) {
+                notificationTokenId = result
+                Log.d("tokenId", notificationTokenId)
+                val data = hashMapOf("notificationTokenId" to notificationTokenId)
+                db.collection("patients").document(userId).set(data, SetOptions.merge())
+            }
+        }
 
         patientFutureAppointmentsAdapterClass =
             PatientFutureAppointmentsAdapterClass(patientFutureAppointmentsListArray) { patientFutureAppointmentsModelClass: PatientFutureAppointmentsModelClass ->

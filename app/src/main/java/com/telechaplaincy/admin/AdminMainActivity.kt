@@ -6,8 +6,10 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.ktx.messaging
 import com.telechaplaincy.MainEntry
 import com.telechaplaincy.R
@@ -30,6 +32,7 @@ class AdminMainActivity : AppCompatActivity() {
     private var totalPatientsCount: String = ""
     private var totalChaplainsWaitConfirmCount: String = ""
     private var totalChaplainsWaitPaymentCount: String = ""
+    private var notificationTokenId: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +47,15 @@ class AdminMainActivity : AppCompatActivity() {
         getAllPatientsCount()
         getChaplainsWaitConfirmCount()
         getChaplainsWaitPaymentCount()
+
+        FirebaseMessaging.getInstance().token.addOnSuccessListener { result ->
+            if (result != null) {
+                notificationTokenId = result
+                Log.d("tokenId", notificationTokenId)
+                val data = hashMapOf("notificationTokenId" to notificationTokenId)
+                db.collection("admins").document(adminUserId).set(data, SetOptions.merge())
+            }
+        }
 
         all_chaplains_cardView.setOnClickListener {
             val intent = Intent(this, AllChaplainsListActivity::class.java)
