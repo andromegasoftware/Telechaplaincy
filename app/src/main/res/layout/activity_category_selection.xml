@@ -27,7 +27,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
-                android:text="@string/chaplain_field_title"
+                android:text="@string/chaplains_category_selection_title"
                 android:textColor="@color/loginPageTitleTextColor"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -73,7 +73,7 @@
                             android:id="@+id/textView29"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/college_chaplain"
+                            android:text="@string/chaplains_title_college"
                             android:textColor="#000000"
                             android:textSize="14sp" />
 
@@ -143,7 +143,7 @@
                             android:id="@+id/textView53"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/community_chaplain"
+                            android:text="@string/chaplains_title_community"
                             android:textColor="#000000"
                             android:textSize="14sp" />
 
@@ -213,7 +213,7 @@
                             android:id="@+id/textView51"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/crisis_chaplain"
+                            android:text="@string/chaplains_title_crisis"
                             android:textColor="#000000"
                             android:textSize="14sp" />
 
@@ -283,7 +283,7 @@
                             android:id="@+id/textView47"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/health_chaplain"
+                            android:text="@string/chaplains_title_health"
                             android:textColor="#000000"
                             android:textSize="14sp" />
 
@@ -353,7 +353,7 @@
                             android:id="@+id/textView44"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/palliative_chaplain"
+                            android:text="@string/chaplains_title_pallative"
                             android:textColor="#000000"
                             android:textSize="14sp" />
 
@@ -423,7 +423,7 @@
                             android:id="@+id/textView42"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/pediatric_chaplain"
+                            android:text="@string/chaplains_title_pediatric"
                             android:textColor="#000000"
                             android:textSize="14sp" />
 
@@ -493,7 +493,7 @@
                             android:id="@+id/textView40"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/mental_chaplain"
+                            android:text="@string/chaplains_title_mental"
                             android:textColor="#000000"
                             android:textSize="14sp" />
 
@@ -563,7 +563,7 @@
                             android:id="@+id/textView38"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/hospice_chaplain"
+                            android:text="@string/chaplains_title_hospice"
                             android:textColor="#000000"
                             android:textSize="14sp" />
 
@@ -633,7 +633,7 @@
                             android:id="@+id/textView36"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/law_chaplain"
+                            android:text="@string/chaplains_title_law"
                             android:textColor="#000000"
                             android:textSize="14sp" />
 
@@ -703,7 +703,7 @@
                             android:id="@+id/textView34"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/military_chaplain"
+                            android:text="@string/chaplains_title_military"
                             android:textColor="#000000"
                             android:textSize="14sp" />
 
@@ -773,7 +773,7 @@
                             android:id="@+id/textView32"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/prison_chaplain"
+                            android:text="@string/chaplains_title_prison_category_title"
                             android:textColor="#000000"
                             android:textSize="14sp" />
 
@@ -843,7 +843,7 @@
                             android:id="@+id/textView55"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/corporate_chaplain"
+                            android:text="@string/chaplains_title_corporate"
                             android:textColor="#000000"
                             android:textSize="14sp" />
 
@@ -913,7 +913,7 @@
                             android:id="@+id/textView60"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/pet_chaplain"
+                            android:text="@string/chaplains_title_pet"
                             android:textColor="#000000"
                             android:textSize="14sp" />
 

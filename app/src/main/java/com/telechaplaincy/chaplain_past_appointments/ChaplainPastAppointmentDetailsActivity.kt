@@ -19,6 +19,8 @@ import com.squareup.picasso.Picasso
 import com.telechaplaincy.R
 import com.telechaplaincy.appointment.AppointmentModelClass
 import com.telechaplaincy.chaplain.ChaplainMainActivity
+import com.telechaplaincy.cloud_message.FcmNotificationsSender
+import com.telechaplaincy.notification_page.NotificationModelClass
 import kotlinx.android.synthetic.main.activity_chaplain_past_appointment_details.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -41,6 +43,10 @@ class ChaplainPastAppointmentDetailsActivity : AppCompatActivity() {
     private var doctorNoteForChaplains: String = ""
 
     private var appointmentId: String = ""
+
+    private var notificationTokenId: String = ""
+    private var title: String = ""
+    private var body: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +73,57 @@ class ChaplainPastAppointmentDetailsActivity : AppCompatActivity() {
         }
     }
 
+    private fun sendMessageToPatient() {
+
+        db.collection("patients").document(patientUserId).get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+
+                    notificationTokenId = document["notificationTokenId"].toString()
+                    title = getString(R.string.chaplain_note_for_patient_message_title)
+                    body = getString(R.string.chaplain_note_for_patient_message_body)
+
+                    val sender = FcmNotificationsSender(
+                        notificationTokenId,
+                        title,
+                        body,
+                        applicationContext,
+                        this
+                    )
+                    sender.SendNotifications()
+
+                    saveMessageToInboxForPatient()
+
+                } else {
+                    Log.d("TAG", "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d("TAG", "get failed with ", exception)
+            }
+    }
+
+    private fun saveMessageToInboxForPatient() {
+        val dbSave = db.collection("patients").document(patientUserId)
+            .collection("inbox").document()
+
+        val dateSent = System.currentTimeMillis().toString()
+        val messageId = dbSave.id
+
+        val message = NotificationModelClass(
+            title,
+            body,
+            null,
+            null,
+            chaplainProfileFieldUserId,
+            dateSent,
+            messageId,
+            false
+        )
+
+        dbSave.set(message, SetOptions.merge())
+    }
+
     private fun saveChaplainNotesToDatabase() {
         chaplain_past_appointment_progressBar.visibility = View.VISIBLE
         chaplain_past_appointment_save_button.isClickable = false
@@ -85,6 +142,9 @@ class ChaplainPastAppointmentDetailsActivity : AppCompatActivity() {
                 chaplain_past_appointment_save_button.isClickable = true
                 chaplain_past_appointment_save_button.text =
                     getString(R.string.chaplain_past_appointment_save_button_title_after_clicked)
+
+                sendMessageToPatient()
+
                 Log.d("TAG", "DocumentSnapshot successfully written!")
             }
             .addOnFailureListener { e -> Log.w("TAG", "Error writing document", e) }

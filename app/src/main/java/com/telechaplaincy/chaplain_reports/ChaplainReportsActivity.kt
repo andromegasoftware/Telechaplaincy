@@ -11,11 +11,14 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.telechaplaincy.R
+import com.telechaplaincy.all_chaplains_wait_payment.ChaplainPaymentInfoModelClass
 import com.telechaplaincy.appointment.AppointmentModelClass
 import com.telechaplaincy.chaplain_profile.ChaplainProfileActivity
 import kotlinx.android.synthetic.main.activity_chaplain_reports.*
@@ -28,6 +31,7 @@ class ChaplainReportsActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private val db = Firebase.firestore
     private lateinit var dbSave: DocumentReference
+    private lateinit var dbPaymentInfo: CollectionReference
     private lateinit var user: FirebaseUser
     private var chaplainProfileFieldUserId: String = ""
 
@@ -47,6 +51,8 @@ class ChaplainReportsActivity : AppCompatActivity() {
 
     private var appointmentsInfoModelClassArrayList = ArrayList<AppointmentModelClass>()
 
+    private var paymentsInfoModelClassArrayList = ArrayList<ChaplainPaymentInfoModelClass>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chaplain_reports)
@@ -57,6 +63,46 @@ class ChaplainReportsActivity : AppCompatActivity() {
             chaplainProfileFieldUserId = user.uid
         }
         chaplainReportsFrequencySelectionMethod()
+        getChaplainLastPayment()
+    }
+
+    private fun getChaplainLastPayment() {
+        var lastPaymentInfo = ChaplainPaymentInfoModelClass()
+        dbPaymentInfo = db.collection("chaplains").document(chaplainProfileFieldUserId)
+            .collection("payments")
+        dbPaymentInfo.orderBy("paymentDate", Query.Direction.DESCENDING)
+            .get().addOnSuccessListener { documents ->
+                for (document in documents) {
+                    if (!documents.isEmpty) {
+                        paymentsInfoModelClassArrayList.add(document.toObject<ChaplainPaymentInfoModelClass>())
+                        //Log.d("lastPaymentInfo", document["paymentDate"].toString())
+                    }
+                }
+
+                if (paymentsInfoModelClassArrayList.isNotEmpty()) {
+                    lastPaymentInfo = paymentsInfoModelClassArrayList[0]
+                }
+                if (lastPaymentInfo.paymentAmount != null) {
+                    val lastPaymentAmount = lastPaymentInfo.paymentAmount.toString()
+                    if (lastPaymentAmount != null) {
+                        chaplain_reports_activity_last_payment.text = "$lastPaymentAmount $"
+                    }
+                }
+                Log.d("lastPaymentInfo", lastPaymentInfo.toString())
+                if (lastPaymentInfo.paymentAmount != null) {
+                    var lastPaymentDate = lastPaymentInfo.paymentDate.toString()
+                    val dateFormatLocalZone = SimpleDateFormat("EEE HH:mm aaa, dd-MM-yyyy")
+                    dateFormatLocalZone.timeZone = TimeZone.getDefault()
+                    lastPaymentDate =
+                        dateFormatLocalZone.format(Date(lastPaymentDate.toLong()))
+                    if (lastPaymentDate != null) {
+                        chaplain_reports_activity_last_payment_date.text = lastPaymentDate
+                    }
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.w("TAG", "Error getting documents: ", exception)
+            }
     }
 
     private fun chaplainReportsFrequencySelectionMethod() {

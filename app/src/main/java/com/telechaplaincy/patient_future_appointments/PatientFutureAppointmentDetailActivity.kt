@@ -108,7 +108,6 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
 
                     notificationTokenId = document["notificationTokenId"].toString()
                     //Log.d("notificationTokenId", notificationTokenId)
-                    val appointmentDate = appointmentTime
                     title = getString(R.string.patient_appointment_cancel_message_title)
                     body = getString(R.string.patient_appointment_cancel_message_body)
 

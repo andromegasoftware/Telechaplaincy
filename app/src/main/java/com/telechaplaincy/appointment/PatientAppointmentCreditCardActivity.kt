@@ -19,6 +19,8 @@ import com.stripe.android.model.PaymentMethod
 import com.stripe.android.view.BillingAddressFields
 import com.telechaplaincy.R
 import com.telechaplaincy.chaplain_sign_activities.ChaplainUserProfile
+import com.telechaplaincy.cloud_message.FcmNotificationsSender
+import com.telechaplaincy.notification_page.NotificationModelClass
 import com.telechaplaincy.patient_sign_activities.UserProfile
 import com.telechaplaincy.payment.FirebaseEphemeralKeyProvider
 import kotlinx.android.synthetic.main.activity_patient_appointment_credit_card.*
@@ -71,15 +73,21 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
         )
     }
 
+    private var notificationTokenId: String = ""
+    private var title: String = ""
+    private var body: String = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patient_appointment_credit_card)
 
-        chaplainUniqueUserId = String.format("%010d", BigInteger(UUID.randomUUID().toString().replace("-", ""), 16))
+        chaplainUniqueUserId =
+            String.format("%010d", BigInteger(UUID.randomUUID().toString().replace("-", ""), 16))
         chaplainUniqueUserId = chaplainUniqueUserId.substring(chaplainUniqueUserId.length - 9)
-        patientUniqueUserId = String.format("%010d", BigInteger(UUID.randomUUID().toString().replace("-", ""), 16))
+        patientUniqueUserId =
+            String.format("%010d", BigInteger(UUID.randomUUID().toString().replace("-", ""), 16))
         patientUniqueUserId = patientUniqueUserId.substring(patientUniqueUserId.length - 9)
 
         chaplainCollectionName = getString(R.string.chaplain_collection)
@@ -126,11 +134,113 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
             paymentSession.presentPaymentMethodSelection()
         }
 
-        setupPaymentSession ()
+        setupPaymentSession()
 
     }
 
-    private fun saveAppointmentInfoFireStore(){
+    private fun sendMessageToPatient() {
+
+        db.collection("patients").document(patientUserId).get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+
+                    notificationTokenId = document["notificationTokenId"].toString()
+                    title = getString(R.string.patient_appointment_created_message_title)
+                    body = getString(R.string.patient_appointment_created_message_body)
+
+                    val sender = FcmNotificationsSender(
+                        notificationTokenId,
+                        title,
+                        body,
+                        applicationContext,
+                        this
+                    )
+                    sender.SendNotifications()
+
+                    saveMessageToInboxForPatient()
+
+                } else {
+                    Log.d("TAG", "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d("TAG", "get failed with ", exception)
+            }
+    }
+
+    private fun saveMessageToInboxForPatient() {
+        val dbSave = db.collection("patients").document(patientUserId)
+            .collection("inbox").document()
+
+        val dateSent = System.currentTimeMillis().toString()
+        val messageId = dbSave.id
+
+        val message = NotificationModelClass(
+            title,
+            body,
+            null,
+            null,
+            patientUserId,
+            dateSent,
+            messageId,
+            false
+        )
+
+        dbSave.set(message, SetOptions.merge())
+    }
+
+    private fun sendMessageToChaplain() {
+
+        db.collection("chaplains").document(chaplainProfileFieldUserId).get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+
+                    notificationTokenId = document["notificationTokenId"].toString()
+                    title = getString(R.string.patient_appointment_created_message_title)
+                    body = getString(R.string.patient_appointment_created_message_body)
+
+                    val sender = FcmNotificationsSender(
+                        notificationTokenId,
+                        title,
+                        body,
+                        applicationContext,
+                        this
+                    )
+                    sender.SendNotifications()
+
+                    saveMessageToInbox()
+
+                } else {
+                    Log.d("TAG", "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d("TAG", "get failed with ", exception)
+            }
+    }
+
+    private fun saveMessageToInbox() {
+        val dbSave = db.collection("chaplains").document(chaplainProfileFieldUserId)
+            .collection("inbox").document()
+
+        val dateSent = System.currentTimeMillis().toString()
+        val messageId = dbSave.id
+
+        val message = NotificationModelClass(
+            title,
+            body,
+            null,
+            null,
+            patientUserId,
+            dateSent,
+            messageId,
+            false
+        )
+
+        dbSave.set(message, SetOptions.merge())
+    }
+
+    private fun saveAppointmentInfoFireStore() {
         //payButton.isClickable = false
 
         appointmentId = dbSaveAppointmentForMainCollection.id
@@ -175,6 +285,9 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
                     .collection("appointments").document(appointmentId)
                     .set(appointmentModelClass, SetOptions.merge())
                     .addOnSuccessListener {
+
+                        sendMessageToChaplain()
+                        sendMessageToPatient()
 
                         payButton.isClickable = true
                         val intent = Intent(this, PatientAppointmentFinishActivity::class.java)

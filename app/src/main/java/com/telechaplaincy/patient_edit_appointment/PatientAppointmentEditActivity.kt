@@ -2,34 +2,30 @@ package com.telechaplaincy.patient_edit_appointment
 
 import android.content.Intent
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.chip.Chip
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.telechaplaincy.R
-import com.telechaplaincy.appointment.PatientAppointmentContinueActivity
-import com.telechaplaincy.appointment.PatientAppointmentSummaryActivity
+import com.telechaplaincy.cloud_message.FcmNotificationsSender
 import com.telechaplaincy.databinding.ActivityPatientAppointmentEditBinding
-import com.telechaplaincy.databinding.ActivityPatientAppointmentTimeSelectionBinding
-import com.telechaplaincy.patient.PatientMainActivity
+import com.telechaplaincy.notification_page.NotificationModelClass
 import com.telechaplaincy.patient_future_appointments.PatientFutureAppointmentDetailActivity
 import kotlinx.android.synthetic.main.activity_patient_appointment_continue.*
 import kotlinx.android.synthetic.main.activity_patient_appointment_edit.*
 import kotlinx.android.synthetic.main.activity_patient_appointment_time_selection.*
 import kotlinx.android.synthetic.main.activity_patient_appointment_time_selection.patient_select_calender_chip_group
-import kotlinx.android.synthetic.main.activity_patient_appointment_time_selection.spinnerPatientTimeZone
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.ZoneId
@@ -56,14 +52,18 @@ class PatientAppointmentEditActivity : AppCompatActivity() {
     private var todayDateFormatted = ""
     private var timeSelectedString = ""
 
-    private var chaplainProfileFieldUserId:String = ""
-    private var chaplainCollectionName:String = ""
-    private var continueButton:Boolean = false
+    private var chaplainProfileFieldUserId: String = ""
+    private var chaplainCollectionName: String = ""
+    private var continueButton: Boolean = false
     private var patientSelectedTime = ""
     private var chaplainEarliestDate: String = ""
-    private var appointmentId:String = ""
-    private var newAppointmentTime:String = ""
+    private var appointmentId: String = ""
+    private var newAppointmentTime: String = ""
     private var chaplainAvailableTimesArray = ArrayList<String>()
+
+    private var notificationTokenId: String = ""
+    private var title: String = ""
+    private var body: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,7 +85,9 @@ class PatientAppointmentEditActivity : AppCompatActivity() {
             patientUserId = user.uid
         }
 
-        dbSaveAvailableTimes = db.collection(chaplainCollectionName).document(chaplainProfileFieldUserId)
+        dbSaveAvailableTimes = db.collection(chaplainCollectionName).document(
+            chaplainProfileFieldUserId
+        )
             .collection("chaplainTimes").document("availableTimes")
 
         readChaplainEarliestDate()
@@ -96,13 +98,65 @@ class PatientAppointmentEditActivity : AppCompatActivity() {
             editedAppointmentTimeFromDatabase()
             appointmentTimeTakeBack()
             editedAppointmentTimeSave()
+            sendMessageToChaplain()
         }
     }
 
-    private fun editedAppointmentTimeFromDatabase(){
+    private fun sendMessageToChaplain() {
+
+        db.collection("chaplains").document(chaplainProfileFieldUserId).get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+
+                    notificationTokenId = document["notificationTokenId"].toString()
+                    title = getString(R.string.patient_appointment_edit_message_title)
+                    body = getString(R.string.patient_appointment_edit_message_body)
+
+                    val sender = FcmNotificationsSender(
+                        notificationTokenId,
+                        title,
+                        body,
+                        applicationContext,
+                        this
+                    )
+                    sender.SendNotifications()
+
+                    saveMessageToInbox()
+
+                } else {
+                    Log.d("TAG", "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d("TAG", "get failed with ", exception)
+            }
+    }
+
+    private fun saveMessageToInbox() {
+        val dbSave = db.collection("chaplains").document(chaplainProfileFieldUserId)
+            .collection("inbox").document()
+
+        val dateSent = System.currentTimeMillis().toString()
+        val messageId = dbSave.id
+
+        val message = NotificationModelClass(
+            title,
+            body,
+            null,
+            null,
+            patientUserId,
+            dateSent,
+            messageId,
+            false
+        )
+
+        dbSave.set(message, SetOptions.merge())
+    }
+
+    private fun editedAppointmentTimeFromDatabase() {
         db.collection("appointment").document(appointmentId)
             .update("appointmentDate", newAppointmentTime)
-            .addOnSuccessListener {  }
+            .addOnSuccessListener { }
             .addOnFailureListener { }
 
         db.collection("chaplains").document(chaplainProfileFieldUserId)

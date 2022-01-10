@@ -19,7 +19,7 @@
             android:layout_marginTop="40dp"
             android:text="@string/payment_title"
             android:textColor="@color/colorAccent"
-            android:textSize="24sp"
+            android:textSize="30sp"
             android:textStyle="bold" />
 
         <ImageView
@@ -33,18 +33,19 @@
         <Button
             android:id="@+id/patient_appointment_finish_page_answer_question_button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_marginLeft="40dp"
             android:layout_marginTop="100dp"
             android:layout_marginRight="40dp"
             android:background="@drawable/button_shape_coloraccent"
             android:text="@string/answer_question"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp" />
 
         <Button
             android:id="@+id/patient_appointment_finish_page_go_to_main_button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_marginLeft="40dp"
             android:layout_marginTop="30dp"
             android:layout_marginRight="40dp"

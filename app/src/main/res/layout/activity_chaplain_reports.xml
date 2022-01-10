@@ -240,6 +240,60 @@
                         android:text="0"
                         android:textColor="@android:color/black" />
 
+                    <View
+                        android:id="@+id/view37"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="#c0c0c0" />
+
+                    <TextView
+                        android:id="@+id/textView87"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/chaplain_last_payment_textView" />
+
+                    <TextView
+                        android:id="@+id/chaplain_reports_activity_last_payment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="0"
+                        android:textColor="@android:color/black" />
+
+                    <View
+                        android:id="@+id/view38"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="#c0c0c0" />
+
+                    <TextView
+                        android:id="@+id/textView89"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/chaplain_last_payment_date_textView" />
+
+                    <TextView
+                        android:id="@+id/chaplain_reports_activity_last_payment_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="-"
+                        android:textColor="@android:color/black" />
+
+                    <View
+                        android:id="@+id/view39"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="#c0c0c0" />
+
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>

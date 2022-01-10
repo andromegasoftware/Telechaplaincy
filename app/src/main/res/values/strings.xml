@@ -12,6 +12,15 @@
     <string name="patient_appointment_cancel_message_title">Your Appointment is Cancelled by Patient</string>
     <string name="patient_appointment_cancel_message_body">Hi, We regret to inform you that your appointment is canceled by Patient. In some cases, such cancellations may occur. Cancellation is usually due to a Patient\'s emergency situation. Your available times are updated after this cancellation. New patients can make a new appointment for that time.</string>
 
+    <string name="patient_appointment_edit_message_title">Your Appointment is Edited by Patient</string>
+    <string name="patient_appointment_edit_message_body">Hi, One of your appointment date is edited by patient. You can check your new appointment date in the future appointments page.</string>
+
+    <string name="patient_appointment_created_message_title">Your have a new appointment</string>
+    <string name="patient_appointment_created_message_body">Hi, We would like to inform you that you have a new appointment. You can check your new appointment date in the future appointments page.</string>
+
+    <string name="chaplain_note_for_patient_message_title">Chaplain write a note after your appointment</string>
+    <string name="chaplain_note_for_patient_message_body">Hi, We would like to inform you that Chaplain write a note after your appointment. You can see Chaplain note in the past appointments page.</string>
+
     //send message activity
     <string name="send_message_activity_title">Send Message</string>.
     <string name="send_message_activity_message_title_hint">Message Title</string>
@@ -259,7 +268,7 @@
     //patient appointment finished activity
     <string name="payment_title">Payment Successfully Done</string>
     <string name="go_back_main_page">GO TO MAIN PAGE</string>
-    <string name="answer_question">ANSWER QUESTIONS BEFORE YOUR APPOINTMENT</string>
+    <string name="answer_question">pre-assessment questıonnaıre (optıonal)</string>
 
 
     //patient appointment summary activity
@@ -297,8 +306,10 @@
     <string name="chaplains_title_law">Law Enforcement Chaplains</string>
     <string name="chaplains_title_military">Military Chaplains</string>
     <string name="chaplains_title_prison">Prison Chaplains</string>
+    <string name="chaplains_title_prison_category_title">Prison-Correctional \nFacilities Chaplains</string>
     <string name="chaplains_title_corporate">Corporate Chaplains</string>
     <string name="chaplains_title_pet">Pet Chaplains</string>
+    <string name="chaplains_category_selection_title">Chaplaincy Field</string>
 
     //Patient login page string
     <string name="login_page_textView_title_login">Patient Login</string>
