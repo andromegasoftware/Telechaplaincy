@@ -25,6 +25,7 @@ import com.telechaplaincy.patient_sign_activities.UserProfile
 import com.telechaplaincy.payment.FirebaseEphemeralKeyProvider
 import kotlinx.android.synthetic.main.activity_patient_appointment_credit_card.*
 import java.math.BigInteger
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -46,6 +47,7 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
     private var patientSelectedTime = ""
     private var appointmentPrice = ""
     private var appointmentId = ""
+    private var patientMail = ""
     private var patientName = ""
     private var patientSurname = ""
     private var patientProfileImageLink = ""
@@ -136,6 +138,43 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
 
         setupPaymentSession()
 
+    }
+
+    private fun sendMailToPatient() {
+        val dateFormatLocalZone = SimpleDateFormat("EEEEE MMMMM dd, yyyy HH:mm Z")
+        dateFormatLocalZone.timeZone = TimeZone.getTimeZone(patientTimeZone)
+        val appointmentTime = dateFormatLocalZone.format(Date(patientSelectedTime.toLong()))
+
+        var chaplainCredentialTitle = ""
+        for (k in credentialTitleArrayList) {
+            chaplainCredentialTitle = "$chaplainCredentialTitle$k, "
+        }
+
+        val chaplainName =
+            "$chaplainAddressingTitle $chaplainName $chaplainSurname, $chaplainCredentialTitle"
+
+        var patientName = "$patientName $patientSurname"
+
+        val city = hashMapOf(
+            "body" to getString(
+                R.string.patient_appointment_created_mail_body,
+                appointmentTime,
+                chaplainName,
+                patientName,
+                appointmentPrice
+            ),
+            "mailAddress" to patientMail,
+            "subject" to getString(R.string.patient_appointment_created_mail_title)
+        )
+
+        db.collection("mailSend").document()
+            .set(city)
+            .addOnSuccessListener {
+                Log.d("TAG", "DocumentSnapshot successfully written!")
+            }
+            .addOnFailureListener { e ->
+                Log.w("TAG", "Error writing document", e)
+            }
     }
 
     private fun sendMessageToPatient() {
@@ -288,6 +327,7 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
 
                         sendMessageToChaplain()
                         sendMessageToPatient()
+                        sendMailToPatient()
 
                         payButton.isClickable = true
                         val intent = Intent(this, PatientAppointmentFinishActivity::class.java)
@@ -311,6 +351,7 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
                 patientName = result.name.toString()
                 patientSurname = result.surname.toString()
                 patientProfileImageLink = result.profileImage.toString()
+                patientMail = result.email.toString()
             }
         }
             .addOnFailureListener { exception ->

@@ -19,7 +19,7 @@
             android:layout_marginTop="40dp"
             android:text="@string/payment_title"
             android:textColor="@color/colorAccent"
-            android:textSize="30sp"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
         <ImageView
