@@ -15,11 +15,11 @@
     <string name="patient_appointment_edit_message_title">Your Appointment is Edited by Patient</string>
     <string name="patient_appointment_edit_message_body">Hi, One of your appointment date is edited by patient. You can check your new appointment date in the future appointments page.</string>
 
-    <string name="patient_appointment_created_message_title">Your have a new appointment</string>
+    <string name="patient_appointment_created_message_title">You have a new appointment</string>
     <string name="patient_appointment_created_message_body">Hi, We would like to inform you that you have a new appointment. You can check your new appointment info in the future appointments page.</string>
 
-    <string name="patient_appointment_created_mail_title">Your have a new appointment</string>
-    <string name="patient_appointment_created_mail_body">Hi, We would like to inform you that you have a new appointment. \nAppointment info: \nAppointment Date \n%1$s \nChaplain Name \n%2$s \nPatient Name \n%3$s \nAppointment Price \n%4$s $</string>
+    <string name="patient_appointment_created_mail_title">You have a new appointment</string>
+    <string name="patient_appointment_created_mail_body">Hi, We would like to inform you that you have a new appointment. \nAppointment info: \nAppointment Date: \n%1$s \nChaplain Name: \n%2$s \nPatient Name: \n%3$s \nAppointment Price: \n%4$s $</string>
 
     <string name="chaplain_note_for_patient_message_title">Chaplain write a note after your appointment</string>
     <string name="chaplain_note_for_patient_message_body">Hi, We would like to inform you that Chaplain write a note after your appointment. You can see Chaplain note in the past appointments page.</string>

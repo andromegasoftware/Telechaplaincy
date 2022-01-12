@@ -141,9 +141,10 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
     }
 
     private fun sendMailToPatient() {
-        val dateFormatLocalZone = SimpleDateFormat("EEEEE MMMMM dd, yyyy HH:mm Z")
+        val dateFormatLocalZone = SimpleDateFormat("MMM dd, yyyy EEE HH:mm Z")
         dateFormatLocalZone.timeZone = TimeZone.getTimeZone(patientTimeZone)
-        val appointmentTime = dateFormatLocalZone.format(Date(patientSelectedTime.toLong()))
+        val appointmentTime =
+            dateFormatLocalZone.format(Date(patientSelectedTime.toLong())).toString()
 
         var chaplainCredentialTitle = ""
         for (k in credentialTitleArrayList) {
@@ -155,20 +156,22 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
 
         var patientName = "$patientName $patientSurname"
 
-        val city = hashMapOf(
-            "body" to getString(
-                R.string.patient_appointment_created_mail_body,
-                appointmentTime,
-                chaplainName,
-                patientName,
-                appointmentPrice
-            ),
+        val body = getString(
+            R.string.patient_appointment_created_mail_body,
+            appointmentTime,
+            chaplainName,
+            patientName,
+            appointmentPrice
+        )
+
+        val message = hashMapOf(
+            "body" to body,
             "mailAddress" to patientMail,
             "subject" to getString(R.string.patient_appointment_created_mail_title)
         )
 
         db.collection("mailSend").document()
-            .set(city)
+            .set(message, SetOptions.merge())
             .addOnSuccessListener {
                 Log.d("TAG", "DocumentSnapshot successfully written!")
             }
