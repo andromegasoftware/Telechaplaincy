@@ -17,6 +17,7 @@ import com.telechaplaincy.notification_page.PatientNotificationActivity
 import com.telechaplaincy.patient.PatientMainActivity
 import com.telechaplaincy.patient_sign_activities.LoginPage
 import com.telechaplaincy.patient_sign_activities.UserProfile
+import com.telechaplaincy.reach_us_page.ReachUsActivity
 import kotlinx.android.synthetic.main.activity_patient_profile.*
 
 class PatientProfileActivity : AppCompatActivity() {
@@ -48,6 +49,14 @@ class PatientProfileActivity : AppCompatActivity() {
 
         patient_profile_profile_button.setOnClickListener {
             val intent = Intent(this, PatientProfileDetailsActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        patient_profile_help_button.setOnClickListener {
+            val intent = Intent(this, ReachUsActivity::class.java)
+            intent.putExtra("user_type", "patient")
+            intent.putExtra("user_id", patientProfileFieldUserId)
             startActivity(intent)
             finish()
         }

@@ -65,6 +65,13 @@ class PatientAppointmentEditActivity : AppCompatActivity() {
     private var title: String = ""
     private var body: String = ""
 
+    private var chaplainFullNameForMail = ""
+    private var patientFullNameForMail = ""
+    private var patientAppointmentTimeForMail = ""
+    private var patientAppointmentDateForMail = ""
+    private var patientMail = ""
+    private var chaplainMail = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patient_appointment_edit)
@@ -73,6 +80,14 @@ class PatientAppointmentEditActivity : AppCompatActivity() {
         patientSelectedTime = intent.getStringExtra("patientSelectedTime").toString()
         patientTimeZone = intent.getStringExtra("patientAppointmentTimeZone").toString()
         appointmentId = intent.getStringExtra("appointment_id").toString()
+        patientAppointmentDateForMail =
+            intent.getStringExtra("patientAppointmentDateForMail").toString()
+        patientAppointmentTimeForMail =
+            intent.getStringExtra("patientAppointmentTimeForMail").toString()
+        chaplainFullNameForMail = intent.getStringExtra("chaplainFullNameForMail").toString()
+        patientFullNameForMail = intent.getStringExtra("patientFullNameForMail").toString()
+        patientMail = intent.getStringExtra("patientMail").toString()
+        patientMail = intent.getStringExtra("chaplainMail").toString()
 
         binding = ActivityPatientAppointmentEditBinding.inflate(layoutInflater)
         val view = binding.root
@@ -80,7 +95,7 @@ class PatientAppointmentEditActivity : AppCompatActivity() {
 
         chaplainCollectionName = getString(R.string.chaplain_collection)
         auth = FirebaseAuth.getInstance()
-        if (auth.currentUser != null){
+        if (auth.currentUser != null) {
             user = auth.currentUser!!
             patientUserId = user.uid
         }
@@ -99,7 +114,59 @@ class PatientAppointmentEditActivity : AppCompatActivity() {
             appointmentTimeTakeBack()
             editedAppointmentTimeSave()
             sendMessageToChaplain()
+            sendMailToPatient()
+            sendMailToChaplain()
         }
+    }
+
+    private fun sendMailToChaplain() {
+        val body = getString(
+            R.string.patient_appointment_edit_mail_body_for_chaplain,
+            patientAppointmentDateForMail,
+            patientAppointmentTimeForMail,
+            chaplainFullNameForMail,
+            patientFullNameForMail
+        )
+        val message = hashMapOf(
+            "body" to body,
+            "mailAddress" to chaplainMail,
+            "subject" to getString(R.string.patient_appointment_edit_mail_title_for_chaplain)
+        )
+
+        db.collection("mailSend").document()
+            .set(message, SetOptions.merge())
+            .addOnSuccessListener {
+                Log.d("TAG", "DocumentSnapshot successfully written!")
+            }
+            .addOnFailureListener { e ->
+                Log.w("TAG", "Error writing document", e)
+            }
+    }
+
+    private fun sendMailToPatient() {
+
+        val body = getString(
+            R.string.patient_appointment_edit_mail_body,
+            patientAppointmentDateForMail,
+            patientAppointmentTimeForMail,
+            chaplainFullNameForMail,
+            patientFullNameForMail
+        )
+
+        val message = hashMapOf(
+            "body" to body,
+            "mailAddress" to patientMail,
+            "subject" to getString(R.string.patient_appointment_edit_mail_title)
+        )
+
+        db.collection("mailSend").document()
+            .set(message, SetOptions.merge())
+            .addOnSuccessListener {
+                Log.d("TAG", "DocumentSnapshot successfully written!")
+            }
+            .addOnFailureListener { e ->
+                Log.w("TAG", "Error writing document", e)
+            }
     }
 
     private fun sendMessageToChaplain() {

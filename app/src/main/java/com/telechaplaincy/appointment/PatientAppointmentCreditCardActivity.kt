@@ -51,6 +51,7 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
     private var patientName = ""
     private var patientSurname = ""
     private var patientProfileImageLink = ""
+    private var chaplainMail = ""
     private var chaplainName = ""
     private var chaplainSurname = ""
     private var chaplainProfileImageLink = ""
@@ -138,6 +139,46 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
 
         setupPaymentSession()
 
+    }
+
+    private fun sendMailToChaplain() {
+        val dateFormatLocalZone = SimpleDateFormat("MMM dd, yyyy EEE HH:mm Z")
+        dateFormatLocalZone.timeZone = TimeZone.getTimeZone(patientTimeZone)
+        val appointmentTime =
+            dateFormatLocalZone.format(Date(patientSelectedTime.toLong())).toString()
+
+        var chaplainCredentialTitle = ""
+        for (k in credentialTitleArrayList) {
+            chaplainCredentialTitle = "$chaplainCredentialTitle$k, "
+        }
+
+        val chaplainName =
+            "$chaplainAddressingTitle $chaplainName $chaplainSurname, $chaplainCredentialTitle"
+
+        var patientName = "$patientName $patientSurname"
+
+        val body = getString(
+            R.string.patient_appointment_created_mail_body,
+            appointmentTime,
+            chaplainName,
+            patientName,
+            appointmentPrice
+        )
+
+        val message = hashMapOf(
+            "body" to body,
+            "mailAddress" to chaplainMail,
+            "subject" to getString(R.string.patient_appointment_created_mail_title)
+        )
+
+        db.collection("mailSend").document()
+            .set(message, SetOptions.merge())
+            .addOnSuccessListener {
+                Log.d("TAG", "DocumentSnapshot successfully written!")
+            }
+            .addOnFailureListener { e ->
+                Log.w("TAG", "Error writing document", e)
+            }
     }
 
     private fun sendMailToPatient() {
@@ -331,6 +372,7 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
                         sendMessageToChaplain()
                         sendMessageToPatient()
                         sendMailToPatient()
+                        sendMailToChaplain()
 
                         payButton.isClickable = true
                         val intent = Intent(this, PatientAppointmentFinishActivity::class.java)
@@ -375,6 +417,7 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
                 if (!result.field.isNullOrEmpty()){
                     chaplainFieldArrayList = result.field
                 }
+                chaplainMail = result.email.toString()
 
             }
         }

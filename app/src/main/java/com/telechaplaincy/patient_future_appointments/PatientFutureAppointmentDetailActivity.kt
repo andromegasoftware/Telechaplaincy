@@ -67,6 +67,13 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
     private var title: String = ""
     private var body: String = ""
 
+    private var chaplainFullNameForMail = ""
+    private var patientFullNameForMail = ""
+    private var patientAppointmentTimeForMail = ""
+    private var patientAppointmentDateForMail = ""
+    private var patientMail = ""
+    private var chaplainMail = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patient_future_appointment_detail)
@@ -75,6 +82,7 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         user = auth.currentUser!!
         patientUserId = user.uid
+        patientMail = user.email.toString()
 
         dbSave = db.collection("patients").document(patientUserId)
             .collection("appointments").document(appointmentId)
@@ -100,6 +108,58 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
         }
     }
 
+    private fun sendMailToChaplain() {
+        val body = getString(
+            R.string.patient_appointment_cancel_mail_body_for_chaplain,
+            patientAppointmentDateForMail,
+            patientAppointmentTimeForMail,
+            chaplainFullNameForMail,
+            patientFullNameForMail,
+            appointmentPrice
+        )
+        val message = hashMapOf(
+            "body" to body,
+            "mailAddress" to chaplainMail,
+            "subject" to getString(R.string.patient_appointment_cancel_mail_title_for_chaplain)
+        )
+
+        db.collection("mailSend").document()
+            .set(message, SetOptions.merge())
+            .addOnSuccessListener {
+                Log.d("TAG", "DocumentSnapshot successfully written!")
+            }
+            .addOnFailureListener { e ->
+                Log.w("TAG", "Error writing document", e)
+            }
+    }
+
+    private fun sendMailToPatient() {
+
+        val body = getString(
+            R.string.patient_appointment_cancel_mail_body,
+            patientAppointmentDateForMail,
+            patientAppointmentTimeForMail,
+            chaplainFullNameForMail,
+            patientFullNameForMail,
+            appointmentPrice
+        )
+
+        val message = hashMapOf(
+            "body" to body,
+            "mailAddress" to patientMail,
+            "subject" to getString(R.string.patient_appointment_cancel_mail_title)
+        )
+
+        db.collection("mailSend").document()
+            .set(message, SetOptions.merge())
+            .addOnSuccessListener {
+                Log.d("TAG", "DocumentSnapshot successfully written!")
+            }
+            .addOnFailureListener { e ->
+                Log.w("TAG", "Error writing document", e)
+            }
+    }
+
     private fun sendMessageToChaplain() {
 
         db.collection("chaplains").document(chaplainProfileFieldUserId).get()
@@ -107,6 +167,8 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
                 if (document != null) {
 
                     notificationTokenId = document["notificationTokenId"].toString()
+                    chaplainMail =
+                        document["email"].toString() //this is for sending email to chaplain
                     //Log.d("notificationTokenId", notificationTokenId)
                     title = getString(R.string.patient_appointment_cancel_message_title)
                     body = getString(R.string.patient_appointment_cancel_message_body)
@@ -228,19 +290,24 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
                         if (result.chaplainCredentialsTitle != null){
                             credentialTitleArrayList = result.chaplainCredentialsTitle
                         }
-                        if (!credentialTitleArrayList.isNullOrEmpty()){
-                            for (k in credentialTitleArrayList){
+                        if (!credentialTitleArrayList.isNullOrEmpty()) {
+                            for (k in credentialTitleArrayList) {
                                 chaplainProfileCredentialTitle += ", $k"
                             }
-                            future_appointment_chaplain_name_textView.text = chaplainProfileAddressTitle+ " " +
-                                    chaplainProfileFirstName+ " "+ chaplainProfileLastName + chaplainProfileCredentialTitle
+
+                            chaplainFullNameForMail = chaplainProfileAddressTitle + " " +
+                                    chaplainProfileFirstName + " " + chaplainProfileLastName + chaplainProfileCredentialTitle
+
+                            future_appointment_chaplain_name_textView.text = chaplainFullNameForMail
                         }
                         if (result.patientName != null){
                             patientFirstName = result.patientName
                         }
-                        if (result.patientSurname != null){
+                        if (result.patientSurname != null) {
                             patientLastName = result.patientSurname
-                            future_appointment_patient_textView.text = "$patientFirstName $patientLastName"
+
+                            patientFullNameForMail = "$patientFirstName $patientLastName"
+                            future_appointment_patient_textView.text = patientFullNameForMail
                         }
                         if (appointmentId != ""){
                             future_appointment_number_textView.text = appointmentId
@@ -248,17 +315,24 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
                         if (result.patientAppointmentTimeZone != null){
                             patientAppointmentTimeZone = result.patientAppointmentTimeZone!!
                         }
-                        if (result.appointmentDate != null){
+                        if (result.appointmentDate != null) {
                             appointmentTime = result.appointmentDate
                             val dateFormatLocalZone = SimpleDateFormat("EEE, dd.MMM.yyyy")
-                            dateFormatLocalZone.timeZone = TimeZone.getTimeZone(patientAppointmentTimeZone)
-                            val appointmentDate = dateFormatLocalZone.format(Date(appointmentTime.toLong()))
-                            future_appointment_date_textView.text = appointmentDate
+                            dateFormatLocalZone.timeZone =
+                                TimeZone.getTimeZone(patientAppointmentTimeZone)
+                            val appointmentDate =
+                                dateFormatLocalZone.format(Date(appointmentTime.toLong()))
+                            patientAppointmentDateForMail = appointmentDate.toString()
+                            future_appointment_date_textView.text = patientAppointmentDateForMail
 
                             val dateFormatTime = SimpleDateFormat("HH:mm aaa z")
-                            dateFormatTime.timeZone = TimeZone.getTimeZone(patientAppointmentTimeZone)
-                            val appointmentTime = dateFormatTime.format(Date(appointmentTime.toLong()))
-                            future_appointment_time_textView.text = "$appointmentTime $patientAppointmentTimeZone"
+                            dateFormatTime.timeZone =
+                                TimeZone.getTimeZone(patientAppointmentTimeZone)
+                            val appointmentTime =
+                                dateFormatTime.format(Date(appointmentTime.toLong()))
+                            patientAppointmentTimeForMail =
+                                "$appointmentTime $patientAppointmentTimeZone"
+                            future_appointment_time_textView.text = patientAppointmentTimeForMail
                         }
                         if (result.appointmentPrice != null){
                             appointmentPrice = result.appointmentPrice
@@ -306,12 +380,24 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
                     val appointmentTimeLong = appointmentTime.toLong()
                     val timeDifference:Long = appointmentTimeLong - timeNow
                     val leftAppointmentTimeHours = TimeUnit.MILLISECONDS.toHours(timeDifference)
-                    if(timeDifference > lastAppointmentEditTime.toLong()){
+                    if(timeDifference > lastAppointmentEditTime.toLong()) {
                         val intent = Intent(this, PatientAppointmentEditActivity::class.java)
                         intent.putExtra("chaplain_id", chaplainProfileFieldUserId)
                         intent.putExtra("patientSelectedTime", appointmentTime)
                         intent.putExtra("patientAppointmentTimeZone", patientAppointmentTimeZone)
                         intent.putExtra("appointment_id", appointmentId)
+                        intent.putExtra(
+                            "patientAppointmentDateForMail",
+                            patientAppointmentDateForMail
+                        )
+                        intent.putExtra(
+                            "patientAppointmentTimeForMail",
+                            patientAppointmentTimeForMail
+                        )
+                        intent.putExtra("chaplainFullNameForMail", chaplainFullNameForMail)
+                        intent.putExtra("patientFullNameForMail", patientFullNameForMail)
+                        intent.putExtra("patientMail", patientMail)
+                        intent.putExtra("chaplainMail", chaplainMail)
                         startActivity(intent)
                         finish()
                     }else{
@@ -390,6 +476,8 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
             .addOnSuccessListener {
 
                 sendMessageToChaplain()
+                sendMailToPatient()
+                sendMailToChaplain()
             }
             .addOnFailureListener { }
 

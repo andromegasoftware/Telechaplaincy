@@ -133,6 +133,7 @@ class ChaplainProfileDetailsActivity : AppCompatActivity() {
         chaplain_confirm_button.setOnClickListener {
             chaplainConfirmMethod()
             sendMessageToChaplain()
+            sendMailToChaplain()
         }
 
     }
@@ -159,6 +160,24 @@ class ChaplainProfileDetailsActivity : AppCompatActivity() {
                 finish()
             }
             .addOnFailureListener { e -> Log.w("TAG", "Error writing document", e) }
+    }
+
+    private fun sendMailToChaplain() {
+        val body = getString(R.string.chaplain_confirm_message_body)
+        val message = hashMapOf(
+            "body" to body,
+            "mailAddress" to chaplainProfileFieldEmail,
+            "subject" to getString(R.string.chaplain_confirm_message_title)
+        )
+
+        db.collection("mailSend").document()
+            .set(message, SetOptions.merge())
+            .addOnSuccessListener {
+                Log.d("TAG", "DocumentSnapshot successfully written!")
+            }
+            .addOnFailureListener { e ->
+                Log.w("TAG", "Error writing document", e)
+            }
     }
 
     private fun sendMessageToChaplain() {

@@ -19,6 +19,7 @@ import com.telechaplaincy.chaplain_reports.ChaplainReportsActivity
 import com.telechaplaincy.chaplain_sign_activities.ChaplainLogIn
 import com.telechaplaincy.chaplain_sign_activities.ChaplainUserProfile
 import com.telechaplaincy.notification_page.PatientNotificationActivity
+import com.telechaplaincy.reach_us_page.ReachUsActivity
 import kotlinx.android.synthetic.main.activity_chaplain_main.bottomNavigation
 import kotlinx.android.synthetic.main.activity_chaplain_profile.*
 
@@ -59,6 +60,14 @@ class ChaplainProfileActivity : AppCompatActivity() {
 
         chaplain_profile_bank_account_button.setOnClickListener {
             val intent = Intent(this, ChaplainBankAccountInfoActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        chaplain_profile_help_button.setOnClickListener {
+            val intent = Intent(this, ReachUsActivity::class.java)
+            intent.putExtra("user_type", "chaplain")
+            intent.putExtra("user_id", chaplainProfileFieldUserId)
             startActivity(intent)
             finish()
         }

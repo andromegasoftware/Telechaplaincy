@@ -23,6 +23,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".reach_us_page.ReachUsActivity"
+            android:theme="@style/ChaplainSignUpPageTheme" />
+        <activity
             android:name=".notification_page.AdminMessageSendActivity"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
