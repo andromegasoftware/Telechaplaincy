@@ -67,7 +67,7 @@ class ReachUsActivity : AppCompatActivity() {
         get_in_touch_page_button.isClickable = false
         get_in_touch_page_progress_bar.visibility = View.VISIBLE
         val body =
-            "A $userType send a message. \nSender Name: \n$userName \nSender Id: \n$userId \nSender Mail: \n$userMail \nUser Message: \n$userMessage. \nPlease do not answer this message. You can reach the message sender by mail address or by phone."
+            "A $userType send a message. \nSender Name: \n$userName \nSender Id: \n$userId \nSender Mail: \n$userMail \nUser Message: \n$userMessage. \nWarning: Please do not answer this message. You can reach the message sender by mail address or by phone."
         val message = hashMapOf(
             "body" to body,
             "mailAddress" to getString(R.string.app_mail_address),

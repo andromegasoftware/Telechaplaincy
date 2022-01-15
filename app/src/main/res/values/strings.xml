@@ -7,7 +7,7 @@
     <string name="get_in_touch_page_title">Get in touch</string>
     <string name="get_in_touch_page_name_hint">Your Name</string>
     <string name="get_in_touch_page_mail_hint">Your Email Address</string>
-    <string name="get_in_touch_page_topic_hint">You Want to Talk About...</string>
+    <string name="get_in_touch_page_topic_hint">You Want to Talk About…</string>
     <string name="get_in_touch_page_message_hint">Your Message</string>
     <string name="get_in_touch_page_button_title_unclicked">Send Message</string>
     <string name="get_in_touch_page_button_title_clicked">MESSAGE IS SENT</string>

@@ -118,7 +118,9 @@ class ChaplainMainActivity : AppCompatActivity() {
         }
 
         chaplain_signUp_continue_button.setOnClickListener {
-            checkSignUpData()
+            //checkSignUpData()
+            val intent = Intent(this, ChaplainSignUpSecondPart::class.java)
+            startActivity(intent)
         }
 
         chaplain_enter_calendar_button.setOnClickListener {
