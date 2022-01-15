@@ -376,6 +376,7 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
 
                         payButton.isClickable = true
                         val intent = Intent(this, PatientAppointmentFinishActivity::class.java)
+                        intent.putExtra("chaplainCategory", chaplainCategory)
                         startActivity(intent)
                         finish()
 

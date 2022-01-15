@@ -25,6 +25,7 @@ import com.telechaplaincy.cloud_message.FcmNotificationsSender
 import com.telechaplaincy.notification_page.NotificationModelClass
 import com.telechaplaincy.patient.PatientMainActivity
 import com.telechaplaincy.patient_edit_appointment.PatientAppointmentEditActivity
+import com.telechaplaincy.pre_assessment_questions.CommunityChaplainAssessmentActivity
 import com.telechaplaincy.video_call.VideoCallActivity
 import kotlinx.android.synthetic.main.activity_patient_future_appointment_detail.*
 import java.text.SimpleDateFormat
@@ -56,6 +57,7 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
     private var lastAppointmentEditTime: String = ""
     private var lastAppointmentCancelTime: String = ""
     private var appointmentStatus: String = ""
+    private var chaplainCategory: String = ""
 
     private val PERMISSION_REQ_ID_RECORD_AUDIO = 22
     private val PERMISSION_REQ_ID_CAMERA = PERMISSION_REQ_ID_RECORD_AUDIO + 1
@@ -89,14 +91,31 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
 
         takeAppointmentInfo()
 
+        future_appointment_preAssessment_textView.setOnClickListener {
+            /*if (chaplainCategory == "HumanistChaplains"){
+                val intent = Intent(this, CommunityChaplainAssessmentActivity::class.java)
+                startActivity(intent)
+                finish()
+            }*/
+
+            val intent = Intent(this, CommunityChaplainAssessmentActivity::class.java)
+            intent.putExtra("appointment_id", appointmentId)
+            startActivity(intent)
+            finish()
+        }
+
         future_appointment_cancel_button.setOnClickListener {
             alertDialogMessageMethodForAppointmentCancel()
         }
 
         future_appointment_call_button.setOnClickListener {
 
-            if (checkSelfPermission(Manifest.permission.RECORD_AUDIO, PERMISSION_REQ_ID_RECORD_AUDIO) &&
-                checkSelfPermission(Manifest.permission.CAMERA, PERMISSION_REQ_ID_CAMERA)){
+            if (checkSelfPermission(
+                    Manifest.permission.RECORD_AUDIO,
+                    PERMISSION_REQ_ID_RECORD_AUDIO
+                ) &&
+                checkSelfPermission(Manifest.permission.CAMERA, PERMISSION_REQ_ID_CAMERA)
+            ) {
                 // If all the permissions are granted, call the call method and initialize the RtcEngine object and join a channel.
                 callChaplainMethod()
             }
@@ -334,15 +353,19 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
                                 "$appointmentTime $patientAppointmentTimeZone"
                             future_appointment_time_textView.text = patientAppointmentTimeForMail
                         }
-                        if (result.appointmentPrice != null){
+                        if (result.appointmentPrice != null) {
                             appointmentPrice = result.appointmentPrice
-                            future_appointment_price_textView.text = getString(R.string.appointment_price) + appointmentPrice
+                            future_appointment_price_textView.text =
+                                getString(R.string.appointment_price) + appointmentPrice
                         }
-                        if (result.chaplainId != null){
+                        if (result.chaplainId != null) {
                             chaplainProfileFieldUserId = result.chaplainId
                         }
-                        if (result.appointmentStatus != null){
+                        if (result.appointmentStatus != null) {
                             appointmentStatus = result.appointmentStatus.toString()
+                        }
+                        if (result.chaplainCategory != null) {
+                            chaplainCategory = result.chaplainCategory.toString()
                         }
                     }
                 } else {

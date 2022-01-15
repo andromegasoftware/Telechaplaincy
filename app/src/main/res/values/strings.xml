@@ -3,6 +3,159 @@
     <string name="app_mail_address">telechaplaincy@gmail.com</string>
     <string name="app_int_connection_alert">Sorry! We could not find any internet connection. App work with internet connection.</string>
 
+    //community humanist Chaplain pre assessment activity
+    <string name="humanist_chaplain_assessment_page_title">Community-Humanist Chaplaincy Preliminary Assessment</string>
+    <string name="humanist_chaplain_assessment_page_alert">Chaplains provide emotional and spiritual support; however, chaplains are not licensed therapists nor physicians and are not able to diagnose patients or prescribe medication or provide treatment</string>
+    <string name="humanist_chaplain_assessment_come_reason">What reason/need brings you in today?</string>
+    <string name="humanist_chaplain_assessment_come_reason_hint">Your answer…</string>
+    <string name="humanist_chaplain_assessment_health_issue">Do you have any significant health/medical and psychological issues?</string>
+    <string name="health_issue_yes">Yes</string>
+    <string name="health_issue_no">No</string>
+    <string name="do_you_feel_this_health_text">Do you feel this health/medical or psychological issue that you are currently experiencing is preventing you from fulfilling your physical and spiritual responsibilities?</string>
+    <string name="what_issues_do_you_have">What are the issues (if any) that you are currently experiencing within your family?</string>
+    <string name="what_social_issues_do_you_have">What are the issues (if any) that you are currently experiencing within your social environment? </string>
+    <string name="your_role_in_family">How do you define your role within your family and/or social environment?</string>
+    <string name="meaning_of_life">Where do you find meaning and a source for strength in times of difficulty?</string>
+    <string name="experiencing_challenge">Are you experiencing challenges that</string>
+    <string name="experiencing_challenge_effect">Affect your belief and relationship with the Divine?</string>
+    <string name="experiencing_challenge_result">Result in a change in your rituals and practice?</string>
+    <string name="are_you_part_of_spiritual">Are you a part of a spiritual/religious/social community that shares your belief, meaning in life, ritual, or practice?</string>
+    <string name="top_three_emotions">What are the top 3 emotions you are recently experiencing the most?</string>
+    <string name="social_problem_alert_hint">Your Answer…</string>
+    <string name="social_problem_alert_title">What is your answer?</string>
+
+    <string-array name="top_three_emotions_array">
+        <item>Nothing Selected</item>
+        <item>Hope</item>
+        <item>Discouragement</item>
+        <item>Guilt</item>
+        <item>Anger</item>
+        <item>Shame</item>
+        <item>Anxiousness</item>
+        <item>Depression</item>
+        <item>Betrayal</item>
+        <item>Confusion</item>
+        <item>Despair</item>
+        <item>Loneliness</item>
+        <item>Gratitude</item>
+        <item>Peace</item>
+        <item>Appreciation</item>
+        <item>Respect</item>
+        <item>Proud</item>
+        <item>Joy</item>
+        <item>Love</item>
+        <item>Sadness</item>
+        <item>Fear</item>
+        <item>Frustration</item>
+        <item>Grief</item>
+        <item>Exhaustion</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="are_you_part_of_spiritual_array">
+        <item>Nothing Selected</item>
+        <item>None</item>
+        <item>Religious Community (Church/Mosque/Synagogue/Temple etc.)</item>
+        <item>Spiritual/Meditation group</item>
+        <item>Civil Society</item>
+        <item>Social-friend circle</item>
+        <item>Professional networks</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="meaning_of_life_array">
+        <item>Nothing Selected</item>
+        <item>God/Supreme High/Divine</item>
+        <item>Spiritual leaders (Saints)/ Prophets/ Holy books</item>
+        <item>Church/Mosque/Temple/Holy places</item>
+        <item>Faith group, reading circle</item>
+        <item>Prayer</item>
+        <item>Community</item>
+        <item>Family</item>
+        <item>Friends</item>
+        <item>Work</item>
+        <item>Pet</item>
+        <item>Nature</item>
+        <item>Hobby</item>
+        <item>Art</item>
+        <item>Literature</item>
+        <item>Music</item>
+        <item>Meditation</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="family_problem_array">
+        <item>Nothing Selected</item>
+        <item>NONE</item>
+        <item>Safety (I don’t feel safe at home)</item>
+        <item>Domestic violence/abuse</item>
+        <item>Pre-marital issues</item>
+        <item>Marital issues</item>
+        <item>Separation issues</item>
+        <item>Parental issues </item>
+        <item>Other relational issues</item>
+        <item>Loss in the family</item>
+        <item>Job loss or Job-related - or Financial</item>
+        <item>Deprivation</item>
+        <item>Illness and disability-related</item>
+        <item>Addiction related problems</item>
+        <item>Mental health and trauma-related</item>
+        <item>Suicidal Thought/Ideation/Plan/Attempt</item>
+    </string-array>
+
+    <string-array name="social_problem_array">
+        <item>Nothing Selected</item>
+        <item>NONE</item>
+        <item>Safety (I don’t feel safe in my social environment)</item>
+        <item>Relational issues</item>
+        <item>Civil Rights and Racial Discrimination</item>
+        <item>Identity issues</item>
+        <item>Social anxiety (inferiority complexes etc.)</item>
+        <item>Sexual abuse</item>
+        <item>Suicidal Thought/Ideation/Plan/Attempt </item>
+        <item>Substance Abuse (drug, smoking, alcohol)</item>
+        <item>Spiritual Abuse</item>
+        <item>Cultural Abuse</item>
+        <item>Lack of educational opportunities</item>
+        <item>Psychological/Emotional Abuse</item>
+        <item>Violence/Physical abuse</item>
+        <item>Misogyny</item>
+        <item>Gender Identity- Sexual Orientation related issues</item>
+        <item>Deprivation</item>
+        <item>Hunger and Poverty</item>
+        <item>Homelessness</item>
+        <item>Overpopulation</item>
+        <item>Childhood Obesity</item>
+        <item>Climate Change</item>
+        <item>Vaccine and Covid related</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="family_role_problem_array">
+        <item>Nothing Selected</item>
+        <item>Leader, Provider</item>
+        <item>Comedian, Comic</item>
+        <item>Rebellious, Outsider</item>
+        <item>Distant, Avoidant </item>
+        <item>Influencer</item>
+        <item>Achiever</item>
+        <item>Risk Taker</item>
+        <item>Risk-avoider</item>
+        <item>Problem-solver</item>
+        <item>People-pleaser</item>
+        <item>Helpful, Informative</item>
+        <item>Supporter of others, Encourager, Motivator</item>
+        <item>Nurturing, Protective</item>
+        <item>Intellectual, Thinker, Reformer, Wise</item>
+        <item>Truth-teller</item>
+        <item>Caregiver, Helper</item>
+        <item>Independent, Non-conformist</item>
+        <item>Peacemaker, Mediator</item>
+        <item>Sociable, Friendly</item>
+        <item>Social-activist</item>
+        <item>Other</item>
+    </string-array>
+
     //get in touch page
     <string name="get_in_touch_page_title">Get in touch</string>
     <string name="get_in_touch_page_name_hint">Your Name</string>
@@ -300,6 +453,7 @@
     <string name="minute">minutes</string>
     <string name="hour">hours</string>
     <string name="second">seconds</string>
+    <string name="patient_future_appointment_detail_activity_assessment_button">Pre-Assessment Questionnaire(Optional)</string>
 
 
     //patient appointment finished activity
