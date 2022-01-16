@@ -3,6 +3,71 @@
     <string name="app_mail_address">telechaplaincy@gmail.com</string>
     <string name="app_int_connection_alert">Sorry! We could not find any internet connection. App work with internet connection.</string>
 
+    //health care chaplain assessment activity
+    <string name="health_care_chaplain_assessment_page_title">Health-Care Chaplain Preliminary Assessment</string>
+    <string name="health_care_chaplain_assessment_page_major_health_problem">Do you have any significant health/medical issues?  If any, what is/are the health issue(s)?</string>
+    <string name="health_care_chaplain_assessment_page_psychological_issue">Do you have any history of psychological issues?</string>
+    <string name="health_care_chaplain_assessment_page_psychological_issues_spinner">Please choose the psychological issues/concern(s) that you currently have</string>
+    <string name="health_care_chaplain_assessment_page_incident_issue">Do you feel the incident/issue that you are currently experiencing is preventing you from fulfilling your physical and spiritual responsibilities?</string>
+    <string name="health_care_chaplain_assessment_page_meaningful">Is there any meaningful resource or an authority or a person with whom/where you look for guidance when you face doubt, confusion, tragedy, or conflict?</string>
+    <string name="health_care_chaplain_assessment_page_meaning_and_source">Where do you find meaning and a source for strength in times of difficulty?</string>
+
+    <string-array name="source_of_strength_array">
+        <item>Nothing Selected</item>
+        <item>None</item>
+        <item>God/Supreme High/Divine</item>
+        <item>Spiritual leaders (Saints)/Prophets</item>
+        <item>Holy books</item>
+        <item>Church/Mosque/Temple/Holy places</item>
+        <item>Faith group, reading circle</item>
+        <item>Prayer</item>
+        <item>Community</item>
+        <item>Family</item>
+        <item>Friends</item>
+        <item>Work</item>
+        <item>Pet</item>
+        <item>Nature</item>
+        <item>Hobby</item>
+        <item>Art</item>
+        <item>Literature</item>
+        <item>Music</item>
+        <item>Meditation (Loving and Kindness, Mindfulness, Yoga, Zen, etc.)</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="psychological_problems_array">
+        <item>Nothing Selected</item>
+        <item>None</item>
+        <item>Anxiety disorders</item>
+        <item>Behavioural and emotional disorders</item>
+        <item>Bipolar affective disorder</item>
+        <item>Depression</item>
+        <item>Dissociation and dissociative disorders</item>
+        <item>Eating disorders</item>
+        <item>Obsessive compulsive disorder</item>
+        <item>Paranoia</item>
+        <item>Post-traumatic stress disorder</item>
+        <item>Psychosis</item>
+        <item>Schizophrenia</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="major_health_problems_array">
+        <item>Nothing Selected</item>
+        <item>None</item>
+        <item>Physical Activity and Nutrition</item>
+        <item>Overweight and Obesity</item>
+        <item>Tobacco</item>
+        <item>Substance Abuse</item>
+        <item>HIV/AIDS</item>
+        <item>Mental Health</item>
+        <item>Injury and Violence</item>
+        <item>Environmental Quality</item>
+        <item>Immunization</item>
+        <item>Access to Health Care</item>
+        <item>Other</item>
+    </string-array>
+
     //community humanist Chaplain pre assessment activity
     <string name="humanist_chaplain_assessment_page_title">Community-Humanist Chaplaincy Preliminary Assessment</string>
     <string name="humanist_chaplain_assessment_page_alert">Chaplains provide emotional and spiritual support; however, chaplains are not licensed therapists nor physicians and are not able to diagnose patients or prescribe medication or provide treatment</string>

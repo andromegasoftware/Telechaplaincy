@@ -71,6 +71,219 @@ class CommunityChaplainAssessmentActivity : AppCompatActivity() {
         takeRadioButtonsInfo()
     }
 
+    override fun onStart() {
+        super.onStart()
+        readDataFromFireStore()
+    }
+
+    private fun readDataFromFireStore() {
+        family_problem_chip_group.removeAllViews()
+        social_problem_chip_group.removeAllViews()
+        family_role_problem_chip_group.removeAllViews()
+        meaning_of_life_chip_group.removeAllViews()
+        are_you_part_of_spiritual_chip_group.removeAllViews()
+        top_three_emotions_chip_group.removeAllViews()
+        dbSave.get()
+            .addOnSuccessListener { document ->
+                if (document != null && document.exists()) {
+
+                    if (document["topThreeEmotions"] != null) {
+                        topThreeEmotionsArrayList =
+                            document["topThreeEmotions"] as ArrayList<String>
+                        if (!topThreeEmotionsArrayList.isNullOrEmpty()) {
+                            for (k in topThreeEmotionsArrayList.indices) {
+                                if (topThreeEmotionsArrayList[k] != "Nothing Selected") {
+                                    val chipTopThreeEmotions =
+                                        Chip(this@CommunityChaplainAssessmentActivity)
+                                    chipTopThreeEmotions.isCloseIconVisible = true
+                                    chipTopThreeEmotions.setChipBackgroundColorResource(R.color.colorAccent)
+                                    chipTopThreeEmotions.setTextColor(resources.getColor(R.color.colorPrimary))
+                                    chipTopThreeEmotions.text = topThreeEmotionsArrayList[k]
+                                    top_three_emotions_chip_group.addView(chipTopThreeEmotions)
+
+                                    chipTopThreeEmotions.setOnClickListener {
+                                        top_three_emotions_chip_group.removeView(
+                                            chipTopThreeEmotions
+                                        )
+                                        topThreeEmotionsArrayList.remove(chipTopThreeEmotions.text)
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if (document["partOfSocialCommunity"] != null) {
+                        partOfSocialCommunityArrayList =
+                            document["partOfSocialCommunity"] as ArrayList<String>
+                        if (!partOfSocialCommunityArrayList.isNullOrEmpty()) {
+                            for (k in partOfSocialCommunityArrayList.indices) {
+                                if (partOfSocialCommunityArrayList[k] != "Nothing Selected") {
+                                    val chipPartOfSocialCommunity =
+                                        Chip(this@CommunityChaplainAssessmentActivity)
+                                    chipPartOfSocialCommunity.isCloseIconVisible = true
+                                    chipPartOfSocialCommunity.setChipBackgroundColorResource(R.color.colorAccent)
+                                    chipPartOfSocialCommunity.setTextColor(resources.getColor(R.color.colorPrimary))
+                                    chipPartOfSocialCommunity.text =
+                                        partOfSocialCommunityArrayList[k]
+                                    are_you_part_of_spiritual_chip_group.addView(
+                                        chipPartOfSocialCommunity
+                                    )
+
+                                    chipPartOfSocialCommunity.setOnClickListener {
+                                        are_you_part_of_spiritual_chip_group.removeView(
+                                            chipPartOfSocialCommunity
+                                        )
+                                        partOfSocialCommunityArrayList.remove(
+                                            chipPartOfSocialCommunity.text
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if (document["meaningOfLife"] != null) {
+                        meaningOfLifeArrayList = document["meaningOfLife"] as ArrayList<String>
+                        if (!meaningOfLifeArrayList.isNullOrEmpty()) {
+                            for (k in meaningOfLifeArrayList.indices) {
+                                if (meaningOfLifeArrayList[k] != "Nothing Selected") {
+                                    val chipMeaningOfLife =
+                                        Chip(this@CommunityChaplainAssessmentActivity)
+                                    chipMeaningOfLife.isCloseIconVisible = true
+                                    chipMeaningOfLife.setChipBackgroundColorResource(R.color.colorAccent)
+                                    chipMeaningOfLife.setTextColor(resources.getColor(R.color.colorPrimary))
+                                    chipMeaningOfLife.text = meaningOfLifeArrayList[k]
+                                    meaning_of_life_chip_group.addView(chipMeaningOfLife)
+
+                                    chipMeaningOfLife.setOnClickListener {
+                                        meaning_of_life_chip_group.removeView(chipMeaningOfLife)
+                                        meaningOfLifeArrayList.remove(chipMeaningOfLife.text)
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if (document["familyRoles"] != null) {
+                        familyRoleArrayList = document["familyRoles"] as ArrayList<String>
+                        if (!familyRoleArrayList.isNullOrEmpty()) {
+                            for (k in familyRoleArrayList.indices) {
+                                if (familyRoleArrayList[k] != "Nothing Selected") {
+                                    val chipFamilyRole =
+                                        Chip(this@CommunityChaplainAssessmentActivity)
+                                    chipFamilyRole.isCloseIconVisible = true
+                                    chipFamilyRole.setChipBackgroundColorResource(R.color.colorAccent)
+                                    chipFamilyRole.setTextColor(resources.getColor(R.color.colorPrimary))
+                                    chipFamilyRole.text = familyRoleArrayList[k]
+                                    family_role_problem_chip_group.addView(chipFamilyRole)
+
+                                    chipFamilyRole.setOnClickListener {
+                                        family_role_problem_chip_group.removeView(chipFamilyRole)
+                                        familyRoleArrayList.remove(chipFamilyRole.text)
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if (document["socialIssues"] != null) {
+                        socialIssueArrayList = document["socialIssues"] as ArrayList<String>
+                        if (!socialIssueArrayList.isNullOrEmpty()) {
+                            for (k in socialIssueArrayList.indices) {
+                                if (socialIssueArrayList[k] != "Nothing Selected") {
+                                    val chipSocialIssue =
+                                        Chip(this@CommunityChaplainAssessmentActivity)
+                                    chipSocialIssue.isCloseIconVisible = true
+                                    chipSocialIssue.setChipBackgroundColorResource(R.color.colorAccent)
+                                    chipSocialIssue.setTextColor(resources.getColor(R.color.colorPrimary))
+                                    chipSocialIssue.text = socialIssueArrayList[k]
+                                    social_problem_chip_group.addView(chipSocialIssue)
+
+                                    chipSocialIssue.setOnClickListener {
+                                        social_problem_chip_group.removeView(chipSocialIssue)
+                                        socialIssueArrayList.remove(chipSocialIssue.text)
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if (document["familyIssues"] != null) {
+                        familyIssueArrayList = document["familyIssues"] as ArrayList<String>
+                        if (!familyIssueArrayList.isNullOrEmpty()) {
+                            for (k in familyIssueArrayList.indices) {
+                                if (familyIssueArrayList[k] != "Nothing Selected") {
+                                    val chipFamilyRole =
+                                        Chip(this@CommunityChaplainAssessmentActivity)
+                                    chipFamilyRole.isCloseIconVisible = true
+                                    chipFamilyRole.setChipBackgroundColorResource(R.color.colorAccent)
+                                    chipFamilyRole.setTextColor(resources.getColor(R.color.colorPrimary))
+                                    chipFamilyRole.text = familyIssueArrayList[k]
+                                    family_problem_chip_group.addView(chipFamilyRole)
+
+                                    chipFamilyRole.setOnClickListener {
+                                        family_problem_chip_group.removeView(chipFamilyRole)
+                                        familyIssueArrayList.remove(chipFamilyRole.text)
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if (document["whatReasonBringsYou"].toString() != "") {
+                        whatReasonBringsYou = document["whatReasonBringsYou"].toString()
+                        if (whatReasonBringsYou != "") {
+                            community_chaplain_assessment_what_brings_editText.setText(
+                                whatReasonBringsYou
+                            )
+                        }
+                    }
+                    if (document["significantHealthIssue"].toString() != "") {
+                        significantHealthIssue = document["significantHealthIssue"].toString()
+                        if (significantHealthIssue != "") {
+                            if (significantHealthIssue == "Yes") {
+                                significant_health_issue_yes_radioButton.isChecked = true
+                                significant_health_issue_no_radioButton.isChecked = false
+                            } else if (significantHealthIssue == "No") {
+                                significant_health_issue_yes_radioButton.isChecked = false
+                                significant_health_issue_no_radioButton.isChecked = true
+                            }
+                        }
+                    }
+                    if (document["physicalAndSpiritualResponsibility"].toString() != "") {
+                        physicalAndSpiritualResponsibility =
+                            document["physicalAndSpiritualResponsibility"].toString()
+                        if (physicalAndSpiritualResponsibility != "") {
+                            if (physicalAndSpiritualResponsibility == "Yes") {
+                                medical_issue_yes_radioButton.isChecked = true
+                                medical_issue_no_radioButton.isChecked = false
+                            } else if (physicalAndSpiritualResponsibility == "No") {
+                                medical_issue_yes_radioButton.isChecked = false
+                                medical_issue_no_radioButton.isChecked = true
+                            }
+                        }
+                    }
+                    if (document["experiencingChallenge"].toString() != "") {
+                        experiencingChallenge = document["experiencingChallenge"].toString()
+                        if (experiencingChallenge != "") {
+                            if (experiencingChallenge == "Affect your belief and relationship with the Divine?") {
+                                experiencing_challenge__affect_radioButton.isChecked = true
+                                experiencing_challenge__result_radioButton.isChecked = false
+                            } else if (experiencingChallenge == "Result in a change in your rituals and practice?") {
+                                experiencing_challenge__affect_radioButton.isChecked = false
+                                experiencing_challenge__result_radioButton.isChecked = true
+                            }
+                        }
+                    }
+                } else {
+                    Log.d("TAG", "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d("TAG", "get failed with ", exception)
+            }
+    }
+
     override fun onPause() {
         super.onPause()
         saveDataToFireStore()
@@ -125,11 +338,11 @@ class CommunityChaplainAssessmentActivity : AppCompatActivity() {
 
         experiencing_challenge__affect_radioButton.setOnClickListener {
             experiencing_challenge__result_radioButton.isChecked = false
-            experiencingChallenge = significant_health_issue_yes_radioButton.text.toString()
+            experiencingChallenge = experiencing_challenge__affect_radioButton.text.toString()
         }
         experiencing_challenge__result_radioButton.setOnClickListener {
             experiencing_challenge__affect_radioButton.isChecked = false
-            experiencingChallenge = significant_health_issue_no_radioButton.text.toString()
+            experiencingChallenge = experiencing_challenge__result_radioButton.text.toString()
         }
     }
 

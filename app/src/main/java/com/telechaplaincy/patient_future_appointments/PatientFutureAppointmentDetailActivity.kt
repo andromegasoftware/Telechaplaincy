@@ -25,7 +25,7 @@ import com.telechaplaincy.cloud_message.FcmNotificationsSender
 import com.telechaplaincy.notification_page.NotificationModelClass
 import com.telechaplaincy.patient.PatientMainActivity
 import com.telechaplaincy.patient_edit_appointment.PatientAppointmentEditActivity
-import com.telechaplaincy.pre_assessment_questions.CommunityChaplainAssessmentActivity
+import com.telechaplaincy.pre_assessment_questions.HealthCareChaplainAssessmentActivity
 import com.telechaplaincy.video_call.VideoCallActivity
 import kotlinx.android.synthetic.main.activity_patient_future_appointment_detail.*
 import java.text.SimpleDateFormat
@@ -94,11 +94,18 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
         future_appointment_preAssessment_textView.setOnClickListener {
             /*if (chaplainCategory == "HumanistChaplains"){
                 val intent = Intent(this, CommunityChaplainAssessmentActivity::class.java)
+                intent.putExtra("appointment_id", appointmentId)
+                startActivity(intent)
+                finish()
+            }
+            else if (chaplainCategory == "HealthChaplains"){
+                val intent = Intent(this, HealthCareChaplainAssessmentActivity::class.java)
+                intent.putExtra("appointment_id", appointmentId)
                 startActivity(intent)
                 finish()
             }*/
 
-            val intent = Intent(this, CommunityChaplainAssessmentActivity::class.java)
+            val intent = Intent(this, HealthCareChaplainAssessmentActivity::class.java)
             intent.putExtra("appointment_id", appointmentId)
             startActivity(intent)
             finish()
