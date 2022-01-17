@@ -23,6 +23,12 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".pre_assessment_questions.MentalHealthChaplainAssessment"
+            android:theme="@style/ChaplainSignUpPageTheme" />
+        <activity
+            android:name=".pre_assessment_questions.HospiceChaplainAssessmentActivity"
+            android:theme="@style/ChaplainSignUpPageTheme" />
+        <activity
             android:name=".pre_assessment_questions.HealthCareChaplainAssessmentActivity"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity

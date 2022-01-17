@@ -25,7 +25,7 @@ import com.telechaplaincy.cloud_message.FcmNotificationsSender
 import com.telechaplaincy.notification_page.NotificationModelClass
 import com.telechaplaincy.patient.PatientMainActivity
 import com.telechaplaincy.patient_edit_appointment.PatientAppointmentEditActivity
-import com.telechaplaincy.pre_assessment_questions.HealthCareChaplainAssessmentActivity
+import com.telechaplaincy.pre_assessment_questions.MentalHealthChaplainAssessment
 import com.telechaplaincy.video_call.VideoCallActivity
 import kotlinx.android.synthetic.main.activity_patient_future_appointment_detail.*
 import java.text.SimpleDateFormat
@@ -79,6 +79,7 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patient_future_appointment_detail)
+
         appointmentId = intent.getStringExtra("appointment_id").toString()
 
         auth = FirebaseAuth.getInstance()
@@ -103,9 +104,29 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
                 intent.putExtra("appointment_id", appointmentId)
                 startActivity(intent)
                 finish()
-            }*/
+            }
+            else if (chaplainCategory == "HospiceChaplains"){
+                val intent = Intent(this, HospiceChaplainAssessmentActivity::class.java)
+                intent.putExtra("appointment_id", appointmentId)
+                startActivity(intent)
+                finish()
+            }
+            else if (chaplainCategory == "MentalChaplains"){
+                val intent = Intent(this, MentalHealthChaplainAssessment::class.java)
+                intent.putExtra("appointment_id", appointmentId)
+                startActivity(intent)
+                finish()
+            }
+            //crisis chaplain and mental health Chaplain assessment questions are same
+            else if (chaplainCategory == "CrisisChaplains"){
+                val intent = Intent(this, MentalHealthChaplainAssessment::class.java)
+                intent.putExtra("appointment_id", appointmentId)
+                startActivity(intent)
+                finish()
+            }
+             */
 
-            val intent = Intent(this, HealthCareChaplainAssessmentActivity::class.java)
+            val intent = Intent(this, MentalHealthChaplainAssessment::class.java)
             intent.putExtra("appointment_id", appointmentId)
             startActivity(intent)
             finish()
