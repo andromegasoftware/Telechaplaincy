@@ -3,6 +3,33 @@
     <string name="app_mail_address">telechaplaincy@gmail.com</string>
     <string name="app_int_connection_alert">Sorry! We could not find any internet connection. App work with internet connection.</string>
 
+
+    //prison chaplain Assessment Activity
+    <string name="prison_chaplain_assessment_page_title">Prison/Correctional Facilities Chaplain Preliminary Assessment</string>
+    <string name="access_spiritual_resources">Are you able to access any spiritual resources?</string>
+    <string name="relationship_talk">When you talk about your relationships, have you thought about ‘reconciliation’?</string>
+
+    //pet chaplain Assessment Activity
+    <string name="pet_chaplain_assessment_page_title">Pet Chaplain Preliminary Assessment</string>
+    <string name="pet_chaplain_assessment_bring_reason">You can also choose from the list</string>
+
+    <string-array name="bring_reason_array">
+        <item>Nothing Selected</item>
+        <item>None</item>
+        <item>Blessings of the pet</item>
+        <item>Health-related issues</item>
+        <item>Psychological  and emotional issues</item>
+        <item>Loss and grief</item>
+        <item>Separation</item>
+        <item>Loneliness</item>
+        <item>Financial-related issues</item>
+        <item>Other</item>
+    </string-array>
+
+    //Palliative Care Chaplain Assessment Activity
+    <string name="palliative_care_chaplain_assessment_page_title">Palliative Care Chaplain Preliminary Assessment</string>
+    <string name="palliative_care_chaplain_assessment_activity_spiritual_text">Are you experiencing any spiritual, psychological, or emotional distress or concern?</string>
+
     // mental health chaplain assessment activity
     <string name="mental_health_chaplain_assessment_page_title">Mental-Health Chaplain Preliminary Assessment</string>
     <string name="mental_health_chaplain_assessment_page_crisis_situation">Have you ever faced or experienced any of the following crisis situations?</string>

@@ -25,7 +25,7 @@ import com.telechaplaincy.cloud_message.FcmNotificationsSender
 import com.telechaplaincy.notification_page.NotificationModelClass
 import com.telechaplaincy.patient.PatientMainActivity
 import com.telechaplaincy.patient_edit_appointment.PatientAppointmentEditActivity
-import com.telechaplaincy.pre_assessment_questions.MentalHealthChaplainAssessment
+import com.telechaplaincy.pre_assessment_questions.PrisonChaplainAssessmentActivity
 import com.telechaplaincy.video_call.VideoCallActivity
 import kotlinx.android.synthetic.main.activity_patient_future_appointment_detail.*
 import java.text.SimpleDateFormat
@@ -124,9 +124,27 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
                 startActivity(intent)
                 finish()
             }
+            else if (chaplainCategory == "PalliativeChaplains"){
+                val intent = Intent(this, PalliativeCareChaplainAssessmentActivity::class.java)
+                intent.putExtra("appointment_id", appointmentId)
+                startActivity(intent)
+                finish()
+            }
+            else if (chaplainCategory == "PetChaplains"){
+                val intent = Intent(this, PetChaplainAssessmentActivity::class.java)
+                intent.putExtra("appointment_id", appointmentId)
+                startActivity(intent)
+                finish()
+            }
+            else if (chaplainCategory == "PrisonChaplains"){
+                val intent = Intent(this, PrisonChaplainAssessmentActivity::class.java)
+                intent.putExtra("appointment_id", appointmentId)
+                startActivity(intent)
+                finish()
+            }
              */
 
-            val intent = Intent(this, MentalHealthChaplainAssessment::class.java)
+            val intent = Intent(this, PrisonChaplainAssessmentActivity::class.java)
             intent.putExtra("appointment_id", appointmentId)
             startActivity(intent)
             finish()
