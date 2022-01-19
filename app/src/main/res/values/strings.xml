@@ -3,6 +3,30 @@
     <string name="app_mail_address">telechaplaincy@gmail.com</string>
     <string name="app_int_connection_alert">Sorry! We could not find any internet connection. App work with internet connection.</string>
 
+    <string-array name="current_problem_array">
+        <item>Nothing Selected</item>
+        <item>NONE</item>
+        <item>Stress, anxiety, relational issues</item>
+        <item>Financial</item>
+        <item>Psychological and Physical Health</item>
+        <item>Academic Career issues</item>
+        <item>Social Issues</item>
+        <item>Violence and Abuse</item>
+        <item>Other</item>
+    </string-array>
+
+    //college_chaplain assessment activity
+    <string name="college_chaplain_assessment_page_title">College/Education Chaplain Preliminary Assessment</string>
+    <string name="college_chaplain_assessment_page_psychological_issues">Do you have any significant history of health/medical or psychological issues?</string>
+    <string name="college_chaplain_assessment_page_emotional_issues">Are you currently experiencing spiritual and emotional distress or concern?</string>
+    <string name="college_chaplain_assessment_page_spiritual_issues">If so, do you feel these (issues) are preventing you from fulfilling your physical and spiritual responsibilities?</string>
+    <string name="college_chaplain_assessment_page_currently_experiencing">What are the issues that you are currently experiencing?</string>
+
+    //pediatric chaplain assessment activity
+    <string name="pediatric_chaplain_assessment_page_title">Pediatric (Health-Care) Chaplain Preliminary Assessment</string>
+    <string name="pediatric_chaplain_assessment_page_major_health">Does your loved one (age 0-17) have any significant health/medical and psychological issues?  If any, what is/are they?</string>
+    <string name="pediatric_chaplain_assessment_page_conflict">Is there any meaningful resource or an authority or a person with whom/where you look for guidance when you face doubt, confusion, tragedy or conflict?</string>
+    <string name="pediatric_chaplain_assessment_top_three_emotions">Regarding your loved one’s condition, what are the top 3 emotions you are recently experiencing the most?</string>
 
     //prison chaplain Assessment Activity
     <string name="prison_chaplain_assessment_page_title">Prison/Correctional Facilities Chaplain Preliminary Assessment</string>
