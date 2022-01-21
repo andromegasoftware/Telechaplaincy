@@ -3,6 +3,63 @@
     <string name="app_mail_address">telechaplaincy@gmail.com</string>
     <string name="app_int_connection_alert">Sorry! We could not find any internet connection. App work with internet connection.</string>
 
+    //corporate chaplain assessment activity
+    <string name="corporate_chaplain_assessment_page_title">Pre-Assessment Questionnaire</string>
+    <string name="corporate_chaplain_assessment_page_significant_issue">Are you currently experiencing any significant issues?</string>
+    <string name="corporate_chaplain_assessment_page_significant_issue_spinner">(If yes) The issue is related to</string>
+    <string name="corporate_chaplain_assessment_page_significant_issues_prevent">Do you feel those issues prevent you from fulfilling any of your (physical and spiritual) responsibilities?</string>
+    <string name="corporate_chaplain_assessment_page_significant_issues_currently">What are the issues (if any) that you are currently experiencing within your work environment?</string>
+    <string name="corporate_chaplain_assessment_page_your_role_at_work">How do you define your role within your work and social environment?</string>
+
+    <string-array name="work_issues_problem_array">
+        <item>Nothing Selected</item>
+        <item>NONE</item>
+        <item>Safety (I don’t feel safe at work)</item>
+        <item>Interpersonal conflict/Lack of communication</item>
+        <item>Harassment</item>
+        <item>Lack of motivation/satisfaction</item>
+        <item>Work-life balance</item>
+        <item>Mobbing</item>
+        <item>Discrimination (based on race, religion, social status, gender, sex, sexual orientation etc.)</item>
+        <item>Insufficient income</item>
+        <item>Financial injustice</item>
+        <item>Low-cost labor</item>
+        <item>Fear of losing job</item>
+        <item>Unfair competition/unhealthy rivalry</item>
+        <item>Favoritism</item>
+        <item>High stress</item>
+        <item>Workaholism</item>
+        <item>Marital issues</item>
+        <item>Loss and grief</item>
+        <item>Illness and Disability</item>
+        <item>Mental health and trauma-related issues</item>
+        <item>Suicidal Thought/Ideation/Plan/Attempt</item>
+        <item>Addiction-related problems (substance abuse: drug, smoking alcohol etc.)</item>
+        <item>Spiritual Abuse</item>
+        <item>Cultural Abuse</item>
+        <item>Lack of training</item>
+        <item>Psychological/Emotional Abuse (ex-communication, guilt-tripping, gaslighting)</item>
+        <item>Violence/Physical abuse</item>
+        <item>Health-care access issues /Health disparity</item>
+        <item>Immigration Stresses</item>
+        <item>Vaccine and Covid related</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="issues_array">
+        <item>Nothing Selected</item>
+        <item>NONE</item>
+        <item>Workplace</item>
+        <item>Legal</item>
+        <item>Family</item>
+        <item>Society</item>
+        <item>Physical Health</item>
+        <item>Mental Health</item>
+        <item>Religious/faith-related</item>
+        <item>Financial</item>
+        <item>Other</item>
+    </string-array>
+
     <string-array name="current_problem_array">
         <item>Nothing Selected</item>
         <item>NONE</item>
@@ -16,25 +73,25 @@
     </string-array>
 
     //college_chaplain assessment activity
-    <string name="college_chaplain_assessment_page_title">College/Education Chaplain Preliminary Assessment</string>
+    <string name="college_chaplain_assessment_page_title">Pre-Assessment Questionnaire</string>
     <string name="college_chaplain_assessment_page_psychological_issues">Do you have any significant history of health/medical or psychological issues?</string>
     <string name="college_chaplain_assessment_page_emotional_issues">Are you currently experiencing spiritual and emotional distress or concern?</string>
     <string name="college_chaplain_assessment_page_spiritual_issues">If so, do you feel these (issues) are preventing you from fulfilling your physical and spiritual responsibilities?</string>
     <string name="college_chaplain_assessment_page_currently_experiencing">What are the issues that you are currently experiencing?</string>
 
     //pediatric chaplain assessment activity
-    <string name="pediatric_chaplain_assessment_page_title">Pediatric (Health-Care) Chaplain Preliminary Assessment</string>
-    <string name="pediatric_chaplain_assessment_page_major_health">Does your loved one (age 0-17) have any significant health/medical and psychological issues?  If any, what is/are they?</string>
+    <string name="pediatric_chaplain_assessment_page_title">Pre-Assessment Questionnaire</string>
+    <string name="pediatric_chaplain_assessment_page_major_health">Does your loved one (age 0–17) have any significant health/medical and psychological issues?  If any, what is/are they?</string>
     <string name="pediatric_chaplain_assessment_page_conflict">Is there any meaningful resource or an authority or a person with whom/where you look for guidance when you face doubt, confusion, tragedy or conflict?</string>
     <string name="pediatric_chaplain_assessment_top_three_emotions">Regarding your loved one’s condition, what are the top 3 emotions you are recently experiencing the most?</string>
 
     //prison chaplain Assessment Activity
-    <string name="prison_chaplain_assessment_page_title">Prison/Correctional Facilities Chaplain Preliminary Assessment</string>
+    <string name="prison_chaplain_assessment_page_title">Pre-Assessment Questionnaire</string>
     <string name="access_spiritual_resources">Are you able to access any spiritual resources?</string>
     <string name="relationship_talk">When you talk about your relationships, have you thought about ‘reconciliation’?</string>
 
     //pet chaplain Assessment Activity
-    <string name="pet_chaplain_assessment_page_title">Pet Chaplain Preliminary Assessment</string>
+    <string name="pet_chaplain_assessment_page_title">Pre-Assessment Questionnaire</string>
     <string name="pet_chaplain_assessment_bring_reason">You can also choose from the list</string>
 
     <string-array name="bring_reason_array">
@@ -51,11 +108,11 @@
     </string-array>
 
     //Palliative Care Chaplain Assessment Activity
-    <string name="palliative_care_chaplain_assessment_page_title">Palliative Care Chaplain Preliminary Assessment</string>
+    <string name="palliative_care_chaplain_assessment_page_title">Pre-Assessment Questionnaire</string>
     <string name="palliative_care_chaplain_assessment_activity_spiritual_text">Are you experiencing any spiritual, psychological, or emotional distress or concern?</string>
 
     // mental health chaplain assessment activity
-    <string name="mental_health_chaplain_assessment_page_title">Mental-Health Chaplain Preliminary Assessment</string>
+    <string name="mental_health_chaplain_assessment_page_title">Pre-Assessment Questionnaire</string>
     <string name="mental_health_chaplain_assessment_page_crisis_situation">Have you ever faced or experienced any of the following crisis situations?</string>
     <string name="significant_change">Did you experience a dramatic/significant change in your relationship with your family and professional and social environment?</string>
     <string name="incident_issue">Do you feel the incident/issue that you are currently experiencing is preventing you from fulfilling your physical and spiritual responsibilities?</string>
@@ -80,11 +137,11 @@
     </string-array>
 
     //hospice chaplain assessment activity
-    <string name="hospice_chaplain_assessment_page_title">Hospice Chaplain Preliminary Assessment</string>
+    <string name="hospice_chaplain_assessment_page_title">Pre-Assessment Questionnaire</string>
     <string name="hospice_chaplain_assessment_page_psychological_issue">Are you experiencing any spiritual, psychological, or emotional distress or concern?</string>
 
     //health care chaplain assessment activity
-    <string name="health_care_chaplain_assessment_page_title">Health-Care Chaplain Preliminary Assessment</string>
+    <string name="health_care_chaplain_assessment_page_title">Pre-Assessment Questionnaire</string>
     <string name="health_care_chaplain_assessment_page_major_health_problem">Do you have any significant health/medical issues?  If any, what is/are the health issue(s)?</string>
     <string name="health_care_chaplain_assessment_page_psychological_issue">Do you have any history of psychological issues?</string>
     <string name="health_care_chaplain_assessment_page_psychological_issues_spinner">Please choose the psychological issues/concern(s) that you currently have</string>
@@ -149,7 +206,7 @@
     </string-array>
 
     //community humanist Chaplain pre assessment activity
-    <string name="humanist_chaplain_assessment_page_title">Community-Humanist Chaplaincy Preliminary Assessment</string>
+    <string name="humanist_chaplain_assessment_page_title">Pre-Assessment Questionnaire</string>
     <string name="humanist_chaplain_assessment_page_alert">Chaplains provide emotional and spiritual support; however, chaplains are not licensed therapists nor physicians and are not able to diagnose patients or prescribe medication or provide treatment</string>
     <string name="humanist_chaplain_assessment_come_reason">What reason/need brings you in today?</string>
     <string name="humanist_chaplain_assessment_come_reason_hint">Your answer…</string>
@@ -270,6 +327,7 @@
         <item>Hunger and Poverty</item>
         <item>Homelessness</item>
         <item>Overpopulation</item>
+        <item>Immigration Stresses</item>
         <item>Childhood Obesity</item>
         <item>Climate Change</item>
         <item>Vaccine and Covid related</item>

@@ -23,6 +23,12 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".pre_assessment_questions.MilitaryLawChaplainAssessmentActivity"
+            android:theme="@style/ChaplainSignUpPageTheme" />
+        <activity
+            android:name=".pre_assessment_questions.CorporateChaplainAssessmentActivity"
+            android:theme="@style/ChaplainSignUpPageTheme" />
+        <activity
             android:name=".pre_assessment_questions.CollegeChaplainAssessmentActivity"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
