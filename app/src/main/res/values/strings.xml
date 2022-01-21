@@ -3,6 +3,9 @@
     <string name="app_mail_address">telechaplaincy@gmail.com</string>
     <string name="app_int_connection_alert">Sorry! We could not find any internet connection. App work with internet connection.</string>
 
+    //Pre Assessment Questions Answers Activity
+    <string name="pre_assessment_questions_answers_page_title">Pre-Assessment Questionnaire And Answers</string>
+
     //corporate chaplain assessment activity
     <string name="corporate_chaplain_assessment_page_title">Pre-Assessment Questionnaire</string>
     <string name="corporate_chaplain_assessment_page_significant_issue">Are you currently experiencing any significant issues?</string>

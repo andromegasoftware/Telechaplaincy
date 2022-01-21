@@ -25,6 +25,7 @@ import com.telechaplaincy.chaplain.ChaplainMainActivity
 import com.telechaplaincy.cloud_message.FcmNotificationsSender
 import com.telechaplaincy.notification_page.NotificationModelClass
 import com.telechaplaincy.patient_profile.PatientProfileInfoActivityForChaplain
+import com.telechaplaincy.pre_assessment_questions_show_to_chaplain.PreAssessmentQuestionsAnswersActivity
 import com.telechaplaincy.video_call.VideoCallActivity
 import kotlinx.android.synthetic.main.activity_chaplain_future_appointment_details.*
 import java.text.SimpleDateFormat
@@ -71,6 +72,7 @@ class ChaplainFutureAppointmentDetailsActivity : AppCompatActivity() {
     private var patientAppointmentTimeForMail = ""
     private var patientMail = ""
     private var chaplainMail = ""
+    private var chaplainCategory: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -105,6 +107,15 @@ class ChaplainFutureAppointmentDetailsActivity : AppCompatActivity() {
         chaplain_future_appointment_patient_info_button.setOnClickListener {
             val intent = Intent(this, PatientProfileInfoActivityForChaplain::class.java)
             intent.putExtra("patientUserId", patientUserId)
+            intent.putExtra("appointment_id", appointmentId)
+            startActivity(intent)
+            finish()
+        }
+
+        chaplain_future_appointment_patient_assessment_textView.setOnClickListener {
+            val intent = Intent(this, PreAssessmentQuestionsAnswersActivity::class.java)
+            intent.putExtra("patientUserId", patientUserId)
+            intent.putExtra("chaplainCategory", chaplainCategory)
             intent.putExtra("appointment_id", appointmentId)
             startActivity(intent)
             finish()
@@ -321,15 +332,19 @@ class ChaplainFutureAppointmentDetailsActivity : AppCompatActivity() {
                             chaplain_future_appointment_time_textView.text =
                                 patientAppointmentTimeForMail
                         }
-                        if (result.appointmentPrice != null){
+                        if (result.appointmentPrice != null) {
                             appointmentPrice = result.appointmentPrice
-                            chaplain_future_appointment_price_textView.text = getString(R.string.appointment_price) + appointmentPrice
+                            chaplain_future_appointment_price_textView.text =
+                                getString(R.string.appointment_price) + appointmentPrice
                         }
-                        if (result.chaplainId != null){
+                        if (result.chaplainId != null) {
                             patientUserId = result.patientId.toString()
                         }
-                        if (result.appointmentStatus != null){
+                        if (result.appointmentStatus != null) {
                             appointmentStatus = result.appointmentStatus.toString()
+                        }
+                        if (result.chaplainCategory != null) {
+                            chaplainCategory = result.chaplainCategory.toString()
                         }
                     }
                 } else {

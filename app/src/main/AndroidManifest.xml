@@ -23,6 +23,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".pre_assessment_questions_show_to_chaplain.PreAssessmentQuestionsAnswersActivity"
+            android:theme="@style/ChaplainSignUpPageTheme" />
+        <activity
             android:name=".pre_assessment_questions.MilitaryLawChaplainAssessmentActivity"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
