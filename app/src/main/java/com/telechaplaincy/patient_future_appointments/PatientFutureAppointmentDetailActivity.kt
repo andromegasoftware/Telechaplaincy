@@ -25,7 +25,7 @@ import com.telechaplaincy.cloud_message.FcmNotificationsSender
 import com.telechaplaincy.notification_page.NotificationModelClass
 import com.telechaplaincy.patient.PatientMainActivity
 import com.telechaplaincy.patient_edit_appointment.PatientAppointmentEditActivity
-import com.telechaplaincy.pre_assessment_questions.CollegeChaplainAssessmentActivity
+import com.telechaplaincy.pre_assessment_questions.*
 import com.telechaplaincy.video_call.VideoCallActivity
 import kotlinx.android.synthetic.main.activity_patient_future_appointment_detail.*
 import java.text.SimpleDateFormat
@@ -93,13 +93,12 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
         takeAppointmentInfo()
 
         future_appointment_preAssessment_textView.setOnClickListener {
-            /*if (chaplainCategory == "HumanistChaplains"){
+            if (chaplainCategory == "HumanistChaplains") {
                 val intent = Intent(this, CommunityChaplainAssessmentActivity::class.java)
                 intent.putExtra("appointment_id", appointmentId)
                 startActivity(intent)
                 finish()
-            }
-            else if (chaplainCategory == "HealthChaplains"){
+            } else if (chaplainCategory == "HealthChaplains") {
                 val intent = Intent(this, HealthCareChaplainAssessmentActivity::class.java)
                 intent.putExtra("appointment_id", appointmentId)
                 startActivity(intent)
@@ -171,13 +170,13 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
                 intent.putExtra("appointment_id", appointmentId)
                 startActivity(intent)
                 finish()
-            }*/
+            }
 
 
-            val intent = Intent(this, CollegeChaplainAssessmentActivity::class.java)
+            /*val intent = Intent(this, MilitaryLawChaplainAssessmentActivity::class.java)
             intent.putExtra("appointment_id", appointmentId)
             startActivity(intent)
-            finish()
+            finish()*/
         }
 
         future_appointment_cancel_button.setOnClickListener {

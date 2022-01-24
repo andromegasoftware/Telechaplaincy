@@ -69,7 +69,7 @@
                         android:textStyle="bold" />
 
                     <View
-                        android:id="@+id/view41"
+                        android:id="@+id/view1"
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
                         android:layout_marginTop="10dp"
@@ -94,7 +94,7 @@
                         android:textStyle="bold" />
 
                     <View
-                        android:id="@+id/view42"
+                        android:id="@+id/view2"
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
                         android:layout_marginTop="10dp"
@@ -119,7 +119,7 @@
                         android:textStyle="bold" />
 
                     <View
-                        android:id="@+id/view43"
+                        android:id="@+id/view3"
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
                         android:layout_marginTop="10dp"
@@ -144,7 +144,7 @@
                         android:textStyle="bold" />
 
                     <View
-                        android:id="@+id/view44"
+                        android:id="@+id/view4"
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
                         android:layout_marginTop="10dp"
@@ -169,7 +169,7 @@
                         android:textStyle="bold" />
 
                     <View
-                        android:id="@+id/view45"
+                        android:id="@+id/view5"
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
                         android:layout_marginTop="10dp"
@@ -194,7 +194,7 @@
                         android:textStyle="bold" />
 
                     <View
-                        android:id="@+id/view46"
+                        android:id="@+id/view6"
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
                         android:layout_marginTop="10dp"
@@ -219,7 +219,7 @@
                         android:textStyle="bold" />
 
                     <View
-                        android:id="@+id/view47"
+                        android:id="@+id/view7"
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
                         android:layout_marginTop="10dp"
@@ -244,7 +244,7 @@
                         android:textStyle="bold" />
 
                     <View
-                        android:id="@+id/view48"
+                        android:id="@+id/view8"
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
                         android:layout_marginTop="10dp"
@@ -269,7 +269,7 @@
                         android:textStyle="bold" />
 
                     <View
-                        android:id="@+id/view49"
+                        android:id="@+id/view9"
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
                         android:layout_marginTop="10dp"
@@ -294,7 +294,7 @@
                         android:textStyle="bold" />
 
                     <View
-                        android:id="@+id/view50"
+                        android:id="@+id/view10"
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
                         android:layout_marginTop="10dp"
@@ -317,6 +317,34 @@
                         android:text="-"
                         android:textSize="18sp"
                         android:textStyle="bold" />
+
+                    <View
+                        android:id="@+id/view11"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="#c0c0c0"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/textViewQuestion12"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text="@string/top_three_emotions"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/textViewAnswer12"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:gravity="left"
+                        android:text="-"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
 
                 </LinearLayout>
 

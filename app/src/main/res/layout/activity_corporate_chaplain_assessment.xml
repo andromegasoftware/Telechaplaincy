@@ -421,14 +421,6 @@
                         android:layout_marginBottom="10dp"
                         android:background="#c0c0c0" />
 
-                    <View
-                        android:id="@+id/view57"
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:background="#c0c0c0" />
-
                     <TextView
                         android:id="@+id/textView96"
                         android:layout_width="match_parent"
