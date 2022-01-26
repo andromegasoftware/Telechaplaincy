@@ -15,6 +15,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
+        android:name=".screenshot_close.MyApplicationContext"
         android:allowBackup="true"
         android:icon="@mipmap/logo"
         android:label="@string/app_name"
@@ -24,160 +25,212 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".chaplain_future_appointments.PatientAppointmentHistoryDetailsActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".chaplain_future_appointments.PatientAppointmentHistory"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".pre_assessment_questions_show_to_chaplain.PreAssessmentQuestionsAnswersActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".pre_assessment_questions.MilitaryLawChaplainAssessmentActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".pre_assessment_questions.CorporateChaplainAssessmentActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".pre_assessment_questions.CollegeChaplainAssessmentActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".pre_assessment_questions.PediatricChaplainAssessmentActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".pre_assessment_questions.PrisonChaplainAssessmentActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".pre_assessment_questions.PetChaplainAssessmentActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".pre_assessment_questions.PalliativeCareChaplainAssessmentActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".pre_assessment_questions.MentalHealthChaplainAssessment"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".pre_assessment_questions.HospiceChaplainAssessmentActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".pre_assessment_questions.HealthCareChaplainAssessmentActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".pre_assessment_questions.CommunityChaplainAssessmentActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".reach_us_page.ReachUsActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".notification_page.AdminMessageSendActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".notification_page.NotificationDetailsActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".notification_page.PatientNotificationActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".admin_reports.AdminFinancialReportsActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".fees_and_commissions.FeesAndCommissionsActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".all_chaplains_wait_payment.ChaplainPaymentReportActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".all_chaplains_wait_payment.AllChaplainsWaitPaymentActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".all_chaplains_wait_to_confirm.AllChaplainsWaitConfirmActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".all_patients.AllPatientsListActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".all_chaplains.AllChaplainsListActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".admin.AdminMainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".chaplain_reports.ChaplainReportsActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".chaplain_bank_account_info.ChaplainBankAccountInfoEditActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".chaplain_bank_account_info.ChaplainBankAccountInfoActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".chaplain_profile.ChaplainProfileDetailsActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".patient_profile.PatientProfileInfoActivityForChaplain"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".chaplain_past_appointments.ChaplainPastAppointmentDetailsActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".chaplain_future_appointments.ChaplainFutureAppointmentDetailsActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".patient_edit_appointment.PatientAppointmentEditActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".patient_profile.PatientProfileDetailsEditActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".patient_profile.PatientProfileDetailsActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".video_call.ChaplainVideoActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/VideoChatPageTheme" />
         <activity
             android:name=".video_call.VideoCallActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/VideoChatPageTheme" />
         <activity
             android:name=".patient_past_appointments.PatientPastAppointmentsDetailActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".patient_future_appointments.PatientFutureAppointmentDetailActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".appointment.PatientAppointmentFinishActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".appointment.PatientAppointmentCreditCardActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".appointment.PatientAppointmentSummaryActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".appointment.PatientAppointmentTimeSelectionActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".appointment.PatientAppointmentContinueActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".chaplain_selection.chaplains_selection.ChaplainsListedSelectionActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".chaplain.ChaplainCalendarActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".patient.CategorySelection"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".patient_profile.PatientAppointmentPersonalInfo"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".patient_profile.PatientProfileActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".chaplain_profile.ChaplainProfileActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".SplashScreen"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -187,27 +240,38 @@
         </activity>
         <activity
             android:name=".chaplain.ChaplainMainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/PatientMainActivityTheme" />
         <activity
             android:name=".chaplain_sign_activities.ChaplainSignUpSecondPart"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".MainEntry"
+            android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".chaplain_sign_activities.ChaplainSignUp"
-            android:parentActivityName=".chaplain_sign_activities.ChaplainLogIn" />
-        <activity android:name=".chaplain_sign_activities.ChaplainLogIn" />
+            android:parentActivityName=".chaplain_sign_activities.ChaplainLogIn"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".chaplain_sign_activities.ChaplainLogIn"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".patient_sign_activities.ForgotPassword"
-            android:parentActivityName=".patient_sign_activities.LoginPage" />
+            android:parentActivityName=".patient_sign_activities.LoginPage"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".patient.PatientMainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/PatientMainActivityTheme" />
         <activity
             android:name=".patient_sign_activities.SignUpActivity"
-            android:parentActivityName=".patient_sign_activities.LoginPage" />
-        <activity android:name=".patient_sign_activities.LoginPage" />
+            android:parentActivityName=".patient_sign_activities.LoginPage"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".patient_sign_activities.LoginPage"
+            android:screenOrientation="portrait" />
         <!--
         Set custom default icon. This is used when no icon is set for incoming notification messages.
          See README(https://goo.gl/l4GJaQ) for more.
