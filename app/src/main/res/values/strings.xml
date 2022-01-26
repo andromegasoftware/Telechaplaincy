@@ -3,6 +3,50 @@
     <string name="app_mail_address">telechaplaincy@gmail.com</string>
     <string name="app_int_connection_alert">Sorry! We could not find any internet connection. App work with internet connection.</string>
 
+    //chaplain definitions for alert dialog
+    <string name="chaplain_definitions_alert_continue_button">Continue</string>
+    <string name="chaplain_definitions_alert_cancel_button">Cancel</string>
+    <string name="alert_college_chaplain">College/Education Chaplains help students explore their spirituality, guide them to deepen their faith, support them during their transition to campus life and through other life challenges, counsel them in an emotional and spiritual crisis. </string>
+    <string name="alert_college_chaplain_title">College/Education Chaplains</string>
+
+    <string name="alert_community_chaplain">Community Chaplains operate as a part of the large community of caregivers and provide spiritual care, emotional support, and faith-based guidance to the members of the community.</string>
+    <string name="alert_community_chaplain_title">Community Chaplains</string>
+
+    <string name="alert_health_care_chaplain">Health Care Chaplains offer spiritual care and emotional support when patients and their families search for meaning in the midst of illness and hospitalization and es they face end-of-life. They offer spiritual strength and resources, emotional support, faith-based counseling, sacraments, rituals, services, workshops, and memorials to assist in the integration of grieving and loss. </string>
+    <string name="alert_health_care_chaplain_title">Health Care Chaplains</string>
+
+    <string name="alert_pediatric_chaplain">Pediatric Chaplains are clinically trained spiritual care providers who specialize in offering care and support to pediatric patients and their families. They enhance their spiritual well-being by providing emotional support and meeting their very specific and age-appropriate needs.</string>
+    <string name="alert_pediatric_chaplain_title">Pediatric Chaplains</string>
+
+
+    <string name="alert_mental_chaplain">Mental Health (Spiritual Counselor/Therapist) Chaplains’ main focus is to provide emotional and spiritual care/support and interventions for/to persons and communities who are dealing with all kinds of mental health problems, trauma, addiction, and homelessness and making referrals for the required advanced care. </string>
+    <string name="alert_mental_chaplain_title">Mental Health Chaplains</string>
+
+    <string name="alert_palliative_chaplain">Palliative Care Chaplains are highly skilled spiritual care providers in addressing grief, emotional distress, and spiritual/existential pain in the journey through advanced illness. They offer end-of-life care options to help individuals make informed decisions for themselves, their loved ones and they support the medical team in the process. </string>
+    <string name="alert_palliative_chaplain_title">Palliative Care Chaplains</string>
+
+    <string name="alert_hospice_chaplain">Hospice Chaplains honor and nurture a patient’s spiritual and emotional and religious needs during the end-of-life process, most often after a terminal diagnosis. They support and encourage the caregivers, family, and friends who love them to find strength and peace. The work of a hospice chaplain can continue after a loved one has passed ss family members move into mourning.</string>
+    <string name="alert_hospice_chaplain_title">Hospice Chaplains</string>
+
+    <string name="alert_law_chaplain">Law Enforcement/Police Chaplains provide spiritual counsel, psychological first aid, emotional support, comfort, and the mitigation of stress to families, department employees, volunteers, prisoners, and other members of the community who interact with the police department.</string>
+    <string name="alert_law_chaplain_title">Law Enforcement/Police Chaplains</string>
+
+    <string name="alert_military_chaplain">Military Chaplains tend to the spiritual, emotional and moral, and well-being of service members and their families. They perform religious rites, conduct worship services, provide confidential counseling and advise commanders on religious, spiritual, and moral matters.</string>
+    <string name="alert_military_chaplain_title">Military Chaplains</string>
+
+    <string name="alert_corporate_chaplain">A Corporate/Workplace Chaplain provides personalized and proactive employee care, spiritual guidance, and emotional support to the members of the workforce.</string>
+    <string name="alert_corporate_chaplain_title">Corporate Chaplains</string>
+
+    <string name="alert_prison_chaplain">Prison/Correctional Facilities Chaplains counsel those who have committed crimes and challenge offenders to address the spiritual issues as they provide the needed spiritual and emotional support. They provide religious literature and resources to inmates of all faiths, helping them in their transition to society. They also advise correctional staff on religious issues.</string>
+    <string name="alert_prison_chaplain_title">Prison/Correctional Facilities Chaplains</string>
+
+    <string name="alert_pet_chaplain">Pet Chaplains provide emotional and spiritual care to people grieving the loss of special pets, domesticated and wild animals, and natural places. They also offer personal or group animal blessings.</string>
+    <string name="alert_pet_chaplain_title">Pet Chaplains</string>
+
+    <string name="alert_crisis_chaplain">Crisis/Disaster Chaplains respond to disasters or crisis areas to provide psychological first aid, spiritual and emotional support to victims of tragic events. These caregivers who specialize in crisis interventions offer any victim of the disaster comfort, relief, grief support, or hope during or after the disaster.</string>
+    <string name="alert_crisis_chaplain_title">Crisis/Disaster Chaplains</string>
+
+
     //Pre Assessment Questions Answers Activity
     <string name="pre_assessment_questions_answers_page_title">Pre-Assessment Questionnaire And Answers</string>
 

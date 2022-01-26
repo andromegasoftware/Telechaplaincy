@@ -1,10 +1,12 @@
 package com.telechaplaincy.patient
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.ktx.firestore
@@ -15,6 +17,8 @@ import com.telechaplaincy.chaplain_selection.chaplains_selection.ChaplainsListed
 import com.telechaplaincy.chaplain_sign_activities.ChaplainUserProfile
 import com.telechaplaincy.patient_profile.PatientAppointmentPersonalInfo
 import kotlinx.android.synthetic.main.activity_category_selection.*
+import kotlinx.android.synthetic.main.activity_category_selection.college_chaplain_cardView
+import kotlinx.android.synthetic.main.activity_college_chaplain_assessment.*
 
 class CategorySelection : AppCompatActivity() {
 
@@ -50,83 +54,315 @@ class CategorySelection : AppCompatActivity() {
         queryRef = db.collection(chaplainCollectionName)
 
         college_chaplain_cardView.setOnClickListener {
-            val intent = Intent(this, ChaplainsListedSelectionActivity::class.java)
-            intent.putExtra("chaplain_category", "CollegeChaplains")
-            startActivity(intent)
-            finish()
+
+            //alert dialog create
+            val builder = AlertDialog.Builder(this@CategorySelection)
+            builder.setTitle(R.string.alert_college_chaplain_title)
+            builder.setMessage(R.string.alert_college_chaplain)
+
+            // Set up the buttons
+            builder.setPositiveButton(
+                getString(R.string.chaplain_definitions_alert_continue_button),
+                DialogInterface.OnClickListener { dialog, which ->
+                    val intent = Intent(this, ChaplainsListedSelectionActivity::class.java)
+                    intent.putExtra("chaplain_category", "CollegeChaplains")
+                    startActivity(intent)
+                    finish()
+                })
+            builder.setNegativeButton(
+                getString(R.string.chaplain_definitions_alert_cancel_button),
+                DialogInterface.OnClickListener { dialog, which ->
+                    dialog.cancel()
+                })
+            builder.show()
         }
 
         community_chaplain_cardView.setOnClickListener {
-            val intent = Intent(this, ChaplainsListedSelectionActivity::class.java)
-            intent.putExtra("chaplain_category", "HumanistChaplains")
-            startActivity(intent)
-            finish()
+
+            //alert dialog create
+            val builder = AlertDialog.Builder(this@CategorySelection)
+            builder.setTitle(R.string.alert_community_chaplain_title)
+            builder.setMessage(R.string.alert_community_chaplain)
+
+            // Set up the buttons
+            builder.setPositiveButton(
+                getString(R.string.chaplain_definitions_alert_continue_button),
+                DialogInterface.OnClickListener { dialog, which ->
+                    val intent = Intent(this, ChaplainsListedSelectionActivity::class.java)
+                    intent.putExtra("chaplain_category", "HumanistChaplains")
+                    startActivity(intent)
+                    finish()
+                })
+            builder.setNegativeButton(
+                getString(R.string.chaplain_definitions_alert_cancel_button),
+                DialogInterface.OnClickListener { dialog, which ->
+                    dialog.cancel()
+                })
+            builder.show()
+
         }
         crisis_chaplain_cardView.setOnClickListener {
-            val intent = Intent(this, ChaplainsListedSelectionActivity::class.java)
-            intent.putExtra("chaplain_category", "CrisisChaplains")
-            startActivity(intent)
-            finish()
+
+            //alert dialog create
+            val builder = AlertDialog.Builder(this@CategorySelection)
+            builder.setTitle(R.string.alert_crisis_chaplain_title)
+            builder.setMessage(R.string.alert_crisis_chaplain)
+
+            // Set up the buttons
+            builder.setPositiveButton(
+                getString(R.string.chaplain_definitions_alert_continue_button),
+                DialogInterface.OnClickListener { dialog, which ->
+                    val intent = Intent(this, ChaplainsListedSelectionActivity::class.java)
+                    intent.putExtra("chaplain_category", "CrisisChaplains")
+                    startActivity(intent)
+                    finish()
+                })
+            builder.setNegativeButton(
+                getString(R.string.chaplain_definitions_alert_cancel_button),
+                DialogInterface.OnClickListener { dialog, which ->
+                    dialog.cancel()
+                })
+            builder.show()
+
         }
         health_chaplain_cardView.setOnClickListener {
-            val intent = Intent(this, ChaplainsListedSelectionActivity::class.java)
-            intent.putExtra("chaplain_category", "HealthChaplains")
-            startActivity(intent)
-            finish()
+
+            //alert dialog create
+            val builder = AlertDialog.Builder(this@CategorySelection)
+            builder.setTitle(R.string.alert_health_care_chaplain_title)
+            builder.setMessage(R.string.alert_health_care_chaplain)
+
+            // Set up the buttons
+            builder.setPositiveButton(
+                getString(R.string.chaplain_definitions_alert_continue_button),
+                DialogInterface.OnClickListener { dialog, which ->
+                    val intent = Intent(this, ChaplainsListedSelectionActivity::class.java)
+                    intent.putExtra("chaplain_category", "HealthChaplains")
+                    startActivity(intent)
+                    finish()
+                })
+            builder.setNegativeButton(
+                getString(R.string.chaplain_definitions_alert_cancel_button),
+                DialogInterface.OnClickListener { dialog, which ->
+                    dialog.cancel()
+                })
+            builder.show()
+
         }
         pallative_chaplain_cardView.setOnClickListener {
-            val intent = Intent(this, ChaplainsListedSelectionActivity::class.java)
-            intent.putExtra("chaplain_category", "PalliativeChaplains")
-            startActivity(intent)
-            finish()
+
+            //alert dialog create
+            val builder = AlertDialog.Builder(this@CategorySelection)
+            builder.setTitle(R.string.alert_palliative_chaplain_title)
+            builder.setMessage(R.string.alert_palliative_chaplain)
+
+            // Set up the buttons
+            builder.setPositiveButton(
+                getString(R.string.chaplain_definitions_alert_continue_button),
+                DialogInterface.OnClickListener { dialog, which ->
+                    val intent = Intent(this, ChaplainsListedSelectionActivity::class.java)
+                    intent.putExtra("chaplain_category", "PalliativeChaplains")
+                    startActivity(intent)
+                    finish()
+                })
+            builder.setNegativeButton(
+                getString(R.string.chaplain_definitions_alert_cancel_button),
+                DialogInterface.OnClickListener { dialog, which ->
+                    dialog.cancel()
+                })
+            builder.show()
+
         }
         pediatric_chaplain_cardView.setOnClickListener {
-            val intent = Intent(this, ChaplainsListedSelectionActivity::class.java)
-            intent.putExtra("chaplain_category", "PediatricChaplains")
-            startActivity(intent)
-            finish()
+
+            //alert dialog create
+            val builder = AlertDialog.Builder(this@CategorySelection)
+            builder.setTitle(R.string.alert_pediatric_chaplain_title)
+            builder.setMessage(R.string.alert_pediatric_chaplain)
+
+            // Set up the buttons
+            builder.setPositiveButton(
+                getString(R.string.chaplain_definitions_alert_continue_button),
+                DialogInterface.OnClickListener { dialog, which ->
+                    val intent = Intent(this, ChaplainsListedSelectionActivity::class.java)
+                    intent.putExtra("chaplain_category", "PediatricChaplains")
+                    startActivity(intent)
+                    finish()
+                })
+            builder.setNegativeButton(
+                getString(R.string.chaplain_definitions_alert_cancel_button),
+                DialogInterface.OnClickListener { dialog, which ->
+                    dialog.cancel()
+                })
+            builder.show()
+
         }
         mental_chaplain_cardView.setOnClickListener {
-            val intent = Intent(this, ChaplainsListedSelectionActivity::class.java)
-            intent.putExtra("chaplain_category", "MentalChaplains")
-            startActivity(intent)
-            finish()
+
+            //alert dialog create
+            val builder = AlertDialog.Builder(this@CategorySelection)
+            builder.setTitle(R.string.alert_mental_chaplain_title)
+            builder.setMessage(R.string.alert_mental_chaplain)
+
+            // Set up the buttons
+            builder.setPositiveButton(
+                getString(R.string.chaplain_definitions_alert_continue_button),
+                DialogInterface.OnClickListener { dialog, which ->
+                    val intent = Intent(this, ChaplainsListedSelectionActivity::class.java)
+                    intent.putExtra("chaplain_category", "MentalChaplains")
+                    startActivity(intent)
+                    finish()
+                })
+            builder.setNegativeButton(
+                getString(R.string.chaplain_definitions_alert_cancel_button),
+                DialogInterface.OnClickListener { dialog, which ->
+                    dialog.cancel()
+                })
+            builder.show()
+
         }
         hospice_chaplain_cardView.setOnClickListener {
-            val intent = Intent(this, ChaplainsListedSelectionActivity::class.java)
-            intent.putExtra("chaplain_category", "HospiceChaplains")
-            startActivity(intent)
-            finish()
+
+            //alert dialog create
+            val builder = AlertDialog.Builder(this@CategorySelection)
+            builder.setTitle(R.string.alert_hospice_chaplain_title)
+            builder.setMessage(R.string.alert_hospice_chaplain)
+
+            // Set up the buttons
+            builder.setPositiveButton(
+                getString(R.string.chaplain_definitions_alert_continue_button),
+                DialogInterface.OnClickListener { dialog, which ->
+                    val intent = Intent(this, ChaplainsListedSelectionActivity::class.java)
+                    intent.putExtra("chaplain_category", "HospiceChaplains")
+                    startActivity(intent)
+                    finish()
+                })
+            builder.setNegativeButton(
+                getString(R.string.chaplain_definitions_alert_cancel_button),
+                DialogInterface.OnClickListener { dialog, which ->
+                    dialog.cancel()
+                })
+            builder.show()
+
         }
         law_chaplain_cardView.setOnClickListener {
-            val intent = Intent(this, ChaplainsListedSelectionActivity::class.java)
-            intent.putExtra("chaplain_category", "LawChaplains")
-            startActivity(intent)
-            finish()
+
+            //alert dialog create
+            val builder = AlertDialog.Builder(this@CategorySelection)
+            builder.setTitle(R.string.alert_law_chaplain_title)
+            builder.setMessage(R.string.alert_law_chaplain)
+
+            // Set up the buttons
+            builder.setPositiveButton(
+                getString(R.string.chaplain_definitions_alert_continue_button),
+                DialogInterface.OnClickListener { dialog, which ->
+                    val intent = Intent(this, ChaplainsListedSelectionActivity::class.java)
+                    intent.putExtra("chaplain_category", "LawChaplains")
+                    startActivity(intent)
+                    finish()
+                })
+            builder.setNegativeButton(
+                getString(R.string.chaplain_definitions_alert_cancel_button),
+                DialogInterface.OnClickListener { dialog, which ->
+                    dialog.cancel()
+                })
+            builder.show()
+
         }
         military_chaplain_cardView.setOnClickListener {
-            val intent = Intent(this, ChaplainsListedSelectionActivity::class.java)
-            intent.putExtra("chaplain_category", "MilitaryChaplains")
-            startActivity(intent)
-            finish()
+
+            //alert dialog create
+            val builder = AlertDialog.Builder(this@CategorySelection)
+            builder.setTitle(R.string.alert_military_chaplain_title)
+            builder.setMessage(R.string.alert_military_chaplain)
+
+            // Set up the buttons
+            builder.setPositiveButton(
+                getString(R.string.chaplain_definitions_alert_continue_button),
+                DialogInterface.OnClickListener { dialog, which ->
+                    val intent = Intent(this, ChaplainsListedSelectionActivity::class.java)
+                    intent.putExtra("chaplain_category", "MilitaryChaplains")
+                    startActivity(intent)
+                    finish()
+                })
+            builder.setNegativeButton(
+                getString(R.string.chaplain_definitions_alert_cancel_button),
+                DialogInterface.OnClickListener { dialog, which ->
+                    dialog.cancel()
+                })
+            builder.show()
+
         }
         correctional_chaplain_cardView.setOnClickListener {
-            val intent = Intent(this, ChaplainsListedSelectionActivity::class.java)
-            intent.putExtra("chaplain_category", "PrisonChaplains")
-            startActivity(intent)
-            finish()
+
+            //alert dialog create
+            val builder = AlertDialog.Builder(this@CategorySelection)
+            builder.setTitle(R.string.alert_prison_chaplain_title)
+            builder.setMessage(R.string.alert_prison_chaplain)
+
+            // Set up the buttons
+            builder.setPositiveButton(
+                getString(R.string.chaplain_definitions_alert_continue_button),
+                DialogInterface.OnClickListener { dialog, which ->
+                    val intent = Intent(this, ChaplainsListedSelectionActivity::class.java)
+                    intent.putExtra("chaplain_category", "PrisonChaplains")
+                    startActivity(intent)
+                    finish()
+                })
+            builder.setNegativeButton(
+                getString(R.string.chaplain_definitions_alert_cancel_button),
+                DialogInterface.OnClickListener { dialog, which ->
+                    dialog.cancel()
+                })
+            builder.show()
+
         }
         corporate_chaplain_cardView.setOnClickListener {
-            val intent = Intent(this, ChaplainsListedSelectionActivity::class.java)
-            intent.putExtra("chaplain_category", "CorporateChaplains")
-            startActivity(intent)
-            finish()
+
+            //alert dialog create
+            val builder = AlertDialog.Builder(this@CategorySelection)
+            builder.setTitle(R.string.alert_corporate_chaplain_title)
+            builder.setMessage(R.string.alert_corporate_chaplain)
+
+            // Set up the buttons
+            builder.setPositiveButton(
+                getString(R.string.chaplain_definitions_alert_continue_button),
+                DialogInterface.OnClickListener { dialog, which ->
+                    val intent = Intent(this, ChaplainsListedSelectionActivity::class.java)
+                    intent.putExtra("chaplain_category", "CorporateChaplains")
+                    startActivity(intent)
+                    finish()
+                })
+            builder.setNegativeButton(
+                getString(R.string.chaplain_definitions_alert_cancel_button),
+                DialogInterface.OnClickListener { dialog, which ->
+                    dialog.cancel()
+                })
+            builder.show()
+
         }
         pet_chaplain_cardView.setOnClickListener {
-            val intent = Intent(this, ChaplainsListedSelectionActivity::class.java)
-            intent.putExtra("chaplain_category", "PetChaplains")
-            startActivity(intent)
-            finish()
+
+            //alert dialog create
+            val builder = AlertDialog.Builder(this@CategorySelection)
+            builder.setTitle(R.string.alert_pet_chaplain_title)
+            builder.setMessage(R.string.alert_pet_chaplain)
+
+            // Set up the buttons
+            builder.setPositiveButton(
+                getString(R.string.chaplain_definitions_alert_continue_button),
+                DialogInterface.OnClickListener { dialog, which ->
+                    val intent = Intent(this, ChaplainsListedSelectionActivity::class.java)
+                    intent.putExtra("chaplain_category", "PetChaplains")
+                    startActivity(intent)
+                    finish()
+                })
+            builder.setNegativeButton(
+                getString(R.string.chaplain_definitions_alert_cancel_button),
+                DialogInterface.OnClickListener { dialog, which ->
+                    dialog.cancel()
+                })
+            builder.show()
         }
 
         chaplain_field_back_button.setOnClickListener {
