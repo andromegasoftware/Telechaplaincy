@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".patient_past_appointments.PatientPastAppointmentsDetailActivity">
+    tools:context=".chaplain_future_appointments.PatientAppointmentHistoryDetailsActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -18,14 +18,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/futureappui"
-            android:orientation="vertical"
-            android:weightSum="100">
+            android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="40dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="20dp"
                 app:cardCornerRadius="20dp"
@@ -38,20 +37,12 @@
                     android:layout_marginRight="5dp"
                     android:orientation="vertical">
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/past_appointment_imageView_chaplain_image"
-                        android:layout_width="96dp"
-                        android:layout_height="96dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="20dp"
-                        android:src="@drawable/ic_baseline_account_circle_24" />
-
                     <TextView
-                        android:id="@+id/past_appointment_chaplain_name_textView"
+                        android:id="@+id/patient_appointment_history_chaplain_name_textView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="20dp"
                         android:text="Rev. Cameron, BCC/ACPE "
                         android:textColor="@android:color/black"
                         android:textSize="18sp"
@@ -83,7 +74,7 @@
                                 android:text="@string/appointment_day" />
 
                             <TextView
-                                android:id="@+id/past_appointment_date_textView"
+                                android:id="@+id/patient_appointment_history_date_textView"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="20dp"
@@ -108,7 +99,7 @@
                                 android:text="@string/appointment_time" />
 
                             <TextView
-                                android:id="@+id/past_appointment_time_textView"
+                                android:id="@+id/patient_appointment_history_time_textView"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="20dp"
@@ -133,13 +124,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
-                        android:text="@string/patient_past_appointments_details_doctor_note_title"
+                        android:text="@string/chaplain_note_for_patient"
                         android:textColor="@android:color/black"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/past_appointment_doctor_note_textView"
+                        android:id="@+id/patient_appointment_history_doctor_note_for_patient_textView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="-" />
@@ -152,13 +143,30 @@
                         android:layout_marginBottom="10dp"
                         android:background="#c0c0c0" />
 
-                    <Button
-                        android:id="@+id/past_appointments_details_make_another_appointment_button"
+                    <TextView
+                        android:id="@+id/future_appointment_number_textView3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dp"
-                        android:background="@drawable/button_shape"
-                        android:text="@string/patient_past_appointments_details_make_another_appointment_button_text" />
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="@string/chaplain_note_for_chaplain"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/patient_appointment_history_doctor_note_for_chaplains_textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="-" />
+
+                    <View
+                        android:id="@+id/view58"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="30dp"
+                        android:background="#c0c0c0" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

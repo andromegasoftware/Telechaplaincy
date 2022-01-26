@@ -173,7 +173,7 @@ class ChaplainPastAppointmentDetailsActivity : AppCompatActivity() {
 
                         }
                         if (result.patientSurname != null) {
-                            patientProfileLastName = result.chaplainSurname.toString()
+                            patientProfileLastName = result.patientSurname.toString()
 
                             past_appointment_patient_name_textView.text =
                                 "$patientProfileFirstName $patientProfileLastName"

@@ -3,6 +3,12 @@
     <string name="app_mail_address">telechaplaincy@gmail.com</string>
     <string name="app_int_connection_alert">Sorry! We could not find any internet connection. App work with internet connection.</string>
 
+    //patient older appointments chaplain notes
+    <string name="activity_title">Patient\'s Appointment History</string>
+    <string name="empty_past_appointment_exp">Patient do not have any past appointment</string>
+    <string name="chaplain_note_for_patient">Chaplain Note for Patient</string>
+    <string name="chaplain_note_for_chaplain">Chaplain Note for Chaplain</string>
+
     //chaplain definitions for alert dialog
     <string name="chaplain_definitions_alert_continue_button">Continue</string>
     <string name="chaplain_definitions_alert_cancel_button">Cancel</string>

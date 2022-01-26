@@ -90,14 +90,27 @@ class ChaplainFutureAppointmentDetailsActivity : AppCompatActivity() {
 
         takeAppointmentInfo()
 
+        //this is for that chaplain will see the patient's appointment history
+        chaplain_future_appointment_patient_past_appointments_textView.setOnClickListener {
+            val intent = Intent(this, PatientAppointmentHistory::class.java)
+            intent.putExtra("patientUserId", patientUserId)
+            intent.putExtra("appointment_id", appointmentId)
+            startActivity(intent)
+            finish()
+        }
+
         chaplain_future_appointment_cancel_button.setOnClickListener {
             alertDialogMessageMethodForAppointmentCancel()
         }
 
         chaplain_future_appointment_call_button.setOnClickListener {
 
-            if (checkSelfPermission(Manifest.permission.RECORD_AUDIO, PERMISSION_REQ_ID_RECORD_AUDIO) &&
-                checkSelfPermission(Manifest.permission.CAMERA, PERMISSION_REQ_ID_CAMERA)){
+            if (checkSelfPermission(
+                    Manifest.permission.RECORD_AUDIO,
+                    PERMISSION_REQ_ID_RECORD_AUDIO
+                ) &&
+                checkSelfPermission(Manifest.permission.CAMERA, PERMISSION_REQ_ID_CAMERA)
+            ) {
                 // If all the permissions are granted, call the call method and initialize the RtcEngine object and join a channel.
                 callChaplainMethod()
             }
