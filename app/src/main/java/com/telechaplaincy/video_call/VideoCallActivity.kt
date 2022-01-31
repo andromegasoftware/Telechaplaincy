@@ -36,7 +36,8 @@ class VideoCallActivity : AppCompatActivity() {
     private val CHANNEL = "appointment"
 
     // Fill the temp token generated on Agora Console.
-    private var TOKEN = ""
+    private var TOKEN =
+        "006afb5ee413d864417bbcf32ba55b40dacIAAa1WrVbi0XAjbsmZZesMlXFFJeeTgL0Y16lrG+uGrkb0T4OP4AAAAAEADbqsx0VoL2YQEAAQBWgvZh"
 
     private var mRtcEngine: RtcEngine? = null
 
@@ -102,15 +103,15 @@ class VideoCallActivity : AppCompatActivity() {
             Picasso.get().load(chaplainProfileImageLink).into(video_chat_remote_user_image_view)
         }
 
-        getToken()
-        //initializeAndJoinChannel()
+        //getToken()
+        initializeAndJoinChannel()
 
         video_page_mic_imageButton.setOnClickListener {
-            if (!isMicMuted){
+            if (!isMicMuted) {
                 mRtcEngine?.muteLocalAudioStream(true)
                 isMicMuted = true
                 video_page_mic_imageButton.setImageResource(R.drawable.ic_baseline_mic_off_24)
-            }else{
+            } else {
                 mRtcEngine?.muteLocalAudioStream(false)
                 isMicMuted = false
                 video_page_mic_imageButton.setImageResource(R.drawable.ic_baseline_mic_24)
@@ -157,7 +158,6 @@ class VideoCallActivity : AppCompatActivity() {
 
     private fun getToken(){
         //getting token info from rest api
-
         val retrofit = Retrofit.Builder()
             .baseUrl("https://kadir.webprogrammer.fi/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -166,11 +166,14 @@ class VideoCallActivity : AppCompatActivity() {
         val api = retrofit.create(TokenApiInterface::class.java)
 
         api.fetchAllData(uid = uniqueUserId.toString()).enqueue(object : Callback<TokenModelClass> {
-            override fun onResponse(call: Call<TokenModelClass>, response: Response<TokenModelClass>) {
+            override fun onResponse(
+                call: Call<TokenModelClass>,
+                response: Response<TokenModelClass>
+            ) {
                 TOKEN = response.body()?.token ?: TOKEN
                 Log.e("TOKEN_1: ", TOKEN)
                 Log.e("TOKEN_2: ", uniqueUserId.toString())
-                initializeAndJoinChannel(TOKEN)
+                //initializeAndJoinChannel(TOKEN)
             }
 
             override fun onFailure(call: Call<TokenModelClass>, t: Throwable) {
@@ -198,7 +201,7 @@ class VideoCallActivity : AppCompatActivity() {
         }.start()
     }
 
-    private fun initializeAndJoinChannel(TOKENNEW:String) {
+    private fun initializeAndJoinChannel() {
         try {
             mRtcEngine = RtcEngine.create(baseContext, APP_ID, mRtcEventHandler)
         } catch (e: Exception) {
@@ -212,10 +215,10 @@ class VideoCallActivity : AppCompatActivity() {
         localFrame.setZOrderMediaOverlay(true)
         localContainer.addView(localFrame)
         // Pass the SurfaceView object to Agora so that it renders the local video.
-        mRtcEngine!!.setupLocalVideo(VideoCanvas(localFrame, VideoCanvas.RENDER_MODE_FIT, uniqueUserId))
+        mRtcEngine!!.setupLocalVideo(VideoCanvas(localFrame, VideoCanvas.RENDER_MODE_FIT, 0))
 
         // Join the channel with a token.
-        mRtcEngine!!.joinChannel(TOKENNEW, CHANNEL, "", uniqueUserId)
+        mRtcEngine!!.joinChannel(TOKEN, CHANNEL, "", 0)
 
     }
 
@@ -228,7 +231,7 @@ class VideoCallActivity : AppCompatActivity() {
             VideoCanvas(
                 remoteFrame,
                 VideoCanvas.RENDER_MODE_FIT,
-                uniqueUserId
+                0
             )
         )
     }

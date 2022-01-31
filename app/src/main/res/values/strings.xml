@@ -229,32 +229,59 @@
         <item>Nothing Selected</item>
         <item>None</item>
         <item>Anxiety disorders</item>
-        <item>Behavioural and emotional disorders</item>
-        <item>Bipolar affective disorder</item>
-        <item>Depression</item>
-        <item>Dissociation and dissociative disorders</item>
-        <item>Eating disorders</item>
+        <item>Panic disorder</item>
         <item>Obsessive compulsive disorder</item>
-        <item>Paranoia</item>
+        <item>Phobias</item>
+        <item>Depression</item>
+        <item>Bipolar disorder</item>
+        <item>Mood disorders</item>
+        <item>Eating disorders</item>
+        <item>Personality disorders</item>
         <item>Post-traumatic stress disorder</item>
-        <item>Psychosis</item>
+        <item>Psychotic disorders</item>
         <item>Schizophrenia</item>
+        <item>Addiction issues</item>
+        <item>Schizoid personality disorder</item>
+        <item>Schizotypal disorder</item>
+        <item>Antisocial personality disorder</item>
+        <item>Borderline personality disorder</item>
+        <item>Histrionic personality disorder</item>
+        <item>Narcissistic personality disorder</item>
+        <item>Avoidant personality disorder</item>
         <item>Other</item>
     </string-array>
 
     <string-array name="major_health_problems_array">
         <item>Nothing Selected</item>
         <item>None</item>
-        <item>Physical Activity and Nutrition</item>
-        <item>Overweight and Obesity</item>
-        <item>Tobacco</item>
-        <item>Substance Abuse</item>
-        <item>HIV/AIDS</item>
-        <item>Mental Health</item>
-        <item>Injury and Violence</item>
-        <item>Environmental Quality</item>
-        <item>Immunization</item>
-        <item>Access to Health Care</item>
+        <item>Hypertension</item>
+        <item>Lipid disorders (high cholesterol)</item>
+        <item>Diabetes</item>
+        <item>Heart Disease</item>
+        <item>Heart Failure</item>
+        <item>Asthma</item>
+        <item>COPD</item>
+        <item>Stroke</item>
+        <item>Chronic Kidney Disease</item>
+        <item>Epilepsy</item>
+        <item>Hypothyroidism</item>
+        <item>Chronic liver disease</item>
+        <item>Inflammatory Bowel Disease</item>
+        <item>End-stage renal disease/Dialysis</item>
+        <item>Osteoarthritis</item>
+        <item>Endometriosis</item>
+        <item>Cancer</item>
+        <item>Infectious Disease: Tuberculosis, HCV, HBV, HIV, COVID-19, Influenza</item>
+        <item>Gallstones</item>
+        <item>Autoimmune Illness (Lupus, Scleroderma, etc.)</item>
+        <item>Violence, trauma, injury, and burn</item>
+        <item>Chronic pain</item>
+        <item>Peripheral artery disease</item>
+        <item>Hypercalcemia</item>
+        <item>Benign Prostate Hyperplasia</item>
+        <item>Obesity</item>
+        <item>Disabilities</item>
+        <item>End-stage diseases</item>
         <item>Other</item>
     </string-array>
 

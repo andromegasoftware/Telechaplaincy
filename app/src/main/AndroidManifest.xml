@@ -64,7 +64,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
-            android:name=".pre_assessment_questions.MentalHealthChaplainAssessment"
+            android:name=".pre_assessment_questions.MentalHealthChaplainAssessmentActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ChaplainSignUpPageTheme" />
         <activity

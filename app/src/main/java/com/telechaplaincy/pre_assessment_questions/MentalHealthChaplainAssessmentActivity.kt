@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.activity_community_chaplain_assessment.*
 import kotlinx.android.synthetic.main.activity_health_care_chaplain_assessment.*
 import kotlinx.android.synthetic.main.activity_mental_health_chaplain_assessment.*
 
-class MentalHealthChaplainAssessment : AppCompatActivity() {
+class MentalHealthChaplainAssessmentActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private val db = Firebase.firestore
@@ -98,7 +98,7 @@ class MentalHealthChaplainAssessment : AppCompatActivity() {
                             for (k in topThreeEmotionsArrayList.indices) {
                                 if (topThreeEmotionsArrayList[k] != "Nothing Selected") {
                                     val chipTopThreeEmotions =
-                                        Chip(this@MentalHealthChaplainAssessment)
+                                        Chip(this@MentalHealthChaplainAssessmentActivity)
                                     chipTopThreeEmotions.isCloseIconVisible = true
                                     chipTopThreeEmotions.setChipBackgroundColorResource(R.color.colorAccent)
                                     chipTopThreeEmotions.setTextColor(resources.getColor(R.color.colorPrimary))
@@ -125,7 +125,7 @@ class MentalHealthChaplainAssessment : AppCompatActivity() {
                             for (k in partOfSocialCommunityArrayList.indices) {
                                 if (partOfSocialCommunityArrayList[k] != "Nothing Selected") {
                                     val chipPartOfSocialCommunity =
-                                        Chip(this@MentalHealthChaplainAssessment)
+                                        Chip(this@MentalHealthChaplainAssessmentActivity)
                                     chipPartOfSocialCommunity.isCloseIconVisible = true
                                     chipPartOfSocialCommunity.setChipBackgroundColorResource(R.color.colorAccent)
                                     chipPartOfSocialCommunity.setTextColor(resources.getColor(R.color.colorPrimary))
@@ -154,7 +154,7 @@ class MentalHealthChaplainAssessment : AppCompatActivity() {
                             for (k in meaningOfLifeArrayList.indices) {
                                 if (meaningOfLifeArrayList[k] != "Nothing Selected") {
                                     val chipMeaningOfLife =
-                                        Chip(this@MentalHealthChaplainAssessment)
+                                        Chip(this@MentalHealthChaplainAssessmentActivity)
                                     chipMeaningOfLife.isCloseIconVisible = true
                                     chipMeaningOfLife.setChipBackgroundColorResource(R.color.colorAccent)
                                     chipMeaningOfLife.setTextColor(resources.getColor(R.color.colorPrimary))
@@ -180,7 +180,7 @@ class MentalHealthChaplainAssessment : AppCompatActivity() {
                             for (k in crisisArrayList.indices) {
                                 if (crisisArrayList[k] != "Nothing Selected") {
                                     val chipCrisis =
-                                        Chip(this@MentalHealthChaplainAssessment)
+                                        Chip(this@MentalHealthChaplainAssessmentActivity)
                                     chipCrisis.isCloseIconVisible = true
                                     chipCrisis.setChipBackgroundColorResource(R.color.colorAccent)
                                     chipCrisis.setTextColor(resources.getColor(R.color.colorPrimary))
@@ -203,7 +203,7 @@ class MentalHealthChaplainAssessment : AppCompatActivity() {
                             for (k in significantHealthIssueArrayList.indices) {
                                 if (significantHealthIssueArrayList[k] != "Nothing Selected") {
                                     val chipSignificantHealthIssue =
-                                        Chip(this@MentalHealthChaplainAssessment)
+                                        Chip(this@MentalHealthChaplainAssessmentActivity)
                                     chipSignificantHealthIssue.isCloseIconVisible = true
                                     chipSignificantHealthIssue.setChipBackgroundColorResource(R.color.colorAccent)
                                     chipSignificantHealthIssue.setTextColor(resources.getColor(R.color.colorPrimary))
@@ -368,7 +368,7 @@ class MentalHealthChaplainAssessment : AppCompatActivity() {
                     id: Long
                 ) {
                     crisisIssue = spinnerCrisisIssue[position]
-                    val chipCrisisIssue = Chip(this@MentalHealthChaplainAssessment)
+                    val chipCrisisIssue = Chip(this@MentalHealthChaplainAssessmentActivity)
                     chipCrisisIssue.isCloseIconVisible = true
                     chipCrisisIssue.setChipBackgroundColorResource(R.color.colorAccent)
                     chipCrisisIssue.setTextColor(resources.getColor(R.color.colorPrimary))
@@ -379,11 +379,12 @@ class MentalHealthChaplainAssessment : AppCompatActivity() {
                     } else if (crisisIssue == "Other") {
 
                         //alert dialog create
-                        val builder = AlertDialog.Builder(this@MentalHealthChaplainAssessment)
+                        val builder =
+                            AlertDialog.Builder(this@MentalHealthChaplainAssessmentActivity)
                         builder.setTitle(R.string.social_problem_alert_title)
 
                         // Set up the input
-                        val input = EditText(this@MentalHealthChaplainAssessment)
+                        val input = EditText(this@MentalHealthChaplainAssessmentActivity)
                         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
                         input.hint = getString(R.string.social_problem_alert_hint)
                         input.inputType = InputType.TYPE_CLASS_TEXT
@@ -440,7 +441,8 @@ class MentalHealthChaplainAssessment : AppCompatActivity() {
                     id: Long
                 ) {
                     significantHealthIssue = spinnerSignificantHealthIssues[position]
-                    val chipSignificantHealthIssue = Chip(this@MentalHealthChaplainAssessment)
+                    val chipSignificantHealthIssue =
+                        Chip(this@MentalHealthChaplainAssessmentActivity)
                     chipSignificantHealthIssue.isCloseIconVisible = true
                     chipSignificantHealthIssue.setChipBackgroundColorResource(R.color.colorAccent)
                     chipSignificantHealthIssue.setTextColor(resources.getColor(R.color.colorPrimary))
@@ -451,11 +453,12 @@ class MentalHealthChaplainAssessment : AppCompatActivity() {
                     } else if (significantHealthIssue == "Other") {
 
                         //alert dialog create
-                        val builder = AlertDialog.Builder(this@MentalHealthChaplainAssessment)
+                        val builder =
+                            AlertDialog.Builder(this@MentalHealthChaplainAssessmentActivity)
                         builder.setTitle(R.string.social_problem_alert_title)
 
                         // Set up the input
-                        val input = EditText(this@MentalHealthChaplainAssessment)
+                        val input = EditText(this@MentalHealthChaplainAssessmentActivity)
                         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
                         input.hint = getString(R.string.social_problem_alert_hint)
                         input.inputType = InputType.TYPE_CLASS_TEXT
@@ -511,7 +514,7 @@ class MentalHealthChaplainAssessment : AppCompatActivity() {
                     id: Long
                 ) {
                     meaningOfLife = spinnerMeaningOfLife[position]
-                    val chipMeaningOfLife = Chip(this@MentalHealthChaplainAssessment)
+                    val chipMeaningOfLife = Chip(this@MentalHealthChaplainAssessmentActivity)
                     chipMeaningOfLife.isCloseIconVisible = true
                     chipMeaningOfLife.setChipBackgroundColorResource(R.color.colorAccent)
                     chipMeaningOfLife.setTextColor(resources.getColor(R.color.colorPrimary))
@@ -522,11 +525,12 @@ class MentalHealthChaplainAssessment : AppCompatActivity() {
                     } else if (meaningOfLife == "Other") {
 
                         //alert dialog create
-                        val builder = AlertDialog.Builder(this@MentalHealthChaplainAssessment)
+                        val builder =
+                            AlertDialog.Builder(this@MentalHealthChaplainAssessmentActivity)
                         builder.setTitle(R.string.social_problem_alert_title)
 
                         // Set up the input
-                        val input = EditText(this@MentalHealthChaplainAssessment)
+                        val input = EditText(this@MentalHealthChaplainAssessmentActivity)
                         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
                         input.hint = getString(R.string.social_problem_alert_hint)
                         input.inputType = InputType.TYPE_CLASS_TEXT
@@ -584,7 +588,8 @@ class MentalHealthChaplainAssessment : AppCompatActivity() {
                     id: Long
                 ) {
                     partOfSocialCommunity = spinnerPartOfSocialCommunity[position]
-                    val chipPartOfSocialCommunity = Chip(this@MentalHealthChaplainAssessment)
+                    val chipPartOfSocialCommunity =
+                        Chip(this@MentalHealthChaplainAssessmentActivity)
                     chipPartOfSocialCommunity.isCloseIconVisible = true
                     chipPartOfSocialCommunity.setChipBackgroundColorResource(R.color.colorAccent)
                     chipPartOfSocialCommunity.setTextColor(resources.getColor(R.color.colorPrimary))
@@ -597,11 +602,12 @@ class MentalHealthChaplainAssessment : AppCompatActivity() {
                     } else if (partOfSocialCommunity == "Other") {
 
                         //alert dialog create
-                        val builder = AlertDialog.Builder(this@MentalHealthChaplainAssessment)
+                        val builder =
+                            AlertDialog.Builder(this@MentalHealthChaplainAssessmentActivity)
                         builder.setTitle(R.string.social_problem_alert_title)
 
                         // Set up the input
-                        val input = EditText(this@MentalHealthChaplainAssessment)
+                        val input = EditText(this@MentalHealthChaplainAssessmentActivity)
                         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
                         input.hint = getString(R.string.social_problem_alert_hint)
                         input.inputType = InputType.TYPE_CLASS_TEXT
@@ -660,7 +666,7 @@ class MentalHealthChaplainAssessment : AppCompatActivity() {
                     id: Long
                 ) {
                     topThreeEmotions = spinnerTopThreeEmotions[position]
-                    val chipTopThreeEmotions = Chip(this@MentalHealthChaplainAssessment)
+                    val chipTopThreeEmotions = Chip(this@MentalHealthChaplainAssessmentActivity)
                     chipTopThreeEmotions.isCloseIconVisible = true
                     chipTopThreeEmotions.setChipBackgroundColorResource(R.color.colorAccent)
                     chipTopThreeEmotions.setTextColor(resources.getColor(R.color.colorPrimary))
@@ -671,11 +677,12 @@ class MentalHealthChaplainAssessment : AppCompatActivity() {
                     } else if (topThreeEmotions == "Other") {
 
                         //alert dialog create
-                        val builder = AlertDialog.Builder(this@MentalHealthChaplainAssessment)
+                        val builder =
+                            AlertDialog.Builder(this@MentalHealthChaplainAssessmentActivity)
                         builder.setTitle(R.string.social_problem_alert_title)
 
                         // Set up the input
-                        val input = EditText(this@MentalHealthChaplainAssessment)
+                        val input = EditText(this@MentalHealthChaplainAssessmentActivity)
                         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
                         input.hint = getString(R.string.social_problem_alert_hint)
                         input.inputType = InputType.TYPE_CLASS_TEXT

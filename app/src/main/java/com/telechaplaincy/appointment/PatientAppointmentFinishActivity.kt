@@ -24,69 +24,69 @@ class PatientAppointmentFinishActivity : AppCompatActivity() {
         patient_appointment_finish_page_answer_question_button.setOnClickListener {
             if (chaplainCategory == "HumanistChaplains") {
                 val intent = Intent(this, CommunityChaplainAssessmentActivity::class.java)
-                intent.putExtra("appointmentId", appointmentId)
+                intent.putExtra("appointment_id", appointmentId)
                 startActivity(intent)
                 finish()
             } else if (chaplainCategory == "HealthChaplains") {
                 val intent = Intent(this, HealthCareChaplainAssessmentActivity::class.java)
-                intent.putExtra("appointmentId", appointmentId)
+                intent.putExtra("appointment_id", appointmentId)
                 startActivity(intent)
                 finish()
             } else if (chaplainCategory == "HospiceChaplains") {
                 val intent = Intent(this, HospiceChaplainAssessmentActivity::class.java)
-                intent.putExtra("appointmentId", appointmentId)
+                intent.putExtra("appointment_id", appointmentId)
                 startActivity(intent)
                 finish()
             } else if (chaplainCategory == "MentalChaplains") {
-                val intent = Intent(this, MentalHealthChaplainAssessment::class.java)
-                intent.putExtra("appointmentId", appointmentId)
+                val intent = Intent(this, MentalHealthChaplainAssessmentActivity::class.java)
+                intent.putExtra("appointment_id", appointmentId)
                 startActivity(intent)
                 finish()
             }
             //crisis chaplain and mental health Chaplain assessment questions are same
             else if (chaplainCategory == "CrisisChaplains") {
-                val intent = Intent(this, MentalHealthChaplainAssessment::class.java)
-                intent.putExtra("appointmentId", appointmentId)
+                val intent = Intent(this, MentalHealthChaplainAssessmentActivity::class.java)
+                intent.putExtra("appointment_id", appointmentId)
                 startActivity(intent)
                 finish()
             } else if (chaplainCategory == "PalliativeChaplains") {
                 val intent = Intent(this, PalliativeCareChaplainAssessmentActivity::class.java)
-                intent.putExtra("appointmentId", appointmentId)
+                intent.putExtra("appointment_id", appointmentId)
                 startActivity(intent)
                 finish()
             } else if (chaplainCategory == "PetChaplains") {
                 val intent = Intent(this, PetChaplainAssessmentActivity::class.java)
-                intent.putExtra("appointmentId", appointmentId)
+                intent.putExtra("appointment_id", appointmentId)
                 startActivity(intent)
                 finish()
             } else if (chaplainCategory == "PrisonChaplains") {
                 val intent = Intent(this, PrisonChaplainAssessmentActivity::class.java)
-                intent.putExtra("appointmentId", appointmentId)
+                intent.putExtra("appointment_id", appointmentId)
                 startActivity(intent)
                 finish()
             } else if (chaplainCategory == "PediatricChaplains") {
                 val intent = Intent(this, PediatricChaplainAssessmentActivity::class.java)
-                intent.putExtra("appointmentId", appointmentId)
+                intent.putExtra("appointment_id", appointmentId)
                 startActivity(intent)
                 finish()
             } else if (chaplainCategory == "CollegeChaplains") {
                 val intent = Intent(this, CollegeChaplainAssessmentActivity::class.java)
-                intent.putExtra("appointmentId", appointmentId)
+                intent.putExtra("appointment_id", appointmentId)
                 startActivity(intent)
                 finish()
             } else if (chaplainCategory == "CorporateChaplains") {
                 val intent = Intent(this, CorporateChaplainAssessmentActivity::class.java)
-                intent.putExtra("appointmentId", appointmentId)
+                intent.putExtra("appointment_id", appointmentId)
                 startActivity(intent)
                 finish()
             } else if (chaplainCategory == "MilitaryChaplains") {
                 val intent = Intent(this, MilitaryLawChaplainAssessmentActivity::class.java)
-                intent.putExtra("appointmentId", appointmentId)
+                intent.putExtra("appointment_id", appointmentId)
                 startActivity(intent)
                 finish()
             } else if (chaplainCategory == "LawChaplains") {
                 val intent = Intent(this, MilitaryLawChaplainAssessmentActivity::class.java)
-                intent.putExtra("appointmentId", appointmentId)
+                intent.putExtra("appointment_id", appointmentId)
                 startActivity(intent)
                 finish()
             }

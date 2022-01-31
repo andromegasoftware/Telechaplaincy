@@ -111,14 +111,14 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
                 finish()
             }
             else if (chaplainCategory == "MentalChaplains"){
-                val intent = Intent(this, MentalHealthChaplainAssessment::class.java)
+                val intent = Intent(this, MentalHealthChaplainAssessmentActivity::class.java)
                 intent.putExtra("appointment_id", appointmentId)
                 startActivity(intent)
                 finish()
             }
             //crisis chaplain and mental health Chaplain assessment questions are same
             else if (chaplainCategory == "CrisisChaplains"){
-                val intent = Intent(this, MentalHealthChaplainAssessment::class.java)
+                val intent = Intent(this, MentalHealthChaplainAssessmentActivity::class.java)
                 intent.putExtra("appointment_id", appointmentId)
                 startActivity(intent)
                 finish()
