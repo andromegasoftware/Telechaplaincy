@@ -37,16 +37,17 @@ class VideoCallActivity : AppCompatActivity() {
 
     // Fill the temp token generated on Agora Console.
     private var TOKEN =
-        "006afb5ee413d864417bbcf32ba55b40dacIAAa1WrVbi0XAjbsmZZesMlXFFJeeTgL0Y16lrG+uGrkb0T4OP4AAAAAEADbqsx0VoL2YQEAAQBWgvZh"
+        "006afb5ee413d864417bbcf32ba55b40dacIAC9Tpc2k2Rbs/yuqEIM57L+Ci862D4pLLRv+rzrrTcc7ET4OP4AAAAAEAD1z9KPIJn6YQEAAQAfmfph"
 
     private var mRtcEngine: RtcEngine? = null
 
     private lateinit var localContainer: FrameLayout
     private lateinit var remoteContainer: FrameLayout
-    private lateinit var timer:CountDownTimer
+    private lateinit var timer: CountDownTimer
 
     private var chaplainName = ""
-    private var uniqueUserId:Int = 0
+    private var uniqueUserUidLocal: Int = 0
+    private var uniqueUserUidRemote: Int = 0
     private var chaplainProfileImageLink = ""
     private var isMicMuted = false
     private var isCameraOpen = true
@@ -54,10 +55,10 @@ class VideoCallActivity : AppCompatActivity() {
 
     private val mRtcEventHandler = object : IRtcEngineEventHandler() {
         // Listen for the remote user joining the channel to get the uid of the user.
-        override fun onUserJoined(uniqueUserId: Int, elapsed: Int) {
+        override fun onUserJoined(uniqueUserUidRemote: Int, elapsed: Int) {
             runOnUiThread {
                 // Call setupRemoteVideo to set the remote video view after getting uid from the onUserJoined callback.
-                setupRemoteVideo(uniqueUserId)
+                setupRemoteVideo(uniqueUserUidRemote)
 
                 //hide remote user profile image
                 video_chat_remote_user_image_view.visibility = View.GONE
@@ -67,14 +68,14 @@ class VideoCallActivity : AppCompatActivity() {
             }
         }
 
-        override fun onUserMuteVideo(uid: Int, muted: Boolean) {
+        override fun onUserMuteVideo(uniqueUserUidRemote: Int, muted: Boolean) {
             runOnUiThread {
                 video_chat_remote_user_image_view.visibility = View.VISIBLE
                 video_page_name_textView.visibility = View.VISIBLE
             }
         }
 
-        override fun onUserOffline(uid: Int, reason: Int) {
+        override fun onUserOffline(uniqueUserUidRemote: Int, reason: Int) {
             runOnUiThread {
                 video_chat_remote_user_image_view.visibility = View.VISIBLE
                 video_page_name_textView.visibility = View.VISIBLE
@@ -97,14 +98,14 @@ class VideoCallActivity : AppCompatActivity() {
         chaplainName = intent.getStringExtra("chaplain_name").toString()
         val userId = intent.getStringExtra("chaplainUniqueUserId").toString()
         chaplainProfileImageLink = intent.getStringExtra("chaplainProfileImageLink").toString()
-        uniqueUserId = userId.toInt(10)
+        uniqueUserUidRemote = userId.toInt(10)
         video_page_name_textView.text = chaplainName
         if (chaplainProfileImageLink != "") {
             Picasso.get().load(chaplainProfileImageLink).into(video_chat_remote_user_image_view)
         }
 
-        //getToken()
-        initializeAndJoinChannel()
+        getToken()
+        //initializeAndJoinChannel()
 
         video_page_mic_imageButton.setOnClickListener {
             if (!isMicMuted) {
@@ -156,7 +157,7 @@ class VideoCallActivity : AppCompatActivity() {
 
     }
 
-    private fun getToken(){
+    private fun getToken() {
         //getting token info from rest api
         val retrofit = Retrofit.Builder()
             .baseUrl("https://kadir.webprogrammer.fi/")
@@ -165,22 +166,24 @@ class VideoCallActivity : AppCompatActivity() {
 
         val api = retrofit.create(TokenApiInterface::class.java)
 
-        api.fetchAllData(uid = uniqueUserId.toString()).enqueue(object : Callback<TokenModelClass> {
-            override fun onResponse(
-                call: Call<TokenModelClass>,
-                response: Response<TokenModelClass>
-            ) {
-                TOKEN = response.body()?.token ?: TOKEN
-                Log.e("TOKEN_1: ", TOKEN)
-                Log.e("TOKEN_2: ", uniqueUserId.toString())
-                //initializeAndJoinChannel(TOKEN)
-            }
+        //this part is not clear. which uid should be used remote uid or local uid
+        api.fetchAllData(uid = uniqueUserUidRemote.toString())
+            .enqueue(object : Callback<TokenModelClass> {
+                override fun onResponse(
+                    call: Call<TokenModelClass>,
+                    response: Response<TokenModelClass>
+                ) {
+                    TOKEN = response.body()?.token ?: TOKEN
+                    Log.e("TOKEN_1: ", TOKEN)
+                    Log.e("TOKEN_2: ", uniqueUserUidRemote.toString())
+                    initializeAndJoinChannel(TOKEN)
+                }
 
-            override fun onFailure(call: Call<TokenModelClass>, t: Throwable) {
-                Log.e("TOKEN: ", t.message.toString())
-            }
+                override fun onFailure(call: Call<TokenModelClass>, t: Throwable) {
+                    Log.e("TOKEN: ", t.message.toString())
+                }
 
-        })
+            })
 
     }
 
@@ -201,7 +204,7 @@ class VideoCallActivity : AppCompatActivity() {
         }.start()
     }
 
-    private fun initializeAndJoinChannel() {
+    private fun initializeAndJoinChannel(TOKEN: String) {
         try {
             mRtcEngine = RtcEngine.create(baseContext, APP_ID, mRtcEventHandler)
         } catch (e: Exception) {
@@ -216,13 +219,14 @@ class VideoCallActivity : AppCompatActivity() {
         localContainer.addView(localFrame)
         // Pass the SurfaceView object to Agora so that it renders the local video.
         mRtcEngine!!.setupLocalVideo(VideoCanvas(localFrame, VideoCanvas.RENDER_MODE_FIT, 0))
+        //this uid is the local user uid, not the remote user uid
 
         // Join the channel with a token.
         mRtcEngine!!.joinChannel(TOKEN, CHANNEL, "", 0)
 
     }
 
-    private fun setupRemoteVideo(uniqueUserId: Int) {
+    private fun setupRemoteVideo(uniqueUserUidRemote: Int) {
 
         val remoteFrame = RtcEngine.CreateRendererView(baseContext)
         //remoteFrame.setZOrderMediaOverlay(true)
@@ -231,7 +235,7 @@ class VideoCallActivity : AppCompatActivity() {
             VideoCanvas(
                 remoteFrame,
                 VideoCanvas.RENDER_MODE_FIT,
-                0
+                uniqueUserUidRemote
             )
         )
     }
