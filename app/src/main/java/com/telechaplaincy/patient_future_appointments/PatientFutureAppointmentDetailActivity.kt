@@ -347,9 +347,11 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
         val intent = Intent(this, VideoCallActivity::class.java)
         intent.putExtra("chaplain_name", future_appointment_chaplain_name_textView.text.toString())
         intent.putExtra("chaplainUniqueUserId", chaplainUniqueUserId)
-        intent.putExtra("patientUniqueUserId", patientUniqueUserId)
+        intent.putExtra("userId", patientUniqueUserId)
         intent.putExtra("chaplainProfileImageLink", chaplainProfileImageLink)
         intent.putExtra("chaplainProfileFieldUserId", chaplainProfileFieldUserId)
+        intent.putExtra("appointmentId", appointmentId)
+        intent.putExtra("userType", "patient")
         startActivity(intent)
     }
 

@@ -33,11 +33,11 @@ class VideoCallActivity : AppCompatActivity() {
     private val APP_ID = "afb5ee413d864417bbcf32ba55b40dac"
 
     // Fill the channel name.
-    private val CHANNEL = "appointment"
+    private var channelName = ""
+    private var userType = ""
 
     // Fill the temp token generated on Agora Console.
-    private var TOKEN =
-        "006afb5ee413d864417bbcf32ba55b40dacIAC9Tpc2k2Rbs/yuqEIM57L+Ci862D4pLLRv+rzrrTcc7ET4OP4AAAAAEAD1z9KPIJn6YQEAAQAfmfph"
+    private var TOKEN = ""
 
     private var mRtcEngine: RtcEngine? = null
 
@@ -94,9 +94,11 @@ class VideoCallActivity : AppCompatActivity() {
         remoteContainer = findViewById<FrameLayout>(R.id.remote_video_view_container)
 
         chaplainProfileFieldUserId = intent.getStringExtra("chaplainProfileFieldUserId").toString()
+        channelName = intent.getStringExtra("appointmentId").toString()
+        userType = intent.getStringExtra("userType").toString()
 
         chaplainName = intent.getStringExtra("chaplain_name").toString()
-        val userId = intent.getStringExtra("chaplainUniqueUserId").toString()
+        val userId = intent.getStringExtra("userId").toString()
         chaplainProfileImageLink = intent.getStringExtra("chaplainProfileImageLink").toString()
         uniqueUserUidRemote = userId.toInt(10)
         video_page_name_textView.text = chaplainName
@@ -167,7 +169,11 @@ class VideoCallActivity : AppCompatActivity() {
         val api = retrofit.create(TokenApiInterface::class.java)
 
         //this part is not clear. which uid should be used remote uid or local uid
-        api.fetchAllData(uid = uniqueUserUidRemote.toString())
+        api.fetchAllData(
+            uid = uniqueUserUidRemote.toString(),
+            channelName = channelName,
+            userType = userType
+        )
             .enqueue(object : Callback<TokenModelClass> {
                 override fun onResponse(
                     call: Call<TokenModelClass>,
@@ -222,7 +228,7 @@ class VideoCallActivity : AppCompatActivity() {
         //this uid is the local user uid, not the remote user uid
 
         // Join the channel with a token.
-        mRtcEngine!!.joinChannel(TOKEN, CHANNEL, "", 0)
+        mRtcEngine!!.joinChannel(TOKEN, channelName, "", 0)
 
     }
 

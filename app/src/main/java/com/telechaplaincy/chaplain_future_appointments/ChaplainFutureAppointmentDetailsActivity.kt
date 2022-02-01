@@ -275,9 +275,11 @@ class ChaplainFutureAppointmentDetailsActivity : AppCompatActivity() {
         //val toast = Toast.makeText(this, "clicked", Toast.LENGTH_LONG).show()
         val intent = Intent(this, VideoCallActivity::class.java)
         intent.putExtra("chaplain_name", future_appointment_patient_name_textView.text.toString())
-        intent.putExtra("chaplainUniqueUserId", chaplainUniqueUserId)
+        intent.putExtra("userId", chaplainUniqueUserId)
         intent.putExtra("patientUniqueUserId", patientUniqueUserId)
         intent.putExtra("chaplainProfileImageLink", patientProfileImageLink)
+        intent.putExtra("appointmentId", appointmentId)
+        intent.putExtra("userType", "chaplain")
         startActivity(intent)
     }
 

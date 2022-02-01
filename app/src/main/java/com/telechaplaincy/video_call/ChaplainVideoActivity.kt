@@ -1,11 +1,11 @@
 package com.telechaplaincy.video_call
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
+import androidx.appcompat.app.AppCompatActivity
 import com.squareup.picasso.Picasso
 import com.telechaplaincy.R
 import io.agora.rtc.IRtcEngineEventHandler
@@ -13,11 +13,6 @@ import io.agora.rtc.RtcEngine
 import io.agora.rtc.video.VideoCanvas
 import kotlinx.android.synthetic.main.activity_patient_future_appointment_detail.*
 import kotlinx.android.synthetic.main.activity_video_call.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -146,7 +141,7 @@ class ChaplainVideoActivity : AppCompatActivity() {
 
     }
 
-    private fun getToken(){
+    /*private fun getToken(){
         //getting token info from rest api
 
         val retrofit = Retrofit.Builder()
@@ -171,7 +166,7 @@ class ChaplainVideoActivity : AppCompatActivity() {
         })
 
     }
-
+*/
     private fun timer(){
         var meetingTotalTime:Long = 0
         timer = object: CountDownTimer(1800000, 1000) {
