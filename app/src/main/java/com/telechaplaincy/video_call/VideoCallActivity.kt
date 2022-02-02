@@ -38,6 +38,7 @@ class VideoCallActivity : AppCompatActivity() {
 
     // Fill the temp token generated on Agora Console.
     private var TOKEN = ""
+    private var API_UID: Int = 100
 
     private var mRtcEngine: RtcEngine? = null
 
@@ -52,6 +53,7 @@ class VideoCallActivity : AppCompatActivity() {
     private var isMicMuted = false
     private var isCameraOpen = true
     private var isRemoteSoundOpen = true
+    private var userUUID = ""
 
     private val mRtcEventHandler = object : IRtcEngineEventHandler() {
         // Listen for the remote user joining the channel to get the uid of the user.
@@ -98,9 +100,9 @@ class VideoCallActivity : AppCompatActivity() {
         userType = intent.getStringExtra("userType").toString()
 
         chaplainName = intent.getStringExtra("chaplain_name").toString()
-        val userId = intent.getStringExtra("userId").toString()
+        userUUID = intent.getStringExtra("userId").toString()
         chaplainProfileImageLink = intent.getStringExtra("chaplainProfileImageLink").toString()
-        uniqueUserUidRemote = userId.toInt(10)
+        uniqueUserUidRemote = userUUID.toInt(10)
         video_page_name_textView.text = chaplainName
         if (chaplainProfileImageLink != "") {
             Picasso.get().load(chaplainProfileImageLink).into(video_chat_remote_user_image_view)
@@ -168,9 +170,11 @@ class VideoCallActivity : AppCompatActivity() {
 
         val api = retrofit.create(TokenApiInterface::class.java)
 
+        Log.d("TOK USER TYPE",userType);
+        Log.d("TOK USER userUUID",userUUID);
         //this part is not clear. which uid should be used remote uid or local uid
         api.fetchAllData(
-            uid = uniqueUserUidRemote.toString(),
+            uid = userUUID,
             channelName = channelName,
             userType = userType
         )
@@ -179,10 +183,13 @@ class VideoCallActivity : AppCompatActivity() {
                     call: Call<TokenModelClass>,
                     response: Response<TokenModelClass>
                 ) {
+
                     TOKEN = response.body()?.token ?: TOKEN
+                    API_UID = response.body()?.uid ?: API_UID
+
                     Log.e("TOKEN_1: ", TOKEN)
-                    Log.e("TOKEN_2: ", uniqueUserUidRemote.toString())
-                    initializeAndJoinChannel(TOKEN)
+                    Log.e("TOKEN_UID: ", API_UID.toString())
+                    initializeAndJoinChannel(TOKEN,API_UID)
                 }
 
                 override fun onFailure(call: Call<TokenModelClass>, t: Throwable) {
@@ -210,7 +217,7 @@ class VideoCallActivity : AppCompatActivity() {
         }.start()
     }
 
-    private fun initializeAndJoinChannel(TOKEN: String) {
+    private fun initializeAndJoinChannel(TOKEN: String,API_UID: Int) {
         try {
             mRtcEngine = RtcEngine.create(baseContext, APP_ID, mRtcEventHandler)
         } catch (e: Exception) {
@@ -226,10 +233,14 @@ class VideoCallActivity : AppCompatActivity() {
         // Pass the SurfaceView object to Agora so that it renders the local video.
         mRtcEngine!!.setupLocalVideo(VideoCanvas(localFrame, VideoCanvas.RENDER_MODE_FIT, 0))
         //this uid is the local user uid, not the remote user uid
-
-        // Join the channel with a token.
-        mRtcEngine!!.joinChannel(TOKEN, channelName, "", 0)
-
+//        Log.d("TOK TOKEN",TOKEN);
+//        Log.d("TOK CHNA",channelName);
+//        Log.d("TOK APIUID",API_UID.toInt().toString());
+//        // Join the channel with a token.
+//        val tuid = 617322930;
+//        val ttoken = "006afb5ee413d864417bbcf32ba55b40dacIAAWVT1tyn5pXjoV2F3FOSxbAdF0uRlPaKNuIAegp37N285UmASFQKRlIgCoGgAAGab7YQQAAQCpYvphAwCpYvphAgCpYvphBACpYvph";
+//        mRtcEngine!!.joinChannel(ttoken, channelName, "", tuid)
+        mRtcEngine!!.joinChannel(TOKEN, channelName, "", API_UID.toInt())
     }
 
     private fun setupRemoteVideo(uniqueUserUidRemote: Int) {
