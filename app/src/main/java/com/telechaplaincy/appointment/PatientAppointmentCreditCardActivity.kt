@@ -123,13 +123,14 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
         credit_card_page_price_textView.text = "$appointmentPrice$"
 
         payButton.setOnClickListener {
-            if(isPaymentMethodSelected){
+            saveAppointmentInfoFireStore()  //I will delete this and open comment part, when the stripe is ready
+            /*if(isPaymentMethodSelected){
                 confirmPayment(selectedPaymentMethod.id!!)
                 credit_card_progressBar.visibility = View.VISIBLE
             }
             else{
                 Toast.makeText(applicationContext, getString(R.string.payment_method__toast_message), Toast.LENGTH_LONG).show()
-            }
+            }*/
         }
 
         paymentMethod.setOnClickListener {

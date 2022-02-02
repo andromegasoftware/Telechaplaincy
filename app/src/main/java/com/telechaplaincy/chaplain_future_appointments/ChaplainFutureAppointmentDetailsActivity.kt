@@ -252,17 +252,33 @@ class ChaplainFutureAppointmentDetailsActivity : AppCompatActivity() {
     }
 
     private fun timerMethod() {
-        chaplain_future_appointment_call_button.isClickable = true
+        chaplain_future_appointment_call_button.isClickable =
+            true //when I publish, I will make this false
         val timeNow = System.currentTimeMillis()
         val appointmentTimeLong = appointmentTime.toLong()
-        val timeRemain:Long = appointmentTimeLong - timeNow
-        val timer = object: CountDownTimer(timeRemain, 1000) {
+        val timeRemain: Long = appointmentTimeLong - timeNow
+        val timer = object : CountDownTimer(timeRemain, 1000) {
             override fun onTick(timeRemain: Long) {
                 val timeRemainDay = (TimeUnit.MILLISECONDS.toDays(timeRemain)).toString()
-                val timeRemainHours = (TimeUnit.MILLISECONDS.toHours(timeRemain)-TimeUnit.DAYS.toHours(TimeUnit.MILLISECONDS.toDays(timeRemain))).toString()
-                val timeRemainMinutes = (TimeUnit.MILLISECONDS.toMinutes(timeRemain)-TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(timeRemain))).toString()
-                val timeRemainSeconds = (TimeUnit.MILLISECONDS.toSeconds(timeRemain)-TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(timeRemain))).toString()
-                chaplain_future_appointment_remaining_time_textView.text = getString(R.string.day, timeRemainDay, timeRemainHours, timeRemainMinutes, timeRemainSeconds)
+                val timeRemainHours =
+                    (TimeUnit.MILLISECONDS.toHours(timeRemain) - TimeUnit.DAYS.toHours(
+                        TimeUnit.MILLISECONDS.toDays(timeRemain)
+                    )).toString()
+                val timeRemainMinutes =
+                    (TimeUnit.MILLISECONDS.toMinutes(timeRemain) - TimeUnit.HOURS.toMinutes(
+                        TimeUnit.MILLISECONDS.toHours(timeRemain)
+                    )).toString()
+                val timeRemainSeconds =
+                    (TimeUnit.MILLISECONDS.toSeconds(timeRemain) - TimeUnit.MINUTES.toSeconds(
+                        TimeUnit.MILLISECONDS.toMinutes(timeRemain)
+                    )).toString()
+                chaplain_future_appointment_remaining_time_textView.text = getString(
+                    R.string.day,
+                    timeRemainDay,
+                    timeRemainHours,
+                    timeRemainMinutes,
+                    timeRemainSeconds
+                )
             }
 
             override fun onFinish() {
