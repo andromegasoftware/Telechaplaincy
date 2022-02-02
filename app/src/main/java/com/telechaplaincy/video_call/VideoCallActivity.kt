@@ -33,10 +33,11 @@ class VideoCallActivity : AppCompatActivity() {
     private val APP_ID = "afb5ee413d864417bbcf32ba55b40dac"
 
     // Fill the channel name.
-    private var channelName = ""
+    private var channelName = "appointment"
     private var userType = ""
 
     // Fill the temp token generated on Agora Console.
+
     private var TOKEN = ""
     private var API_UID: Int = 100
 
@@ -108,8 +109,8 @@ class VideoCallActivity : AppCompatActivity() {
             Picasso.get().load(chaplainProfileImageLink).into(video_chat_remote_user_image_view)
         }
 
-        getToken()
-        //initializeAndJoinChannel()
+        //getToken()
+        initializeAndJoinChannel(TOKEN)
 
         video_page_mic_imageButton.setOnClickListener {
             if (!isMicMuted) {
