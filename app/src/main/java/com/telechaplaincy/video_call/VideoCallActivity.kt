@@ -109,8 +109,8 @@ class VideoCallActivity : AppCompatActivity() {
             Picasso.get().load(chaplainProfileImageLink).into(video_chat_remote_user_image_view)
         }
 
-        //getToken()
-        initializeAndJoinChannel(TOKEN)
+        getToken()
+        //initializeAndJoinChannel(TOKEN, userUUID)
 
         video_page_mic_imageButton.setOnClickListener {
             if (!isMicMuted) {
@@ -171,8 +171,8 @@ class VideoCallActivity : AppCompatActivity() {
 
         val api = retrofit.create(TokenApiInterface::class.java)
 
-        Log.d("TOK USER TYPE",userType);
-        Log.d("TOK USER userUUID",userUUID);
+        Log.d("TOK USER TYPE", userType)
+        Log.d("TOK USER userUUID", userUUID)
         //this part is not clear. which uid should be used remote uid or local uid
         api.fetchAllData(
             uid = userUUID,
@@ -190,7 +190,7 @@ class VideoCallActivity : AppCompatActivity() {
 
                     Log.e("TOKEN_1: ", TOKEN)
                     Log.e("TOKEN_UID: ", API_UID.toString())
-                    initializeAndJoinChannel(TOKEN,API_UID)
+                    initializeAndJoinChannel(TOKEN, API_UID)
                 }
 
                 override fun onFailure(call: Call<TokenModelClass>, t: Throwable) {
@@ -218,7 +218,7 @@ class VideoCallActivity : AppCompatActivity() {
         }.start()
     }
 
-    private fun initializeAndJoinChannel(TOKEN: String,API_UID: Int) {
+    private fun initializeAndJoinChannel(TOKEN: String, API_UID: Int) {
         try {
             mRtcEngine = RtcEngine.create(baseContext, APP_ID, mRtcEventHandler)
         } catch (e: Exception) {
@@ -241,7 +241,7 @@ class VideoCallActivity : AppCompatActivity() {
 //        val tuid = 617322930;
 //        val ttoken = "006afb5ee413d864417bbcf32ba55b40dacIAAWVT1tyn5pXjoV2F3FOSxbAdF0uRlPaKNuIAegp37N285UmASFQKRlIgCoGgAAGab7YQQAAQCpYvphAwCpYvphAgCpYvphBACpYvph";
 //        mRtcEngine!!.joinChannel(ttoken, channelName, "", tuid)
-        mRtcEngine!!.joinChannel(TOKEN, channelName, "", API_UID.toInt())
+        mRtcEngine!!.joinChannel(TOKEN, channelName, "", API_UID)
     }
 
     private fun setupRemoteVideo(uniqueUserUidRemote: Int) {
