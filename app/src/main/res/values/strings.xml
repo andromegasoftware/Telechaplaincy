@@ -494,6 +494,13 @@
     <string name="chaplain_note_for_patient_message_title">Chaplain write a note after your appointment</string>
     <string name="chaplain_note_for_patient_message_body">Hi, We would like to inform you that Chaplain write a note after your appointment. You can see Chaplain note in the past appointments page.</string>
 
+    <string name="chaplain_mail_when_patient_join_meeting_title">Your Meeting is Started</string>
+    <string name="chaplain_mail_when_patient_join_meeting_body">Your patient joined the meeting and waiting you. You can join the meeting from the future appointments page.</string>
+
+    <string name="patient_mail_when_chaplain_join_meeting_title">Your Meeting is Started</string>
+    <string name="patient_mail_when_chaplain_join_meeting_body">Chaplain joined the meeting and waiting you. You can join the meeting from the future appointments page.</string>
+
+
     //send message activity
     <string name="send_message_activity_title">Send Message</string>.
     <string name="send_message_activity_message_title_hint">Message Title</string>
@@ -913,7 +920,7 @@
     <string name="chaplain_sign_up_certificate_button">CERTIFICATE</string>
     <string name="chaplain_sign_up_profile_image_toast_message">Please select a profile image</string>
     <string name="chaplain_sign_up_second_title">Chaplain Sign Up Form</string>
-    <string name="chaplain_sign_up_phone_hint">Phone Number</string>
+    <string name="chaplain_sign_up_phone_hint">Phone Number (+14155552671)</string>
     <string name="chaplain_sign_up_birth_date">Birth Date:</string>
     <string name="chaplain_sign_up_birth_date_day">Day <font size="10">(birth date)</font></string>
     <string name="chaplain_sign_up_birth_date_month">Month <font size="10">(birth date)</font></string>

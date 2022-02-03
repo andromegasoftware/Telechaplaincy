@@ -22,6 +22,7 @@ import com.squareup.picasso.Picasso
 import com.telechaplaincy.R
 import com.telechaplaincy.appointment.AppointmentModelClass
 import com.telechaplaincy.cloud_message.FcmNotificationsSender
+import com.telechaplaincy.mail_and_message_send_package.MailSendClass
 import com.telechaplaincy.notification_page.NotificationModelClass
 import com.telechaplaincy.patient.PatientMainActivity
 import com.telechaplaincy.patient_edit_appointment.PatientAppointmentEditActivity
@@ -75,6 +76,9 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
     private var patientAppointmentDateForMail = ""
     private var patientMail = ""
     private var chaplainMail = ""
+    private var chaplainPhoneNumber = ""
+
+    private var mailSendClass = MailSendClass()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -193,6 +197,8 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
             ) {
                 // If all the permissions are granted, call the call method and initialize the RtcEngine object and join a channel.
                 callChaplainMethod()
+                sendMailToChaplainWhenUserStartCall()
+                sendMessageToChaplainWhenPatientJoinedCall()
             }
 
         }
@@ -200,6 +206,40 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
         future_appointment_edit_button.setOnClickListener {
             alertDialogMessageMethodForAppointmentEdit()
         }
+    }
+
+    private fun sendMessageToChaplainWhenPatientJoinedCall() {
+        db.collection("chaplains").document(chaplainProfileFieldUserId).get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+
+                    notificationTokenId = document["notificationTokenId"].toString()
+                    chaplainPhoneNumber = document["phone"].toString()
+                    title = getString(R.string.chaplain_mail_when_patient_join_meeting_title)
+                    body = getString(R.string.chaplain_mail_when_patient_join_meeting_body)
+
+                    val sender = FcmNotificationsSender(
+                        notificationTokenId,
+                        title,
+                        body,
+                        applicationContext,
+                        this
+                    )
+                    sender.SendNotifications()
+                    mailSendClass.textMessageSendMethod(chaplainPhoneNumber, body)
+                } else {
+                    Log.d("TAG", "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d("TAG", "get failed with ", exception)
+            }
+    }
+
+    private fun sendMailToChaplainWhenUserStartCall() {
+        val subject = getString(R.string.chaplain_mail_when_patient_join_meeting_title)
+        val body = getString(R.string.chaplain_mail_when_patient_join_meeting_body)
+        mailSendClass.sendMailToChaplain(subject, body, chaplainMail)
     }
 
     private fun sendMailToChaplain() {
