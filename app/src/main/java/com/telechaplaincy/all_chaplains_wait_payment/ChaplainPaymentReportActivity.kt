@@ -16,6 +16,9 @@ import com.google.firebase.ktx.Firebase
 import com.telechaplaincy.R
 import com.telechaplaincy.appointment.AppointmentModelClass
 import com.telechaplaincy.chaplain_bank_account_info.ChaplainBankAccountInfoActivity
+import com.telechaplaincy.cloud_message.FcmNotificationsSender
+import com.telechaplaincy.mail_and_message_send_package.MailSendClass
+import com.telechaplaincy.notification_page.NotificationModelClass
 import kotlinx.android.synthetic.main.activity_chaplain_payment_report.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -48,6 +51,14 @@ class ChaplainPaymentReportActivity : AppCompatActivity() {
     private var paymentsInfoModelClassArrayList = ArrayList<ChaplainPaymentInfoModelClass>()
     private var paymentsDateArrayList = ArrayList<Long>()
 
+    private var chaplainMail = ""
+    private var chaplainPhoneNumber = ""
+    private var notificationTokenId: String = ""
+    private var title: String = ""
+    private var body: String = ""
+
+    private var mailSendClass = MailSendClass()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chaplain_payment_report)
@@ -73,7 +84,63 @@ class ChaplainPaymentReportActivity : AppCompatActivity() {
 
         chaplain_mark_as_paid_button.setOnClickListener {
             markAppointmentsPaidOut()
+            sendMessageToChaplainWhenPaymentIsDone()
         }
+    }
+
+    private fun sendMessageToChaplainWhenPaymentIsDone() {
+        db.collection("chaplains").document(chaplainProfileFieldUserId).get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+
+                    notificationTokenId = document["notificationTokenId"].toString()
+                    chaplainMail = document["email"].toString()
+                    chaplainPhoneNumber = document["phone"].toString()
+                    title = getString(R.string.chaplain_payment_is_done_notification_title)
+                    body = getString(R.string.chaplain_payment_is_done_notification_body)
+
+                    val sender = FcmNotificationsSender(
+                        notificationTokenId,
+                        title,
+                        body,
+                        applicationContext,
+                        this
+                    )
+                    sender.SendNotifications()
+                    saveMessageToInbox()
+                    if (chaplainPhoneNumber != "") {
+                        mailSendClass.textMessageSendMethod(chaplainPhoneNumber, body)
+                    }
+
+                    mailSendClass.sendMailToChaplain(title, body, chaplainMail)
+                } else {
+                    Log.d("TAG", "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d("TAG", "get failed with ", exception)
+            }
+    }
+
+    private fun saveMessageToInbox() {
+        val dbSave = db.collection("chaplains").document(chaplainProfileFieldUserId)
+            .collection("inbox").document()
+
+        val dateSent = System.currentTimeMillis().toString()
+        val messageId = dbSave.id
+
+        val message = NotificationModelClass(
+            title,
+            body,
+            null,
+            null,
+            adminUserId,
+            dateSent,
+            messageId,
+            false
+        )
+
+        dbSave.set(message, SetOptions.merge())
     }
 
     private fun getLastPaymentInfoForChaplain() {

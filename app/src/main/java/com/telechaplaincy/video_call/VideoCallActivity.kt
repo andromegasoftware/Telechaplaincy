@@ -104,7 +104,8 @@ class VideoCallActivity : AppCompatActivity() {
         userUUID = intent.getStringExtra("userId").toString()
         chaplainProfileImageLink = intent.getStringExtra("chaplainProfileImageLink").toString()
         uniqueUserUidRemote = userUUID.toInt(10)
-        video_page_name_textView.text = chaplainName
+        video_page_name_textView.text =
+            "Waiting other user to join to the meeting... \n\n$chaplainName"
         if (chaplainProfileImageLink != "") {
             Picasso.get().load(chaplainProfileImageLink).into(video_chat_remote_user_image_view)
         }

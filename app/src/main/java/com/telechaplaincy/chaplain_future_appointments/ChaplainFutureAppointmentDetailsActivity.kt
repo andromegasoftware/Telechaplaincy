@@ -119,6 +119,7 @@ class ChaplainFutureAppointmentDetailsActivity : AppCompatActivity() {
                 callChaplainMethod()
                 sendMailToPatientWhenUserStartCall()
                 sendMessageToPatientWhenChaplainJoinedCall()
+                markChaplainPaymentWait()
             }
 
         }
@@ -141,6 +142,15 @@ class ChaplainFutureAppointmentDetailsActivity : AppCompatActivity() {
         }
     }
 
+    private fun markChaplainPaymentWait() {
+        db.collection("chaplains").document(chaplainProfileFieldUserId)
+            .update("isPaymentWait", true)
+            .addOnSuccessListener {
+
+            }
+            .addOnFailureListener { e -> Log.w("TAG", "Error writing document", e) }
+    }
+
     private fun sendMessageToPatientWhenChaplainJoinedCall() {
 
         db.collection("patients").document(patientUserId).get()
@@ -159,7 +169,9 @@ class ChaplainFutureAppointmentDetailsActivity : AppCompatActivity() {
                         this
                     )
                     sender.SendNotifications()
-                    mailSendClass.textMessageSendMethod(patientPhoneNumber, body)
+                    if (patientPhoneNumber != "") {
+                        mailSendClass.textMessageSendMethod(patientPhoneNumber, body)
+                    }
 
                 } else {
                     Log.d("TAG", "No such document")
@@ -232,6 +244,7 @@ class ChaplainFutureAppointmentDetailsActivity : AppCompatActivity() {
 
                     notificationTokenId = document["notificationTokenId"].toString()
                     patientMail = document["email"].toString()
+                    patientPhoneNumber = document["phone"].toString()
                     //Log.d("notificationTokenId", notificationTokenId)
 
                     title = getString(R.string.chaplain_appointment_cancel_message_title)
@@ -245,8 +258,10 @@ class ChaplainFutureAppointmentDetailsActivity : AppCompatActivity() {
                         this
                     )
                     sender.SendNotifications()
-
                     saveMessageToInbox()
+                    if (patientPhoneNumber != "") {
+                        mailSendClass.textMessageSendMethod(patientPhoneNumber, body)
+                    }
 
                 } else {
                     Log.d("TAG", "No such document")
@@ -258,7 +273,7 @@ class ChaplainFutureAppointmentDetailsActivity : AppCompatActivity() {
     }
 
     private fun saveMessageToInbox() {
-        val dbSave = db.collection("chaplains").document(chaplainProfileFieldUserId)
+        val dbSave = db.collection("patients").document(patientUserId)
             .collection("inbox").document()
 
         val dateSent = System.currentTimeMillis().toString()

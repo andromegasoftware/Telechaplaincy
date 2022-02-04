@@ -22,6 +22,7 @@ import com.telechaplaincy.all_chaplains_wait_to_confirm.AllChaplainsWaitConfirmA
 import com.telechaplaincy.chaplain_sign_activities.ChaplainSignUpSecondPart
 import com.telechaplaincy.chaplain_sign_activities.ChaplainUserProfile
 import com.telechaplaincy.cloud_message.FcmNotificationsSender
+import com.telechaplaincy.mail_and_message_send_package.MailSendClass
 import com.telechaplaincy.notification_page.NotificationModelClass
 import kotlinx.android.synthetic.main.activity_chaplain_profile_details.*
 
@@ -68,6 +69,9 @@ class ChaplainProfileDetailsActivity : AppCompatActivity() {
     private var notificationTokenId: String = ""
     private var title: String = ""
     private var body: String = ""
+    private var chaplainPhoneNumber = ""
+
+    private var mailSendClass = MailSendClass()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -187,6 +191,7 @@ class ChaplainProfileDetailsActivity : AppCompatActivity() {
                 if (document != null) {
 
                     notificationTokenId = document["notificationTokenId"].toString()
+                    chaplainPhoneNumber = document["phone"].toString()
                     //Log.d("notificationTokenId", notificationTokenId)
 
                     title = getString(R.string.chaplain_confirm_message_title)
@@ -200,8 +205,10 @@ class ChaplainProfileDetailsActivity : AppCompatActivity() {
                         this
                     )
                     sender.SendNotifications()
-
                     saveMessageToInbox()
+                    if (chaplainPhoneNumber != "") {
+                        mailSendClass.textMessageSendMethod(chaplainPhoneNumber, body)
+                    }
 
                 } else {
                     Log.d("TAG", "No such document")

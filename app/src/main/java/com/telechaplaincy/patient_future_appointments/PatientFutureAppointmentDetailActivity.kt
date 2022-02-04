@@ -226,7 +226,9 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
                         this
                     )
                     sender.SendNotifications()
-                    mailSendClass.textMessageSendMethod(chaplainPhoneNumber, body)
+                    if (chaplainPhoneNumber != "") {
+                        mailSendClass.textMessageSendMethod(chaplainPhoneNumber, body)
+                    }
                 } else {
                     Log.d("TAG", "No such document")
                 }
@@ -301,6 +303,7 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
                 if (document != null) {
 
                     notificationTokenId = document["notificationTokenId"].toString()
+                    chaplainPhoneNumber = document["phone"].toString()
                     chaplainMail =
                         document["email"].toString() //this is for sending email to chaplain
                     //Log.d("notificationTokenId", notificationTokenId)
@@ -315,8 +318,10 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
                         this
                     )
                     sender.SendNotifications()
-
                     saveMessageToInbox()
+                    if (chaplainPhoneNumber != "") {
+                        mailSendClass.textMessageSendMethod(chaplainPhoneNumber, body)
+                    }
 
                 } else {
                     Log.d("TAG", "No such document")

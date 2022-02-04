@@ -20,6 +20,7 @@ import com.google.firebase.ktx.Firebase
 import com.telechaplaincy.R
 import com.telechaplaincy.cloud_message.FcmNotificationsSender
 import com.telechaplaincy.databinding.ActivityPatientAppointmentEditBinding
+import com.telechaplaincy.mail_and_message_send_package.MailSendClass
 import com.telechaplaincy.notification_page.NotificationModelClass
 import com.telechaplaincy.patient_future_appointments.PatientFutureAppointmentDetailActivity
 import kotlinx.android.synthetic.main.activity_patient_appointment_continue.*
@@ -71,6 +72,9 @@ class PatientAppointmentEditActivity : AppCompatActivity() {
     private var patientAppointmentDateForMail = ""
     private var patientMail = ""
     private var chaplainMail = ""
+    private var chaplainPhoneNumber = ""
+
+    private var mailSendClass = MailSendClass()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -176,6 +180,7 @@ class PatientAppointmentEditActivity : AppCompatActivity() {
                 if (document != null) {
 
                     notificationTokenId = document["notificationTokenId"].toString()
+                    chaplainPhoneNumber = document["phone"].toString()
                     title = getString(R.string.patient_appointment_edit_message_title)
                     body = getString(R.string.patient_appointment_edit_message_body)
 
@@ -187,9 +192,10 @@ class PatientAppointmentEditActivity : AppCompatActivity() {
                         this
                     )
                     sender.SendNotifications()
-
                     saveMessageToInbox()
-
+                    if (chaplainPhoneNumber != "") {
+                        mailSendClass.textMessageSendMethod(chaplainPhoneNumber, body)
+                    }
                 } else {
                     Log.d("TAG", "No such document")
                 }

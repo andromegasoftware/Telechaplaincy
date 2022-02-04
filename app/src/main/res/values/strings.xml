@@ -557,6 +557,8 @@
     <string name="chaplain_see_bank_info_button">BANK INFO</string>
     <string name="chaplain_mark_as_paid_button">MARK PAID</string>
     <string name="chaplain_mark_as_paid_toast_message">You made payment to Chaplain and marked as paid</string>
+    <string name="chaplain_payment_is_done_notification_title">You have a new payment</string>
+    <string name="chaplain_payment_is_done_notification_body">You took a new payment from the TeleChaplaincy Application. It can take some time to reach your bank account. You can see the details in the financial reports page</string>
 
     //all chaplains wait_payment activity
     <string name="all_chaplains_wait_payment_activity_title">All Chaplains Wait For Payment</string>

@@ -20,6 +20,7 @@ import com.stripe.android.view.BillingAddressFields
 import com.telechaplaincy.R
 import com.telechaplaincy.chaplain_sign_activities.ChaplainUserProfile
 import com.telechaplaincy.cloud_message.FcmNotificationsSender
+import com.telechaplaincy.mail_and_message_send_package.MailSendClass
 import com.telechaplaincy.notification_page.NotificationModelClass
 import com.telechaplaincy.patient_sign_activities.UserProfile
 import com.telechaplaincy.payment.FirebaseEphemeralKeyProvider
@@ -79,6 +80,10 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
     private var notificationTokenId: String = ""
     private var title: String = ""
     private var body: String = ""
+    private var chaplainPhoneNumber = ""
+    private var patientPhoneNumber: String = ""
+
+    private var mailSendClass = MailSendClass()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -229,6 +234,7 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
                 if (document != null) {
 
                     notificationTokenId = document["notificationTokenId"].toString()
+                    patientPhoneNumber = document["phone"].toString()
                     title = getString(R.string.patient_appointment_created_message_title)
                     body = getString(R.string.patient_appointment_created_message_body)
 
@@ -240,9 +246,10 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
                         this
                     )
                     sender.SendNotifications()
-
                     saveMessageToInboxForPatient()
-
+                    if (patientPhoneNumber != "") {
+                        mailSendClass.textMessageSendMethod(patientPhoneNumber, body)
+                    }
                 } else {
                     Log.d("TAG", "No such document")
                 }
@@ -280,6 +287,7 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
                 if (document != null) {
 
                     notificationTokenId = document["notificationTokenId"].toString()
+                    chaplainPhoneNumber = document["phone"].toString()
                     title = getString(R.string.patient_appointment_created_message_title)
                     body = getString(R.string.patient_appointment_created_message_body)
 
@@ -291,9 +299,10 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
                         this
                     )
                     sender.SendNotifications()
-
                     saveMessageToInbox()
-
+                    if (chaplainPhoneNumber != "") {
+                        mailSendClass.textMessageSendMethod(chaplainPhoneNumber, body)
+                    }
                 } else {
                     Log.d("TAG", "No such document")
                 }
