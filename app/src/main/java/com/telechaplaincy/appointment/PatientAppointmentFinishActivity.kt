@@ -1,17 +1,23 @@
 package com.telechaplaincy.appointment
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.telechaplaincy.R
+import com.telechaplaincy.mail_and_message_send_package.LocalNotificationClass
 import com.telechaplaincy.patient.PatientMainActivity
 import com.telechaplaincy.pre_assessment_questions.*
 import kotlinx.android.synthetic.main.activity_patient_appointment_finish.*
+import java.util.*
 
 class PatientAppointmentFinishActivity : AppCompatActivity() {
 
     private var chaplainCategory: String = ""
     private var appointmentId: String = ""
+    private var appointmentDate: String = ""
+    private var calendar: Calendar = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +26,9 @@ class PatientAppointmentFinishActivity : AppCompatActivity() {
 
         chaplainCategory = intent.getStringExtra("chaplainCategory").toString()
         appointmentId = intent.getStringExtra("appointmentId").toString()
+        appointmentDate = intent.getStringExtra("appointmentDate").toString()
+
+        setNotificationMethod()
 
         patient_appointment_finish_page_answer_question_button.setOnClickListener {
             if (chaplainCategory == "HumanistChaplains") {
@@ -97,6 +106,18 @@ class PatientAppointmentFinishActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+    }
+
+    private fun setNotificationMethod() {
+        calendar.timeInMillis = appointmentDate.toLong() - 900000
+
+        val intent = Intent(applicationContext, LocalNotificationClass::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(
+            applicationContext, 100,
+            intent, PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
     }
 
     override fun onBackPressed() {

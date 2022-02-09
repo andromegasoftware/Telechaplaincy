@@ -23,6 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <receiver android:name=".mail_and_message_send_package.LocalNotificationClass" />
         <activity
             android:name=".chaplain_future_appointments.PatientAppointmentHistoryDetailsActivity"
             android:screenOrientation="portrait"

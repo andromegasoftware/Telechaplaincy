@@ -388,6 +388,7 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
                         val intent = Intent(this, PatientAppointmentFinishActivity::class.java)
                         intent.putExtra("chaplainCategory", chaplainCategory)
                         intent.putExtra("appointmentId", appointmentId)
+                        intent.putExtra("appointmentDate", patientSelectedTime)
                         startActivity(intent)
                         finish()
 

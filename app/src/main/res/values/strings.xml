@@ -3,6 +3,10 @@
     <string name="app_mail_address">telechaplaincy@gmail.com</string>
     <string name="app_int_connection_alert">Sorry! We could not find any internet connection. App work with internet connection.</string>
 
+    //Local Notification Class
+    <string name="local_notification_title">Appointment Alert</string>
+    <string name="local_notification_body">Your appointment will start in 15 minutes</string>
+
     //patient older appointments chaplain notes
     <string name="activity_title">Patient\'s Appointment History</string>
     <string name="empty_past_appointment_exp">Patient do not have any past appointment</string>
