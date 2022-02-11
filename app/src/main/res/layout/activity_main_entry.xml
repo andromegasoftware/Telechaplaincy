@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/artboard"
+    android:background="@drawable/cloudbackgroundimage"
     tools:context=".MainEntry">
 
     <LinearLayout
@@ -24,7 +24,7 @@
             android:layout_margin="20dp"
             android:gravity="center"
             android:text="@string/app_name"
-            android:textColor="@android:color/white"
+            android:textColor="?attr/colorAccent"
             android:textSize="36sp"
             android:textStyle="bold|italic" />
 
@@ -34,21 +34,23 @@
             android:layout_height="wrap_content"
             android:layout_weight="3" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/patient_entry_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:background="@drawable/button_shape_white"
-            android:text="I am a patient" />
+            android:text="I am a Patıent"
+            android:textStyle="bold" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/chaplain_entry_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:background="@drawable/button_shape_white"
-            android:text="I am a Chaplin" />
+            android:text="I am a Chaplın"
+            android:textStyle="bold" />
 
         <View
             android:id="@+id/view30"

@@ -59,12 +59,14 @@ class PatientMainActivity : AppCompatActivity() {
 
         queryRef = db.collection("patients")
 
-        FirebaseMessaging.getInstance().token.addOnSuccessListener { result ->
-            if (result != null) {
-                notificationTokenId = result
-                Log.d("tokenId", notificationTokenId)
-                val data = hashMapOf("notificationTokenId" to notificationTokenId)
-                db.collection("patients").document(userId).set(data, SetOptions.merge())
+        if (auth.currentUser != null) {
+            FirebaseMessaging.getInstance().token.addOnSuccessListener { result ->
+                if (result != null) {
+                    notificationTokenId = result
+                    Log.d("tokenId", notificationTokenId)
+                    val data = hashMapOf("notificationTokenId" to notificationTokenId)
+                    db.collection("patients").document(userId).set(data, SetOptions.merge())
+                }
             }
         }
 

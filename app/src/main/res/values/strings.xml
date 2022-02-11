@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Tele Chaplaincy</string>
+    <string name="app_name">I Hear You</string>
     <string name="app_mail_address">telechaplaincy@gmail.com</string>
     <string name="app_int_connection_alert">Sorry! We could not find any internet connection. App work with internet connection.</string>
 

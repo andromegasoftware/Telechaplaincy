@@ -1,6 +1,8 @@
 package com.telechaplaincy.chaplain_future_appointments
 
 import android.Manifest
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -23,6 +25,7 @@ import com.telechaplaincy.R
 import com.telechaplaincy.appointment.AppointmentModelClass
 import com.telechaplaincy.chaplain.ChaplainMainActivity
 import com.telechaplaincy.cloud_message.FcmNotificationsSender
+import com.telechaplaincy.mail_and_message_send_package.LocalNotificationClass
 import com.telechaplaincy.mail_and_message_send_package.MailSendClass
 import com.telechaplaincy.notification_page.NotificationModelClass
 import com.telechaplaincy.patient_profile.PatientProfileInfoActivityForChaplain
@@ -77,6 +80,7 @@ class ChaplainFutureAppointmentDetailsActivity : AppCompatActivity() {
     private var patientPhoneNumber: String = ""
 
     private var mailSendClass = MailSendClass()
+    private var calendar: Calendar = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -140,6 +144,18 @@ class ChaplainFutureAppointmentDetailsActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+    }
+
+    private fun setNotificationMethod() {
+        calendar.timeInMillis = appointmentTime.toLong() - 900000
+
+        val intent = Intent(applicationContext, LocalNotificationClass::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(
+            applicationContext, 100,
+            intent, PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
     }
 
     private fun markChaplainPaymentWait() {
@@ -418,6 +434,9 @@ class ChaplainFutureAppointmentDetailsActivity : AppCompatActivity() {
                                 "$appointmentTime $patientAppointmentTimeZone"
                             chaplain_future_appointment_time_textView.text =
                                 patientAppointmentTimeForMail
+
+
+                            setNotificationMethod()//this is for setting notification before 15 minutes from the appointment
                         }
                         if (result.appointmentPrice != null) {
                             appointmentPrice = result.appointmentPrice
