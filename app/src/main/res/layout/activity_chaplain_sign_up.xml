@@ -67,8 +67,7 @@
                         android:id="@+id/chaplain_sign_up_page_name_editText"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:inputType="textPersonName"
-                        android:text="kadir" />
+                        android:inputType="textPersonName" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -82,8 +81,7 @@
                         android:id="@+id/chaplain_sign_up_page_surname_editText"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:inputType="textPersonName"
-                        android:text="yapar" />
+                        android:inputType="textPersonName" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -97,8 +95,7 @@
                         android:id="@+id/chaplain_sign_up_page_email_editText"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:inputType="textEmailAddress"
-                        android:text="kadir@gmail.com" />
+                        android:inputType="textEmailAddress" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -114,8 +111,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:ems="15"
-                        android:inputType="textPassword"
-                        android:text="123456" />
+                        android:inputType="textPassword" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -131,8 +127,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:ems="15"
-                        android:inputType="textPassword"
-                        android:text="123456" />
+                        android:inputType="textPassword" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
