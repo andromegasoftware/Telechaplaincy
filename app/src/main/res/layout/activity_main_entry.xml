@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:background="@drawable/button_shape_white"
-            android:text="I am a Patıent"
+            android:text="I am a Care Seeker"
             android:textStyle="bold" />
 
         <androidx.appcompat.widget.AppCompatButton

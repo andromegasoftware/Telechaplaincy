@@ -73,7 +73,7 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
     private val stripe: Stripe by lazy {
         Stripe(
             applicationContext,
-            "pk_test_51K1nMiJNPvINJFSH7tpyrBYdY2iD6O8FSt9B8QgtY4FSF2WfIDPajZuKd68AqvQVKI6pCzNo4OdHzZqkc0JPMlHt00sASHpQ8U"
+            "pk_live_51K1nMiJNPvINJFSHBnbJYonJwYv7cSUxGpXV4E3ynN20uSlrQDw915dEIF6iXU2ylhcO4Gkv6tF25jLwtfKiS1Fj00sOXWjgA7"
         )
     }
 
@@ -128,14 +128,17 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
         credit_card_page_price_textView.text = "$appointmentPrice$"
 
         payButton.setOnClickListener {
-            saveAppointmentInfoFireStore()  //I will delete this and open comment part, when the stripe is ready
-            /*if(isPaymentMethodSelected){
+
+            if (isPaymentMethodSelected) {
                 confirmPayment(selectedPaymentMethod.id!!)
                 credit_card_progressBar.visibility = View.VISIBLE
+            } else {
+                Toast.makeText(
+                    applicationContext,
+                    getString(R.string.payment_method__toast_message),
+                    Toast.LENGTH_LONG
+                ).show()
             }
-            else{
-                Toast.makeText(applicationContext, getString(R.string.payment_method__toast_message), Toast.LENGTH_LONG).show()
-            }*/
         }
 
         paymentMethod.setOnClickListener {
@@ -503,7 +506,10 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
     }
 
     private fun setupPaymentSession () {
-        PaymentConfiguration.init(applicationContext, "pk_test_51K1nMiJNPvINJFSH7tpyrBYdY2iD6O8FSt9B8QgtY4FSF2WfIDPajZuKd68AqvQVKI6pCzNo4OdHzZqkc0JPMlHt00sASHpQ8U")
+        PaymentConfiguration.init(
+            applicationContext,
+            "pk_live_51K1nMiJNPvINJFSHBnbJYonJwYv7cSUxGpXV4E3ynN20uSlrQDw915dEIF6iXU2ylhcO4Gkv6tF25jLwtfKiS1Fj00sOXWjgA7"
+        )
 
         // Setup Customer Session
         CustomerSession.initCustomerSession(this, FirebaseEphemeralKeyProvider())

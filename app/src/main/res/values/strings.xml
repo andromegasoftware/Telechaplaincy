@@ -1091,6 +1091,11 @@
         <item>Atheist</item>
         <item>Catholic</item>
         <item>Orthodox</item>
+        <item>Sikh</item>
+        <item>Lutheran</item>
+        <item>Methodist</item>
+        <item>Baptist</item>
+        <item>Non-denominational</item>
         <item>Other</item>
     </string-array>
 
