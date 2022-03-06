@@ -46,8 +46,6 @@ class LoginPage : AppCompatActivity() {
 
         //login button click listener
         login_page_login_button.setOnClickListener {
-            login_page_progressBar.visibility = View.VISIBLE
-            login_page_login_button.isClickable = false
             userEmail = login_editText_Email.text.toString()
             userPassword = login_editText_Password.text.toString()
 
@@ -59,6 +57,9 @@ class LoginPage : AppCompatActivity() {
                     R.string.sign_up_toast_message_enter_password, Toast.LENGTH_SHORT).show()
              }
             else {
+                login_page_progressBar.visibility = View.VISIBLE
+                login_page_login_button.isClickable = false
+
                 auth.signInWithEmailAndPassword(userEmail, userPassword)
                     .addOnCompleteListener(this) { task ->
 

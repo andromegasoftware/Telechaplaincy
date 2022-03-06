@@ -368,7 +368,7 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
     }
 
     private fun timerMethod() {
-        future_appointment_call_button.isClickable = true
+        future_appointment_call_button.isClickable = false
         val timeNow = System.currentTimeMillis()
         val appointmentTimeLong = appointmentTime.toLong()
         val timeRemain:Long = appointmentTimeLong - timeNow

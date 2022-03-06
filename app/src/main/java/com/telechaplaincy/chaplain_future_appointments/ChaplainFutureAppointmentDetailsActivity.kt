@@ -324,8 +324,7 @@ class ChaplainFutureAppointmentDetailsActivity : AppCompatActivity() {
     }
 
     private fun timerMethod() {
-        chaplain_future_appointment_call_button.isClickable =
-            true //when I publish, I will make this false
+        chaplain_future_appointment_call_button.isClickable = false
         val timeNow = System.currentTimeMillis()
         val appointmentTimeLong = appointmentTime.toLong()
         val timeRemain: Long = appointmentTimeLong - timeNow

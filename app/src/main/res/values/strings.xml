@@ -750,7 +750,7 @@
     <string name="hour">hours</string>
     <string name="second">seconds</string>
     <string name="patient_future_appointment_detail_activity_assessment_button">Pre-Assessment Questionnaire(Optional)</string>
-
+    <string name="future_appointment_call_button_note">You can make the call when the appointment time come</string>
 
     //patient appointment finished activity
     <string name="payment_title">Payment Successfully Done</string>

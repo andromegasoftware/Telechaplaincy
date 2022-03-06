@@ -11,6 +11,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.telechaplaincy.R
 import com.telechaplaincy.chaplain_profile.ChaplainProfileActivity
+import com.telechaplaincy.patient_profile.PatientProfileActivity
 import kotlinx.android.synthetic.main.activity_reach_us.*
 
 class ReachUsActivity : AppCompatActivity() {
@@ -150,8 +151,14 @@ class ReachUsActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        val intent = Intent(this, ChaplainProfileActivity::class.java)
-        startActivity(intent)
-        finish()
+        if (userType == "patient") {
+            val intent = Intent(this, PatientProfileActivity::class.java)
+            startActivity(intent)
+            finish()
+        } else {
+            val intent = Intent(this, ChaplainProfileActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 }

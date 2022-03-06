@@ -227,7 +227,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginTop="20dp"
-                        android:layout_marginBottom="20dp"
+                        android:layout_marginBottom="5dp"
                         android:orientation="horizontal">
 
                         <Button
@@ -263,6 +263,12 @@
                             app:icon="@drawable/ic_baseline_edit"
                             app:iconGravity="textStart" />
                     </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/textView114"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/future_appointment_call_button_note" />
 
                     <TextView
                         android:id="@+id/future_appointment_preAssessment_textView"

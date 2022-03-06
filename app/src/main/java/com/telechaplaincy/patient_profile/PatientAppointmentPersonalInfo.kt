@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.InputType
@@ -16,7 +15,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.google.android.material.chip.Chip
 import com.google.firebase.auth.FirebaseAuth
@@ -31,7 +30,6 @@ import com.google.firebase.storage.StorageReference
 import com.squareup.picasso.Picasso
 import com.telechaplaincy.R
 import com.telechaplaincy.birth_date_class.DateMask
-import com.telechaplaincy.chaplain_sign_activities.ChaplainSignUpSecondPart
 import com.telechaplaincy.patient.CategorySelection
 import com.telechaplaincy.patient.PatientMainActivity
 import com.telechaplaincy.patient_sign_activities.UserProfile
@@ -188,9 +186,10 @@ class PatientAppointmentPersonalInfo : AppCompatActivity() {
                 val userProfile = document.toObject<UserProfile>()
                 if (userProfile != null) {
                     patientProfileImageLink = userProfile.profileImage.toString()
-                    if (patientProfileImageLink != "null" && patientProfileImageLink != ""){
-                        if (!isImageSelected){
-                            Picasso.get().load(patientProfileImageLink).into(patient_appointment_personal_info_image_view)
+                    if (patientProfileImageLink != "null" && patientProfileImageLink != "") {
+                        if (!isImageSelected) {
+                            Picasso.get().load(patientProfileImageLink)
+                                .into(patient_appointment_personal_info_image_view)
                         }
                     }
                     patientProfileFirstName = userProfile.name.toString()
@@ -525,6 +524,8 @@ class PatientAppointmentPersonalInfo : AppCompatActivity() {
         }.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 patientProfileImageLink = task.result.toString()
+                Log.d("patientProfileImageLink_1", patientProfileImageLink)
+                Log.d("patientProfileImageLink_2", isImageSelected.toString())
             } else {
                 // Handle failures
                 // ...

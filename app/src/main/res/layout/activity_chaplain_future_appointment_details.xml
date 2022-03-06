@@ -223,11 +223,24 @@
                         android:layout_marginTop="20dp"
                         android:background="#c0c0c0" />
 
+                    <TextView
+                        android:id="@+id/chaplain_future_appointment_patient_assessment_textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="20dp"
+                        android:gravity="center_horizontal"
+                        android:text="@string/chaplain_future_appointment_details_activity_patient_assessment_questions_button_text"
+                        android:textColor="@color/common_google_signin_btn_text_light_pressed"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginTop="20dp"
-                        android:layout_marginBottom="20dp"
+                        android:layout_marginBottom="5dp"
                         android:orientation="horizontal">
 
                         <Button
@@ -267,6 +280,12 @@
 
                     </LinearLayout>
 
+                    <TextView
+                        android:id="@+id/textView111"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/future_appointment_call_button_note" />
+
                     <View
                         android:id="@+id/view15"
                         android:layout_width="match_parent"
@@ -283,19 +302,6 @@
                         android:layout_marginRight="20dp"
                         android:background="@drawable/button_shape"
                         android:text="@string/chaplain_future_appointment_details_activity_patient_info_title" />
-
-                    <TextView
-                        android:id="@+id/chaplain_future_appointment_patient_assessment_textView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginRight="20dp"
-                        android:gravity="center_horizontal"
-                        android:text="@string/chaplain_future_appointment_details_activity_patient_assessment_questions_button_text"
-                        android:textColor="@color/common_google_signin_btn_text_light_pressed"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/chaplain_future_appointment_patient_past_appointments_textView"
