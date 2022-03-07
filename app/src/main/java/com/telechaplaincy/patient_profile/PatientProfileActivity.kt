@@ -115,7 +115,10 @@ class PatientProfileActivity : AppCompatActivity() {
                     patientProfileImageLink = userProfile.profileImage.toString()
                     Log.d("image: ", "patientProfileImageLink")
                     if (patientProfileImageLink != "null" && patientProfileImageLink != ""){
-                        Picasso.get().load(patientProfileImageLink).into(patient_profile_profile_image_image_view)
+                        Picasso.get().load(patientProfileImageLink)
+                            .placeholder(R.drawable.ic_baseline_account_circle_24)
+                            .error(R.drawable.ic_baseline_account_circle_24)
+                            .into(patient_profile_profile_image_image_view)
                     }
 
                 }

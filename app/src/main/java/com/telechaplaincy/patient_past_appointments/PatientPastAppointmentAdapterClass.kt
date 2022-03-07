@@ -67,17 +67,23 @@ class PatientPastAppointmentAdapterClass (var chaplainList: List<PatientFutureAp
             if (patientFutureAppointmentsModelClass.appointmentDate != null) {
                 val appointmentTimeLong = patientFutureAppointmentsModelClass.appointmentDate
                 val dateFormatLocalZone = SimpleDateFormat("EEE HH:mm aaa, dd-MM-yyyy z")
-                val timeZone = patientFutureAppointmentsModelClass.patientAppointmentTimeZone ?: "UTC"
+                val timeZone =
+                    patientFutureAppointmentsModelClass.patientAppointmentTimeZone ?: "UTC"
                 dateFormatLocalZone.timeZone = TimeZone.getTimeZone(timeZone)
                 val chipTimeLocale = dateFormatLocalZone.format(Date(appointmentTimeLong.toLong()))
                 appointmentTime.text = chipTimeLocale
             }
 
             val pictureUrl = patientFutureAppointmentsModelClass.chaplainProfileImageLink
-            Picasso.get().load(pictureUrl).into(profileImage)
+            Picasso.get().load(pictureUrl).placeholder(R.drawable.ic_baseline_account_circle_24)
+                .error(R.drawable.ic_baseline_account_circle_24).into(profileImage)
             //Log.e("pictureUrl", pictureUrl)
 
-            chaplainViewDetailsButton.setOnClickListener { clickListener(patientFutureAppointmentsModelClass) }
+            chaplainViewDetailsButton.setOnClickListener {
+                clickListener(
+                    patientFutureAppointmentsModelClass
+                )
+            }
         }
     }
 }

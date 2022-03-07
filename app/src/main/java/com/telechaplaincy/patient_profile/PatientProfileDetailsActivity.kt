@@ -89,6 +89,8 @@ class PatientProfileDetailsActivity : AppCompatActivity() {
                     patientProfileImageLink = userProfile.profileImage.toString()
                     if (patientProfileImageLink != "null" && patientProfileImageLink != "") {
                         Picasso.get().load(patientProfileImageLink)
+                            .placeholder(R.drawable.ic_baseline_account_circle_24)
+                            .error(R.drawable.ic_baseline_account_circle_24)
                             .into(patient_profile_details_activity_profile_image)
                     }
                     patientProfileFirstName = userProfile.name.toString()

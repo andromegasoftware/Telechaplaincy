@@ -408,7 +408,10 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
                     if (result != null) {
                         if (result.chaplainProfileImageLink != null){
                             chaplainProfileImageLink = result.chaplainProfileImageLink.toString()
-                            Picasso.get().load(chaplainProfileImageLink).into(future_appointment_imageView_chaplain_image)
+                            Picasso.get().load(chaplainProfileImageLink)
+                                .placeholder(R.drawable.ic_baseline_account_circle_24)
+                                .error(R.drawable.ic_baseline_account_circle_24)
+                                .into(future_appointment_imageView_chaplain_image)
                         }
                         if (result.chaplainUniqueUserId != null) {
                             chaplainUniqueUserId = result.chaplainUniqueUserId.toString()

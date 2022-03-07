@@ -265,6 +265,8 @@ class ChaplainProfileDetailsActivity : AppCompatActivity() {
                         if (result.profileImageLink != null) {
                             chaplainProfileImageLink = result.profileImageLink.toString()
                             Picasso.get().load(chaplainProfileImageLink)
+                                .placeholder(R.drawable.ic_baseline_account_circle_24)
+                                .error(R.drawable.ic_baseline_account_circle_24)
                                 .into(chaplain_profile_details_activity_profile_image)
                         }
                         if (result.name != null) {
@@ -410,6 +412,11 @@ class ChaplainProfileDetailsActivity : AppCompatActivity() {
             .addOnFailureListener { exception ->
                 Log.d("TAG", "get failed with ", exception)
             }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        readChaplainInfo()
     }
 
     override fun onBackPressed() {

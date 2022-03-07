@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.telechaplaincy.R
-import com.telechaplaincy.chaplain_sign_activities.ChaplainUserProfile
 import kotlinx.android.synthetic.main.chaplain_selection_recyclerview_model_layout.view.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -67,17 +66,26 @@ class PatientFutureAppointmentsAdapterClass(var chaplainList: List<PatientFuture
             if (patientFutureAppointmentsModelClass.appointmentDate != null) {
                 val appointmentTimeLong = patientFutureAppointmentsModelClass.appointmentDate
                 val dateFormatLocalZone = SimpleDateFormat("EEE HH:mm aaa, dd-MM-yyyy z")
-                val timeZone = patientFutureAppointmentsModelClass.patientAppointmentTimeZone ?: "UTC"
+                val timeZone =
+                    patientFutureAppointmentsModelClass.patientAppointmentTimeZone ?: "UTC"
                 dateFormatLocalZone.timeZone = TimeZone.getTimeZone(timeZone)
                 val chipTimeLocale = dateFormatLocalZone.format(Date(appointmentTimeLong.toLong()))
                 appointmentTime.text = chipTimeLocale
             }
 
             val pictureUrl = patientFutureAppointmentsModelClass.chaplainProfileImageLink
-            Picasso.get().load(pictureUrl).into(profileImage)
+            if (pictureUrl != null || pictureUrl != "" || pictureUrl != "null") {
+                Picasso.get().load(pictureUrl).placeholder(R.drawable.ic_baseline_account_circle_24)
+                    .error(R.drawable.ic_baseline_account_circle_24).into(profileImage)
+            }
+
             //Log.e("pictureUrl", pictureUrl)
 
-            chaplainViewDetailsButton.setOnClickListener { clickListener(patientFutureAppointmentsModelClass) }
+            chaplainViewDetailsButton.setOnClickListener {
+                clickListener(
+                    patientFutureAppointmentsModelClass
+                )
+            }
         }
     }
 }

@@ -35,6 +35,7 @@ import com.telechaplaincy.R
 import com.telechaplaincy.birth_date_class.DateMask
 import com.telechaplaincy.chaplain.ChaplainMainActivity
 import com.telechaplaincy.chaplain_profile.ChaplainProfileDetailsActivity
+import com.telechaplaincy.patient_sign_activities.ProfileImageEditActivity
 import kotlinx.android.synthetic.main.activity_chaplain_sign_up.*
 import kotlinx.android.synthetic.main.activity_chaplain_sign_up_second_part.*
 import kotlinx.android.synthetic.main.activity_patient_appointment_personal_info.*
@@ -166,6 +167,13 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
 
         chaplain_sign_up_page_cancel_button.setOnClickListener {
             val intent = Intent(this, ChaplainMainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        chaplain_sign_up_second_edit_imageButton.setOnClickListener {
+            val intent = Intent(this, ProfileImageEditActivity::class.java)
+            intent.putExtra("chaplainProfileImageLink", chaplainProfileImageLink)
             startActivity(intent)
             finish()
         }
@@ -829,7 +837,8 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
         super.onStart()
         readData()
     }
-    public fun readData(){
+
+    fun readData() {
         dbSave.get().addOnSuccessListener { document ->
             if (document != null) {
                 val chaplainUserProfile = document.toObject<ChaplainUserProfile>()
@@ -855,7 +864,10 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
 
                     chaplainProfileImageLink = chaplainUserProfile.profileImageLink.toString()
                     if (chaplainProfileImageLink != "null") {
-                        val picasso = Picasso.get().load(chaplainProfileImageLink).placeholder(R.drawable.ic_baseline_account_circle_24).error(R.drawable.ic_baseline_account_circle_24).into(chaplain_sign_up_second_profile_image)
+                        val picasso = Picasso.get().load(chaplainProfileImageLink)
+                            .placeholder(R.drawable.ic_baseline_account_circle_24)
+                            .error(R.drawable.ic_baseline_account_circle_24)
+                            .into(chaplain_sign_up_second_profile_image)
                     }
 
                     chaplainProfileFieldPhone = chaplainUserProfile.phone.toString()

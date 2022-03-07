@@ -105,6 +105,8 @@ class ChaplainProfileActivity : AppCompatActivity() {
                     Log.d("image: ", "patientProfileImageLink")
                     if (chaplainProfileImageLink != "null" && chaplainProfileImageLink != "") {
                         Picasso.get().load(chaplainProfileImageLink)
+                            .placeholder(R.drawable.ic_baseline_account_circle_24)
+                            .error(R.drawable.ic_baseline_account_circle_24)
                             .into(chaplain_profile_image_view)
                     }
 

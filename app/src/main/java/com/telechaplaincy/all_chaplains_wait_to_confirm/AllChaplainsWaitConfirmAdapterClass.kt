@@ -81,7 +81,8 @@ class AllChaplainsWaitConfirmAdapterClass(
             chaplainUid.text = chaplainUserProfile.userId
 
             val pictureUrl = chaplainUserProfile.profileImageLink
-            Picasso.get().load(pictureUrl).into(profileImage)
+            Picasso.get().load(pictureUrl).placeholder(R.drawable.ic_baseline_account_circle_24)
+                .error(R.drawable.ic_baseline_account_circle_24).into(profileImage)
             //Log.e("pictureUrl", pictureUrl)
 
             chaplainViewDetailsButton.setOnClickListener { clickListener(chaplainUserProfile) }

@@ -32,13 +32,27 @@
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/chaplain_sign_up_second_profile_image"
-                android:layout_width="96dp"
-                android:layout_height="96dp"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/ic_baseline_account_circle_24"
-                app:civ_border_color="@color/colorAccent" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/chaplain_sign_up_second_profile_image"
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/ic_baseline_account_circle_24"
+                    app:civ_border_color="@color/colorAccent" />
+
+                <ImageButton
+                    android:id="@+id/chaplain_sign_up_second_edit_imageButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_toRightOf="@+id/chaplain_sign_up_second_profile_image"
+                    android:background="@drawable/button_shape_white"
+                    app:srcCompat="@drawable/ic_baseline_pen" />
+            </RelativeLayout>
 
             <EditText
                 android:id="@+id/chaplainSignUpeditTextName"

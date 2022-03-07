@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.InputType
@@ -17,6 +16,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.google.android.material.chip.Chip
 import com.google.firebase.auth.FirebaseAuth
@@ -31,8 +31,6 @@ import com.google.firebase.storage.StorageReference
 import com.squareup.picasso.Picasso
 import com.telechaplaincy.R
 import com.telechaplaincy.birth_date_class.DateMask
-import com.telechaplaincy.patient.CategorySelection
-import com.telechaplaincy.patient.PatientMainActivity
 import com.telechaplaincy.patient_sign_activities.UserProfile
 import kotlinx.android.synthetic.main.activity_patient_appointment_personal_info.*
 import java.io.File
@@ -180,8 +178,11 @@ class PatientProfileDetailsEditActivity : AppCompatActivity() {
                 if (userProfile != null) {
                     patientProfileImageLink = userProfile.profileImage.toString()
                     if (patientProfileImageLink != "null" && patientProfileImageLink != ""){
-                        if (!isImageSelected){
-                            Picasso.get().load(patientProfileImageLink).into(patient_appointment_personal_info_image_view)
+                        if (!isImageSelected) {
+                            Picasso.get().load(patientProfileImageLink)
+                                .placeholder(R.drawable.ic_baseline_account_circle_24)
+                                .error(R.drawable.ic_baseline_account_circle_24)
+                                .into(patient_appointment_personal_info_image_view)
                         }
                     }
                     patientProfileFirstName = userProfile.name.toString()

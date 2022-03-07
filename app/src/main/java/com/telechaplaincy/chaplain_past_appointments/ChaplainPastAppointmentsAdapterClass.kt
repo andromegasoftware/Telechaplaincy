@@ -59,7 +59,8 @@ class ChaplainPastAppointmentsAdapterClass  (var chaplainList: List<PatientFutur
 
             if (patientFutureAppointmentsModelClass.patientProfileImageLink != null){
                 val pictureUrl = patientFutureAppointmentsModelClass.patientProfileImageLink
-                Picasso.get().load(pictureUrl).into(profileImage)
+                Picasso.get().load(pictureUrl).placeholder(R.drawable.ic_baseline_account_circle_24)
+                    .error(R.drawable.ic_baseline_account_circle_24).into(profileImage)
                 //Log.e("pictureUrl", pictureUrl)
             }
 

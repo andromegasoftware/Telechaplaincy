@@ -71,15 +71,16 @@ class ChaplainsListedAdapterClass(var chaplainList: List<ChaplainUserProfile>, p
             chaplainEthnic.text = ethnicBackground
 
             var religion = ""
-            if (chaplainUserProfile.faith != null){
-                for (k in chaplainUserProfile.faith){
+            if (chaplainUserProfile.faith != null) {
+                for (k in chaplainUserProfile.faith) {
                     religion += "$k "
                 }
             }
             chaplainReligion.text = religion
 
             val pictureUrl = chaplainUserProfile.profileImageLink
-            Picasso.get().load(pictureUrl).into(profileImage)
+            Picasso.get().load(pictureUrl).placeholder(R.drawable.ic_baseline_account_circle_24)
+                .error(R.drawable.ic_baseline_account_circle_24).into(profileImage)
             //Log.e("pictureUrl", pictureUrl)
 
             chaplainViewDetailsButton.setOnClickListener { clickListener(chaplainUserProfile) }

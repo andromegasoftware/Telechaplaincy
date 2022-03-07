@@ -1,18 +1,16 @@
 package com.telechaplaincy.patient_profile
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import com.telechaplaincy.R
-import com.telechaplaincy.chaplain.ChaplainMainActivity
 import com.telechaplaincy.chaplain_future_appointments.ChaplainFutureAppointmentDetailsActivity
 import com.telechaplaincy.patient_sign_activities.UserProfile
 import kotlinx.android.synthetic.main.activity_patient_profile_info_for_chaplain.*
@@ -73,8 +71,11 @@ class PatientProfileInfoActivityForChaplain : AppCompatActivity() {
                 val userProfile = document.toObject<UserProfile>()
                 if (userProfile != null) {
                     patientProfileImageLink = userProfile.profileImage.toString()
-                    if (patientProfileImageLink != "null" && patientProfileImageLink != ""){
-                        Picasso.get().load(patientProfileImageLink).into(patient_info_activity_profile_image)
+                    if (patientProfileImageLink != "null" && patientProfileImageLink != "") {
+                        Picasso.get().load(patientProfileImageLink)
+                            .placeholder(R.drawable.ic_baseline_account_circle_24)
+                            .error(R.drawable.ic_baseline_account_circle_24)
+                            .into(patient_info_activity_profile_image)
                     }
                     patientProfileFirstName = userProfile.name.toString()
 

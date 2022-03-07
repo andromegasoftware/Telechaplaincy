@@ -1,9 +1,9 @@
 package com.telechaplaincy.patient_past_appointments
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
@@ -15,7 +15,6 @@ import com.telechaplaincy.R
 import com.telechaplaincy.appointment.AppointmentModelClass
 import com.telechaplaincy.appointment.PatientAppointmentContinueActivity
 import com.telechaplaincy.patient.PatientMainActivity
-import kotlinx.android.synthetic.main.activity_patient_future_appointment_detail.*
 import kotlinx.android.synthetic.main.activity_patient_past_appointments_detail.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -72,9 +71,12 @@ class PatientPastAppointmentsDetailActivity : AppCompatActivity() {
                 if (document != null) {
                     val result = document.toObject<AppointmentModelClass>()
                     if (result != null) {
-                        if (result.chaplainProfileImageLink != null){
+                        if (result.chaplainProfileImageLink != null) {
                             chaplainProfileImageLink = result.chaplainProfileImageLink.toString()
-                            Picasso.get().load(chaplainProfileImageLink).into(past_appointment_imageView_chaplain_image)
+                            Picasso.get().load(chaplainProfileImageLink)
+                                .placeholder(R.drawable.ic_baseline_account_circle_24)
+                                .error(R.drawable.ic_baseline_account_circle_24)
+                                .into(past_appointment_imageView_chaplain_image)
                         }
                         if (result.chaplainName != null){
                             chaplainProfileFirstName = result.chaplainName.toString()

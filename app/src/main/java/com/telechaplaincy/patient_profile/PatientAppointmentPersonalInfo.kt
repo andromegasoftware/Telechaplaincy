@@ -189,6 +189,8 @@ class PatientAppointmentPersonalInfo : AppCompatActivity() {
                     if (patientProfileImageLink != "null" && patientProfileImageLink != "") {
                         if (!isImageSelected) {
                             Picasso.get().load(patientProfileImageLink)
+                                .placeholder(R.drawable.ic_baseline_account_circle_24)
+                                .error(R.drawable.ic_baseline_account_circle_24)
                                 .into(patient_appointment_personal_info_image_view)
                         }
                     }

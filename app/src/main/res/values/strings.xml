@@ -3,6 +3,9 @@
     <string name="app_mail_address">telechaplaincy@gmail.com</string>
     <string name="app_int_connection_alert">Sorry! We could not find any internet connection. App work with internet connection.</string>
 
+    //profile image edit activity
+    <string name="profile_image_edit_activity_select_image_button_text">Select New Image</string>
+
     //Local Notification Class
     <string name="local_notification_title">Appointment Alert</string>
     <string name="local_notification_body">Your appointment will start in 15 minutes</string>

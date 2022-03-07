@@ -67,7 +67,8 @@ class AllPatientsListedAdapterClass(
             patientField.visibility = View.GONE
 
             val pictureUrl = patientUserProfile.profileImage
-            Picasso.get().load(pictureUrl).into(profileImage)
+            Picasso.get().load(pictureUrl).placeholder(R.drawable.ic_baseline_account_circle_24)
+                .error(R.drawable.ic_baseline_account_circle_24).into(profileImage)
             //Log.e("pictureUrl", pictureUrl)
 
             patientViewDetailsButton.setOnClickListener { clickListener(patientUserProfile) }
