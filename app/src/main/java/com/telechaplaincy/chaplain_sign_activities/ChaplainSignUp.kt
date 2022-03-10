@@ -9,7 +9,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
-import android.widget.*
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.google.firebase.auth.FirebaseAuth
@@ -21,6 +21,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.telechaplaincy.R
 import com.telechaplaincy.chaplain.ChaplainMainActivity
+import com.telechaplaincy.terms_and_privacy.TermsAndPrivacyActivity
 import kotlinx.android.synthetic.main.activity_chaplain_sign_up.*
 import java.io.File
 
@@ -29,28 +30,28 @@ class ChaplainSignUp : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var storage: FirebaseStorage
-    private lateinit var user:FirebaseUser
+    private lateinit var user: FirebaseUser
     private lateinit var storageReference: StorageReference
 
     private var userName: String = ""
     private var userSurName: String = ""
-    private var userEmail : String = ""
+    private var userEmail: String = ""
     private var userPassword: String = ""
     private var userPasswordAgain: String = ""
     private var termsChecked: Boolean = false
 
     private val db = Firebase.firestore
-    private var chaplainCollectionName:String = ""
-    private var chaplainProfileCollectionName:String = ""
-    private var chaplainProfileDocumentName:String = ""
+    private var chaplainCollectionName: String = ""
+    private var chaplainProfileCollectionName: String = ""
+    private var chaplainProfileDocumentName: String = ""
 
-    private var chaplainProfileFieldUserId:String = ""
-    private var isImageEmpty:Boolean = false
+    private var chaplainProfileFieldUserId: String = ""
+    private var isImageEmpty: Boolean = false
     private lateinit var imageFile: Uri
     private var imageLink: String = ""
-    private var userRole:String = "2"
+    private var userRole: String = "2"
 
-      override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chaplain_sign_up)
 
@@ -71,7 +72,7 @@ class ChaplainSignUp : AppCompatActivity() {
         //chaplain profile image selection
         chaplain_sign_up_profile_image.setOnClickListener {
             pickImage()
-            if (chaplain_sign_up_profile_image.drawable != null){
+            if (chaplain_sign_up_profile_image.drawable != null) {
                 isImageEmpty = true
             }
         }
@@ -81,10 +82,17 @@ class ChaplainSignUp : AppCompatActivity() {
             takeProfileInfoFirstPart()
 
         }
+
+        //terms and conditions textView click listener
+        textView_terms_and_conditions.setOnClickListener {
+            val intent = Intent(this, TermsAndPrivacyActivity::class.java)
+            intent.putExtra("activity_code", "terms_and_conditions")
+            startActivity(intent)
+        }
     }
 
-    private fun uploadImage(){
-        if (auth.currentUser != null){
+    private fun uploadImage() {
+        if (auth.currentUser != null) {
             user = auth.currentUser!!
             chaplainProfileFieldUserId = user.uid
 
@@ -120,19 +128,27 @@ class ChaplainSignUp : AppCompatActivity() {
         }
 
     }
-    private fun updateUI(){
+
+    private fun updateUI() {
 
         //profile info saved to the firestore
         val intent = Intent(this, ChaplainMainActivity::class.java)
         startActivity(intent)
-        val toast = Toast.makeText(this, R.string.sign_up_toast_account_created, Toast.LENGTH_SHORT).show()
+        val toast =
+            Toast.makeText(this, R.string.sign_up_toast_account_created, Toast.LENGTH_SHORT).show()
         chaplain_signUp_page_progressBar.visibility = View.GONE
         chaplain_sign_up_page_signUp_button.isClickable = true
 
-        val profile = ChaplainUserProfile(userName, userSurName, userEmail, chaplainProfileFieldUserId, imageLink)
+        val profile = ChaplainUserProfile(
+            userName,
+            userSurName,
+            userEmail,
+            chaplainProfileFieldUserId,
+            imageLink
+        )
 
         db.collection(chaplainCollectionName).document(chaplainProfileFieldUserId)
-           .set(profile, SetOptions.merge()).addOnCompleteListener {
+            .set(profile, SetOptions.merge()).addOnCompleteListener {
                 Log.d("user complete: ", "added")
                 Log.d("user complete i: ", imageLink)
             }
@@ -162,7 +178,7 @@ class ChaplainSignUp : AppCompatActivity() {
 
     }
 
-    private fun signUpChaplainToFirebase(){
+    private fun signUpChaplainToFirebase() {
         chaplain_sign_up_page_signUp_button.isClickable = false
         chaplain_signUp_page_progressBar.visibility = View.VISIBLE
         auth.createUserWithEmailAndPassword(userEmail, userPassword)
@@ -172,8 +188,7 @@ class ChaplainSignUp : AppCompatActivity() {
                     // Log.d("userIsCreated", "createUserWithEmail:success")
                     // val user = auth.currentUser
                     uploadImage()
-                }
-                else{
+                } else {
                     Toast.makeText(
                         baseContext, task.exception.toString(),
                         Toast.LENGTH_SHORT
@@ -185,7 +200,7 @@ class ChaplainSignUp : AppCompatActivity() {
     }
 
     //chaplain sign up first part taking user info and checking the empty parts
-    private fun takeProfileInfoFirstPart(){
+    private fun takeProfileInfoFirstPart() {
         userName = chaplain_sign_up_page_name_editText.text.toString()
         userSurName = chaplain_sign_up_page_surname_editText.text.toString()
         userEmail = chaplain_sign_up_page_email_editText.text.toString()
@@ -193,15 +208,13 @@ class ChaplainSignUp : AppCompatActivity() {
         userPasswordAgain = chaplain_sign_up_page_password_again_editText.text.toString()
         termsChecked = chaplain_sign_up_agree_checkBox.isChecked
 
-        if (!isImageEmpty){
+        if (!isImageEmpty) {
             val toast = Toast.makeText(
                 this,
                 R.string.chaplain_sign_up_profile_image_toast_message,
                 Toast.LENGTH_SHORT
             ).show()
-        }
-
-        else if (userName == "") {
+        } else if (userName == "") {
             val toast = Toast.makeText(
                 this,
                 R.string.sign_up_toast_message_enter_name,
@@ -249,14 +262,15 @@ class ChaplainSignUp : AppCompatActivity() {
 
         }
 
-}
+    }
 
 
     private fun pickImage() {
         if (ActivityCompat.checkSelfPermission(
                 this,
                 android.Manifest.permission.READ_EXTERNAL_STORAGE
-            ) == PackageManager.PERMISSION_GRANTED) {
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
             val intent = Intent(
                 Intent.ACTION_PICK,
                 MediaStore.Images.Media.INTERNAL_CONTENT_URI
@@ -296,7 +310,6 @@ class ChaplainSignUp : AppCompatActivity() {
         }
 
     }
-
 
 
     override fun onRequestPermissionsResult(

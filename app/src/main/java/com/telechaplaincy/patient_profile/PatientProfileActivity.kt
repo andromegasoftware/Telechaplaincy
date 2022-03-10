@@ -18,6 +18,7 @@ import com.telechaplaincy.patient.PatientMainActivity
 import com.telechaplaincy.patient_sign_activities.LoginPage
 import com.telechaplaincy.patient_sign_activities.UserProfile
 import com.telechaplaincy.reach_us_page.ReachUsActivity
+import com.telechaplaincy.terms_and_privacy.TermsAndPrivacyActivity
 import kotlinx.android.synthetic.main.activity_patient_profile.*
 
 class PatientProfileActivity : AppCompatActivity() {
@@ -59,6 +60,12 @@ class PatientProfileActivity : AppCompatActivity() {
             intent.putExtra("user_id", patientProfileFieldUserId)
             startActivity(intent)
             finish()
+        }
+
+        patient_profile_privacy_button.setOnClickListener {
+            val intent = Intent(this, TermsAndPrivacyActivity::class.java)
+            //intent.putExtra("activity_code", "privacy_policy")
+            startActivity(intent)
         }
 
         patient_profile_sign_out_button.setOnClickListener {

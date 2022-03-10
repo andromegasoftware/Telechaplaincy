@@ -23,8 +23,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+
         <receiver android:name=".mail_and_message_send_package.LocalNotificationClass" />
 
+        <activity
+            android:name=".terms_and_privacy.TermsAndPrivacyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ChaplainSignUpPageTheme" />
         <activity
             android:name=".patient_sign_activities.ProfileImageEditActivity"
             android:screenOrientation="portrait"

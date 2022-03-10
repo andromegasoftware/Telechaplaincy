@@ -144,7 +144,7 @@
                         android:checked="true" />
 
                     <TextView
-                        android:id="@+id/textView8"
+                        android:id="@+id/textView_terms_and_conditions"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/sign_up_page_agree_textView"

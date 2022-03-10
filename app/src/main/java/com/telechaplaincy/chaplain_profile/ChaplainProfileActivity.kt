@@ -20,6 +20,7 @@ import com.telechaplaincy.chaplain_sign_activities.ChaplainLogIn
 import com.telechaplaincy.chaplain_sign_activities.ChaplainUserProfile
 import com.telechaplaincy.notification_page.PatientNotificationActivity
 import com.telechaplaincy.reach_us_page.ReachUsActivity
+import com.telechaplaincy.terms_and_privacy.TermsAndPrivacyActivity
 import kotlinx.android.synthetic.main.activity_chaplain_main.bottomNavigation
 import kotlinx.android.synthetic.main.activity_chaplain_profile.*
 
@@ -70,6 +71,12 @@ class ChaplainProfileActivity : AppCompatActivity() {
             intent.putExtra("user_id", chaplainProfileFieldUserId)
             startActivity(intent)
             finish()
+        }
+
+        chaplain_profile_privacy_button.setOnClickListener {
+            val intent = Intent(this, TermsAndPrivacyActivity::class.java)
+            //intent.putExtra("activity_code", "privacy_policy")
+            startActivity(intent)
         }
 
         chaplain_profile_reports_button.setOnClickListener {

@@ -1,17 +1,18 @@
 package com.telechaplaincy.patient_sign_activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.telechaplaincy.patient.PatientMainActivity
 import com.telechaplaincy.R
+import com.telechaplaincy.patient.PatientMainActivity
+import com.telechaplaincy.terms_and_privacy.TermsAndPrivacyActivity
 import kotlinx.android.synthetic.main.activity_sign_up.*
 
 class SignUpActivity : AppCompatActivity() {
@@ -46,6 +47,13 @@ class SignUpActivity : AppCompatActivity() {
         //go back login page textView click listener
         sign_up_page_go_back_login.setOnClickListener {
             finish()
+        }
+
+        //terms and conditions textView click listener
+        textView_terms_and_conditions_patient.setOnClickListener {
+            val intent = Intent(this, TermsAndPrivacyActivity::class.java)
+            intent.putExtra("activity_code", "terms_and_conditions")
+            startActivity(intent)
         }
 
         //sign up button click listener
