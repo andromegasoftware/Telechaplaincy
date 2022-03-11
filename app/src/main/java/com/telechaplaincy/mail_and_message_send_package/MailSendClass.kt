@@ -26,14 +26,15 @@ class MailSendClass {
     }
 
     fun sendMailToChaplain(subject: String, body: String, mailAddress: String) {
-        val message = hashMapOf(
-            "body" to body,
-            "mailAddress" to mailAddress,
-            "subject" to subject
+        val mailWillBeSent = hashMapOf(
+            "to" to arrayListOf(mailAddress),
+            "message" to hashMapOf(
+                "subject" to subject,
+                "text" to body
+            )
         )
-
-        db.collection("mailSend").document()
-            .set(message, SetOptions.merge())
+        db.collection("mail").document()
+            .set(mailWillBeSent, SetOptions.merge())
             .addOnSuccessListener {
                 Log.d("TAG", "DocumentSnapshot successfully written!")
             }
