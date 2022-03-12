@@ -253,20 +253,10 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
             patientFullNameForMail,
             appointmentPrice
         )
-        val message = hashMapOf(
-            "body" to body,
-            "mailAddress" to chaplainMail,
-            "subject" to getString(R.string.patient_appointment_cancel_mail_title_for_chaplain)
+        mailSendClass.sendMailToChaplain(
+            getString(R.string.patient_appointment_cancel_mail_title_for_chaplain),
+            body, chaplainMail
         )
-
-        db.collection("mailSend").document()
-            .set(message, SetOptions.merge())
-            .addOnSuccessListener {
-                Log.d("TAG", "DocumentSnapshot successfully written!")
-            }
-            .addOnFailureListener { e ->
-                Log.w("TAG", "Error writing document", e)
-            }
     }
 
     private fun sendMailToPatient() {
@@ -279,21 +269,10 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
             patientFullNameForMail,
             appointmentPrice
         )
-
-        val message = hashMapOf(
-            "body" to body,
-            "mailAddress" to patientMail,
-            "subject" to getString(R.string.patient_appointment_cancel_mail_title)
+        mailSendClass.sendMailToChaplain(
+            getString(R.string.patient_appointment_cancel_mail_title),
+            body, patientMail
         )
-
-        db.collection("mailSend").document()
-            .set(message, SetOptions.merge())
-            .addOnSuccessListener {
-                Log.d("TAG", "DocumentSnapshot successfully written!")
-            }
-            .addOnFailureListener { e ->
-                Log.w("TAG", "Error writing document", e)
-            }
     }
 
     private fun sendMessageToChaplain() {

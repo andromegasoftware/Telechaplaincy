@@ -168,20 +168,10 @@ class ChaplainProfileDetailsActivity : AppCompatActivity() {
 
     private fun sendMailToChaplain() {
         val body = getString(R.string.chaplain_confirm_message_body)
-        val message = hashMapOf(
-            "body" to body,
-            "mailAddress" to chaplainProfileFieldEmail,
-            "subject" to getString(R.string.chaplain_confirm_message_title)
+        mailSendClass.sendMailToChaplain(
+            getString(R.string.chaplain_confirm_message_title),
+            body, chaplainProfileFieldEmail
         )
-
-        db.collection("mailSend").document()
-            .set(message, SetOptions.merge())
-            .addOnSuccessListener {
-                Log.d("TAG", "DocumentSnapshot successfully written!")
-            }
-            .addOnFailureListener { e ->
-                Log.w("TAG", "Error writing document", e)
-            }
     }
 
     private fun sendMessageToChaplain() {

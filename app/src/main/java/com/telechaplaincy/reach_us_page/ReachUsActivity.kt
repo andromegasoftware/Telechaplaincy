@@ -6,11 +6,11 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.telechaplaincy.R
 import com.telechaplaincy.chaplain_profile.ChaplainProfileActivity
+import com.telechaplaincy.mail_and_message_send_package.MailSendClass
 import com.telechaplaincy.patient_profile.PatientProfileActivity
 import kotlinx.android.synthetic.main.activity_reach_us.*
 
@@ -25,6 +25,7 @@ class ReachUsActivity : AppCompatActivity() {
     private var userMail: String = ""
     private var mailTopic: String = ""
     private var userMessage: String = ""
+    private var mailSendClass = MailSendClass()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,34 +70,8 @@ class ReachUsActivity : AppCompatActivity() {
         get_in_touch_page_progress_bar.visibility = View.VISIBLE
         val body =
             "A $userType send a message. \nSender Name: \n$userName \nSender Id: \n$userId \nSender Mail: \n$userMail \nUser Message: \n$userMessage. \nWarning: Please do not answer this message. You can reach the message sender by mail address or by phone."
-        val message = hashMapOf(
-            "body" to body,
-            "mailAddress" to getString(R.string.app_mail_address),
-            "subject" to mailTopic
-        )
-        db.collection("mailSend").document()
-            .set(message, SetOptions.merge())
-            .addOnSuccessListener {
-                get_in_touch_page_button.isClickable = true
-                get_in_touch_page_progress_bar.visibility = View.GONE
-                get_in_touch_page_button.text =
-                    getString(R.string.get_in_touch_page_button_title_clicked)
-                Toast.makeText(
-                    this,
-                    R.string.get_in_touch_page_message_sent_toast_message,
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-            .addOnFailureListener { e ->
-                get_in_touch_page_button.isClickable = true
-                get_in_touch_page_progress_bar.visibility = View.GONE
-                Toast.makeText(
-                    this,
-                    R.string.get_in_touch_page_message_unsent_toast_message,
-                    Toast.LENGTH_LONG
-                ).show()
-                Log.w("TAG", "Error writing document", e)
-            }
+
+        mailSendClass.sendMailToChaplain(mailTopic, body, getString(R.string.app_mail_address))
     }
 
     override fun onStart() {
