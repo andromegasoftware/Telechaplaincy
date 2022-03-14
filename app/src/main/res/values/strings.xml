@@ -23,7 +23,7 @@
 
     //Local Notification Class
     <string name="local_notification_title">Appointment Alert</string>
-    <string name="local_notification_body">Your appointment will start in 15 minutes</string>
+    <string name="local_notification_body">Your appointment will start in 15 minutes. Kindly ihearyou app team</string>
 
     //patient older appointments chaplain notes
     <string name="activity_title">Patient\'s Appointment History</string>
@@ -478,49 +478,49 @@
 
     //notifications
     <string name="chaplain_confirm_message_title">Your Application is Accepted</string>
-    <string name="chaplain_confirm_message_body">Hi, We would like to inform you about your application. We look into your application and confirmed your profile. Now, you can enter your available time and take patient.</string>
+    <string name="chaplain_confirm_message_body">Hi, We would like to inform you about your application. We look into your application and confirmed your profile. Now, you can enter your available time and take patient. Kindly ihearyou app team</string>
 
     <string name="chaplain_appointment_cancel_message_title">Your Appointment is Cancelled by Chaplain</string>
-    <string name="chaplain_appointment_cancel_message_body">Hi, We regret to inform you that your appointment is canceled by Chaplain. In some cases, such cancellations may occur. Cancellation is usually due to a Chaplain\'s emergency situation. Your payment will be send to your credit card. If you want, you can make another appointment.</string>
+    <string name="chaplain_appointment_cancel_message_body">Hi, We regret to inform you that your appointment is canceled by Chaplain. In some cases, such cancellations may occur. Cancellation is usually due to a Chaplain\'s emergency situation. Your payment will be send to your credit card. If you want, you can make another appointment. Kindly ihearyou app team</string>
 
     <string name="chaplain_appointment_cancel_mail_title">Your Appointment is Canceled by Chaplain</string>
-    <string name="chaplain_appointment_cancel_mail_body">Hi, We regret to inform you that your appointment is canceled by Chaplain. In some cases, such cancellations may occur. Cancellation is usually due to a Chaplain\'s emergency situation. Your payment will be send to your credit card. If you want, you can make another appointment. \nCanceled appointment info: \nCanceled appointment Date: \n%1$s \nCanceled appointment Time: \n%2$s \nChaplain Name: \n%3$s \nPatient Name: \n%4$s \nAppointment Price: \n%5$s $</string>
+    <string name="chaplain_appointment_cancel_mail_body">Hi, We regret to inform you that your appointment is canceled by Chaplain. In some cases, such cancellations may occur. Cancellation is usually due to a Chaplain\'s emergency situation. Your payment will be send to your credit card. If you want, you can make another appointment. \nCanceled appointment info: \nCanceled appointment Date: \n%1$s \nCanceled appointment Time: \n%2$s \nChaplain Name: \n%3$s \nPatient Name: \n%4$s \nAppointment Price: \n%5$s $. Kindly ihearyou app team</string>
 
     <string name="chaplain_appointment_cancel_mail_title_for_chaplain">Your Appointment is Cancelled</string>
-    <string name="chaplain_appointment_cancel_mail_body_for_chaplain">Hi, Your appointment is canceled. \nCanceled appointment info: \nCanceled appointment Date: \n%1$s \nCanceled appointment Time: \n%2$s \nChaplain Name: \n%3$s \nPatient Name: \n%4$s \nAppointment Price: \n%5$s $</string>
+    <string name="chaplain_appointment_cancel_mail_body_for_chaplain">Hi, Your appointment is canceled. \nCanceled appointment info: \nCanceled appointment Date: \n%1$s \nCanceled appointment Time: \n%2$s \nChaplain Name: \n%3$s \nPatient Name: \n%4$s \nAppointment Price: \n%5$s $. Kindly ihearyou app team</string>
 
     <string name="patient_appointment_cancel_message_title">Your Appointment is Cancelled by Patient</string>
-    <string name="patient_appointment_cancel_message_body">Hi, We regret to inform you that your appointment is canceled by Patient. In some cases, such cancellations may occur. Cancellation is usually due to a Patient\'s emergency situation. Your available times are updated after this cancellation. New patients can make a new appointment for that time.</string>
+    <string name="patient_appointment_cancel_message_body">Hi, We regret to inform you that your appointment is canceled by Patient. In some cases, such cancellations may occur. Cancellation is usually due to a Patient\'s emergency situation. Your available times are updated after this cancellation. New patients can make a new appointment for that time. Kindly ihearyou app team</string>
 
     <string name="patient_appointment_edit_message_title">Your Appointment is Edited by Patient</string>
     <string name="patient_appointment_edit_message_body">Hi, One of your appointment date is edited by patient. You can check your new appointment date in the future appointments page.</string>
 
     <string name="patient_appointment_created_message_title">You have a new appointment</string>
-    <string name="patient_appointment_created_message_body">Hi, We would like to inform you that you have a new appointment. You can check your new appointment info in the future appointments page.</string>
+    <string name="patient_appointment_created_message_body">Hi, We would like to inform you that you have a new appointment. You can check your new appointment info in the future appointments page. Kindly ihearyou app team</string>
 
     <string name="patient_appointment_created_mail_title">You have a new appointment</string>
-    <string name="patient_appointment_created_mail_body">Hi, We would like to inform you that you have a new appointment. \nAppointment info: \nAppointment Date: \n%1$s \nChaplain Name: \n%2$s \nPatient Name: \n%3$s \nAppointment Price: \n%4$s $</string>
+    <string name="patient_appointment_created_mail_body">Hi, We would like to inform you that you have a new appointment. \nAppointment info: \nAppointment Date: \n%1$s \nChaplain Name: \n%2$s \nPatient Name: \n%3$s \nAppointment Price: \n%4$s $. Kindly ihearyou app team</string>
 
     <string name="patient_appointment_cancel_mail_title">Your appointment is canceled</string>
-    <string name="patient_appointment_cancel_mail_body">Hi, Your appointment is canceled. \nCanceled appointment info: \nCanceled appointment Date: \n%1$s \nCanceled appointment Time: \n%2$s \nChaplain Name: \n%3$s \nPatient Name: \n%4$s \nAppointment Price: \n%5$s $</string>
+    <string name="patient_appointment_cancel_mail_body">Hi, Your appointment is canceled. \nCanceled appointment info: \nCanceled appointment Date: \n%1$s \nCanceled appointment Time: \n%2$s \nChaplain Name: \n%3$s \nPatient Name: \n%4$s \nAppointment Price: \n%5$s $. Kindly ihearyou app team</string>
 
     <string name="patient_appointment_cancel_mail_title_for_chaplain">One of your appointment is canceled by patient</string>
-    <string name="patient_appointment_cancel_mail_body_for_chaplain">Hi, We regret to inform you that One of your appointment is canceled by patient. \nCanceled appointment info: \nCanceled appointment Date: \n%1$s \nCanceled appointment Time: \n%2$s \nChaplain Name: \n%3$s \nPatient Name: \n%4$s \nAppointment Price: \n%5$s $</string>
+    <string name="patient_appointment_cancel_mail_body_for_chaplain">Hi, We regret to inform you that One of your appointment is canceled by patient. \nCanceled appointment info: \nCanceled appointment Date: \n%1$s \nCanceled appointment Time: \n%2$s \nChaplain Name: \n%3$s \nPatient Name: \n%4$s \nAppointment Price: \n%5$s $. Kindly ihearyou app team</string>
 
     <string name="patient_appointment_edit_mail_title">Your appointment date is changed</string>
-    <string name="patient_appointment_edit_mail_body">Hi, Your appointment date is changed. \nNew appointment info: \nNew appointment Date: \n%1$s \nNew appointment Time: \n%2$s \nChaplain Name: \n%3$s \nPatient Name: \n%4$s</string>
+    <string name="patient_appointment_edit_mail_body">Hi, Your appointment date is changed. \nNew appointment info: \nNew appointment Date: \n%1$s \nNew appointment Time: \n%2$s \nChaplain Name: \n%3$s \nPatient Name: \n%4$s. Kindly ihearyou app team</string>
 
     <string name="patient_appointment_edit_mail_title_for_chaplain">One of your appointments date is changed by patient</string>
-    <string name="patient_appointment_edit_mail_body_for_chaplain">Hi, One of your appointments date is changed by patient. \nNew appointment info: \nNew appointment Date: \n%1$s \nNew appointment Time: \n%2$s \nChaplain Name: \n%3$s \nPatient Name: \n%4$s</string>
+    <string name="patient_appointment_edit_mail_body_for_chaplain">Hi, One of your appointments date is changed by patient. \nNew appointment info: \nNew appointment Date: \n%1$s \nNew appointment Time: \n%2$s \nChaplain Name: \n%3$s \nPatient Name: \n%4$s. Kindly ihearyou app team</string>
 
     <string name="chaplain_note_for_patient_message_title">Chaplain write a note after your appointment</string>
-    <string name="chaplain_note_for_patient_message_body">Hi, We would like to inform you that Chaplain write a note after your appointment. You can see Chaplain note in the past appointments page.</string>
+    <string name="chaplain_note_for_patient_message_body">Hi, We would like to inform you that Chaplain write a note after your appointment. You can see Chaplain note in the past appointments page. Kindly ihearyou app team</string>
 
     <string name="chaplain_mail_when_patient_join_meeting_title">Your Meeting is Started</string>
-    <string name="chaplain_mail_when_patient_join_meeting_body">Your patient joined the meeting and waiting you. You can join the meeting from the future appointments page.</string>
+    <string name="chaplain_mail_when_patient_join_meeting_body">Your patient joined the meeting and waiting you. You can join the meeting from the future appointments page. Kindly ihearyou app team</string>
 
     <string name="patient_mail_when_chaplain_join_meeting_title">Your Meeting is Started</string>
-    <string name="patient_mail_when_chaplain_join_meeting_body">Chaplain joined the meeting and waiting you. You can join the meeting from the future appointments page.</string>
+    <string name="patient_mail_when_chaplain_join_meeting_body">Chaplain joined the meeting and waiting you. You can join the meeting from the future appointments page. Kindly ihearyou app team</string>
 
 
     //send message activity
