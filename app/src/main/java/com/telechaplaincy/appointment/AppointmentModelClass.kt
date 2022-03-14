@@ -23,5 +23,7 @@ class AppointmentModelClass(
     var chaplainCategory: String? = null,
     var appointmentStatus: String? = null,
     var isAppointmentPricePaidOutToChaplain: Boolean? = false,
-    var isAppointmentPaymentDone: Boolean? = false
+    var isAppointmentPaymentDone: Boolean? = false,
+    var isAppointmentFeeRepaid: Boolean? = false
+
 )

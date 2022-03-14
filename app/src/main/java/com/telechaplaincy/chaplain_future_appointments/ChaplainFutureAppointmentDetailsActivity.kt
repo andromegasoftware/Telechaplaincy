@@ -427,7 +427,7 @@ class ChaplainFutureAppointmentDetailsActivity : AppCompatActivity() {
                             chaplain_future_appointment_price_textView.text =
                                 getString(R.string.appointment_price) + appointmentPrice
                         }
-                        if (result.chaplainId != null) {
+                        if (result.patientId != null) {
                             patientUserId = result.patientId.toString()
                         }
                         if (result.appointmentStatus != null) {

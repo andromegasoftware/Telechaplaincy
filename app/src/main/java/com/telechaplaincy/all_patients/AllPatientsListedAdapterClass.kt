@@ -31,12 +31,7 @@ class AllPatientsListedAdapterClass(
     }
 
     override fun getItemCount(): Int {
-        return if (patients.size < 20) {
-            patients.size
-        } else {
-            20
-        }
-
+        return patients.size
     }
 
     fun submitList(patientList: List<UserProfile>) {
@@ -62,14 +57,17 @@ class AllPatientsListedAdapterClass(
         ) {
             patientName.text = patientUserProfile.name + " " + patientUserProfile.surname
 
+
             patientUid.text = patientUserProfile.userId
 
             patientField.visibility = View.GONE
 
             val pictureUrl = patientUserProfile.profileImage
-            Picasso.get().load(pictureUrl).placeholder(R.drawable.ic_baseline_account_circle_24)
-                .error(R.drawable.ic_baseline_account_circle_24).into(profileImage)
-            //Log.e("pictureUrl", pictureUrl)
+            if (pictureUrl != "" && pictureUrl != "null") {
+                Picasso.get().load(pictureUrl).placeholder(R.drawable.ic_baseline_account_circle_24)
+                    .error(R.drawable.ic_baseline_account_circle_24).into(profileImage)
+                //Log.e("pictureUrl", pictureUrl)
+            }
 
             patientViewDetailsButton.setOnClickListener { clickListener(patientUserProfile) }
         }

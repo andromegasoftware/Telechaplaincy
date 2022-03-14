@@ -8,6 +8,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.ktx.messaging
@@ -18,6 +19,8 @@ import com.telechaplaincy.all_chaplains.AllChaplainsListActivity
 import com.telechaplaincy.all_chaplains_wait_payment.AllChaplainsWaitPaymentActivity
 import com.telechaplaincy.all_chaplains_wait_to_confirm.AllChaplainsWaitConfirmActivity
 import com.telechaplaincy.all_patients.AllPatientsListActivity
+import com.telechaplaincy.appointment.AppointmentModelClass
+import com.telechaplaincy.canceled_appointments.CanceledAppointmentsListActivity
 import com.telechaplaincy.fees_and_commissions.FeesAndCommissionsActivity
 import com.telechaplaincy.notification_page.PatientNotificationActivity
 import kotlinx.android.synthetic.main.activity_admin_main.*
@@ -32,7 +35,10 @@ class AdminMainActivity : AppCompatActivity() {
     private var totalPatientsCount: String = ""
     private var totalChaplainsWaitConfirmCount: String = ""
     private var totalChaplainsWaitPaymentCount: String = ""
+    private var totalCanceledAppointmentsCount: String = ""
     private var notificationTokenId: String = ""
+
+    private var canceledAppointmentsListArray = ArrayList<AppointmentModelClass>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +53,7 @@ class AdminMainActivity : AppCompatActivity() {
         getAllPatientsCount()
         getChaplainsWaitConfirmCount()
         getChaplainsWaitPaymentCount()
+        getCanceledAppointmentsCount()
 
         FirebaseMessaging.getInstance().token.addOnSuccessListener { result ->
             if (result != null) {
@@ -77,6 +84,11 @@ class AdminMainActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+        canceled_appointments_cardView.setOnClickListener {
+            val intent = Intent(this, CanceledAppointmentsListActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
         send_message_cardView.setOnClickListener {
             val intent = Intent(this, PatientNotificationActivity::class.java)
             intent.putExtra("userType", "admin")
@@ -101,6 +113,36 @@ class AdminMainActivity : AppCompatActivity() {
             finish()
         }
     }
+
+    private fun getCanceledAppointmentsCount() {
+        queryRef = db.collection("appointment")
+        //this part will give us all of the count of appointments that have not repaid back to the customer
+        queryRef.whereEqualTo("appointmentFeeRepaid", false)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    canceledAppointmentsListArray.add(document.toObject())
+                }
+                //this part will give us that the count of canceled appointments by patients and chaplains
+                var totalCanceledAppointments = 0
+                for (item in canceledAppointmentsListArray) {
+                    if (item.appointmentStatus.equals("canceled by Chaplain")
+                        || item.appointmentStatus.equals("canceled by patient")
+                    ) {
+                        totalCanceledAppointments += 1
+                        //Log.d("canceled_2", totalCanceledAppointments.toString())
+                    }
+                }
+                canceled_appointments_counts_textView.text = getString(
+                    R.string.admin_main_activity_total_text,
+                    totalCanceledAppointments.toString()
+                )
+            }
+            .addOnFailureListener { exception ->
+                //Log.w("TAG", "Error getting documents: ", exception)
+            }
+    }
+
 
     private fun getChaplainsWaitPaymentCount() {
         queryRef = db.collection("chaplains")

@@ -31,12 +31,7 @@ class AllChaplainsListedAdapterClass(
     }
 
     override fun getItemCount(): Int {
-        return if (chaplains.size < 20) {
-            chaplains.size
-        } else {
-            20
-        }
-
+        return chaplains.size
     }
 
     fun submitList(chaplainList: List<ChaplainUserProfile>) {

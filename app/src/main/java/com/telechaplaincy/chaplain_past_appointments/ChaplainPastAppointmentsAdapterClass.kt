@@ -29,7 +29,6 @@ class ChaplainPastAppointmentsAdapterClass  (var chaplainList: List<PatientFutur
 
     }
     override fun getItemCount(): Int {
-
         return chaplains.size
 
     }

@@ -3,6 +3,21 @@
     <string name="app_mail_address">telechaplaincy@gmail.com</string>
     <string name="app_int_connection_alert">Sorry! We could not find any internet connection. App work with internet connection.</string>
 
+    // canceled_appointments listed activity
+    <string name="canceled_appointments_details_appointment_status_textView">Appointment Status</string>
+    <string name="canceled_appointments_details_patient_mail_textView">Patient Mail</string>
+    <string name="canceled_appointments_details_appointment_number_textView">Appointment Number</string>
+    <string name="canceled_appointments_details_mark_fee_repaid_button">MArk Appoıntment Fee Repaıd</string>
+    <string name="canceled_appointments_details_mark_fee_repaid_button_clicked">Marked Repaıd</string>
+    <string name="canceled_appointments_details_mark_fee_repaid_button_toast_message">Marked Successfully</string>
+
+    // canceled_appointments listed activity
+    <string name="canceled_appointments_title_textView">Canceled Appointments</string>
+    <string name="canceled_appointments_appointment_no_textView">App. No: %1s</string>
+    <string name="canceled_appointments_patient_name_textView">Patient Name: %1$s %2$s</string>
+    <string name="canceled_appointments_chaplain_name_textView">Chaplain Name: %1$s %2$s</string>
+    <string name="canceled_appointments_appointment_status_textView">Appointment Status: %1$s</string>
+
     //profile image edit activity
     <string name="profile_image_edit_activity_select_image_button_text">Select New Image</string>
 
@@ -582,6 +597,7 @@
     <string name="admin_main_activity_all_chaplains">All Chaplains</string>
     <string name="admin_main_activity_all_patients">All Patients</string>
     <string name="admin_main_activity_chaplains_to_confirm">Chaplains Wait to Confirm</string>
+    <string name="admin_main_activity_canceled_appointment">Canceled Appointments</string>
     <string name="admin_main_activity_financial_reports">Financial Reports</string>
     <string name="admin_main_activity_send_message">Send Message</string>
     <string name="admin_main_activity_fee_and_commission">Fees and Commissions</string>
