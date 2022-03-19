@@ -12,11 +12,9 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.ktx.messaging
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -82,6 +80,7 @@ class ChaplainMainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chaplain_main)
 
+        // this is the subscription for a topic that every chaplain will take the same notification using this channel
         Firebase.messaging.subscribeToTopic("chaplains")
 
         queryRef = db.collection("chaplains")
@@ -93,6 +92,11 @@ class ChaplainMainActivity : AppCompatActivity() {
             user = auth.currentUser!!
             chaplainProfileFieldUserId = user.uid
         }
+
+        //we are creating a topic here for every user and we will send the notification
+        // to a specific user using this topic
+        Firebase.messaging.subscribeToTopic(chaplainProfileFieldUserId)
+        //Log.d("userId", userId)
 
         storage = FirebaseStorage.getInstance()
         storageReference = storage.reference
@@ -107,15 +111,20 @@ class ChaplainMainActivity : AppCompatActivity() {
         readData() //to check if the chaplain profile filled in fully or not
         readAccountStatus()//to check chaplain account status
 
-        FirebaseMessaging.getInstance().token.addOnSuccessListener { result ->
+        //we do not need this code anymore. Because we are sending device to device notifications using private topic channels
+        /*FirebaseMessaging.getInstance().token.addOnSuccessListener { result ->
             if (result != null) {
                 notificationTokenId = result
                 Log.d("tokenId", notificationTokenId)
                 val data = hashMapOf("notificationTokenId" to notificationTokenId)
                 db.collection("chaplains").document(chaplainProfileFieldUserId)
                     .set(data, SetOptions.merge())
+
+                //we are creating a topic here for every user and we will send the notification
+                // to a specific user using this topic
+                Firebase.messaging.subscribeToTopic(notificationTokenId)
             }
-        }
+        }*/
 
         chaplain_signUp_continue_button.setOnClickListener {
             //checkSignUpData()

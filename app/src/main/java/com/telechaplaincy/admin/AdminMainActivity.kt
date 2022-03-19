@@ -6,11 +6,9 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.ktx.messaging
 import com.telechaplaincy.MainEntry
 import com.telechaplaincy.R
@@ -44,10 +42,16 @@ class AdminMainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin_main)
 
+        // this is the subscription for a topic that every admin will take the same notification using this channel
         Firebase.messaging.subscribeToTopic("admins")
 
         auth = FirebaseAuth.getInstance()
         adminUserId = auth.currentUser?.uid ?: adminUserId
+
+        //we are creating a topic here for every user and we will send the notification
+        // to a specific user using this topic
+        Firebase.messaging.subscribeToTopic(adminUserId)
+        //Log.d("userId", userId)
 
         getAllChaplainsCount()
         getAllPatientsCount()
@@ -55,14 +59,19 @@ class AdminMainActivity : AppCompatActivity() {
         getChaplainsWaitPaymentCount()
         getCanceledAppointmentsCount()
 
-        FirebaseMessaging.getInstance().token.addOnSuccessListener { result ->
+        //we do not need this code anymore. Because we are sending device to device notifications using private topic channels
+        /*FirebaseMessaging.getInstance().token.addOnSuccessListener { result ->
             if (result != null) {
                 notificationTokenId = result
                 Log.d("tokenId", notificationTokenId)
                 val data = hashMapOf("notificationTokenId" to notificationTokenId)
                 db.collection("admins").document(adminUserId).set(data, SetOptions.merge())
+
+                //we are creating a topic here for every user and we will send the notification
+                // to a specific user using this topic
+                Firebase.messaging.subscribeToTopic(notificationTokenId)
             }
-        }
+        }*/
 
         all_chaplains_cardView.setOnClickListener {
             val intent = Intent(this, AllChaplainsListActivity::class.java)

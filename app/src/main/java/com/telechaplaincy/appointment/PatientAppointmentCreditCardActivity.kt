@@ -19,7 +19,7 @@ import com.stripe.android.model.PaymentMethod
 import com.stripe.android.view.BillingAddressFields
 import com.telechaplaincy.R
 import com.telechaplaincy.chaplain_sign_activities.ChaplainUserProfile
-import com.telechaplaincy.cloud_message.FcmNotificationsSender
+import com.telechaplaincy.mail_and_message_send_package.DeviceToDeviceNotificationClass
 import com.telechaplaincy.mail_and_message_send_package.MailSendClass
 import com.telechaplaincy.notification_page.NotificationModelClass
 import com.telechaplaincy.patient_sign_activities.UserProfile
@@ -84,6 +84,7 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
     private var patientPhoneNumber: String = ""
 
     private var mailSendClass = MailSendClass()
+    private var deviceToDeviceNotificationClass = DeviceToDeviceNotificationClass()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -217,19 +218,26 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
             .addOnSuccessListener { document ->
                 if (document != null) {
 
-                    notificationTokenId = document["notificationTokenId"].toString()
+                    //notificationTokenId = document["notificationTokenId"].toString()
                     patientPhoneNumber = document["phone"].toString()
                     title = getString(R.string.patient_appointment_created_message_title)
                     body = getString(R.string.patient_appointment_created_message_body)
 
-                    val sender = FcmNotificationsSender(
+                    deviceToDeviceNotificationClass.sendNotificationToAnotherDevice(
+                        patientUserId, title, body
+                    )
+
+                    //we do not need this code anymore. Because we are using deviceToDeviceNotificationClass
+                    // to send notification to another user
+                    /*val sender = FcmNotificationsSender(
                         notificationTokenId,
                         title,
                         body,
                         applicationContext,
                         this
                     )
-                    sender.SendNotifications()
+                    sender.SendNotifications()*/
+
                     saveMessageToInboxForPatient()
                     if (patientPhoneNumber != "") {
                         mailSendClass.textMessageSendMethod(patientPhoneNumber, body)
@@ -270,19 +278,26 @@ class PatientAppointmentCreditCardActivity : AppCompatActivity() {
             .addOnSuccessListener { document ->
                 if (document != null) {
 
-                    notificationTokenId = document["notificationTokenId"].toString()
+                    //notificationTokenId = document["notificationTokenId"].toString()
                     chaplainPhoneNumber = document["phone"].toString()
                     title = getString(R.string.patient_appointment_created_message_title)
                     body = getString(R.string.patient_appointment_created_message_body)
 
-                    val sender = FcmNotificationsSender(
+                    deviceToDeviceNotificationClass.sendNotificationToAnotherDevice(
+                        chaplainProfileFieldUserId, title, body
+                    )
+
+                    //we do not need this code anymore. Because we are using deviceToDeviceNotificationClass
+                    // to send notification to another user
+                    /*val sender = FcmNotificationsSender(
                         notificationTokenId,
                         title,
                         body,
                         applicationContext,
                         this
                     )
-                    sender.SendNotifications()
+                    sender.SendNotifications()*/
+
                     saveMessageToInbox()
                     if (chaplainPhoneNumber != "") {
                         mailSendClass.textMessageSendMethod(chaplainPhoneNumber, body)

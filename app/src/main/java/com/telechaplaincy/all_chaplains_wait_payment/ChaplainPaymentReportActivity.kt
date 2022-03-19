@@ -16,7 +16,7 @@ import com.google.firebase.ktx.Firebase
 import com.telechaplaincy.R
 import com.telechaplaincy.appointment.AppointmentModelClass
 import com.telechaplaincy.chaplain_bank_account_info.ChaplainBankAccountInfoActivity
-import com.telechaplaincy.cloud_message.FcmNotificationsSender
+import com.telechaplaincy.mail_and_message_send_package.DeviceToDeviceNotificationClass
 import com.telechaplaincy.mail_and_message_send_package.MailSendClass
 import com.telechaplaincy.notification_page.NotificationModelClass
 import kotlinx.android.synthetic.main.activity_chaplain_payment_report.*
@@ -58,6 +58,7 @@ class ChaplainPaymentReportActivity : AppCompatActivity() {
     private var body: String = ""
 
     private var mailSendClass = MailSendClass()
+    private var deviceToDeviceNotificationClass = DeviceToDeviceNotificationClass()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,26 +94,34 @@ class ChaplainPaymentReportActivity : AppCompatActivity() {
             .addOnSuccessListener { document ->
                 if (document != null) {
 
-                    notificationTokenId = document["notificationTokenId"].toString()
+                    //notificationTokenId = document["notificationTokenId"].toString()
                     chaplainMail = document["email"].toString()
                     chaplainPhoneNumber = document["phone"].toString()
                     title = getString(R.string.chaplain_payment_is_done_notification_title)
                     body = getString(R.string.chaplain_payment_is_done_notification_body)
 
-                    val sender = FcmNotificationsSender(
+                    deviceToDeviceNotificationClass.sendNotificationToAnotherDevice(
+                        chaplainProfileFieldUserId, title, body
+                    )
+
+                    //we do not need this code anymore. Because we are using deviceToDeviceNotificationClass
+                    // to send notification to another user
+                    /*val sender = FcmNotificationsSender(
                         notificationTokenId,
                         title,
                         body,
                         applicationContext,
                         this
                     )
-                    sender.SendNotifications()
+                    sender.SendNotifications()*/
+
                     saveMessageToInbox()
                     if (chaplainPhoneNumber != "") {
                         mailSendClass.textMessageSendMethod(chaplainPhoneNumber, body)
                     }
 
                     mailSendClass.sendMailToChaplain(title, body, chaplainMail)
+
                 } else {
                     Log.d("TAG", "No such document")
                 }
@@ -208,6 +217,8 @@ class ChaplainPaymentReportActivity : AppCompatActivity() {
                     .collection("appointments").document(documentId)
                     .update("isAppointmentPricePaidOutToChaplain", true)
                     .addOnSuccessListener {
+                        chaplain_payment_page_progress_bar.visibility = View.GONE
+                        chaplain_mark_as_paid_button.isClickable = true
                         if (k == appointmentsInfoModelClassArrayList.last()) {
                             savePaymentInfo()
                         }

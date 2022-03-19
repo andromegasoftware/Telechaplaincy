@@ -10,11 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.ktx.messaging
 import com.telechaplaincy.MainEntry
 import com.telechaplaincy.R
@@ -52,14 +50,24 @@ class PatientMainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_patient_main)
         progressBarPatientMainActivity.bringToFront()
 
+        // this is the subscription for a topic that every patient will take the same notification using this channel
+        Firebase.messaging.subscribeToTopic("patients")
+
+
         addingActivitiesToBottomMenu()
 
         auth = FirebaseAuth.getInstance()
         userId = auth.currentUser?.uid ?: userId
 
+        //we are creating a topic here for every user and we will send the notification
+        // to a specific user using this topic
+        Firebase.messaging.subscribeToTopic(userId)
+        //Log.d("userId", userId)
+
         queryRef = db.collection("patients")
 
-        if (auth.currentUser != null) {
+        //we do not need this code anymore. Because we are sending device to device notifications using private topic channels
+        /*if (auth.currentUser != null) {
             FirebaseMessaging.getInstance().token.addOnSuccessListener { result ->
                 if (result != null) {
                     notificationTokenId = result
@@ -68,7 +76,7 @@ class PatientMainActivity : AppCompatActivity() {
                     db.collection("patients").document(userId).set(data, SetOptions.merge())
                 }
             }
-        }
+        }*/
 
         patientFutureAppointmentsAdapterClass =
             PatientFutureAppointmentsAdapterClass(patientFutureAppointmentsListArray) { patientFutureAppointmentsModelClass: PatientFutureAppointmentsModelClass ->

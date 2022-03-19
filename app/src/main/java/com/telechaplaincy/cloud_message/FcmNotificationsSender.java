@@ -21,7 +21,7 @@ import java.util.Map;
 public class FcmNotificationsSender {
 
     private final String postUrl = "https://fcm.googleapis.com/fcm/send";
-    private final String fcmServerKey = "AAAAQgLSBes:APA91bEHinSEvzsR724xxKwcQKhEeW595O3in1QHul63PBq0iVm10H-H1PyEXab5Qt8kgZVwkMUcS-s-J6knu3vU4Zc4vALOeCkl8GRHZB69TlRXdK1Z4VFBmhg0z_Ett2FwlFKfNTDq";
+    private final String fcmServerKey = "";
     String userFcmToken;
     String title;
     String body;
