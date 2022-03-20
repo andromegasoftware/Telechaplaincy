@@ -21,7 +21,7 @@ import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import com.telechaplaincy.R
 import com.telechaplaincy.appointment.AppointmentModelClass
-import com.telechaplaincy.cloud_message.FcmNotificationsSender
+import com.telechaplaincy.mail_and_message_send_package.DeviceToDeviceNotificationClass
 import com.telechaplaincy.mail_and_message_send_package.MailSendClass
 import com.telechaplaincy.notification_page.NotificationModelClass
 import com.telechaplaincy.patient.PatientMainActivity
@@ -79,6 +79,7 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
     private var chaplainPhoneNumber = ""
 
     private var mailSendClass = MailSendClass()
+    private var deviceToDeviceNotificationClass = DeviceToDeviceNotificationClass()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -213,19 +214,26 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
             .addOnSuccessListener { document ->
                 if (document != null) {
 
-                    notificationTokenId = document["notificationTokenId"].toString()
+                    //notificationTokenId = document["notificationTokenId"].toString()
                     chaplainPhoneNumber = document["phone"].toString()
                     title = getString(R.string.chaplain_mail_when_patient_join_meeting_title)
                     body = getString(R.string.chaplain_mail_when_patient_join_meeting_body)
 
-                    val sender = FcmNotificationsSender(
+                    deviceToDeviceNotificationClass.sendNotificationToAnotherDevice(
+                        chaplainProfileFieldUserId, title, body
+                    )
+
+                    //we do not need this code anymore. Because we are using deviceToDeviceNotificationClass
+                    // to send notification to another user
+                    /*val sender = FcmNotificationsSender(
                         notificationTokenId,
                         title,
                         body,
                         applicationContext,
                         this
                     )
-                    sender.SendNotifications()
+                    sender.SendNotifications()*/
+
                     if (chaplainPhoneNumber != "") {
                         mailSendClass.textMessageSendMethod(chaplainPhoneNumber, body)
                     }
@@ -281,7 +289,7 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
             .addOnSuccessListener { document ->
                 if (document != null) {
 
-                    notificationTokenId = document["notificationTokenId"].toString()
+                    //notificationTokenId = document["notificationTokenId"].toString()
                     chaplainPhoneNumber = document["phone"].toString()
                     chaplainMail =
                         document["email"].toString() //this is for sending email to chaplain
@@ -289,14 +297,21 @@ class PatientFutureAppointmentDetailActivity : AppCompatActivity() {
                     title = getString(R.string.patient_appointment_cancel_message_title)
                     body = getString(R.string.patient_appointment_cancel_message_body)
 
-                    val sender = FcmNotificationsSender(
-                        notificationTokenId,
-                        title,
-                        body,
-                        applicationContext,
-                        this
+                    deviceToDeviceNotificationClass.sendNotificationToAnotherDevice(
+                        chaplainProfileFieldUserId, title, body
                     )
-                    sender.SendNotifications()
+
+                    //we do not need this code anymore. Because we are using deviceToDeviceNotificationClass
+                    // to send notification to another user
+                    /*val sender = FcmNotificationsSender(
+                       notificationTokenId,
+                       title,
+                       body,
+                       applicationContext,
+                       this
+                   )
+                   sender.SendNotifications()*/
+
                     saveMessageToInbox()
                     if (chaplainPhoneNumber != "") {
                         mailSendClass.textMessageSendMethod(chaplainPhoneNumber, body)

@@ -19,7 +19,7 @@ import com.squareup.picasso.Picasso
 import com.telechaplaincy.R
 import com.telechaplaincy.appointment.AppointmentModelClass
 import com.telechaplaincy.chaplain.ChaplainMainActivity
-import com.telechaplaincy.cloud_message.FcmNotificationsSender
+import com.telechaplaincy.mail_and_message_send_package.DeviceToDeviceNotificationClass
 import com.telechaplaincy.notification_page.NotificationModelClass
 import kotlinx.android.synthetic.main.activity_chaplain_past_appointment_details.*
 import java.text.SimpleDateFormat
@@ -47,6 +47,7 @@ class ChaplainPastAppointmentDetailsActivity : AppCompatActivity() {
     private var notificationTokenId: String = ""
     private var title: String = ""
     private var body: String = ""
+    private var deviceToDeviceNotificationClass = DeviceToDeviceNotificationClass()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,18 +80,24 @@ class ChaplainPastAppointmentDetailsActivity : AppCompatActivity() {
             .addOnSuccessListener { document ->
                 if (document != null) {
 
-                    notificationTokenId = document["notificationTokenId"].toString()
+                    //notificationTokenId = document["notificationTokenId"].toString()
                     title = getString(R.string.chaplain_note_for_patient_message_title)
                     body = getString(R.string.chaplain_note_for_patient_message_body)
 
-                    val sender = FcmNotificationsSender(
+                    deviceToDeviceNotificationClass.sendNotificationToAnotherDevice(
+                        patientUserId, title, body
+                    )
+
+                    //we do not need this code anymore. Because we are using deviceToDeviceNotificationClass
+                    // to send notification to another user
+                    /* val sender = FcmNotificationsSender(
                         notificationTokenId,
                         title,
                         body,
                         applicationContext,
                         this
                     )
-                    sender.SendNotifications()
+                    sender.SendNotifications()*/
 
                     saveMessageToInboxForPatient()
 
