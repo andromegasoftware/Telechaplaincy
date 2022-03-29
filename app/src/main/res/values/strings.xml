@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">I Hear You</string>
-    <string name="app_mail_address">telechaplaincy@gmail.com</string>
+    <string name="app_mail_address">info@ihearyouapp.com</string>
     <string name="app_int_connection_alert">Sorry! We could not find any internet connection. App work with internet connection.</string>
 
     // canceled_appointments listed activity
     <string name="canceled_appointments_details_appointment_status_textView">Appointment Status</string>
     <string name="canceled_appointments_details_patient_mail_textView">Patient Mail</string>
     <string name="canceled_appointments_details_appointment_number_textView">Appointment Number</string>
-    <string name="canceled_appointments_details_mark_fee_repaid_button">MArk Appoıntment Fee Repaıd</string>
+    <string name="canceled_appointments_details_mark_fee_repaid_button">Mark Appoıntment Fee Repaıd</string>
     <string name="canceled_appointments_details_mark_fee_repaid_button_clicked">Marked Repaıd</string>
     <string name="canceled_appointments_details_mark_fee_repaid_button_toast_message">Marked Successfully</string>
 
@@ -580,7 +580,7 @@
     <string name="chaplain_mark_as_paid_button">MARK PAID</string>
     <string name="chaplain_mark_as_paid_toast_message">You made payment to Chaplain and marked as paid</string>
     <string name="chaplain_payment_is_done_notification_title">You have a new payment</string>
-    <string name="chaplain_payment_is_done_notification_body">You took a new payment from the TeleChaplaincy Application. It can take some time to reach your bank account. You can see the details in the financial reports page</string>
+    <string name="chaplain_payment_is_done_notification_body">You took a new payment from the ihearyouapp. It can take some time to reach your bank account. You can see the details in the financial reports page</string>
 
     //all chaplains wait_payment activity
     <string name="all_chaplains_wait_payment_activity_title">All Chaplains Wait For Payment</string>
@@ -972,7 +972,7 @@
     <string name="application_accepted_message">Your application has been send to us. You will be notified when the application is accepted.</string>
 
     //chaplain calendar entry activity
-    <string name="appointment_time_exp_textView">Appointment length: 20 min. \nFeedback writing: 10 min.</string>
+    <string name="appointment_time_exp_textView">Appointment length: 25 min. \nNote writing: 5 min.</string>
     <string name="early_morning">-Early Morning-</string>
     <string name="morning">-Morning-</string>
     <string name="afternoon">-Afternoon-</string>
