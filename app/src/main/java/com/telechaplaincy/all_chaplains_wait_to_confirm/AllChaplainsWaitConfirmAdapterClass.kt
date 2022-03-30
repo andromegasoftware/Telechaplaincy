@@ -61,8 +61,12 @@ class AllChaplainsWaitConfirmAdapterClass(
                     cridentialTitles += ", $k"
                 }
             }
+            var addressingTitle = ""
+            if (chaplainUserProfile.addressingTitle != null) {
+                addressingTitle = chaplainUserProfile.addressingTitle
+            }
             chaplainName.text =
-                chaplainUserProfile.addressingTitle + " " + chaplainUserProfile.name + " " +
+                addressingTitle + " " + chaplainUserProfile.name + " " +
                         chaplainUserProfile.surname + cridentialTitles
 
             var field = ""

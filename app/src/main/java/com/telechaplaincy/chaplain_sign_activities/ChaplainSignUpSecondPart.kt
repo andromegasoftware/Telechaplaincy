@@ -290,8 +290,11 @@ class ChaplainSignUpSecondPart : AppCompatActivity() {
                 position: Int,
                 id: Long
             ) {
+                if (optionAddresing[position] != "Nothing Selected") {
                     chaplainProfileAddresTitle = optionAddresing[position]
                 }
+
+            }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }

@@ -270,6 +270,9 @@ class ChaplainProfileDetailsActivity : AppCompatActivity() {
                             chaplainProfileAddressTitle = result.addressingTitle.toString()
                         }
                         if (result.credentialsTitle != null) {
+                            credentialTitleArrayList.clear() //this code for emptying the array before reading data
+                            chaplainProfileCredentialTitle =
+                                "" //this is also same to empty string. because when app enter the resume method, it reads the data again and write same data again. This prevents this problem
                             credentialTitleArrayList = result.credentialsTitle
                         }
                         if (!credentialTitleArrayList.isNullOrEmpty()) {
@@ -285,6 +288,8 @@ class ChaplainProfileDetailsActivity : AppCompatActivity() {
                                 chaplainProfileFieldSsn
                         }
                         if (result.field != null) {
+                            chaplainFieldArrayList.clear()
+                            chaplainProfileFieldChaplainField = ""
                             chaplainFieldArrayList = result.field
                             if (!chaplainFieldArrayList.isNullOrEmpty()) {
                                 for (k in chaplainFieldArrayList) {
@@ -315,6 +320,8 @@ class ChaplainProfileDetailsActivity : AppCompatActivity() {
                                 chaplainProfileFieldExperience
                         }
                         if (result.ethnic != null) {
+                            ethnicArrayList.clear()
+                            chaplainProfileFieldChaplainEthnic = ""
                             ethnicArrayList = result.ethnic
                             if (!ethnicArrayList.isNullOrEmpty()) {
                                 for (k in ethnicArrayList) {
@@ -325,6 +332,8 @@ class ChaplainProfileDetailsActivity : AppCompatActivity() {
                             }
                         }
                         if (result.faith != null) {
+                            faithArrayList.clear()
+                            chaplainProfileFieldChaplainFaith = ""
                             faithArrayList = result.faith
                             if (!faithArrayList.isNullOrEmpty()) {
                                 for (k in faithArrayList) {
@@ -349,6 +358,8 @@ class ChaplainProfileDetailsActivity : AppCompatActivity() {
                             }
                         }
                         if (result.otherLanguages != null) {
+                            otherLanguagesArrayList.clear()
+                            chaplainProfileFieldOtherLanguage = ""
                             otherLanguagesArrayList = result.otherLanguages
                             if (!otherLanguagesArrayList.isNullOrEmpty()) {
                                 for (k in otherLanguagesArrayList) {

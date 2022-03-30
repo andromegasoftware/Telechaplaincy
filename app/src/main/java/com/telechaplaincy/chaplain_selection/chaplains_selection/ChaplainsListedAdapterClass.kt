@@ -44,19 +44,26 @@ class ChaplainsListedAdapterClass(var chaplainList: List<ChaplainUserProfile>, p
         private val chaplainReligion = itemView.chaplain_selection_list_religion_textView
         private val chaplainViewDetailsButton = itemView.chaplain_selection_list_details_button
 
-        fun bind(chaplainUserProfile: ChaplainUserProfile, clickListener: (ChaplainUserProfile) -> Unit){
+        fun bind(
+            chaplainUserProfile: ChaplainUserProfile,
+            clickListener: (ChaplainUserProfile) -> Unit
+        ){
             var cridentialTitles = ""
-            if (chaplainUserProfile.credentialsTitle != null){
-                for (k in chaplainUserProfile.credentialsTitle){
+            if (chaplainUserProfile.credentialsTitle != null) {
+                for (k in chaplainUserProfile.credentialsTitle) {
                     cridentialTitles += ", $k"
                 }
             }
-            chaplainName.text = chaplainUserProfile.addressingTitle + " " + chaplainUserProfile.name+ " "+
+            var addressingTitle = ""
+            if (chaplainUserProfile.addressingTitle != null) {
+                addressingTitle = chaplainUserProfile.addressingTitle
+            }
+            chaplainName.text = addressingTitle + " " + chaplainUserProfile.name + " " +
                     chaplainUserProfile.surname + cridentialTitles
 
             var field = ""
-            if (chaplainUserProfile.field != null){
-                for (k in chaplainUserProfile.field){
+            if (chaplainUserProfile.field != null) {
+                for (k in chaplainUserProfile.field) {
                     field += "$k "
                 }
             }

@@ -1,10 +1,10 @@
 package com.telechaplaincy.appointment
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
@@ -105,27 +105,29 @@ class PatientAppointmentContinueActivity : AppCompatActivity() {
                         if (result.surname != null){
                             chaplainProfileLastName = result.surname.toString()
                         }
-                        if (result.addressingTitle != null){
+                        if (result.addressingTitle != null) {
                             chaplainProfileAddressTitle = result.addressingTitle.toString()
                         }
-                        if (result.credentialsTitle != null){
+                        if (result.credentialsTitle != null) {
                             credentialTitleArrayList = result.credentialsTitle
                         }
-                        if (!credentialTitleArrayList.isNullOrEmpty()){
-                            for (k in credentialTitleArrayList){
+                        if (!credentialTitleArrayList.isNullOrEmpty()) {
+                            for (k in credentialTitleArrayList) {
                                 chaplainProfileCredentialTitle += ", $k"
                             }
-                            patient_appointment_page_chaplain_name.text = chaplainProfileAddressTitle+ " " +
-                                    chaplainProfileFirstName+ " "+ chaplainProfileLastName + chaplainProfileCredentialTitle
                         }
+                        patient_appointment_page_chaplain_name.text =
+                            chaplainProfileAddressTitle + " " +
+                                    chaplainProfileFirstName + " " + chaplainProfileLastName + chaplainProfileCredentialTitle
 
-                        if (result.field != null){
+                        if (result.field != null) {
                             chaplainFieldArrayList = result.field
-                            if (!chaplainFieldArrayList.isNullOrEmpty()){
-                                for (k in chaplainFieldArrayList){
+                            if (!chaplainFieldArrayList.isNullOrEmpty()) {
+                                for (k in chaplainFieldArrayList) {
                                     chaplainProfileFieldChaplainField += "$k "
                                 }
-                                patient_appointment_page_chaplain_field.text = chaplainProfileFieldChaplainField
+                                patient_appointment_page_chaplain_field.text =
+                                    chaplainProfileFieldChaplainField
                             }
                         }
                         if (result.faith != null){
