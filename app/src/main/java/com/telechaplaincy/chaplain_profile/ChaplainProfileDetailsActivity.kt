@@ -279,9 +279,11 @@ class ChaplainProfileDetailsActivity : AppCompatActivity() {
                             for (k in credentialTitleArrayList) {
                                 chaplainProfileCredentialTitle += ", $k"
                             }
-                            chaplain_profile_details_activity_chaplain_name_textView.text =
-                                "$chaplainProfileAddressTitle $chaplainProfileFirstName $chaplainProfileLastName$chaplainProfileCredentialTitle"
                         }
+                        //we write the info that is addressingTitle, first name and last name, cridentialTitles on text_view
+                        chaplain_profile_details_activity_chaplain_name_textView.text =
+                            "$chaplainProfileAddressTitle $chaplainProfileFirstName $chaplainProfileLastName$chaplainProfileCredentialTitle"
+
                         if (result.ssn != null) {
                             chaplainProfileFieldSsn = result.ssn.toString()
                             chaplain_profile_details_activity_chaplain_ssn_textView.text =
