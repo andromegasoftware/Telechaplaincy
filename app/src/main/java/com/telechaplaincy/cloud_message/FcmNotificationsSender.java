@@ -21,7 +21,7 @@ import java.util.Map;
 public class FcmNotificationsSender {
 
     private final String postUrl = "https://fcm.googleapis.com/fcm/send";
-    private final String fcmServerKey = "";
+    //private final String fcmServerKey = "";    I will add this key when I publish it on google play. Because security reasons
     String userFcmToken;
     String title;
     String body;
